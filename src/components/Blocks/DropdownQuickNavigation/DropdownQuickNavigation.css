@@ -1,0 +1,10 @@
+.nswds-dropdownQuickNavigation .nsw-button {
+  margin-block-start: 1.5rem;
+}
+
+.nswds-dropdownQuickNavigation select:disabled {
+  background: var(--nsw-white);
+  color: var(--nsw-text-dark);
+  cursor: default;
+  border: 1px solid var(--nsw-grey-01);
+}

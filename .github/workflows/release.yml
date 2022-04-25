@@ -1,0 +1,38 @@
+name: Release
+on:
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        type: choice
+        required: true
+        description: What kind of version bump?
+        options:
+          - major
+          - minor
+          - patch
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Git setup
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          cache: 'yarn'
+
+      - name: yarn install
+        run: yarn install --frozen-lockfile
+
+      - name: Release
+        run: yarn run release -- ${{ github.event.inputs.bump_type }} --ci
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
