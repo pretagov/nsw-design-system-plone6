@@ -64,7 +64,7 @@ const TextareaWidget = (props) => {
   const inputId = `field-${id}`;
 
   return (
-    <FormFieldWrapper {...props} className="textarea">
+    <FormFieldWrapper {...props} className="textarea" wrapped={false}>
       <div className="nsw-form__group">
         <label className="nsw-form__label" for={inputId}>
           {title}

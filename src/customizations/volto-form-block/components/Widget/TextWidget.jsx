@@ -9,25 +9,27 @@ import { FormFieldWrapper } from '@plone/volto/components';
  * It is the default fallback widget, so if no other widget is found based on
  * passed field properties, it will be used.
  */
-function TextWidget({
-  id,
-  title,
-  description,
-  placeholder,
-  invalid,
-  required = false,
-  error = [],
-  isDisabled,
-  value,
-  onChange = () => {},
-  onBlur = () => {},
-  onClick = () => {},
-  focus = false,
-  minLength,
-  maxLength,
-  node,
-  ...props
-}) {
+function TextWidget(props) {
+  const {
+    id,
+    title,
+    description,
+    placeholder,
+    invalid,
+    required = false,
+    error = [],
+    isDisabled,
+    value,
+    draggable,
+    onEdit,
+    onChange = () => {},
+    onBlur = () => {},
+    onClick = () => {},
+    focus = false,
+    minLength,
+    maxLength,
+    node,
+  } = props;
   React.useEffect(() => {
     if (focus) {
       node.focus();
@@ -39,7 +41,7 @@ function TextWidget({
   const inputId = `field-${id}`;
 
   return (
-    <FormFieldWrapper {...props} className="text">
+    <FormFieldWrapper {...props} className="text" wrapped={false}>
       <div className="nsw-form__group">
         <label className="nsw-form__label" for={inputId}>
           {title}
