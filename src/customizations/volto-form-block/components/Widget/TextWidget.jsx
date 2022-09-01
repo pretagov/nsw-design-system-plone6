@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { FormFieldWrapper, Icon } from '@plone/volto/components';
+import { FormFieldWrapper } from '@plone/volto/components';
 
 /**
  * The simple text widget.
@@ -22,11 +22,7 @@ function TextWidget({
   onChange = () => {},
   onBlur = () => {},
   onClick = () => {},
-  onEdit,
-  onDelete,
   focus = false,
-  icon,
-  iconAction,
   minLength,
   maxLength,
   node,
@@ -41,8 +37,6 @@ function TextWidget({
   const isInvalid =
     error?.length > 0 && (invalid === true || invalid === 'true');
   const inputId = `field-${id}`;
-
-  console.log(props);
 
   return (
     <FormFieldWrapper {...props} className="text">
@@ -62,26 +56,22 @@ function TextWidget({
           name={id}
           minLength={minLength || null}
           maxLength={maxLength || null}
-          onBlur={({ target }) =>
-            onBlur(id, target.value === '' ? undefined : target.value)
-          }
-          onClick={() => onClick()}
           required={required ? true : null}
           aria-required={required ? true : null}
           aria-invalid={isInvalid ? true : null}
           disabled={isDisabled ? true : null}
           placeholder={placeholder}
           ref={node}
-          // To clean
-          value={value || ''}
-          onChange={({ target }) =>
-            onChange(id, target.value === '' ? undefined : target.value)
+          defaultValue={value}
+          onClick={() => onClick()}
+          onBlur={({ target }) =>
+            onBlur(id, target.value === '' ? undefined : target.value)
           }
+          onChange={({ target }) => {
+            return onChange(id, target.value === '' ? undefined : target.value);
+          }}
         />
       </div>
-      {/* <button className={`field-${id}-action-button`} onClick={iconAction}>
-        <Icon name={icon} size="18px" />
-      </button> */}
     </FormFieldWrapper>
   );
 }
@@ -99,12 +89,6 @@ TextWidget.propTypes = {
   onClick: PropTypes.func,
   onEdit: PropTypes.func,
   onDelete: PropTypes.func,
-  icon: PropTypes.shape({
-    xmlns: PropTypes.string,
-    viewBox: PropTypes.string,
-    content: PropTypes.string,
-  }),
-  iconAction: PropTypes.func,
   minLength: PropTypes.number,
   maxLength: PropTypes.number,
   wrapped: PropTypes.bool,
