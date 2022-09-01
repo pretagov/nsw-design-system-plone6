@@ -16,7 +16,8 @@
   },
   "addons": [
     "@eeacms/volto-accordion-block",
-    "@kitconcept/volto-blocks-grid"
+    "@kitconcept/volto-blocks-grid",
+    "volto-form-block"
   ],
   "dependencies": {
     "@eeacms/volto-accordion-block": "3.4.15",
@@ -24,7 +25,8 @@
     "@kitconcept/volto-blocks-grid": "4.2.0",
     "@plone/scripts": "*",
     "material-icons": "1.10.8",
-    "nsw-design-system": "3.1.0"
+    "nsw-design-system": "3.1.0",
+    "volto-form-block": "2.4.2"
   },
   "peerDependencies": {
     "@plone/volto": "16.0.0-alpha.22"
