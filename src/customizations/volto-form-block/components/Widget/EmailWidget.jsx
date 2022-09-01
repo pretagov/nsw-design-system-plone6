@@ -1,13 +1,7 @@
-/**
- * EmailWidget component.
- * @module components/manage/Widgets/EmailWidget
- * added aria- attributes
- */
-
-import { FormFieldWrapper } from '@plone/volto/components';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Input } from 'semantic-ui-react';
+
+import { FormFieldWrapper } from '@plone/volto/components';
 
 /** EmailWidget, a widget for email addresses
  *
@@ -20,61 +14,73 @@ import { Input } from 'semantic-ui-react';
  * }
  * ```
  */
-const EmailWidget = (props) => {
-  const {
-    id,
-    value,
-    onChange,
-    onBlur,
-    onClick,
-    minLength,
-    maxLength,
-    placeholder,
-    isDisabled,
-    required,
-    invalid,
-  } = props;
+function EmailWidget({
+  id,
+  title,
+  description,
+  placeholder,
+  invalid,
+  required = false,
+  error = [],
+  isDisabled,
+  value,
+  onChange = () => {},
+  onBlur = () => {},
+  onClick = () => {},
+  focus = false,
+  minLength,
+  maxLength,
+  node,
+  ...props
+}) {
+  React.useEffect(() => {
+    if (focus) {
+      node.focus();
+    }
+  }, []);
+
+  const isInvalid =
+    error?.length > 0 && (invalid === true || invalid === 'true');
   const inputId = `field-${id}`;
 
-  let attributes = {};
-  if (required) {
-    attributes.required = true;
-    attributes['aria-required'] = true;
-  }
-
-  const isInvalid = invalid === true || invalid === 'true';
-  if (isInvalid) {
-    attributes['aria-invalid'] = true;
-  }
   return (
-    <FormFieldWrapper {...props} className="email">
-      <Input
-        id={inputId}
-        name={id}
-        type="email"
-        value={value || ''}
-        disabled={isDisabled}
-        placeholder={placeholder}
-        onChange={({ target }) =>
-          onChange(id, target.value === '' ? undefined : target.value)
-        }
-        onBlur={({ target }) =>
-          onBlur(id, target.value === '' ? undefined : target.value)
-        }
-        onClick={() => onClick()}
-        minLength={minLength || null}
-        maxLength={maxLength || null}
-        {...attributes}
-      />
+    <FormFieldWrapper {...props} className="text">
+      <div className="nsw-form__group">
+        <label className="nsw-form__label" for={inputId}>
+          {title}
+        </label>
+        {description ? (
+          <span className="nsw-form__helper" id={`${id}-helper-text`}>
+            {description}
+          </span>
+        ) : null}
+        <input
+          className="nsw-form__input"
+          type="email"
+          id={inputId}
+          name={id}
+          minLength={minLength || null}
+          maxLength={maxLength || null}
+          required={required ? true : null}
+          aria-required={required ? true : null}
+          aria-invalid={isInvalid ? true : null}
+          disabled={isDisabled ? true : null}
+          placeholder={placeholder}
+          ref={node}
+          defaultValue={value}
+          onClick={() => onClick()}
+          onBlur={({ target }) =>
+            onBlur(id, target.value === '' ? undefined : target.value)
+          }
+          onChange={({ target }) => {
+            return onChange(id, target.value === '' ? undefined : target.value);
+          }}
+        />
+      </div>
     </FormFieldWrapper>
   );
-};
+}
 
-/**
- * Property types
- * @property {Object} propTypes Property types.
- * @static
- */
 EmailWidget.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
@@ -88,23 +94,6 @@ EmailWidget.propTypes = {
   minLength: PropTypes.number,
   maxLength: PropTypes.number,
   placeholder: PropTypes.string,
-};
-
-/**
- * Default properties.
- * @property {Object} defaultProps Default properties.
- * @static
- */
-EmailWidget.defaultProps = {
-  description: null,
-  required: false,
-  error: [],
-  value: null,
-  onChange: () => {},
-  onBlur: () => {},
-  onClick: () => {},
-  minLength: null,
-  maxLength: null,
 };
 
 export default EmailWidget;
