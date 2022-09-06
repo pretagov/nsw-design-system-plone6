@@ -10,11 +10,7 @@ const RadioWidget = ({
   value,
   valueList,
   onChange,
-  onEdit,
-  onDelete,
-  intl,
   fieldSet,
-  wrapped,
   invalid,
 }) => {
   let attributes = {};
@@ -36,26 +32,39 @@ const RadioWidget = ({
       required={required || null}
       error={error}
       fieldSet={fieldSet}
-      wrapped={wrapped}
+      wrapped={false}
     >
-      <div className="radio-widget">
-        <fieldset class="radio-group">
-          <legend aria-hidden="false">{title}</legend>
-          {valueList.map((opt) => (
-            <div className="radio-button" key={opt.value}>
-              <input
-                type="radio"
-                name={id}
-                id={id + opt.value}
-                value={opt.value}
-                checked={opt.value === value}
-                onChange={(e) => onChange(id, e.target.value)}
-                {...attributes}
-              />
-              <label htmlFor={id + opt.value}>{opt.label}</label>
-            </div>
-          ))}
-        </fieldset>
+      <div className="nsw-form">
+        <div className="nsw-form__group">
+          <fieldset className="nsw-form__fieldset">
+            <legend>
+              <span className="nsw-form__legend">{title}</span>
+              {description ? (
+                <span className="nsw-form__helper">{description}</span>
+              ) : null}
+            </legend>
+            {valueList.map((opt) => {
+              const radioId = id + opt.value;
+              return (
+                <React.Fragment key={opt.value}>
+                  <input
+                    type="radio"
+                    className="nsw-form__radio-input"
+                    name={id}
+                    id={radioId}
+                    value={opt.value}
+                    checked={opt.value === value}
+                    onChange={(e) => onChange(id, e.target.value)}
+                    {...attributes}
+                  />
+                  <label className="nsw-form__radio-label" htmlFor={radioId}>
+                    {opt.label}
+                  </label>
+                </React.Fragment>
+              );
+            })}
+          </fieldset>
+        </div>
       </div>
     </FormFieldWrapper>
   );
