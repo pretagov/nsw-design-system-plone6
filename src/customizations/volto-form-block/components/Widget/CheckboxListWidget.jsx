@@ -1,7 +1,6 @@
 import { FormFieldWrapper } from '@plone/volto/components';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Checkbox } from 'semantic-ui-react';
 
 const CheckboxListWidget = ({
   id,
@@ -13,8 +12,6 @@ const CheckboxListWidget = ({
   valueList,
   onChange,
   fieldSet,
-  isDisabled,
-  wrapped,
   invalid,
 }) => {
   const updateValueList = (val, checked) => {
@@ -44,41 +41,70 @@ const CheckboxListWidget = ({
       required={required || null}
       error={error}
       fieldSet={fieldSet}
-      wrapped={wrapped}
+      wrapped={false}
     >
-      <div className="checkbox-list-widget">
-        <fieldset class="checkbox-group">
-          <legend aria-hidden="false">{title}</legend>
-          {valueList?.map((opt) => (
-            <div className="checkbox-item" key={opt.value}>
-              <Checkbox
-                id={`field-${id}-${opt.value}`}
-                name={`field-${id}-${opt.value}`}
-                checked={value?.includes(opt.value)}
-                disabled={isDisabled}
-                onChange={(_event, { checked }) =>
-                  updateValueList(opt.value, checked)
-                }
-                label={
-                  <label htmlFor={`field-${id}-${opt.value}`}>
-                    {opt.label}
-                  </label>
-                }
-                {...attributes}
-              />
-            </div>
-          ))}
+      <div className="nsw-form__group">
+        <fieldset className="nsw-form__fieldset">
+          <legend>
+            <span className="nsw-form__legend">{title}</span>
+            {description ? (
+              <span className="nsw-form__helper">{description}</span>
+            ) : null}
+          </legend>
+          {valueList?.map((opt) => {
+            const checkboxId = `field-${id}-${opt.value}`;
+            return (
+              <React.Fragment key={id}>
+                <input
+                  className="nsw-form__checkbox-input"
+                  type="checkbox"
+                  name={`field-${id}-${opt.value}`}
+                  id={checkboxId}
+                  checked={value?.includes(opt.value)}
+                  onChange={({ target }) => {
+                    return updateValueList(target.value, target.checked);
+                  }}
+                  {...attributes}
+                />
+                <label
+                  className="nsw-form__checkbox-label"
+                  htmlFor={checkboxId}
+                >
+                  Customer Service
+                </label>
+              </React.Fragment>
+            );
+          })}
+          <input
+            className="nsw-form__checkbox-input"
+            type="checkbox"
+            name="form-checkbox-multi-2"
+            id="form-checkbox-multi-2-a"
+          />
+          <label
+            className="nsw-form__checkbox-label"
+            htmlFor="form-checkbox-multi-2-a"
+          >
+            Customer Service
+          </label>
+          <input
+            className="nsw-form__checkbox-input"
+            type="checkbox"
+            name="form-checkbox-multi-2"
+            id="form-checkbox-multi-2-b"
+          />
+          <label
+            className="nsw-form__checkbox-label"
+            htmlFor="form-checkbox-multi-2-b"
+          >
+            Communities and Justice
+          </label>
         </fieldset>
       </div>
     </FormFieldWrapper>
   );
 };
 
-/**
- * Property types.
- * @property {Object} propTypes Property types.
- * @static
- */
 CheckboxListWidget.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
