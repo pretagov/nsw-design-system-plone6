@@ -22,7 +22,7 @@ const FilterList = (props) => {
   }
 
   return totalFilters ? (
-    <div class="nsw-m-y-md">
+    <div className="nsw-m-y-md">
       {data.facets?.map((facetSettings, i) => {
         const facet = facetSettings?.field?.value;
         if (!facet) return null;
