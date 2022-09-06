@@ -1,9 +1,3 @@
-/**
- * SelectWidget component.
- * @module components/manage/Widgets/SelectWidget
- * added aria- attributes
- */
-
 import { getVocabulary, getVocabularyTokenTitle } from '@plone/volto/actions';
 import { FormFieldWrapper } from '@plone/volto/components';
 import { normalizeValue } from '@plone/volto/components/manage/Widgets/SelectUtils';
@@ -14,20 +8,10 @@ import {
 } from '@plone/volto/helpers';
 import { map } from 'lodash';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { defineMessages, injectIntl } from 'react-intl';
+import React from 'react';
+import { defineMessages, useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-
-import {
-  ClearIndicator,
-  customSelectStyles,
-  DropdownIndicator,
-  MenuList,
-  Option,
-  selectTheme,
-} from '@plone/volto/components/manage/Widgets/SelectStyling';
-import { injectLazyLibs } from '@plone/volto/helpers/Loadable/Loadable';
 
 const messages = defineMessages({
   default: {
@@ -76,189 +60,95 @@ const messages = defineMessages({
   },
 });
 
-/**
- * SelectWidget component class.
- * @function SelectWidget
- * @returns {string} Markup of the component.
- */
-class SelectWidget extends Component {
-  /**
-   * Property types.
-   * @property {Object} propTypes Property types.
-   * @static
-   */
-  static propTypes = {
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string,
-    required: PropTypes.bool,
-    error: PropTypes.arrayOf(PropTypes.string),
-    getVocabulary: PropTypes.func.isRequired,
-    getVocabularyTokenTitle: PropTypes.func.isRequired,
-    choices: PropTypes.arrayOf(
-      PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-    ),
-    items: PropTypes.shape({
-      vocabulary: PropTypes.object,
-    }),
-    widgetOptions: PropTypes.shape({
-      vocabulary: PropTypes.object,
-    }),
-    value: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.string,
-      PropTypes.bool,
-      PropTypes.func,
-      PropTypes.array,
-    ]),
-    onChange: PropTypes.func.isRequired,
-    onBlur: PropTypes.func,
-    onClick: PropTypes.func,
-    onEdit: PropTypes.func,
-    onDelete: PropTypes.func,
-    wrapped: PropTypes.bool,
-    noValueOption: PropTypes.bool,
-    customOptionStyling: PropTypes.any,
-    isMulti: PropTypes.bool,
-    placeholder: PropTypes.string,
-  };
-
-  /**
-   * Default properties
-   * @property {Object} defaultProps Default properties.
-   * @static
-   */
-  static defaultProps = {
-    description: null,
-    required: false,
-    items: {
-      vocabulary: null,
-    },
-    widgetOptions: {
-      vocabulary: null,
-    },
-    error: [],
-    choices: [],
-    value: null,
-    onChange: () => {},
-    onBlur: () => {},
-    onClick: () => {},
-    onEdit: null,
-    onDelete: null,
-    noValueOption: true,
-    customOptionStyling: null,
-  };
-
+function SelectWidget(props) {
+  const {
+    description,
+    required = false,
+    vocabBaseUrl,
+    choices = [],
+    value,
+    onChange = () => {},
+    noValueOption = true,
+    id,
+    default: defaultOption,
+    disabled,
+    isDisabled,
+    invalid,
+    title,
+  } = props;
+  const intl = useIntl();
   /**
    * Component did mount
    * @method componentDidMount
    * @returns {undefined}
    */
-  componentDidMount() {
-    if (
-      (!this.props.choices || this.props.choices?.length === 0) &&
-      this.props.vocabBaseUrl
-    ) {
-      this.props.getVocabulary({
-        vocabNameOrURL: this.props.vocabBaseUrl,
+  React.useEffect(() => {
+    if ((!choices || choices?.length === 0) && vocabBaseUrl) {
+      getVocabulary({
+        vocabNameOrURL: vocabBaseUrl,
         size: -1,
-        subrequest: this.props.intl.locale,
+        subrequest: intl.locale,
       });
     }
+  }, []);
+
+  const normalizedValue = normalizeValue(choices, value, intl);
+  // Make sure that both disabled and isDisabled (from the DX layout feat work)
+  const shouldDisable = disabled || isDisabled;
+
+  let options = vocabBaseUrl
+    ? choices
+    : [
+        ...map(choices, (option) => ({
+          value: option[0],
+          label:
+            // Fix "None" on the serializer, to remove when fixed in p.restapi
+            option[1] !== 'None' && option[1] ? option[1] : option[0],
+        })),
+        // Only set "no-value" option if there's no default in the field
+        // TODO: also if this.props.defaultValue?
+        ...(noValueOption && !defaultOption
+          ? [
+              {
+                label: intl.formatMessage(messages.no_value),
+                value: 'no-value',
+              },
+            ]
+          : []),
+      ];
+
+  let attributes = {};
+  if (required) {
+    attributes.required = true;
+    attributes['aria-required'] = true;
   }
 
-  /**
-   * Render method.
-   * @method render
-   * @returns {string} Markup for the component.
-   */
-  render() {
-    const {
-      id,
-      choices,
-      value,
-      intl,
-      onChange,
-      required,
-      invalid,
-      title,
-    } = this.props;
-    const normalizedValue = normalizeValue(choices, value, intl);
-    // Make sure that both disabled and isDisabled (from the DX layout feat work)
-    const disabled = this.props.disabled || this.props.isDisabled;
-    const Select = this.props.reactSelect.default;
+  const isInvalid = invalid === true || invalid === 'true';
+  if (isInvalid) {
+    attributes['aria-invalid'] = true;
+  }
 
-    let options = this.props.vocabBaseUrl
-      ? this.props.choices
-      : [
-          ...map(choices, (option) => ({
-            value: option[0],
-            label:
-              // Fix "None" on the serializer, to remove when fixed in p.restapi
-              option[1] !== 'None' && option[1] ? option[1] : option[0],
-          })),
-          // Only set "no-value" option if there's no default in the field
-          // TODO: also if this.props.defaultValue?
-          ...(this.props.noValueOption && !this.props.default
-            ? [
-                {
-                  label: this.props.intl.formatMessage(messages.no_value),
-                  value: 'no-value',
-                },
-              ]
-            : []),
-        ];
+  const inputId = `field-${id}`;
 
-    const isMulti = this.props.isMulti
-      ? this.props.isMulti
-      : id === 'roles' || id === 'groups';
-
-    let attributes = {};
-    if (required) {
-      attributes.required = true;
-      attributes['aria-required'] = true;
-    }
-
-    const isInvalid = invalid === true || invalid === 'true';
-    if (isInvalid) {
-      attributes['aria-invalid'] = true;
-    }
-
-    return (
-      <FormFieldWrapper {...this.props}>
-        <Select
-          id={`field-${id}`}
-          key={choices}
-          name={id}
-          isDisabled={disabled}
-          isSearchable={true}
-          className="react-select-container"
-          classNamePrefix="react-select"
-          isMulti={isMulti}
-          options={options}
-          {...attributes}
-          styles={customSelectStyles}
-          theme={selectTheme}
-          components={{
-            ...(options?.length > 25 && {
-              MenuList,
-            }),
-            DropdownIndicator,
-            ClearIndicator,
-            Option: this.props.customOptionStyling || Option,
-          }}
+  return (
+    <FormFieldWrapper {...props} wrapped={false}>
+      <div className="nsw-form__group">
+        <label className="nsw-form__label" htmlFor={inputId}>
+          {title}
+        </label>
+        {description ? (
+          <span className="nsw-form__helper" id={`${id}-helper-text`}>
+            {description}
+          </span>
+        ) : null}
+        <select
+          className="nsw-form__select"
+          id={inputId}
+          // TODO: Do we need a name here?
           value={normalizedValue}
-          placeholder={
-            this.props.placeholder ??
-            this.props.intl.formatMessage(messages.select)
-          }
-          onChange={(selectedOption) => {
-            if (isMulti) {
-              return onChange(
-                id,
-                selectedOption.map((el) => el.value),
-              );
-            }
+          isDisabled={shouldDisable}
+          {...attributes}
+          onChange={({ target: selectedOption }) => {
             return onChange(
               id,
               selectedOption && selectedOption.value !== 'no-value'
@@ -266,18 +156,57 @@ class SelectWidget extends Component {
                 : undefined,
             );
           }}
-          isClearable
-          aria-label={title}
-        />
-      </FormFieldWrapper>
-    );
-  }
+        >
+          {options.map(({ value, label }) => {
+            return (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    </FormFieldWrapper>
+  );
 }
 
-export const SelectWidgetComponent = injectIntl(SelectWidget);
+SelectWidget.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  required: PropTypes.bool,
+  error: PropTypes.arrayOf(PropTypes.string),
+  getVocabulary: PropTypes.func.isRequired,
+  getVocabularyTokenTitle: PropTypes.func.isRequired,
+  choices: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  ),
+  items: PropTypes.shape({
+    vocabulary: PropTypes.object,
+  }),
+  widgetOptions: PropTypes.shape({
+    vocabulary: PropTypes.object,
+  }),
+  value: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.string,
+    PropTypes.bool,
+    PropTypes.func,
+    PropTypes.array,
+  ]),
+  onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
+  onClick: PropTypes.func,
+  onEdit: PropTypes.func,
+  onDelete: PropTypes.func,
+  wrapped: PropTypes.bool,
+  noValueOption: PropTypes.bool,
+  customOptionStyling: PropTypes.any,
+  isMulti: PropTypes.bool,
+  placeholder: PropTypes.string,
+};
 
 export default compose(
-  injectLazyLibs(['reactSelect']),
   connect(
     (state, props) => {
       const vocabBaseUrl = !props.choices
@@ -311,4 +240,4 @@ export default compose(
     },
     { getVocabulary, getVocabularyTokenTitle },
   ),
-)(SelectWidgetComponent);
+)(SelectWidget);
