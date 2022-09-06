@@ -34,37 +34,35 @@ const RadioWidget = ({
       fieldSet={fieldSet}
       wrapped={false}
     >
-      <div className="nsw-form">
-        <div className="nsw-form__group">
-          <fieldset className="nsw-form__fieldset">
-            <legend>
-              <span className="nsw-form__legend">{title}</span>
-              {description ? (
-                <span className="nsw-form__helper">{description}</span>
-              ) : null}
-            </legend>
-            {valueList.map((opt) => {
-              const radioId = id + opt.value;
-              return (
-                <React.Fragment key={opt.value}>
-                  <input
-                    type="radio"
-                    className="nsw-form__radio-input"
-                    name={id}
-                    id={radioId}
-                    value={opt.value}
-                    checked={opt.value === value}
-                    onChange={(e) => onChange(id, e.target.value)}
-                    {...attributes}
-                  />
-                  <label className="nsw-form__radio-label" htmlFor={radioId}>
-                    {opt.label}
-                  </label>
-                </React.Fragment>
-              );
-            })}
-          </fieldset>
-        </div>
+      <div className="nsw-form__group">
+        <fieldset className="nsw-form__fieldset">
+          <legend>
+            <span className="nsw-form__legend">{title}</span>
+            {description ? (
+              <span className="nsw-form__helper">{description}</span>
+            ) : null}
+          </legend>
+          {valueList.map((opt) => {
+            const radioId = id + opt.value;
+            return (
+              <React.Fragment key={opt.value}>
+                <input
+                  type="radio"
+                  className="nsw-form__radio-input"
+                  name={id}
+                  id={radioId}
+                  value={opt.value}
+                  checked={opt.value === value}
+                  onChange={(e) => onChange(id, e.target.value)}
+                  {...attributes}
+                />
+                <label className="nsw-form__radio-label" htmlFor={radioId}>
+                  {opt.label}
+                </label>
+              </React.Fragment>
+            );
+          })}
+        </fieldset>
       </div>
     </FormFieldWrapper>
   );
