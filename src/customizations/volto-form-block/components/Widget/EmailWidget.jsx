@@ -46,7 +46,7 @@ function EmailWidget(props) {
   return (
     <FormFieldWrapper {...props} className="text" wrapped={false}>
       <div className="nsw-form__group">
-        <label className="nsw-form__label" for={inputId}>
+        <label className="nsw-form__label" htmlFor={inputId}>
           {title}
         </label>
         {description ? (

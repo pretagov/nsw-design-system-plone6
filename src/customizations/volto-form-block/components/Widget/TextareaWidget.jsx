@@ -66,7 +66,7 @@ const TextareaWidget = (props) => {
   return (
     <FormFieldWrapper {...props} className="textarea" wrapped={false}>
       <div className="nsw-form__group">
-        <label className="nsw-form__label" for={inputId}>
+        <label className="nsw-form__label" htmlFor={inputId}>
           {title}
         </label>
         <span className="nsw-form__helper" id={`${inputId}-helper-text`}>
