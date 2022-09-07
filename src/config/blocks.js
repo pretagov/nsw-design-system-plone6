@@ -23,6 +23,14 @@ const messages = defineMessages({
     id: 'Full width search bar',
     defaultMessage: 'Full width search bar',
   },
+  imageSettings: {
+    id: 'Image settings',
+    defaultMessage: 'Image settings',
+  },
+  imagePosition: {
+    id: 'Image position',
+    defaultMessage: 'Image position',
+  },
 });
 
 // Todo: i18n for component titles and groups
@@ -142,13 +150,7 @@ const nswBlocks = [
 ];
 
 const blockVariations = {
-  listing: [
-    {
-      id: 'listItems',
-      title: 'List Items',
-      template: ListItems,
-    },
-  ],
+  listing: [],
   hero: [
     {
       id: 'default',
@@ -201,6 +203,30 @@ const schemaEnhancers = {
   },
 };
 
+const variationSchemaEnhancers = {
+  listing: {
+    imageGallery: ({ schema, intl }) => {
+      const imageSettingFieldset = {
+        id: 'imageSettings',
+        title: intl.formatMessage(messages.imageSettings),
+        fields: ['imagePosition'],
+      };
+      schema.properties.imagePosition = {
+        title: intl.formatMessage(messages.imagePosition),
+        type: 'string',
+        factory: 'Choice',
+        choices: [
+          ['left', 'Left'],
+          ['right', 'Right'],
+        ],
+        default: 'left',
+      };
+      schema.fieldsets = [...schema.fieldsets, imageSettingFieldset];
+      return schema;
+    },
+  },
+};
+
 const blockAllowedInGrid = ['card', 'contentBlock', 'callout'];
 
 const removeFieldsFromBlock = (config, blockId, fieldsToRemove) => {
@@ -249,6 +275,20 @@ export const updateBlocksConfig = (config) => {
   });
 
   removeFieldsFromBlock(config, 'accordion', ['right_arrows', 'non_exclusive']);
+
+  Object.entries(variationSchemaEnhancers).forEach(([blockId, variation]) => {
+    Object.entries(variation).forEach(([variationId, schemaEnhancer]) => {
+      // const schemaEnhancer = variationSchemaEnhancers.blockId.variationId;
+      const variationIndex = config.blocks.blocksConfig[
+        blockId
+      ].variations.findIndex((variation) => {
+        return variation.id === variationId;
+      });
+      config.blocks.blocksConfig[blockId].variations[
+        variationIndex
+      ].schemaEnhancer = schemaEnhancer;
+    });
+  });
 
   // Remove requirement for titles
   config.blocks.requiredBlocks = [];
