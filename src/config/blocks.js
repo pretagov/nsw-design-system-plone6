@@ -203,6 +203,7 @@ const schemaEnhancers = {
   },
 };
 
+// Add schema enhancers to specific variations of existing blocks
 const variationSchemaEnhancers = {
   listing: {
     imageGallery: ({ schema, intl }) => {
@@ -276,6 +277,7 @@ export const updateBlocksConfig = (config) => {
 
   removeFieldsFromBlock(config, 'accordion', ['right_arrows', 'non_exclusive']);
 
+  // Add the schema enhancer for each variation in each block that needs to be customised
   Object.entries(variationSchemaEnhancers).forEach(([blockId, variation]) => {
     Object.entries(variation).forEach(([variationId, schemaEnhancer]) => {
       // const schemaEnhancer = variationSchemaEnhancers.blockId.variationId;
