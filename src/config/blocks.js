@@ -3,17 +3,14 @@ import { defineMessages } from 'react-intl';
 // Todo: Setup path imports for blocks
 import config from '@plone/volto/registry';
 import * as Components from '../components';
+import { CardSchema } from '../components/Blocks/Card';
 import { DropdownQuickNavigationSchema } from '../components/Blocks/DropdownQuickNavigation/schema';
-import ListItems from '../customizations/volto/components/manage/Blocks/Search/layout/ListItems';
+import CardListing from '../components/Blocks/Listing/CardListing';
 
 const messages = defineMessages({
   card: {
     id: 'Card',
     defaultMessage: 'Card',
-  },
-  listItems: {
-    id: 'List Items',
-    defaultMessage: 'List Items',
   },
   searchFacetsTitleDefault: {
     id: 'Filter results',
@@ -30,6 +27,11 @@ const messages = defineMessages({
   imagePosition: {
     id: 'Image position',
     defaultMessage: 'Image position',
+  },
+  // Card listing schema
+  numberOfColumns: {
+    id: 'Number of columns',
+    defaultMessage: 'Number of columns',
   },
 });
 
@@ -150,7 +152,13 @@ const nswBlocks = [
 ];
 
 const blockVariations = {
-  listing: [],
+  listing: [
+    {
+      id: 'cardListing',
+      title: 'Card list',
+      template: CardListing,
+    },
+  ],
   hero: [
     {
       id: 'default',
@@ -206,6 +214,40 @@ const schemaEnhancers = {
 // Add schema enhancers to specific variations of existing blocks
 const variationSchemaEnhancers = {
   listing: {
+    cardListing: ({ schema, intl }) => {
+      // Add the card display settings to the listing settings
+      const cardSchema = CardSchema({
+        intl,
+      });
+      schema.properties = {
+        ...schema.properties,
+        ...cardSchema.properties,
+      };
+      const stylingFieldsetIndex = 1;
+      const variationFieldset = {
+        id: 'cardListingVariation',
+        title: 'Card Display Settings',
+        fields: [...cardSchema.fieldsets[stylingFieldsetIndex].fields],
+        required: [...cardSchema.fieldsets[stylingFieldsetIndex].required],
+      };
+      schema.fieldsets.push(variationFieldset);
+
+      // Add the custom settings
+      schema.properties.numberOfColumns = {
+        title: intl.formatMessage(messages.numberOfColumns),
+        type: 'number',
+        minimum: 1,
+        maximum: 4,
+        default: 3,
+      };
+      // 0 is the default fieldset
+      schema.fieldsets[0].fields = [
+        ...schema.fieldsets[0].fields,
+        'numberOfColumns',
+      ];
+
+      return schema;
+    },
     imageGallery: ({ schema, intl }) => {
       const imageSettingFieldset = {
         id: 'imageSettings',
