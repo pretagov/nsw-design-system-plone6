@@ -55,6 +55,7 @@ export const cardSchema = ({ intl }) => {
         id: 'default',
         title: 'Default',
         fields: ['title', 'description', 'link', 'image'],
+        required: [],
       },
       {
         id: 'styling',
@@ -65,6 +66,7 @@ export const cardSchema = ({ intl }) => {
           'colour',
           'imagePosition',
         ],
+        required: [],
       },
     ],
     properties: {
