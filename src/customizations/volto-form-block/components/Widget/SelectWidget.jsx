@@ -141,12 +141,13 @@ function SelectWidget(props) {
             {description}
           </span>
         ) : null}
+        {/* eslint-disable-next-line jsx-a11y/no-onchange */}
         <select
           className="nsw-form__select"
           id={inputId}
           // TODO: Do we need a name here?
           value={normalizedValue}
-          isDisabled={shouldDisable}
+          disabled={shouldDisable}
           {...attributes}
           onChange={({ target: selectedOption }) => {
             return onChange(
