@@ -6,10 +6,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Checkbox } from 'semantic-ui-react';
 
 import { FormFieldWrapper } from '@plone/volto/components';
-import { injectIntl } from 'react-intl';
 
 /**
  * CheckboxWidget component class.
@@ -26,7 +24,16 @@ import { injectIntl } from 'react-intl';
  * ```
  */
 const CheckboxWidget = (props) => {
-  const { id, title, value, onChange, isDisabled, required, invalid } = props;
+  const {
+    id,
+    title,
+    value,
+    onChange,
+    isDisabled,
+    required = false,
+    invalid,
+    error = [],
+  } = props;
 
   let attributes = {};
   if (required) {
@@ -39,31 +46,29 @@ const CheckboxWidget = (props) => {
     attributes['aria-invalid'] = true;
   }
 
+  const checkboxId = `field-${id}`;
+
   return (
-    <FormFieldWrapper {...props} columns={1}>
-      <div className="wrapper">
-        <Checkbox
-          id={`field-${id}`}
-          name={`field-${id}`}
-          checked={value || false}
-          disabled={isDisabled}
-          onChange={(event, { checked }) => {
-            onChange(id, checked);
-          }}
-          aria-required={required ? 'true' : 'false'}
-          label={<label htmlFor={`field-${id}`}>{title}</label>}
-          {...attributes}
-        />
-      </div>
+    <FormFieldWrapper {...props} wrapped={false}>
+      <input
+        className="nsw-form__checkbox-input"
+        type="checkbox"
+        name={checkboxId}
+        id={checkboxId}
+        checked={value || false}
+        onChange={({ target }) => {
+          onChange(id, target.checked);
+        }}
+        disabled={isDisabled}
+        {...attributes}
+      />
+      <label className="nsw-form__checkbox-label" htmlFor={checkboxId}>
+        {title}
+      </label>
     </FormFieldWrapper>
   );
 };
 
-/**
- * Property types.
- * @property {Object} propTypes Property types.
- * @static
- */
 CheckboxWidget.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
@@ -77,19 +82,4 @@ CheckboxWidget.propTypes = {
   wrapped: PropTypes.bool,
 };
 
-/**
- * Default properties.
- * @property {Object} defaultProps Default properties.
- * @static
- */
-CheckboxWidget.defaultProps = {
-  description: null,
-  required: false,
-  error: [],
-  value: null,
-  onChange: null,
-  onEdit: null,
-  onDelete: null,
-};
-
-export default injectIntl(CheckboxWidget);
+export default CheckboxWidget;
