@@ -70,35 +70,11 @@ const CheckboxListWidget = ({
                   className="nsw-form__checkbox-label"
                   htmlFor={checkboxId}
                 >
-                  Customer Service
+                  {opt.label}
                 </label>
               </React.Fragment>
             );
           })}
-          <input
-            className="nsw-form__checkbox-input"
-            type="checkbox"
-            name="form-checkbox-multi-2"
-            id="form-checkbox-multi-2-a"
-          />
-          <label
-            className="nsw-form__checkbox-label"
-            htmlFor="form-checkbox-multi-2-a"
-          >
-            Customer Service
-          </label>
-          <input
-            className="nsw-form__checkbox-input"
-            type="checkbox"
-            name="form-checkbox-multi-2"
-            id="form-checkbox-multi-2-b"
-          />
-          <label
-            className="nsw-form__checkbox-label"
-            htmlFor="form-checkbox-multi-2-b"
-          >
-            Communities and Justice
-          </label>
         </fieldset>
       </div>
     </FormFieldWrapper>
