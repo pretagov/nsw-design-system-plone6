@@ -50,7 +50,7 @@ const Field = ({
   };
 
   return (
-    <div className="field">
+    <>
       {field_type === 'text' && (
         <TextWidget
           id={name}
@@ -233,7 +233,7 @@ const Field = ({
 
         return acc;
       }, []) ?? []}
-    </div>
+    </>
   );
 };
 
