@@ -27,8 +27,6 @@ const SortOn = (props) => {
       ? sortable_indexes[activeSortOn]?.title
       : activeSortOn || intl.formatMessage(messages.noSelection);
 
-  debugger;
-
   return (
     <div className="nsw-results-bar__sorting">
       <label className="nsw-form__label" for="results-sort">
