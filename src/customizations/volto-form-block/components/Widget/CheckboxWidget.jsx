@@ -50,21 +50,23 @@ const CheckboxWidget = (props) => {
 
   return (
     <FormFieldWrapper {...props} wrapped={false}>
-      <input
-        className="nsw-form__checkbox-input"
-        type="checkbox"
-        name={checkboxId}
-        id={checkboxId}
-        checked={value || false}
-        onChange={({ target }) => {
-          onChange(id, target.checked);
-        }}
-        disabled={isDisabled}
-        {...attributes}
-      />
-      <label className="nsw-form__checkbox-label" htmlFor={checkboxId}>
-        {title}
-      </label>
+      <div className="nsw-form__group">
+        <input
+          className="nsw-form__checkbox-input"
+          type="checkbox"
+          name={checkboxId}
+          id={checkboxId}
+          checked={value || false}
+          onChange={({ target }) => {
+            onChange(id, target.checked);
+          }}
+          disabled={isDisabled}
+          {...attributes}
+        />
+        <label className="nsw-form__checkbox-label" htmlFor={checkboxId}>
+          {title}
+        </label>
+      </div>
     </FormFieldWrapper>
   );
 };
