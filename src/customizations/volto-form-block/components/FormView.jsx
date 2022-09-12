@@ -84,28 +84,27 @@ const FormView = ({
           </Button>
         </Message>
       ) : (
-        <form
-          className="nsw-form"
-          loading={formState.loading}
-          onSubmit={onSubmit}
-          method="post"
-        >
-          {data.static_fields?.map((field) => (
-            <Field
-              key={field.field_id}
-              {...field}
-              field_type={field.field_type || 'text'}
-              name={
-                'static_field_' +
-                (field.field_id ?? field.name?.toLowerCase()?.replace(' ', ''))
-              }
-              value={field.value}
-              onChange={() => {}}
-              disabled
-              valid
-              formHasErrors={formErrors?.length > 0}
-            />
-          ))}
+        // TODO: The original component has a `loading` state. Is this needed here?
+        <form className="nsw-form" onSubmit={onSubmit} method="post">
+          {data.static_fields?.map((field) => {
+            return (
+              <Field
+                key={field.field_id}
+                {...field}
+                field_type={field.field_type || 'text'}
+                name={
+                  'static_field_' +
+                  (field.field_id ??
+                    field.name?.toLowerCase()?.replace(' ', ''))
+                }
+                value={field.value}
+                onChange={() => {}}
+                disabled
+                valid
+                formHasErrors={formErrors?.length > 0}
+              />
+            );
+          })}
           {data.subblocks?.map((subblock, index) => {
             let name = getFieldName(subblock.label, subblock.id);
             var fields_to_send_with_value = Object.assign(
@@ -149,10 +148,10 @@ const FormView = ({
               <p>{intl.formatMessage(messages.empty_values)}</p>
             </Message>
           )}
-          <div class="nsw-form__group">
+          <div className="nsw-form__group">
             <input
               type="submit"
-              class="nsw-button nsw-button--dark"
+              className="nsw-button nsw-button--dark"
               value="Submit"
               disabled={formState.loading}
             />
