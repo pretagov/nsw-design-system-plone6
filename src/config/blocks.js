@@ -192,6 +192,10 @@ const blockVariations = {
   ],
 };
 
+const blockVariationsToRemove = {
+  search: ['facetsTopSide'],
+};
+
 const schemaEnhancers = {
   search: ({ schema, intl }) => {
     schema.properties.facetsTitle.default = intl.formatMessage(
@@ -318,6 +322,18 @@ export const updateBlocksConfig = (config) => {
   });
 
   removeFieldsFromBlock(config, 'accordion', ['right_arrows', 'non_exclusive']);
+
+  // Remove unused block variations
+  Object.entries(blockVariationsToRemove).forEach(([blockId, variationIds]) => {
+    variationIds.forEach((variationId) => {
+      const variationIndex = config.blocks.blocksConfig[
+        blockId
+      ].variations.findIndex((variation) => {
+        return variation.id === variationId;
+      });
+      config.blocks.blocksConfig[blockId].variations.splice(variationIndex, 1);
+    });
+  });
 
   // Add the schema enhancer for each variation in each block that needs to be customised
   Object.entries(variationSchemaEnhancers).forEach(([blockId, variation]) => {
