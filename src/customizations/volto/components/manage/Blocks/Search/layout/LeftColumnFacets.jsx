@@ -5,6 +5,7 @@ import {
   SearchInput,
   SortOn,
 } from '@plone/volto/components/manage/Blocks/Search/components';
+import config from '@plone/volto/registry';
 import cx from 'classnames';
 import React from 'react';
 import { flushSync } from 'react-dom';
@@ -45,6 +46,7 @@ const LeftColumnFacets = (props) => {
   const { showSearchButton } = data;
   const isLive = !showSearchButton;
   const intl = useIntl();
+  const batchSize = data.query?.b_size || config.settings.defaultPageSize;
 
   return (
     <div className="searchBlock-facets left-column-facets">
@@ -92,7 +94,7 @@ const LeftColumnFacets = (props) => {
         ) : null}
         <div className="nsw-layout__main">
           <div className="nsw-results-bar">
-            <SearchDetails total={totalItems} batchSize={data.query?.b_size} />
+            <SearchDetails total={totalItems} batchSize={batchSize} />
 
             {/* {data.showSortOn && (
               <SortOn
