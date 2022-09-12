@@ -64,7 +64,7 @@ const LeftColumnFacets = (props) => {
         )}
       </div>
       <div className={cx('nsw-layout', { 'nsw-filters--instant': isLive })}>
-        {Object.keys(data.facets).length !== 0 ? (
+        {data.facets && Object.keys(data.facets).length !== 0 ? (
           <>
             <div className="nsw-layout__sidebar">
               <div className="nsw-filters">
