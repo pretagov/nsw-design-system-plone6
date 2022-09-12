@@ -1,4 +1,3 @@
-import { ConditionalLink } from '@plone/volto/components';
 import React from 'react';
 import { CardView } from '../Card';
 
