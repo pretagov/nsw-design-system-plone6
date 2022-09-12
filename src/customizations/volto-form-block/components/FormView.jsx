@@ -140,7 +140,7 @@ const FormView = ({
               />
             );
           })}
-          {captcha.render()}
+          {captcha ? captcha.render() : null}
           {formErrors.length > 0 && (
             <Message error role="alert">
               <Message.Header as="h4">
