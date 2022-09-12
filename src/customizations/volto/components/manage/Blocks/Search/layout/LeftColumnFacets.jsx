@@ -38,7 +38,6 @@ const LeftColumnFacets = (props) => {
     searchText, // search text currently being entered (controlled input)
     isEditMode,
     querystring = {},
-    facetsTitle,
     // searchData,
     // mode = 'view',
     // variation,
@@ -71,7 +70,7 @@ const LeftColumnFacets = (props) => {
             <div className="nsw-layout__sidebar">
               <div className="nsw-filters">
                 <div className="nsw-filters__wrapper">
-                  <div className="nsw-filters__title">{facetsTitle}</div>
+                  <div className="nsw-filters__title">{data.facetsTitle}</div>
                   <Facets
                     querystring={querystring}
                     data={data}
