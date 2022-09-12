@@ -96,7 +96,7 @@ const LeftColumnFacets = (props) => {
           <div className="nsw-results-bar">
             <SearchDetails total={totalItems} batchSize={batchSize} />
 
-            {/* {data.showSortOn && (
+            {data.showSortOn && (
               <SortOn
                 querystring={querystring}
                 data={data}
@@ -121,7 +121,7 @@ const LeftColumnFacets = (props) => {
                   });
                 }}
               />
-            )} */}
+            )}
           </div>
           <FilterList
             {...props}
