@@ -13,7 +13,13 @@ const messages = defineMessages({
 });
 
 const SortOn = (props) => {
-  const { data = {}, sortOn = null, isEditMode, querystring = {} } = props;
+  const {
+    data = {},
+    sortOn = null,
+    isEditMode,
+    querystring = {},
+    setSortOn,
+  } = props;
   const { sortable_indexes } = querystring;
 
   const intl = useIntl();
@@ -30,15 +36,18 @@ const SortOn = (props) => {
   return (
     <div className="nsw-results-bar__sorting">
       <label className="nsw-form__label" for="results-sort">
-        {label}
-        {/* {intl.formatMessage(messages.sortBy)} */}
+        {data.sortOnLabel || intl.formatMessage(messages.sortBy)}
       </label>
+      {/* eslint-disable-next-line jsx-a11y/no-onchange */}
       <select
         disabled={isEditMode}
         className="nsw-form__select"
         id="results-sort"
         name="results-sort"
         value={value}
+        onChange={({ target }) => {
+          !isEditMode && setSortOn(target.value);
+        }}
       >
         {sortOnOptions.map((sortKey) => {
           const label = sortable_indexes[sortKey]?.title || sortKey;
