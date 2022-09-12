@@ -18,9 +18,11 @@ const CheckboxFacet = (props) => {
         return (
           <React.Fragment key={value}>
             <input
-              className="nsw-form__checkbox-input"
-              type="checkbox"
-              name="filters-instant-categories"
+              className={
+                isMulti ? 'nsw-form__checkbox-input' : 'nsw-form__radio-input'
+              }
+              type={isMulti ? 'checkbox' : 'radio'}
+              name={`filters-${facet.title}`}
               value={value}
               id={choiceHtmlId}
               checked={
@@ -45,7 +47,12 @@ const CheckboxFacet = (props) => {
                 );
               }}
             />
-            <label className="nsw-form__checkbox-label" htmlFor={choiceHtmlId}>
+            <label
+              className={
+                isMulti ? 'nsw-form__checkbox-label' : 'nsw-form__radio-label'
+              }
+              htmlFor={choiceHtmlId}
+            >
               {label}
             </label>
           </React.Fragment>
