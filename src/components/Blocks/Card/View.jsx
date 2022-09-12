@@ -1,4 +1,3 @@
-import { ConditionalLink } from '@plone/volto/components';
 import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
 import cx from 'classnames';
 import React from 'react';
@@ -6,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 // TODO: Support adding alt text to images
 const CardView = ({ data, isEditMode }) => {
-  let href = data.link?.[0]?.['@id'] || '';
+  let href = data.link?.[0]?.['@id'] || data['@id'] || '';
   if (isInternalURL(href)) {
     href = flattenToAppURL(href);
   }
