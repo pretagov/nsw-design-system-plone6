@@ -15,10 +15,10 @@ const FilterList = (props) => {
   function removeFilter({ facet, value }) {
     if (Array.isArray(facets[facet])) {
       facets[facet].splice(facets[facet].indexOf(value), 1);
-      setFacets(facets);
     } else {
       delete facets[facet];
     }
+    setFacets(facets);
   }
 
   return totalFilters ? (
@@ -56,7 +56,7 @@ const FilterList = (props) => {
                         type="button"
                         className="nsw-button nsw-button--dark-outline-solid"
                       >
-                        <span>{value}</span>
+                        {value}
                         <span
                           className="material-icons nsw-material-icons"
                           focusable="false"
@@ -71,6 +71,9 @@ const FilterList = (props) => {
                   <button
                     type="button"
                     className="nsw-button nsw-button--dark-outline-solid"
+                    onClick={() => {
+                      removeFilter({ facet: facet, value: facets[facet] });
+                    }}
                   >
                     <span>{facets[facet]}</span>
                     <span
