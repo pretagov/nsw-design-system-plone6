@@ -40,12 +40,14 @@ const Pagination = ({
   return (
     <nav className="nsw-pagination" aria-label="Pagination">
       <ul>
-        {current > 0 ? (
+        {current > 1 ? (
           <li>
             <UniversalLink
               className="nsw-icon-button"
               href="#prev-page"
-              onClick={onChangePage}
+              onClick={(e) => {
+                onChangePage(e, { activePage: current - 1 });
+              }}
             >
               <span
                 className="material-icons nsw-material-icons"
@@ -98,7 +100,9 @@ const Pagination = ({
             <UniversalLink
               className="nsw-icon-button"
               href="#next-page"
-              onClick={onChangePage}
+              onClick={(e) => {
+                onChangePage(e, { activePage: current + 1 });
+              }}
             >
               <span
                 className="material-icons nsw-material-icons"
