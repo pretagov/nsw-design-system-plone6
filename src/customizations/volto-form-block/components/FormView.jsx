@@ -1,14 +1,7 @@
 import config from '@plone/volto/registry';
 import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import {
-  Button,
-  Form,
-  Grid,
-  Message,
-  Progress,
-  Segment,
-} from 'semantic-ui-react';
+import { Button, Message } from 'semantic-ui-react';
 import { getFieldName } from 'volto-form-block/components/utils';
 import Field from './Field';
 
