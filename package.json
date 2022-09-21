@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "mrs-developer": "1.7.1",
-    "release-it": "^15.0.0"
+    "release-it": "^15.0.0",
+    "start-server-and-test": "1.14.0"
   }
 }
