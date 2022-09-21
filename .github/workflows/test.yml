@@ -29,6 +29,6 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Prepare frontend
-        run: npx -p yo -p @plone/scripts addon clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY --private
+        run: npx -p yo -p @plone/generator-volto -p @plone/scripts addon clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY --private
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
