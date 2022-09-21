@@ -1,6 +1,6 @@
 {
   "name": "nsw-design-system-plone6",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "nsw-design-system-plone6: Volto add-on",
   "main": "src/index.js",
   "license": "MIT",
