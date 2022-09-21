@@ -16,6 +16,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - run: yarn install --frozen-lockfile
+
       # node cache
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
