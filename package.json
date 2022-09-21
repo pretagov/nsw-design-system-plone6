@@ -12,7 +12,14 @@
   ],
   "scripts": {
     "i18n": "rm -rf build/messages && NODE_ENV=production i18n --addon",
-    "release": "release-it"
+    "release": "release-it",
+    "test:start-frontend": "start-test http-get://localhost:3000 'make -f ../Makefile start-test-frontend'",
+    "test:start-backend": "start-test http-get://localhost:55001/plone 'make -f ../Makefile start-test-backend'",
+    "test": "yarn test:start-backend && yarn test:start-frontend && yarn cypress:run",
+    "test:start-frontend-dev": "make -f ../Makefile start-test-frontend-dev",
+    "test:dev": "yarn test:start-backend && yarn test:start-frontend-dev && yarn cypress:open",
+    "cypress:open": "NODE_ENV=test cypress open",
+    "cypress:run": "NODE_ENV=test cypress run"
   },
   "addons": [
     "@eeacms/volto-accordion-block",
