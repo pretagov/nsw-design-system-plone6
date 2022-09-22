@@ -13,8 +13,8 @@
   "scripts": {
     "i18n": "rm -rf build/messages && NODE_ENV=production i18n --addon",
     "release": "release-it",
-    "test:start-frontend": "start-test http-get://localhost:3000 'make start-test-frontend'",
-    "test:start-backend": "start-test http-get://localhost:55001/plone 'make start-test-backend'",
+    "test:start-frontend": "make start-test-frontend",
+    "test:start-backend": "make start-test-backend",
     "test": "yarn test:start-backend && yarn test:start-frontend && yarn cypress:run",
     "test:start-frontend-dev": "make start-test-frontend-dev",
     "test:dev": "yarn test:start-backend && yarn test:start-frontend-dev && yarn cypress:open",
