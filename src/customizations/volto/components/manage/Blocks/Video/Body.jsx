@@ -57,7 +57,17 @@ const Body = ({ data, isEditMode }) => {
   };
 
   return (
-    <figure className={cx('nsw-media', {})}>
+    <figure
+      className={cx('nsw-media', {
+        [`nsw-media--${data.captionBackgroundColour}`]: !!data.captionBackgroundColour,
+        [`nsw-media--${data.size}`]:
+          !!data.size &&
+          !['left', 'right'].includes(data.align) &&
+          data.size !== 'fullWidth',
+        [`nsw-media--${data.align}-${data.size}`]:
+          !!data.size && !!data.align && data.size !== 'fullWidth',
+      })}
+    >
       <div className="nsw-media__video">
         {data.url ? (
           <>
@@ -137,10 +147,7 @@ const Body = ({ data, isEditMode }) => {
           </>
         ) : null}
       </div>
-      <figcaption>
-        A long caption, ee mei labores adipiscing, nonumy reprehendunt ex mea
-        umo tota has at, clita bonorum erroribus vis ne.
-      </figcaption>
+      {data.caption ? <figcaption>{data.caption}</figcaption> : null}
     </figure>
   );
 };
