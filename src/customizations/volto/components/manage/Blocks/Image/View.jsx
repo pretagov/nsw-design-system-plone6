@@ -21,15 +21,16 @@ import React from 'react';
 export const View = ({ data, detached }) => {
   const href = data?.href?.[0]?.['@id'] || '';
   return (
-    <p
-      className={cx(
-        'block image align',
-        {
-          center: !Boolean(data.align),
-          detached,
-        },
-        data.align,
-      )}
+    <figure
+      className={cx('nsw-media', {
+        [`nsw-media--${data.captionBackgroundColour}`]: !!data.captionBackgroundColour,
+        [`nsw-media--${data.size}`]:
+          !!data.size &&
+          !['left', 'right'].includes(data.align) &&
+          data.size !== 'fullWidth',
+        [`nsw-media--${data.align}-${data.size}`]:
+          !!data.size && !!data.align && data.size !== 'fullWidth',
+      })}
     >
       {data.url && (
         <>
@@ -79,7 +80,8 @@ export const View = ({ data, detached }) => {
           })()}
         </>
       )}
-    </p>
+      {data.caption ? <figcaption>{data.caption}</figcaption> : null}
+    </figure>
   );
 };
 

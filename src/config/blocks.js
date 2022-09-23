@@ -258,16 +258,18 @@ function asMediaSchemaExtender(schema, intl, formData) {
     ],
   };
   // TODO: 0 is the 'default' fieldset, but should look it up for safety.
-  schema.fieldsets[0].fields = [
-    ...schema.fieldsets[0].fields,
-    'size',
-    'caption',
-  ];
+  schema.fieldsets[0].fields = [...schema.fieldsets[0].fields, 'caption'];
+  if (!schema.fieldsets[0].fields.includes('size')) {
+    schema.fieldsets[0].fields = [...schema.fieldsets[0].fields, 'size'];
+  }
   return schema;
 }
 
 const schemaEnhancers = {
   video: ({ schema, intl, formData }) => {
+    return asMediaSchemaExtender(schema, intl, formData);
+  },
+  image: ({ schema, intl, formData }) => {
     return asMediaSchemaExtender(schema, intl, formData);
   },
   search: ({ schema, intl }) => {
