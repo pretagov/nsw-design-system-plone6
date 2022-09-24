@@ -33,6 +33,19 @@ const messages = defineMessages({
     id: 'Number of columns',
     defaultMessage: 'Number of columns',
   },
+  // Media schema
+  size: {
+    id: 'Size',
+    defaultMessage: 'Size',
+  },
+  caption: {
+    id: 'Caption',
+    defaultMessage: 'Caption',
+  },
+  captionBackgroundColour: {
+    id: 'Caption background colour',
+    defaultMessage: 'Caption background colour',
+  },
 });
 
 // Todo: i18n for component titles and groups
@@ -192,7 +205,73 @@ const blockVariations = {
   ],
 };
 
+const alignmentPositionSizeMapping = {
+  center: [
+    ['fullWidth', 'Full width'],
+    ['90', '90%'],
+    ['80', '80%'],
+    ['70', '70%'],
+    ['60', '60%'],
+  ],
+  left: [
+    ['50', '50%'],
+    ['40', '40%'],
+    ['30', '30%'],
+  ],
+  right: [
+    ['50', '50%'],
+    ['40', '40%'],
+    ['30', '30%'],
+  ],
+};
+
+function asMediaSchemaExtender(schema, intl, formData) {
+  schema.properties.align.actions = ['center', 'left', 'right'];
+  schema.properties.size = {
+    title: intl.formatMessage(messages.size),
+    type: 'string',
+    factory: 'Choice',
+    choices: formData.align
+      ? alignmentPositionSizeMapping[formData.align]
+      : alignmentPositionSizeMapping['center'],
+    default: formData.align
+      ? alignmentPositionSizeMapping[formData.align][0]
+      : 'fullWidth',
+    value: formData.size
+      ? formData.size
+      : formData.align
+      ? alignmentPositionSizeMapping[formData.align][0]
+      : 'fullWidth',
+  };
+  schema.properties.caption = {
+    title: intl.formatMessage(messages.caption),
+    type: 'string',
+  };
+  schema.properties.captionBackgroundColour = {
+    title: intl.formatMessage(messages.captionBackgroundColour),
+    type: 'string',
+    factory: 'Choice',
+    choices: [
+      ['dark', 'Dark'],
+      ['light', 'Light'],
+      ['transparent', 'No background'],
+    ],
+  };
+  // TODO: 0 is the 'default' fieldset, but should look it up for safety.
+  schema.fieldsets[0].fields = [...schema.fieldsets[0].fields, 'caption'];
+  if (!schema.fieldsets[0].fields.includes('size')) {
+    schema.fieldsets[0].fields = [...schema.fieldsets[0].fields, 'size'];
+  }
+  return schema;
+}
+
 const schemaEnhancers = {
+  video: ({ schema, intl, formData }) => {
+    return asMediaSchemaExtender(schema, intl, formData);
+  },
+  image: ({ schema, intl, formData }) => {
+    return asMediaSchemaExtender(schema, intl, formData);
+  },
   search: ({ schema, intl }) => {
     schema.properties.facetsTitle.default = intl.formatMessage(
       messages.searchFacetsTitleDefault,
