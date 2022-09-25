@@ -1,9 +1,14 @@
 import { getNavigation } from '@plone/volto/actions';
-import { getBaseUrl } from '@plone/volto/helpers';
+import {
+  flattenToAppURL,
+  getBaseUrl,
+  isInternalURL,
+} from '@plone/volto/helpers';
 import React, { useEffect } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getSubFooter } from 'volto-subfooter';
 
 const messages = defineMessages({
   copyright: {
@@ -24,14 +29,22 @@ const messages = defineMessages({
 const Footer = () => {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const { navItems, siteActions } = useSelector((state) => ({
+  const { navItems, siteActions, subFooter } = useSelector((state) => ({
     navItems: state.navigation.items,
     siteActions: state.actions.actions.site_actions,
+    subFooter: state.reduxAsyncConnect.subfooter,
   }));
+
+  console.log(subFooter);
 
   useEffect(() => {
     dispatch(getNavigation(getBaseUrl(''), 2));
+    dispatch(getSubFooter());
   }, [dispatch]);
+
+  const lowerFooterLinks = subFooter.find(
+    (links) => links.rootPath === 'Lower Footer',
+  );
 
   return (
     <>
@@ -60,13 +73,19 @@ const Footer = () => {
           <div className="nsw-container">
             <p>{intl.formatMessage(messages.acknowledgementOfCountry)}</p>
             <hr />
-            {/* <ul>
-              {siteActions.map((action, index) => (
-                <li key={index}>
-                  <Link to={`/${action.id}`}>{action.title}</Link>
-                </li>
-              ))}
-            </ul> */}
+            <ul>
+              {lowerFooterLinks.items.map(({ title, linkUrl }, index) => {
+                let linkHref = linkUrl[0]['@id'];
+                linkHref = isInternalURL(linkHref)
+                  ? flattenToAppURL(linkHref)
+                  : linkHref;
+                return (
+                  <li key={`lowerLinks-${index}`}>
+                    <Link to={linkHref}>{title}</Link>
+                  </li>
+                );
+              })}
+            </ul>
             <div className="nsw-footer__info">
               <div className="nsw-footer__copyright">
                 {intl.formatMessage(messages.copyright)}
