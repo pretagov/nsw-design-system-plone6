@@ -5,6 +5,7 @@
  * added aria- attributes
  */
 
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
@@ -66,8 +67,12 @@ const TextareaWidget = (props) => {
   return (
     <FormFieldWrapper {...props} className="textarea" wrapped={false}>
       <div className="nsw-form__group">
-        <label className="nsw-form__label" htmlFor={inputId}>
+        <label
+          className={cx('nsw-form__label', { 'nsw-form__required': required })}
+          htmlFor={inputId}
+        >
           {title}
+          {required ? <span class="sr-only"> (required)</span> : null}
         </label>
         <span className="nsw-form__helper" id={`${inputId}-helper-text`}>
           {description}

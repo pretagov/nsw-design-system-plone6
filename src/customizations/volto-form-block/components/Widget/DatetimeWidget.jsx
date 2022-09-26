@@ -64,9 +64,10 @@ function DatetimeWidgetComponent(props) {
         <fieldset className="nsw-form__date">
           <legend>
             <span
-              class={cx('nsw-form__legend', { 'nsw-form__required': required })}
+              class={cx('nsw-form__label', { 'nsw-form__required': required })}
             >
               {title}
+              {required ? <span class="sr-only"> (required)</span> : null}
             </span>
             {description ? (
               <span className="nsw-form__helper" id={`${id}-helper-text`}>

@@ -4,6 +4,7 @@
  * added aria- attributes
  */
 
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -65,6 +66,12 @@ const CheckboxWidget = (props) => {
         />
         <label className="nsw-form__checkbox-label" htmlFor={checkboxId}>
           {title}
+          {required ? (
+            <>
+              <span class="nsw-form__required"></span>
+              <span class="sr-only"> (required)</span>
+            </>
+          ) : null}
         </label>
       </div>
     </FormFieldWrapper>

@@ -10,6 +10,7 @@ import loadable from '@loadable/component';
 import { FormFieldWrapper, Icon } from '@plone/volto/components';
 import { flattenToAppURL } from '@plone/volto/helpers';
 import deleteSVG from '@plone/volto/icons/delete.svg';
+import cx from 'classnames';
 import { readAsDataURL } from 'promise-file-reader';
 import PropTypes from 'prop-types';
 import React from 'react';

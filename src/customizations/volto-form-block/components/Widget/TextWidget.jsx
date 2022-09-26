@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -36,6 +37,7 @@ function TextWidget(props) {
     }
   }, []);
 
+  // Never fails `isInvalid` if set as required
   const isInvalid =
     error?.length > 0 && (invalid === true || invalid === 'true');
   const inputId = `field-${id}`;
@@ -43,8 +45,12 @@ function TextWidget(props) {
   return (
     <FormFieldWrapper {...props} className="text" wrapped={false}>
       <div className="nsw-form__group">
-        <label className="nsw-form__label" htmlFor={inputId}>
+        <label
+          className={cx('nsw-form__label', { 'nsw-form__required': required })}
+          htmlFor={inputId}
+        >
           {title}
+          {required ? <span class="sr-only"> (required)</span> : null}
         </label>
         {description ? (
           <span className="nsw-form__helper" id={`${id}-helper-text`}>
@@ -58,13 +64,11 @@ function TextWidget(props) {
           name={id}
           minLength={minLength || null}
           maxLength={maxLength || null}
-          required={required ? true : null}
-          aria-required={required ? true : null}
           aria-invalid={isInvalid ? true : null}
           disabled={isDisabled ? true : null}
           placeholder={placeholder}
           ref={node}
-          defaultValue={value}
+          value={value}
           onClick={() => onClick()}
           onBlur={({ target }) =>
             onBlur(id, target.value === '' ? undefined : target.value)

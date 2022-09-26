@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -46,8 +47,12 @@ function EmailWidget(props) {
   return (
     <FormFieldWrapper {...props} className="text" wrapped={false}>
       <div className="nsw-form__group">
-        <label className="nsw-form__label" htmlFor={inputId}>
+        <label
+          className={cx('nsw-form__label', { 'nsw-form__required': required })}
+          htmlFor={inputId}
+        >
           {title}
+          {required ? <span class="sr-only"> (required)</span> : null}
         </label>
         {description ? (
           <span className="nsw-form__helper" id={`${id}-helper-text`}>
@@ -67,7 +72,7 @@ function EmailWidget(props) {
           disabled={isDisabled ? true : null}
           placeholder={placeholder}
           ref={node}
-          defaultValue={value}
+          value={value}
           onClick={() => onClick()}
           onBlur={({ target }) =>
             onBlur(id, target.value === '' ? undefined : target.value)

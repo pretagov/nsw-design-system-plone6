@@ -1,4 +1,5 @@
 import { FormFieldWrapper } from '@plone/volto/components';
+import cx from 'classnames';
 import React from 'react';
 
 const RadioWidget = ({
@@ -37,7 +38,15 @@ const RadioWidget = ({
       <div className="nsw-form__group">
         <fieldset className="nsw-form__fieldset">
           <legend>
-            <span className="nsw-form__legend">{title}</span>
+            <span
+              className={cx('nsw-form__legend', {
+                'nsw-form__required': required,
+              })}
+            >
+              {title}
+              {required ? <span class="sr-only"> (required)</span> : null}
+            </span>
+
             {description ? (
               <span className="nsw-form__helper">{description}</span>
             ) : null}
