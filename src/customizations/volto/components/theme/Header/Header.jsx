@@ -76,7 +76,7 @@ const Header = ({ nswDesignSystem }) => {
 
   //   TODO: We should be able to use a fragment instead of a div here. Not sure why the `Navigation` component isn't being rendered if we use a fragment.
   return (
-    <div>
+    <>
       {/* TODO: Anon-tools and language selector currently don't work nor have a NSW component. Need to integrate. */}
       {/* <Anontools /> */}
       {/* <LanguageSelector /> */}
@@ -116,7 +116,7 @@ const Header = ({ nswDesignSystem }) => {
           </div>
         </Container>
       </Segment> */}
-    </div>
+    </>
   );
 };
 
