@@ -3,12 +3,10 @@
  * @module components/manage/Blocks/ToC/View
  */
 
-import { map } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import AnchorLink from 'react-anchor-link-smooth-scroll';
 import { defineMessages, injectIntl } from 'react-intl';
-import { List } from 'semantic-ui-react';
 
 const messages = defineMessages({
   onThisPage: {
@@ -18,7 +16,7 @@ const messages = defineMessages({
 });
 
 const RenderListItems = ({ items, data }) => {
-  return map(items, (item) => {
+  return items.map((item) => {
     const { id, level, title } = item;
     return (
       item && (
@@ -42,14 +40,11 @@ const RenderListItems = ({ items, data }) => {
  * @extends Component
  */
 const View = ({ data, tocEntries, intl }) => {
-  // TODO: data.ordered is not used, not supported by in-page navigation
   return (
     <nav className="nsw-in-page-nav" aria-labelledby="in-page-nav">
-      {!data.hide_title ? (
-        <div id="in-page-nav" className="nsw-in-page-nav__title">
-          {data.title ? data.title : intl.formatMessage(messages.onThisPage)}
-        </div>
-      ) : null}
+      <div id="in-page-nav" className="nsw-in-page-nav__title">
+        {intl.formatMessage(messages.onThisPage)}
+      </div>
       <ul>
         <RenderListItems items={tocEntries} data={data} />
       </ul>
