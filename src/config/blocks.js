@@ -135,6 +135,20 @@ const nswBlocks = [
     },
   },
   {
+    id: 'nsw_linkList',
+    title: 'Link list',
+    icon: sliderSVG,
+    group: 'nsw',
+    view: Components.LinkListView,
+    edit: Components.LinkListEdit,
+    restricted: false,
+    mostUsed: true,
+    security: {
+      addPermission: [],
+      view: [],
+    },
+  },
+  {
     id: 'nsw_section',
     title: 'Section',
     icon: sliderSVG,
