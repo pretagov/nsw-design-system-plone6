@@ -29,13 +29,13 @@ const SkipLinks = () => {
       aria-label={intl.formatMessage(messages.skipLinksTitle)}
     >
       <a className="skiplink" href="#main-navigation">
-        {intl.formatMessage(messages.skipToNavigation)}
+        <span>{intl.formatMessage(messages.skipToNavigation)}</span>
       </a>
       <a className="skiplink" href="#page-document">
-        {intl.formatMessage(messages.skipToContent)}
+        <span>{intl.formatMessage(messages.skipToContent)}</span>
       </a>
       <a className="skiplink" href="#site-footer">
-        {intl.formatMessage(messages.footer)}
+        <span>{intl.formatMessage(messages.footer)}</span>
       </a>
     </nav>
     // </div>
