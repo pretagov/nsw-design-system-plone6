@@ -44,7 +44,7 @@ const RadioWidget = ({
               })}
             >
               {title}
-              {required ? <span class="sr-only"> (required)</span> : null}
+              {required ? <span className="sr-only"> (required)</span> : null}
             </span>
 
             {description ? (

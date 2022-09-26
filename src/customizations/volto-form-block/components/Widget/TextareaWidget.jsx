@@ -72,7 +72,7 @@ const TextareaWidget = (props) => {
           htmlFor={inputId}
         >
           {title}
-          {required ? <span class="sr-only"> (required)</span> : null}
+          {required ? <span className="sr-only"> (required)</span> : null}
         </label>
         <span className="nsw-form__helper" id={`${inputId}-helper-text`}>
           {description}

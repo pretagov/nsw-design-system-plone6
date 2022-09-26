@@ -50,7 +50,7 @@ function TextWidget(props) {
           htmlFor={inputId}
         >
           {title}
-          {required ? <span class="sr-only"> (required)</span> : null}
+          {required ? <span className="sr-only"> (required)</span> : null}
         </label>
         {description ? (
           <span className="nsw-form__helper" id={`${id}-helper-text`}>

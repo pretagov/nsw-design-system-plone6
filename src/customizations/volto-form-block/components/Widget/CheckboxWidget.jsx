@@ -68,8 +68,8 @@ const CheckboxWidget = (props) => {
           {title}
           {required ? (
             <>
-              <span class="nsw-form__required"></span>
-              <span class="sr-only"> (required)</span>
+              <span className="nsw-form__required"></span>
+              <span className="sr-only"> (required)</span>
             </>
           ) : null}
         </label>

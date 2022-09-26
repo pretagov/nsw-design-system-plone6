@@ -53,7 +53,7 @@ const CheckboxListWidget = ({
               })}
             >
               {title}
-              {required ? <span class="sr-only"> (required)</span> : null}
+              {required ? <span className="sr-only"> (required)</span> : null}
             </span>
             {description ? (
               <span className="nsw-form__helper">{description}</span>
@@ -62,7 +62,7 @@ const CheckboxListWidget = ({
           {valueList?.map((opt) => {
             const checkboxId = `field-${id}-${opt.value}`;
             return (
-              <React.Fragment key={id}>
+              <React.Fragment key={checkboxId}>
                 <input
                   className="nsw-form__checkbox-input"
                   type="checkbox"

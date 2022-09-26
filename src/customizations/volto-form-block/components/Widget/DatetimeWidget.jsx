@@ -64,10 +64,12 @@ function DatetimeWidgetComponent(props) {
         <fieldset className="nsw-form__date">
           <legend>
             <span
-              class={cx('nsw-form__label', { 'nsw-form__required': required })}
+              className={cx('nsw-form__label', {
+                'nsw-form__required': required,
+              })}
             >
               {title}
-              {required ? <span class="sr-only"> (required)</span> : null}
+              {required ? <span className="sr-only"> (required)</span> : null}
             </span>
             {description ? (
               <span className="nsw-form__helper" id={`${id}-helper-text`}>
@@ -86,9 +88,9 @@ function DatetimeWidgetComponent(props) {
               <input
                 ref={dayRef}
                 type="text"
-                inputmode="numeric"
+                inputMode="numeric"
                 pattern="[0-9]*"
-                maxlength="2"
+                maxLength="2"
                 id={`${inputId}-day`}
                 name={`${inputId}-day`}
                 className="nsw-form__input"
@@ -105,9 +107,9 @@ function DatetimeWidgetComponent(props) {
               <input
                 ref={monthRef}
                 type="text"
-                inputmode="numeric"
+                inputMode="numeric"
                 pattern="[0-9]*"
-                maxlength="2"
+                maxLength="2"
                 id={`${inputId}-month`}
                 name={`${inputId}-month`}
                 className="nsw-form__input"
@@ -124,9 +126,9 @@ function DatetimeWidgetComponent(props) {
               <input
                 ref={yearRef}
                 type="text"
-                inputmode="numeric"
+                inputMode="numeric"
                 pattern="[0-9]*"
-                maxlength="4"
+                maxLength="4"
                 id={`${inputId}-year`}
                 name={`${inputId}-year`}
                 className="nsw-form__input"
