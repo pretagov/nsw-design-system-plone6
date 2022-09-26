@@ -33,6 +33,19 @@ const messages = defineMessages({
     id: 'Number of columns',
     defaultMessage: 'Number of columns',
   },
+  // Media schema
+  size: {
+    id: 'Size',
+    defaultMessage: 'Size',
+  },
+  caption: {
+    id: 'Caption',
+    defaultMessage: 'Caption',
+  },
+  captionBackgroundColour: {
+    id: 'Caption background colour',
+    defaultMessage: 'Caption background colour',
+  },
 });
 
 // Todo: i18n for component titles and groups
@@ -196,7 +209,82 @@ const blockVariationsToRemove = {
   search: ['facetsTopSide'],
 };
 
+const alignmentPositionSizeMapping = {
+  center: [
+    ['fullWidth', 'Full width'],
+    ['90', '90%'],
+    ['80', '80%'],
+    ['70', '70%'],
+    ['60', '60%'],
+  ],
+  left: [
+    ['50', '50%'],
+    ['40', '40%'],
+    ['30', '30%'],
+  ],
+  right: [
+    ['50', '50%'],
+    ['40', '40%'],
+    ['30', '30%'],
+  ],
+};
+
+function asMediaSchemaExtender(schema, intl, formData) {
+  schema.properties.align.actions = ['center', 'left', 'right'];
+  schema.properties.size = {
+    title: intl.formatMessage(messages.size),
+    type: 'string',
+    factory: 'Choice',
+    choices: formData.align
+      ? alignmentPositionSizeMapping[formData.align]
+      : alignmentPositionSizeMapping['center'],
+    default: formData.align
+      ? alignmentPositionSizeMapping[formData.align][0]
+      : 'fullWidth',
+    value: formData.size
+      ? formData.size
+      : formData.align
+      ? alignmentPositionSizeMapping[formData.align][0]
+      : 'fullWidth',
+  };
+  schema.properties.caption = {
+    title: intl.formatMessage(messages.caption),
+    type: 'string',
+  };
+  schema.properties.captionBackgroundColour = {
+    title: intl.formatMessage(messages.captionBackgroundColour),
+    type: 'string',
+    factory: 'Choice',
+    choices: [
+      ['dark', 'Dark'],
+      ['light', 'Light'],
+      ['transparent', 'No background'],
+    ],
+  };
+  // TODO: 0 is the 'default' fieldset, but should look it up for safety.
+  schema.fieldsets[0].fields = [...schema.fieldsets[0].fields, 'caption'];
+  if (!schema.fieldsets[0].fields.includes('size')) {
+    schema.fieldsets[0].fields = [...schema.fieldsets[0].fields, 'size'];
+  }
+  return schema;
+}
+
 const schemaEnhancers = {
+  video: ({ schema, intl, formData }) => {
+    return asMediaSchemaExtender(schema, intl, formData);
+  },
+  image: ({ schema, intl, formData }) => {
+    return asMediaSchemaExtender(schema, intl, formData);
+  },
+  toc: ({ schema }) => {
+    const fieldsToRemove = ['title', 'hide_title', 'ordered'];
+    fieldsToRemove.map((field) => {
+      const indexToRemove = schema.fieldsets[0].fields.indexOf(field);
+      schema.fieldsets[0].fields.splice(indexToRemove, 1);
+      delete schema.properties[field];
+    });
+    return schema;
+  },
   search: ({ schema, intl }) => {
     schema.properties.facetsTitle.default = intl.formatMessage(
       messages.searchFacetsTitleDefault,
@@ -292,6 +380,19 @@ const removeFieldsFromBlock = (config, blockId, fieldsToRemove) => {
   };
 };
 
+function removeVariationsFromBlock(config, blockId, variationsToRemove) {
+  const blockConfig = config.blocks.blocksConfig[blockId];
+  variationsToRemove.forEach((variationToRemove) => {
+    const indexToRemove = blockConfig.variations.findIndex(
+      (variation) => variation.id === variationToRemove,
+    );
+    if (indexToRemove === -1) {
+      return;
+    }
+    blockConfig.variations.splice(indexToRemove, 1);
+  });
+}
+
 export const updateBlocksConfig = (config) => {
   // Add 'NSW' group
   config.blocks.groupBlocksOrder = [
@@ -322,6 +423,7 @@ export const updateBlocksConfig = (config) => {
   });
 
   removeFieldsFromBlock(config, 'accordion', ['right_arrows', 'non_exclusive']);
+  removeVariationsFromBlock(config, 'toc', ['horizontalMenu']);
 
   // Remove unused block variations
   Object.entries(blockVariationsToRemove).forEach(([blockId, variationIds]) => {
@@ -349,6 +451,9 @@ export const updateBlocksConfig = (config) => {
       ].schemaEnhancer = schemaEnhancer;
     });
   });
+  // const tocConfig = config.blocks.blocksConfig['toc'];
+  // tocConfig.variations.splice(1, 1);
+  // debugger;
 
   // Remove requirement for titles
   config.blocks.requiredBlocks = [];

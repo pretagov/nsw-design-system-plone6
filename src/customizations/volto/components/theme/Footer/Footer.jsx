@@ -35,7 +35,7 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="nsw-footer">
+      <footer id="site-footer" className="nsw-footer">
         {/* <div className="nsw-footer__upper">
           <div className="nsw-container">
             {navItems.map((item) => (
