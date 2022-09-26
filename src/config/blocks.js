@@ -286,6 +286,15 @@ const schemaEnhancers = {
   image: ({ schema, intl, formData }) => {
     return asMediaSchemaExtender(schema, intl, formData);
   },
+  toc: ({ schema }) => {
+    const fieldsToRemove = ['title', 'hide_title', 'ordered'];
+    fieldsToRemove.map((field) => {
+      const indexToRemove = schema.fieldsets[0].fields.indexOf(field);
+      schema.fieldsets[0].fields.splice(indexToRemove, 1);
+      delete schema.properties[field];
+    });
+    return schema;
+  },
   search: ({ schema, intl }) => {
     schema.properties.facetsTitle.default = intl.formatMessage(
       messages.searchFacetsTitleDefault,
@@ -381,6 +390,19 @@ const removeFieldsFromBlock = (config, blockId, fieldsToRemove) => {
   };
 };
 
+function removeVariationsFromBlock(config, blockId, variationsToRemove) {
+  const blockConfig = config.blocks.blocksConfig[blockId];
+  variationsToRemove.forEach((variationToRemove) => {
+    const indexToRemove = blockConfig.variations.findIndex(
+      (variation) => variation.id === variationToRemove,
+    );
+    if (indexToRemove === -1) {
+      return;
+    }
+    blockConfig.variations.splice(indexToRemove, 1);
+  });
+}
+
 export const updateBlocksConfig = (config) => {
   // Add 'NSW' group
   config.blocks.groupBlocksOrder = [
@@ -411,6 +433,7 @@ export const updateBlocksConfig = (config) => {
   });
 
   removeFieldsFromBlock(config, 'accordion', ['right_arrows', 'non_exclusive']);
+  removeVariationsFromBlock(config, 'toc', ['horizontalMenu']);
 
   // Add the schema enhancer for each variation in each block that needs to be customised
   Object.entries(variationSchemaEnhancers).forEach(([blockId, variation]) => {
@@ -426,6 +449,9 @@ export const updateBlocksConfig = (config) => {
       ].schemaEnhancer = schemaEnhancer;
     });
   });
+  // const tocConfig = config.blocks.blocksConfig['toc'];
+  // tocConfig.variations.splice(1, 1);
+  // debugger;
 
   // Remove requirement for titles
   config.blocks.requiredBlocks = [];
