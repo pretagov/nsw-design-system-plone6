@@ -14,10 +14,6 @@ const messages = defineMessages({
     id: 'skiplink-navigation',
     defaultMessage: 'Skip to content',
   },
-  footer: {
-    id: 'skiplink-footer',
-    defaultMessage: 'Skip to footer',
-  },
 });
 
 const SkipLinks = () => {
@@ -33,9 +29,6 @@ const SkipLinks = () => {
       </a>
       <a className="skiplink" href="#page-document">
         <span>{intl.formatMessage(messages.skipToContent)}</span>
-      </a>
-      <a className="skiplink" href="#site-footer">
-        <span>{intl.formatMessage(messages.footer)}</span>
       </a>
     </nav>
     // </div>
