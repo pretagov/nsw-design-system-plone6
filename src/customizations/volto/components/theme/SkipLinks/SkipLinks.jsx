@@ -2,13 +2,17 @@ import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 
 const messages = defineMessages({
-  mainView: {
-    id: 'skiplink-main-content',
-    defaultMessage: 'Skip to main content',
+  skipLinksTitle: {
+    id: 'skiplink-title',
+    defaultMessage: 'Skip to links',
   },
-  navigation: {
-    id: 'skiplink-navigation',
+  skipToNavigation: {
+    id: 'skiplink-main-content',
     defaultMessage: 'Skip to navigation',
+  },
+  skipToContent: {
+    id: 'skiplink-navigation',
+    defaultMessage: 'Skip to content',
   },
   footer: {
     id: 'skiplink-footer',
@@ -20,21 +24,21 @@ const SkipLinks = () => {
   const intl = useIntl();
 
   return (
-    <div
-      className="skiplinks-wrapper"
-      role="complementary"
-      aria-label="skiplinks"
+    <nav
+      class="nsw-skip"
+      aria-label={intl.formatMessage(messages.skipLinksTitle)}
     >
-      <a className="skiplink" href="#view">
-        {intl.formatMessage(messages.mainView)}
+      <a className="skiplink" href="#main-navigation">
+        {intl.formatMessage(messages.skipToNavigation)}
       </a>
-      <a className="skiplink" href="#navigation">
-        {intl.formatMessage(messages.navigation)}
+      <a className="skiplink" href="#page-document">
+        {intl.formatMessage(messages.skipToContent)}
       </a>
-      <a className="skiplink" href="#footer">
+      <a className="skiplink" href="#site-footer">
         {intl.formatMessage(messages.footer)}
       </a>
-    </div>
+    </nav>
+    // </div>
   );
 };
 
