@@ -206,10 +206,13 @@ const Field = ({
             value={value}
           />
         ) : value?.data ? (
-          <div
-            className="static-text"
-            dangerouslySetInnerHTML={{ __html: value.data }}
-          />
+          <>
+            <p height="0">&nbsp;</p>
+            <div
+              className="static-text"
+              dangerouslySetInnerHTML={{ __html: value.data }}
+            />
+          </>
         ) : (
           <br />
         ))}
