@@ -451,9 +451,6 @@ export const updateBlocksConfig = (config) => {
       ].schemaEnhancer = schemaEnhancer;
     });
   });
-  // const tocConfig = config.blocks.blocksConfig['toc'];
-  // tocConfig.variations.splice(1, 1);
-  // debugger;
 
   // Remove requirement for titles
   config.blocks.requiredBlocks = [];
