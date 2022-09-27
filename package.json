@@ -16,10 +16,12 @@
   },
   "addons": [
     "@eeacms/volto-accordion-block",
-    "@kitconcept/volto-blocks-grid"
+    "@kitconcept/volto-blocks-grid",
+    "@eeacms/volto-taxonomy"
   ],
   "dependencies": {
     "@eeacms/volto-accordion-block": "3.4.15",
+    "@eeacms/volto-taxonomy": "^2.0.6",
     "@fontsource/public-sans": "4.5.5",
     "@kitconcept/volto-blocks-grid": "4.2.0",
     "@plone/scripts": "*",
