@@ -17,6 +17,7 @@ export const updateRoutesConfig = (config) => {
   });
 
   config.addonRoutes = [
+    ...config.addonRoutes,
     {
       path: '/search',
       component: View,
