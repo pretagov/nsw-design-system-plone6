@@ -110,7 +110,6 @@ const FileWidget = (props) => {
     const file = files[0];
     readAsDataURL(file).then((data) => {
       const fields = data.match(/^data:(.*);(.*),(.*)$/);
-      debugger;
       onChange(id, {
         data: fields[3],
         encoding: fields[2],
@@ -198,7 +197,10 @@ const FileWidget = (props) => {
                 src={imgsrc}
               />
             ) : (
-              <div className="dropzone-placeholder">
+              <div
+                className="dropzone-placeholder"
+                style={{ borderColor: 'var(--nsw-brand-primary)' }}
+              >
                 {isDragActive ? (
                   <p className="dropzone-text">
                     {intl.formatMessage(messages.releaseDrag)}
@@ -215,7 +217,8 @@ const FileWidget = (props) => {
               </div>
             )}
 
-            <label className="label-file-widget-input">
+            <div className="">{value && value.filename}</div>
+            <label className="nsw-button nsw-button--dark">
               {value
                 ? intl.formatMessage(messages.replaceFile)
                 : intl.formatMessage(messages.addNewFile)}
@@ -233,23 +236,6 @@ const FileWidget = (props) => {
           </div>
         )}
       </Dropzone>
-      <div className="field-file-name">
-        {value && value.filename}
-        {value && (
-          <Button
-            icon
-            basic
-            className="delete-button"
-            aria-label="delete file"
-            onClick={() => {
-              onChange(id, null);
-              setFileType(false);
-            }}
-          >
-            <Icon name={deleteSVG} size="20px" />
-          </Button>
-        )}
-      </div>
     </FormFieldWrapper>
   );
 };
