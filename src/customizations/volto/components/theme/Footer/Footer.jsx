@@ -43,7 +43,7 @@ const Footer = () => {
   }, [dispatch]);
 
   const lowerFooterLinks = subFooter.find(
-    (links) => links.rootPath === 'Lower Footer',
+    (links) => links.rootPath === 'Lower footer',
   );
 
   return (
@@ -73,19 +73,24 @@ const Footer = () => {
           <div className="nsw-container">
             <p>{intl.formatMessage(messages.acknowledgementOfCountry)}</p>
             <hr />
-            <ul>
-              {lowerFooterLinks.items.map(({ title, linkUrl }, index) => {
-                let linkHref = linkUrl[0]['@id'];
-                linkHref = isInternalURL(linkHref)
-                  ? flattenToAppURL(linkHref)
-                  : linkHref;
-                return (
-                  <li key={`lowerLinks-${index}`}>
-                    <Link to={linkHref}>{title}</Link>
-                  </li>
-                );
-              })}
-            </ul>
+            {lowerFooterLinks && lowerFooterLinks.items ? (
+              <ul>
+                {lowerFooterLinks.items.map(({ title, linkUrl }, index) => {
+                  if (!linkUrl) {
+                    return null;
+                  }
+                  let linkHref = linkUrl[0]['@id'];
+                  linkHref = isInternalURL(linkHref)
+                    ? flattenToAppURL(linkHref)
+                    : linkHref;
+                  return (
+                    <li key={`lowerLinks-${index}`}>
+                      <Link to={linkHref}>{title}</Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : null}
             <div className="nsw-footer__info">
               <div className="nsw-footer__copyright">
                 {intl.formatMessage(messages.copyright)}
