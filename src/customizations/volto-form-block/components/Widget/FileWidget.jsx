@@ -187,7 +187,24 @@ const FileWidget = (props) => {
       </div> */}
       <Dropzone onDrop={onDrop}>
         {({ getRootProps, getInputProps, isDragActive }) => (
-          <div className="file-widget-dropzone" {...getRootProps()}>
+          <div
+            className="file-widget-dropzone nsw-form__group"
+            {...getRootProps()}
+          >
+            <label
+              className={cx('nsw-form__label', {
+                'nsw-form__required': required,
+              })}
+              htmlFor={inputId}
+            >
+              {title}
+              {required ? <span className="sr-only"> (required)</span> : null}
+            </label>
+            {description ? (
+              <span className="nsw-form__helper" id={`${id}-helper-text`}>
+                {description}
+              </span>
+            ) : null}
             {isDragActive && <Dimmer active></Dimmer>}
             {fileType ? (
               <Image
@@ -199,7 +216,10 @@ const FileWidget = (props) => {
             ) : (
               <div
                 className="dropzone-placeholder"
-                style={{ borderColor: 'var(--nsw-brand-primary)' }}
+                style={{
+                  borderColor: 'var(--nsw-brand-primary)',
+                  marginTop: '0',
+                }}
               >
                 {isDragActive ? (
                   <p className="dropzone-text">
@@ -218,11 +238,11 @@ const FileWidget = (props) => {
             )}
 
             <div className="">{value && value.filename}</div>
-            <label className="nsw-button nsw-button--dark">
+            <button className="nsw-button nsw-button--dark">
               {value
                 ? intl.formatMessage(messages.replaceFile)
                 : intl.formatMessage(messages.addNewFile)}
-            </label>
+            </button>
             <input
               {...getInputProps({
                 type: 'file',
