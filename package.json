@@ -23,7 +23,6 @@
     "@eeacms/volto-accordion-block": "3.4.15",
     "@fontsource/public-sans": "4.5.5",
     "@kitconcept/volto-blocks-grid": "4.2.0",
-    "@plone/scripts": "*",
     "material-icons": "1.10.8",
     "nsw-design-system": "3.1.0",
     "volto-form-block": "2.6.1"
@@ -32,6 +31,7 @@
     "@plone/volto": "16.0.0-alpha.22"
   },
   "devDependencies": {
+    "@plone/scripts": "2.1.1",
     "mrs-developer": "1.7.1",
     "release-it": "^15.0.0"
   }
