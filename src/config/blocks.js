@@ -219,6 +219,10 @@ const blockVariations = {
   ],
 };
 
+const blockVariationsToRemove = {
+  search: ['facetsTopSide'],
+};
+
 const alignmentPositionSizeMapping = {
   center: [
     ['fullWidth', 'Full width'],
@@ -435,6 +439,18 @@ export const updateBlocksConfig = (config) => {
   removeFieldsFromBlock(config, 'accordion', ['right_arrows', 'non_exclusive']);
   removeVariationsFromBlock(config, 'toc', ['horizontalMenu']);
 
+  // Remove unused block variations
+  Object.entries(blockVariationsToRemove).forEach(([blockId, variationIds]) => {
+    variationIds.forEach((variationId) => {
+      const variationIndex = config.blocks.blocksConfig[
+        blockId
+      ].variations.findIndex((variation) => {
+        return variation.id === variationId;
+      });
+      config.blocks.blocksConfig[blockId].variations.splice(variationIndex, 1);
+    });
+  });
+
   // Add the schema enhancer for each variation in each block that needs to be customised
   Object.entries(variationSchemaEnhancers).forEach(([blockId, variation]) => {
     Object.entries(variation).forEach(([variationId, schemaEnhancer]) => {
@@ -449,9 +465,6 @@ export const updateBlocksConfig = (config) => {
       ].schemaEnhancer = schemaEnhancer;
     });
   });
-  // const tocConfig = config.blocks.blocksConfig['toc'];
-  // tocConfig.variations.splice(1, 1);
-  // debugger;
 
   // Remove requirement for titles
   config.blocks.requiredBlocks = [];
