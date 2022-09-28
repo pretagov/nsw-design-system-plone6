@@ -1292,10 +1292,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@kitconcept/volto-blocks-grid@4.2.0":
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/@kitconcept/volto-blocks-grid/-/volto-blocks-grid-4.2.0.tgz#6f1611285773e195b6f39bd4804af6367add1010"
-  integrity sha512-duaVrrzCgAHHI7wPemRRm2zCZ05fRJyMFCY8z13nHHz9OJemjripLZZv6sUddgge/+EyZc07+zJGcgP7gZodOA==
+"@kitconcept/volto-blocks-grid@5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@kitconcept/volto-blocks-grid/-/volto-blocks-grid-5.0.1.tgz#bc342b6ab632056a3e54832e966df4194b57f3f6"
+  integrity sha512-KaiKFlhaztD77evB1KyBUEOVxj2gt6JLRoDph6YCO9YyQxBGl+nnjahc+eBj23NBGdMCNRM9rgGw1+DvET45bg==
   dependencies:
     "@plone/scripts" "*"
 
