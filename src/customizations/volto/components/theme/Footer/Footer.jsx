@@ -26,49 +26,80 @@ const messages = defineMessages({
   },
 });
 
-const Footer = () => {
+function Footer() {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const { navItems, siteActions, subFooter } = useSelector((state) => ({
+  const { subFooter } = useSelector((state) => ({
     navItems: state.navigation.items,
     siteActions: state.actions.actions.site_actions,
     subFooter: state.reduxAsyncConnect.subfooter,
   }));
-
-  console.log(subFooter);
 
   useEffect(() => {
     dispatch(getNavigation(getBaseUrl(''), 2));
     dispatch(getSubFooter());
   }, [dispatch]);
 
-  const lowerFooterLinks = subFooter.find(
+  const lowerFooterLinksIndex = subFooter.findIndex(
     (links) => links.rootPath === 'Lower footer',
   );
+  const lowerFooterLinks = subFooter[lowerFooterLinksIndex];
+  const upperFooterLinks = subFooter.slice(lowerFooterLinksIndex + 1);
 
   return (
     <>
       <footer id="site-footer" className="nsw-footer">
-        {/* <div className="nsw-footer__upper">
+        <div className="nsw-footer__upper">
           <div className="nsw-container">
-            {navItems.map((item) => (
-              <div key={item.url} className="nsw-footer__group">
-                <div className="nsw-footer__heading">
-                  <Link to={item.url}>{item.title}</Link>
+            {upperFooterLinks.map((linkGroup) => {
+              const headingItem = linkGroup.items[0];
+              const groupItems = linkGroup.items.slice(1);
+
+              let headingItemHref =
+                headingItem.linkUrl && headingItem.linkUrl[0]
+                  ? headingItem.linkUrl[0]['@id']
+                  : null;
+              headingItemHref = isInternalURL(headingItemHref)
+                ? flattenToAppURL(headingItemHref)
+                : headingItemHref;
+
+              return (
+                <div key={linkGroup['rootPath']} className="nsw-footer__group">
+                  <div className="nsw-footer__heading">
+                    {headingItemHref ? (
+                      <Link to={headingItemHref}>{headingItem.title}</Link>
+                    ) : (
+                      headingItem.title
+                    )}
+                  </div>
+                  {groupItems ? (
+                    <ul>
+                      {/* TODO: There's tonnes of this volto-subform -> li logic around... component anyone? */}
+                      {groupItems.map((subitem) => {
+                        let subitemHref =
+                          subitem.linkUrl && subitem.linkUrl[0]
+                            ? subitem.linkUrl[0]['@id']
+                            : null;
+                        subitemHref = isInternalURL(subitemHref)
+                          ? flattenToAppURL(subitemHref)
+                          : subitemHref;
+                        return (
+                          <li>
+                            {subitemHref ? (
+                              <Link to={subitemHref}>{subitem.title}</Link>
+                            ) : (
+                              subitem.title
+                            )}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  ) : null}
                 </div>
-                {item.items ? (
-                  <ul>
-                    {item.items.map((subitem) => (
-                      <li key={subitem.url}>
-                        <Link to={subitem.url}>{subitem.title}</Link>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-              </div>
-            ))}
+              );
+            })}
           </div>
-        </div> */}
+        </div>
         <div className="nsw-footer__lower">
           <div className="nsw-container">
             <p>{intl.formatMessage(messages.acknowledgementOfCountry)}</p>
@@ -107,6 +138,6 @@ const Footer = () => {
       </footer>
     </>
   );
-};
+}
 
 export default Footer;
