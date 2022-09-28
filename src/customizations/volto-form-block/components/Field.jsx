@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import styles from '../custom/volto-form-block.css';
 
 import WysiwygWidget from '@plone/volto/components/manage/Widgets/WysiwygWidget';
 
