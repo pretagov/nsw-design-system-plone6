@@ -1,0 +1,39 @@
+.nsw-form__file-input::file-selector-button {
+  border: 2px var(--nsw-brand-dark) solid;
+  color: var(--nsw-brand-dark);
+  background-color: transparent;
+  min-width: 7.75rem;
+  border-radius: var(--nsw-border-radius);
+  padding: 0.625rem 1.375rem;
+  font-size: var(--nsw-font-size-sm-mobile);
+  font-family: var(--nsw-font-family);
+  font-weight: var(--nsw-font-bold);
+  margin-right: 0.8rem;
+}
+.nsw-form__file-input:hover::file-selector-button {
+  color: var(--nsw-text-light);
+  background-color: var(--nsw-brand-dark);
+}
+/* .nsw-form__file-input {
+  opacity: 0;
+  width: 0.1px;
+  height: 0.1px;
+  position: absolute;
+}
+
+.nsw-form__file-input label {
+  display: block;
+  position: relative;
+  width: 200px;
+  height: 50px;
+  border-radius: 25px;
+  background: linear-gradient(40deg, #ff6ec4, #7873f5);
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease-out;
+} */
