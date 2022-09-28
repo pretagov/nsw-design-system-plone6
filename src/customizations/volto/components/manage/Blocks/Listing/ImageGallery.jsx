@@ -3,7 +3,6 @@ import { flattenToAppURL } from '@plone/volto/helpers';
 import React from 'react';
 
 const ListItemsTemplate = ({ items, isEditMode, imagePosition }) => {
-  debugger;
   return (
     <div className="nsw-list-items">
       {items.map((item) => {

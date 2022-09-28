@@ -22,7 +22,7 @@ const FacetWrapper = ({ children }) => (
   <div className="nsw-filters__item">{children}</div>
 );
 
-const LeftColumnFacets = (props) => {
+const RightColumnFacets = (props) => {
   const {
     children,
     data,
@@ -48,7 +48,7 @@ const LeftColumnFacets = (props) => {
   const batchSize = data.query?.b_size || config.settings.defaultPageSize;
 
   return (
-    <div className="searchBlock-facets left-column-facets">
+    <div className="searchBlock-facets right-column-facets">
       <div className="nsw-layout">
         {(Object.keys(data).includes('showSearchInput')
           ? data.showSearchInput
@@ -65,32 +65,6 @@ const LeftColumnFacets = (props) => {
         )}
       </div>
       <div className={cx('nsw-layout', { 'nsw-filters--instant': isLive })}>
-        {data.facets && Object.keys(data.facets).length !== 0 ? (
-          <>
-            <div className="nsw-layout__sidebar">
-              <div className="nsw-filters">
-                <div className="nsw-filters__wrapper">
-                  <div className="nsw-filters__title">{data.facetsTitle}</div>
-                  <Facets
-                    querystring={querystring}
-                    data={data}
-                    facets={facets}
-                    setFacets={(f) => {
-                      flushSync(() => {
-                        setFacets(f);
-                        onTriggerSearch(searchedText || '', f);
-                      });
-                    }}
-                    facetWrapper={FacetWrapper}
-                  />
-                  <div className="nsw-filters__cancel">
-                    <button type="reset">Clear all filters</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
-        ) : null}
         <div className="nsw-layout__main">
           <div className="nsw-results-bar">
             <SearchDetails total={totalItems} batchSize={batchSize} />
@@ -134,9 +108,35 @@ const LeftColumnFacets = (props) => {
           />
           {children}
         </div>
+        {data.facets && Object.keys(data.facets).length !== 0 ? (
+          <>
+            <div className="nsw-layout__sidebar">
+              <div className="nsw-filters">
+                <div className="nsw-filters__wrapper">
+                  <div className="nsw-filters__title">{data.facetsTitle}</div>
+                  <Facets
+                    querystring={querystring}
+                    data={data}
+                    facets={facets}
+                    setFacets={(f) => {
+                      flushSync(() => {
+                        setFacets(f);
+                        onTriggerSearch(searchedText || '', f);
+                      });
+                    }}
+                    facetWrapper={FacetWrapper}
+                  />
+                  <div className="nsw-filters__cancel">
+                    <button type="reset">Clear all filters</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        ) : null}
       </div>
     </div>
   );
 };
 
-export default LeftColumnFacets;
+export default RightColumnFacets;
