@@ -21,7 +21,7 @@ const SkipLinks = () => {
 
   return (
     <nav
-      class="nsw-skip"
+      className="nsw-skip"
       aria-label={intl.formatMessage(messages.skipLinksTitle)}
     >
       <a className="skiplink" href="#main-navigation">
