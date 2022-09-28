@@ -25,11 +25,6 @@ const CardView = ({ data, isEditMode }) => {
         <div className="nsw-card__image">
           <img
             src={`data:${data.image['content-type']};base64,${data.image.data}`}
-            // src={
-            //   isInternalURL(data.image)
-            //     ? flattenToAppURL(data.image)
-            //     : data.image
-            // }
             alt=""
           />
         </div>

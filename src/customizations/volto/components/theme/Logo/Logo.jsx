@@ -11,9 +11,10 @@ const Logo = () => {
       siteTitle: state.siteInfo.title,
     };
   });
+
   return (
     <UniversalLink href={settings.isMultilingual ? `/${lang}` : '/'}>
-      {logoUrl ? (
+      {logoUrl && !logoUrl.includes('++resource++plone-logo.svg') ? (
         <img style={{ height: '4.75rem' }} src={logoUrl} alt={siteTitle} />
       ) : (
         <>
