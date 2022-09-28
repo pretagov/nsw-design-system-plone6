@@ -24,6 +24,7 @@ const fullWidthBlockTypes = [
   'nsw_section',
   'nsw_inPageAlert',
   'nsw_announcementBar',
+  'form',
 ];
 const coreContentBlockTypes = [
   'text',

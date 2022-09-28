@@ -78,7 +78,11 @@ const FormView = ({
         </Message>
       ) : (
         // TODO: The original component has a `loading` state. Is this needed here?
-        <form className="nsw-form" onSubmit={onSubmit} method="post">
+        <form
+          className="nsw-form nsw-container"
+          onSubmit={onSubmit}
+          method="post"
+        >
           {data.static_fields?.map((field) => {
             return (
               <Field
