@@ -77,7 +77,7 @@ const Footer = () => {
               <ul>
                 {lowerFooterLinks.items.map(({ title, linkUrl }, index) => {
                   if (!linkUrl) {
-                    return null;
+                    return <li key={`lowerLinks-${index}`}>{title}</li>;
                   }
                   let linkHref = linkUrl[0]['@id'];
                   linkHref = isInternalURL(linkHref)
