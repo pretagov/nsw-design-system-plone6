@@ -49,82 +49,91 @@ function Footer() {
   return (
     <>
       <footer id="site-footer" className="nsw-footer">
-        <div className="nsw-footer__upper">
-          <div className="nsw-container">
-            {upperFooterLinks
-              ? upperFooterLinks.map((linkGroup) => {
-                  const headingItem = linkGroup.items[0];
-                  const groupItems = linkGroup.items.slice(1);
+        {upperFooterLinks ? (
+          <div className="nsw-footer__upper">
+            <div className="nsw-container">
+              {upperFooterLinks.map((linkGroup) => {
+                const headingItem = linkGroup.items[0];
+                const groupItems = linkGroup.items.slice(1);
 
-                  let headingItemHref =
-                    headingItem.linkUrl && headingItem.linkUrl[0]
-                      ? headingItem.linkUrl[0]['@id']
-                      : null;
-                  headingItemHref = isInternalURL(headingItemHref)
-                    ? flattenToAppURL(headingItemHref)
-                    : headingItemHref;
+                let headingItemHref =
+                  headingItem.linkUrl && headingItem.linkUrl[0]
+                    ? headingItem.linkUrl[0]['@id']
+                    : null;
+                headingItemHref = headingItem.href
+                  ? headingItem.href
+                  : headingItemHref;
+                headingItemHref = isInternalURL(headingItemHref)
+                  ? flattenToAppURL(headingItemHref)
+                  : headingItemHref;
 
-                  return (
-                    <div
-                      key={linkGroup['rootPath']}
-                      className="nsw-footer__group"
-                    >
-                      <div className="nsw-footer__heading">
-                        {headingItemHref ? (
-                          <Link to={headingItemHref}>{headingItem.title}</Link>
-                        ) : (
-                          headingItem.title
-                        )}
-                      </div>
-                      {groupItems ? (
-                        <ul>
-                          {/* TODO: There's tonnes of this volto-subform -> li logic around... component anyone? */}
-                          {groupItems.map((subitem) => {
-                            let subitemHref =
-                              subitem.linkUrl && subitem.linkUrl[0]
-                                ? subitem.linkUrl[0]['@id']
-                                : null;
-                            subitemHref = isInternalURL(subitemHref)
-                              ? flattenToAppURL(subitemHref)
-                              : subitemHref;
-                            return (
-                              <li>
-                                {subitemHref ? (
-                                  <Link to={subitemHref}>{subitem.title}</Link>
-                                ) : (
-                                  subitem.title
-                                )}
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      ) : null}
+                return (
+                  <div
+                    key={linkGroup['rootPath']}
+                    className="nsw-footer__group"
+                  >
+                    <div className="nsw-footer__heading">
+                      {headingItemHref ? (
+                        <Link to={headingItemHref}>{headingItem.title}</Link>
+                      ) : (
+                        headingItem.title
+                      )}
                     </div>
-                  );
-                })
-              : null}
+                    {groupItems ? (
+                      <ul>
+                        {/* TODO: There's tonnes of this volto-subform -> li logic around... component anyone? */}
+                        {groupItems.map((subitem) => {
+                          let subitemHref =
+                            subitem.linkUrl && subitem.linkUrl[0]
+                              ? subitem.linkUrl[0]['@id']
+                              : null;
+                          subitemHref = subitem.href
+                            ? subitem.href
+                            : subitemHref;
+                          subitemHref = isInternalURL(subitemHref)
+                            ? flattenToAppURL(subitemHref)
+                            : subitemHref;
+                          return (
+                            <li>
+                              {subitemHref ? (
+                                <Link to={subitemHref}>{subitem.title}</Link>
+                              ) : (
+                                subitem.title
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    ) : null}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        ) : null}
         <div className="nsw-footer__lower">
           <div className="nsw-container">
             <p>{intl.formatMessage(messages.acknowledgementOfCountry)}</p>
             <hr />
             {lowerFooterLinks && lowerFooterLinks.items ? (
               <ul>
-                {lowerFooterLinks.items.map(({ title, linkUrl }, index) => {
-                  if (!linkUrl) {
-                    return <li key={`lowerLinks-${index}`}>{title}</li>;
-                  }
-                  let linkHref = linkUrl[0]['@id'];
-                  linkHref = isInternalURL(linkHref)
-                    ? flattenToAppURL(linkHref)
-                    : linkHref;
-                  return (
-                    <li key={`lowerLinks-${index}`}>
-                      <Link to={linkHref}>{title}</Link>
-                    </li>
-                  );
-                })}
+                {lowerFooterLinks.items.map(
+                  ({ title, linkUrl, href }, index) => {
+                    debugger;
+                    if (!linkUrl && !href) {
+                      return <li key={`lowerLinks-${index}`}>{title}</li>;
+                    }
+                    let linkHref = href ? href : linkUrl[0]['@id'];
+                    linkHref = isInternalURL(linkHref)
+                      ? flattenToAppURL(linkHref)
+                      : linkHref;
+                    return (
+                      <li key={`lowerLinks-${index}`}>
+                        <Link to={linkHref}>{title}</Link>
+                      </li>
+                    );
+                  },
+                )}
               </ul>
             ) : null}
             <div className="nsw-footer__info">
