@@ -21,10 +21,10 @@
     "volto-subfooter"
   ],
   "dependencies": {
-    "@eeacms/volto-accordion-block": "3.4.15",
+    "@eeacms/volto-accordion-block": "4.0.0",
     "@fontsource/public-sans": "4.5.10",
     "@kitconcept/volto-blocks-grid": "5.0.1",
-    "material-icons": "1.10.8",
+    "material-icons": "1.11.11",
     "nsw-design-system": "3.2.4",
     "volto-form-block": "2.6.1",
     "volto-subfooter": "1.1.0"
