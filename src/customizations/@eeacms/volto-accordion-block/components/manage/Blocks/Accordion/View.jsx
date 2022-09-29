@@ -6,8 +6,8 @@ import {
   getBlocksLayoutFieldname,
   withBlockExtensions,
 } from '@plone/volto/helpers';
-import { injectLazyLibs } from '@plone/volto/helpers/Loadable/Loadable';
 import React, { useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 
 // Copied from @eeacms/volto-accordion-block as it doesn't seem to want to be imported
 const getPanels = (data) => {
@@ -31,6 +31,7 @@ const accordionBlockHasValue = (content) => {
 
 const View = (props) => {
   const { data, metadata, properties } = props;
+  const location = useLocation();
   const panels = getPanels(data.data);
   const blockMetadata = metadata || properties;
 
@@ -45,7 +46,7 @@ const View = (props) => {
 
   return (
     <div
-      className="accordion-block nsw-accordion js-accordion"
+      className={`accordion-block nsw-accordion js-accordion ${data.styles?.theme}`}
       ref={accordionElement}
     >
       {panels.map(([id, panel], index) => {
@@ -55,6 +56,7 @@ const View = (props) => {
             <div className="nsw-accordion__content">
               <RenderBlocks
                 {...props}
+                location={location}
                 metadata={blockMetadata}
                 content={panel}
               />
