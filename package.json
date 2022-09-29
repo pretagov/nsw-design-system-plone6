@@ -30,7 +30,7 @@
     "volto-subfooter": "1.1.0"
   },
   "peerDependencies": {
-    "@plone/volto": "16.0.0-alpha.22"
+    "@plone/volto": "16.0.0-alpha.39"
   },
   "devDependencies": {
     "@plone/scripts": "2.1.1",
