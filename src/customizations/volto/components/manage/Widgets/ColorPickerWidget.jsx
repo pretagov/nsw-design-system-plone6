@@ -1,8 +1,8 @@
-import React from 'react';
+import { FormFieldWrapper } from '@plone/volto/components';
 import PropTypes from 'prop-types';
-import { Form } from 'semantic-ui-react';
-import { Grid, Button } from 'semantic-ui-react';
+import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
+import { Button } from 'semantic-ui-react';
 
 const messages = defineMessages({
   Color: {
@@ -24,48 +24,56 @@ const ColorPickerWidget = (props) => {
   });
 
   return colors.length > 0 ? (
-    <Form.Field
-      inline
-      required={required}
-      className={className}
-      id={'field-' + id}
+    <FormFieldWrapper
+      {...props}
+      title={title ? title : intl.formatMessage(messages.Color)}
+      className="color_picker"
     >
-      <Grid>
-        <Grid.Row>
-          <Grid.Column
-            width="12"
-            className="color-picker-widget"
-            verticalAlign="middle"
-          >
-            <div className="wrapper">
-              <label htmlFor={`field-${id}`}>
-                {title ? title : intl.formatMessage(messages.Color)}
-              </label>
-
-              <div className="buttons">
-                {colors.map((color) => {
-                  return (
-                    <Button
-                      key={id + color.name}
-                      className={color.name}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        onChange(id, color.name);
-                      }}
-                      active={value === color.name}
-                      circular
-                      aria-label={color.label}
-                      title={color.label}
-                    />
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(10, 1fr)',
+          gridTemplateRows: 'repeat(4, 1fr)',
+          gap: 0,
+        }}
+      >
+        {colors.map((color) => {
+          const colourVariable = `var(--nsw-palette-${color.name})`;
+          return (
+            <>
+              <Button
+                key={id + color.name}
+                // className={color.name}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onChange(id, color.name);
+                  // document.body.style.setProperty(
+                  //   '--nsw-brand-dark',
+                  //   color.name,
+                  // );
+                  document.documentElement.style.setProperty(
+                    '--nsw-brand-dark',
+                    colourVariable,
                   );
-                })}
-              </div>
-            </div>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    </Form.Field>
+                }}
+                active={value === color.name}
+                circular
+                aria-label={color.label}
+                title={color.label}
+                style={{
+                  borderRadius: 0,
+                  backgroundColor: colourVariable,
+                  margin: 0,
+                }}
+              >
+                {color.label}
+              </Button>
+            </>
+          );
+        })}
+      </div>
+    </FormFieldWrapper>
   ) : null;
 };
 
