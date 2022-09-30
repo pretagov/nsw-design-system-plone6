@@ -1,9 +1,14 @@
 import { getNavigation } from '@plone/volto/actions';
-import { getBaseUrl } from '@plone/volto/helpers';
+import {
+  flattenToAppURL,
+  getBaseUrl,
+  isInternalURL,
+} from '@plone/volto/helpers';
 import React, { useEffect } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getSubFooter } from 'volto-subfooter';
 
 const messages = defineMessages({
   copyright: {
@@ -21,52 +26,124 @@ const messages = defineMessages({
   },
 });
 
-const Footer = () => {
+function Footer() {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const { navItems, siteActions } = useSelector((state) => ({
+  const { subFooter } = useSelector((state) => ({
     navItems: state.navigation.items,
     siteActions: state.actions.actions.site_actions,
+    subFooter: state.reduxAsyncConnect.subfooter,
   }));
 
   useEffect(() => {
     dispatch(getNavigation(getBaseUrl(''), 2));
+    dispatch(getSubFooter());
   }, [dispatch]);
+
+  const lowerFooterLinksIndex = subFooter?.findIndex(
+    (links) => links.rootPath === 'Lower footer',
+  );
+  const lowerFooterLinks = subFooter[lowerFooterLinksIndex];
+  const upperFooterLinks = subFooter?.filter(
+    (item, index) => index !== lowerFooterLinksIndex,
+  );
 
   return (
     <>
       <footer id="site-footer" className="nsw-footer">
-        {/* <div className="nsw-footer__upper">
-          <div className="nsw-container">
-            {navItems.map((item) => (
-              <div key={item.url} className="nsw-footer__group">
-                <div className="nsw-footer__heading">
-                  <Link to={item.url}>{item.title}</Link>
-                </div>
-                {item.items ? (
-                  <ul>
-                    {item.items.map((subitem) => (
-                      <li key={subitem.url}>
-                        <Link to={subitem.url}>{subitem.title}</Link>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-              </div>
-            ))}
+        {upperFooterLinks ? (
+          <div className="nsw-footer__upper">
+            <div className="nsw-container">
+              {upperFooterLinks.map((linkGroup) => {
+                const headingItem = linkGroup.items[0];
+
+                if (!headingItem) {
+                  return null;
+                }
+
+                const groupItems = linkGroup.items.slice(1);
+
+                let headingItemHref = headingItem.href
+                  ? headingItem.href
+                  : headingItem.linkUrl && headingItem.linkUrl[0]
+                  ? headingItem.linkUrl[0]['@id']
+                  : null;
+                headingItemHref = headingItemHref = isInternalURL(
+                  headingItemHref,
+                )
+                  ? flattenToAppURL(headingItemHref)
+                  : headingItemHref;
+
+                return (
+                  <div
+                    key={linkGroup['rootPath']}
+                    className="nsw-footer__group"
+                  >
+                    <div className="nsw-footer__heading">
+                      {headingItemHref ? (
+                        <Link to={headingItemHref}>{headingItem.title}</Link>
+                      ) : (
+                        headingItem.title
+                      )}
+                    </div>
+                    {groupItems ? (
+                      <ul>
+                        {/* TODO: There's tonnes of this volto-subform -> li logic around... component anyone? */}
+                        {groupItems.map(
+                          ({ title, linkUrl, href, visible }, index) => {
+                            if (visible === false) {
+                              return null;
+                            }
+                            const key = `${linkGroup['rootPath']}-lowerLinks-${index}`;
+                            if (!linkUrl && !href) {
+                              return <li key={key}>{title}</li>;
+                            }
+                            let linkHref = href ? href : linkUrl[0]['@id'];
+                            linkHref = isInternalURL(linkHref)
+                              ? flattenToAppURL(linkHref)
+                              : linkHref;
+                            return (
+                              <li key={key}>
+                                <Link to={linkHref}>{title}</Link>
+                              </li>
+                            );
+                          },
+                        )}
+                      </ul>
+                    ) : null}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div> */}
+        ) : null}
         <div className="nsw-footer__lower">
           <div className="nsw-container">
             <p>{intl.formatMessage(messages.acknowledgementOfCountry)}</p>
             <hr />
-            {/* <ul>
-              {siteActions.map((action, index) => (
-                <li key={index}>
-                  <Link to={`/${action.id}`}>{action.title}</Link>
-                </li>
-              ))}
-            </ul> */}
+            {lowerFooterLinks && lowerFooterLinks.items ? (
+              <ul>
+                {lowerFooterLinks.items.map(
+                  ({ title, linkUrl, href, visible }, index) => {
+                    if (visible === false) {
+                      return null;
+                    }
+                    if (!linkUrl && !href) {
+                      return <li key={`lowerLinks-${index}`}>{title}</li>;
+                    }
+                    let linkHref = href ? href : linkUrl[0]['@id'];
+                    linkHref = isInternalURL(linkHref)
+                      ? flattenToAppURL(linkHref)
+                      : linkHref;
+                    return (
+                      <li key={`lowerLinks-${index}`}>
+                        <Link to={linkHref}>{title}</Link>
+                      </li>
+                    );
+                  },
+                )}
+              </ul>
+            ) : null}
             <div className="nsw-footer__info">
               <div className="nsw-footer__copyright">
                 {intl.formatMessage(messages.copyright)}
@@ -83,6 +160,6 @@ const Footer = () => {
       </footer>
     </>
   );
-};
+}
 
 export default Footer;
