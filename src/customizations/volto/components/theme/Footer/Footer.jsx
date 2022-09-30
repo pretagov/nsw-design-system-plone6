@@ -54,16 +54,21 @@ function Footer() {
             <div className="nsw-container">
               {upperFooterLinks.map((linkGroup) => {
                 const headingItem = linkGroup.items[0];
+
+                if (!headingItem) {
+                  return null;
+                }
+
                 const groupItems = linkGroup.items.slice(1);
 
-                let headingItemHref =
-                  headingItem.linkUrl && headingItem.linkUrl[0]
-                    ? headingItem.linkUrl[0]['@id']
-                    : null;
-                headingItemHref = headingItem.href
+                let headingItemHref = headingItem.href
                   ? headingItem.href
-                  : headingItemHref;
-                headingItemHref = isInternalURL(headingItemHref)
+                  : headingItem.linkUrl && headingItem.linkUrl[0]
+                  ? headingItem.linkUrl[0]['@id']
+                  : null;
+                headingItemHref = headingItemHref = isInternalURL(
+                  headingItemHref,
+                )
                   ? flattenToAppURL(headingItemHref)
                   : headingItemHref;
 
@@ -82,27 +87,26 @@ function Footer() {
                     {groupItems ? (
                       <ul>
                         {/* TODO: There's tonnes of this volto-subform -> li logic around... component anyone? */}
-                        {groupItems.map((subitem) => {
-                          let subitemHref =
-                            subitem.linkUrl && subitem.linkUrl[0]
-                              ? subitem.linkUrl[0]['@id']
-                              : null;
-                          subitemHref = subitem.href
-                            ? subitem.href
-                            : subitemHref;
-                          subitemHref = isInternalURL(subitemHref)
-                            ? flattenToAppURL(subitemHref)
-                            : subitemHref;
-                          return (
-                            <li>
-                              {subitemHref ? (
-                                <Link to={subitemHref}>{subitem.title}</Link>
-                              ) : (
-                                subitem.title
-                              )}
-                            </li>
-                          );
-                        })}
+                        {groupItems.map(
+                          ({ title, linkUrl, href, visible }, index) => {
+                            if (visible === false) {
+                              return null;
+                            }
+                            const key = `${linkGroup['rootPath']}-lowerLinks-${index}`;
+                            if (!linkUrl && !href) {
+                              return <li key={key}>{title}</li>;
+                            }
+                            let linkHref = href ? href : linkUrl[0]['@id'];
+                            linkHref = isInternalURL(linkHref)
+                              ? flattenToAppURL(linkHref)
+                              : linkHref;
+                            return (
+                              <li key={key}>
+                                <Link to={linkHref}>{title}</Link>
+                              </li>
+                            );
+                          },
+                        )}
                       </ul>
                     ) : null}
                   </div>
@@ -118,7 +122,10 @@ function Footer() {
             {lowerFooterLinks && lowerFooterLinks.items ? (
               <ul>
                 {lowerFooterLinks.items.map(
-                  ({ title, linkUrl, href }, index) => {
+                  ({ title, linkUrl, href, visible }, index) => {
+                    if (visible === false) {
+                      return null;
+                    }
                     if (!linkUrl && !href) {
                       return <li key={`lowerLinks-${index}`}>{title}</li>;
                     }
