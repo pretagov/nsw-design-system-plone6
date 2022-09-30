@@ -5,7 +5,8 @@
     "tagName": "${version}"
   },
   "github": {
-    "release": true
+    "release": true,
+    "draft": false
   },
   "npm": {
     "publish": true
