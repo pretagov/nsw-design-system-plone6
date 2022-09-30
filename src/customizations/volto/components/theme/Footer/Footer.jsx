@@ -44,7 +44,9 @@ function Footer() {
     (links) => links.rootPath === 'Lower footer',
   );
   const lowerFooterLinks = subFooter[lowerFooterLinksIndex];
-  const upperFooterLinks = subFooter?.slice(lowerFooterLinksIndex + 1);
+  const upperFooterLinks = subFooter?.filter(
+    (item, index) => index !== lowerFooterLinksIndex,
+  );
 
   return (
     <>
