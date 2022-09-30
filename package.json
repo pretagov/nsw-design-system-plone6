@@ -1,6 +1,6 @@
 {
   "name": "nsw-design-system-plone6",
-  "version": "0.1.0-canary.0",
+  "version": "0.1.0",
   "description": "nsw-design-system-plone6: Volto add-on",
   "main": "src/index.js",
   "license": "MIT",
@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "i18n": "rm -rf build/messages && NODE_ENV=production i18n --addon",
-    "release": "release-it"
+    "release": "npx release-it"
   },
   "addons": [
     "@eeacms/volto-accordion-block",
