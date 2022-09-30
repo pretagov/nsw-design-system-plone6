@@ -119,7 +119,6 @@ function Footer() {
               <ul>
                 {lowerFooterLinks.items.map(
                   ({ title, linkUrl, href }, index) => {
-                    debugger;
                     if (!linkUrl && !href) {
                       return <li key={`lowerLinks-${index}`}>{title}</li>;
                     }
