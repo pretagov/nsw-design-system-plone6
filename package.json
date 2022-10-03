@@ -22,7 +22,7 @@
   ],
   "dependencies": {
     "@eeacms/volto-accordion-block": "4.0.0",
-    "@fontsource/public-sans": "4.5.10",
+    "@fontsource/public-sans": "4.5.11",
     "@kitconcept/volto-blocks-grid": "5.0.1",
     "material-icons": "1.12.0",
     "nsw-design-system": "3.2.4",
