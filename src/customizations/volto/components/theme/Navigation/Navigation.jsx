@@ -136,10 +136,11 @@ const MainNavItem = ({ item }) => {
 const Navigation = () => {
   const intl = useIntl();
   const location = useLocation();
-  const { items } = useSelector((state) => ({
+  const { items, root } = useSelector((state) => ({
     token: state.userSession.token,
     items: state.reduxAsyncConnect.navigation?.items || state.navigation?.items,
     lang: state.intl.locale,
+    root: state.reduxAsyncConnect.breadcrumbs.root,
   }));
 
   const navigationController = useRef(null);
@@ -196,6 +197,9 @@ const Navigation = () => {
         </div>
         <ul className="nsw-main-nav__list">
           {items.map((item) => {
+            if (getItemUrl(item) === root) {
+              return null;
+            }
             return (
               <li key={getItemUrl(item)}>
                 <MainNavItem item={item} />
