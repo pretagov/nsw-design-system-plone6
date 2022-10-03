@@ -51,7 +51,7 @@ function Footer() {
   return (
     <>
       <footer id="site-footer" className="nsw-footer">
-        {upperFooterLinks ? (
+        {upperFooterLinks && upperFooterLinks.length > 0 ? (
           <div className="nsw-footer__upper">
             <div className="nsw-container">
               {upperFooterLinks.map((linkGroup) => {
@@ -98,7 +98,7 @@ function Footer() {
                             if (!linkUrl && !href) {
                               return <li key={key}>{title}</li>;
                             }
-                            let linkHref = href ? href : linkUrl[0]['@id'];
+                            let linkHref = href ? href : linkUrl[0]?.['@id'];
                             linkHref = isInternalURL(linkHref)
                               ? flattenToAppURL(linkHref)
                               : linkHref;
@@ -131,7 +131,7 @@ function Footer() {
                     if (!linkUrl && !href) {
                       return <li key={`lowerLinks-${index}`}>{title}</li>;
                     }
-                    let linkHref = href ? href : linkUrl[0]['@id'];
+                    let linkHref = href ? href : linkUrl[0]?.['@id'];
                     linkHref = isInternalURL(linkHref)
                       ? flattenToAppURL(linkHref)
                       : linkHref;

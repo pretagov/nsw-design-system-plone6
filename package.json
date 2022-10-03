@@ -1,6 +1,6 @@
 {
   "name": "nsw-design-system-plone6",
-  "version": "0.1.0-canary.0",
+  "version": "0.2.0",
   "description": "nsw-design-system-plone6: Volto add-on",
   "main": "src/index.js",
   "license": "MIT",
@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "i18n": "rm -rf build/messages && NODE_ENV=production i18n --addon",
-    "release": "release-it"
+    "release": "npx release-it"
   },
   "addons": [
     "@eeacms/volto-accordion-block",
@@ -22,11 +22,11 @@
   ],
   "dependencies": {
     "@eeacms/volto-accordion-block": "4.0.0",
-    "@fontsource/public-sans": "4.5.10",
-    "@kitconcept/volto-blocks-grid": "5.0.1",
-    "material-icons": "1.11.11",
+    "@fontsource/public-sans": "4.5.11",
+    "@kitconcept/volto-blocks-grid": "5.1.1",
+    "material-icons": "1.12.0",
     "nsw-design-system": "3.2.4",
-    "volto-form-block": "2.6.1",
+    "volto-form-block": "2.7.1",
     "volto-subfooter": "1.1.0"
   },
   "peerDependencies": {
