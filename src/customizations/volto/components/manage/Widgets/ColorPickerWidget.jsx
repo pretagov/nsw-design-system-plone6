@@ -31,47 +31,68 @@ const ColorPickerWidget = (props) => {
     >
       <div
         style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(10, 1fr)',
-          gridTemplateRows: 'repeat(4, 1fr)',
-          gap: 0,
+          overflowX: 'auto',
+          paddingBottom: '0.5rem',
+          scrollBehavior: 'smooth',
         }}
       >
-        {colors.map((color) => {
-          const colourVariable = `var(--nsw-palette-${color.name})`;
-          return (
-            <>
-              <Button
-                key={id + color.name}
-                // className={color.name}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  onChange(id, color.name);
-                  // document.body.style.setProperty(
-                  //   '--nsw-brand-dark',
-                  //   color.name,
-                  // );
-                  document.documentElement.style.setProperty(
-                    '--nsw-brand-dark',
-                    colourVariable,
-                  );
-                }}
-                active={value === color.name}
-                circular
-                aria-label={color.label}
-                title={color.label}
-                style={{
-                  borderRadius: 0,
-                  backgroundColor: colourVariable,
-                  margin: 0,
-                }}
-              >
-                {color.label}
-              </Button>
-            </>
-          );
-        })}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(10, 1fr)',
+            gridTemplateRows: 'repeat(4, 1fr)',
+            gap: 0,
+          }}
+        >
+          {colors.map((color) => {
+            const colourVariable = `var(--nsw-palette-${color.name})`;
+            return (
+              <>
+                <label
+                  style={{
+                    borderRadius: 0,
+                    backgroundColor: colourVariable,
+                    margin: 0,
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onChange(id, color.name);
+                    // document.body.style.setProperty(
+                    //   '--nsw-brand-dark',
+                    //   color.name,
+                    // );
+                    document.documentElement.style.setProperty(
+                      '--nsw-brand-dark',
+                      colourVariable,
+                    );
+                  }}
+                >
+                  {color.label}
+                </label>
+                <input
+                  type="radio"
+                  name="id"
+                  key={id + color.name}
+                  // className={color.name}
+
+                  active={value === color.name}
+                  aria-label={color.label}
+                  title={color.label}
+                  className="sr-only"
+                  style={{
+                    borderRadius: 0,
+                    backgroundColor: colourVariable,
+                    margin: 0,
+                  }}
+                ></input>
+              </>
+            );
+          })}
+        </div>
+        <a href="#" class="nsw-button nsw-button--dark">
+          Link
+        </a>
       </div>
     </FormFieldWrapper>
   ) : null;
