@@ -1,6 +1,6 @@
 import { flattenToAppURL } from '@plone/volto/helpers';
 
-import { GET_SITEINFO } from '../../constants/ActionTypes';
+import { GET_NSWSITESETTINGS } from '../../constants/ActionTypes';
 
 const initialState = {
   error: null,
@@ -10,27 +10,22 @@ const initialState = {
 
 export default function siteInfo(state = initialState, action = {}) {
   switch (action.type) {
-    case `${GET_SITEINFO}_PENDING`:
+    case `${GET_NSWSITESETTINGS}_PENDING`:
       return {
         ...state,
         error: null,
         loaded: false,
         loading: true,
       };
-    case `${GET_SITEINFO}_SUCCESS`:
+    case `${GET_NSWSITESETTINGS}_SUCCESS`:
       return {
         ...state,
-        ...{
-          ...action.result,
-          '@id': flattenToAppURL(action.result['@id']),
-          logo_url: flattenToAppURL(action.result.logo_url),
-          navigation_root: action.result.navigation_root,
-        },
+        data: action.result,
         error: null,
         loaded: true,
         loading: false,
       };
-    case `${GET_SITEINFO}_FAIL`:
+    case `${GET_NSWSITESETTINGS}_FAIL`:
       return {
         ...state,
         error: action.error,

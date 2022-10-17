@@ -18,12 +18,14 @@
     "@eeacms/volto-accordion-block",
     "@kitconcept/volto-blocks-grid",
     "volto-form-block",
-    "volto-subfooter"
+    "volto-subfooter",
+    "volto-siteinfo"
   ],
   "dependencies": {
     "@eeacms/volto-accordion-block": "4.0.0",
     "@fontsource/public-sans": "4.5.11",
     "@kitconcept/volto-blocks-grid": "5.1.1",
+    "@mdi/svg": "7.0.96",
     "material-icons": "1.12.0",
     "nsw-design-system": "3.2.4",
     "volto-form-block": "2.7.1",

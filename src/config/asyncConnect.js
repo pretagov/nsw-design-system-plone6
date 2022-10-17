@@ -1,5 +1,5 @@
 import { getBaseUrl } from '@plone/volto/helpers';
-import { getSiteInfo } from '../actions';
+import { getNswSiteSettings } from '../actions';
 
 export const updateAsyncConnectConfig = (config) => {
   config.settings.asyncPropsExtenders = [
@@ -9,14 +9,14 @@ export const updateAsyncConnectConfig = (config) => {
       extend: (dispatchActions) => {
         if (
           dispatchActions.filter(
-            (asyncAction) => asyncAction.key === 'siteInfo',
+            (asyncAction) => asyncAction.key === 'nswSiteSettings',
           ).length === 0
         ) {
           dispatchActions.push({
-            key: 'siteInfo',
+            key: 'nswSiteSettings',
             promise: ({ location, store: { dispatch } }) => {
               __SERVER__ &&
-                dispatch(getSiteInfo(getBaseUrl(location.pathname)));
+                dispatch(getNswSiteSettings(getBaseUrl(location.pathname)));
             },
           });
         }

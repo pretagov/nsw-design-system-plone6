@@ -1,3 +1,3 @@
-import { getSiteInfo } from './siteInfo/siteInfo';
+import { getNswSiteSettings } from './nswSiteSettings/nswSiteSettings';
 
-export { getSiteInfo };
+export { getNswSiteSettings };

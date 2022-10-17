@@ -1,9 +1,9 @@
 import navigation from './navigation/navigation';
-import siteInfo from './siteInfo/siteInfo';
+import nswSiteSettings from './nswSiteSettings/nswSiteSettings';
 
 export const customReducers = {
   navigation,
-  siteInfo,
+  nswSiteSettings,
 };
 
 export default {
