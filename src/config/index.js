@@ -8,6 +8,8 @@ import updateSettingsConfig from './settings';
 import updateTextEditorConfig from './textEditor';
 import updateWidgetsConfig from './widgets';
 
+import nswLogo from 'nsw-design-system-plone6/assets/NSW-ONLY-nsw-government-logo.svg';
+
 export const applyAddonConfig = (config) => {
   updateAsyncConnectConfig(config);
   updateBlocksConfig(config);
@@ -18,6 +20,8 @@ export const applyAddonConfig = (config) => {
   updateSettingsConfig(config);
   updateTextEditorConfig(config);
   updateWidgetsConfig(config);
+
+  config.settings.controlPanelsIcons['nswdesignsystem'] = nswLogo;
 };
 
 export default applyAddonConfig;
