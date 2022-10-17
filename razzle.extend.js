@@ -8,7 +8,6 @@ const modifyWebpackConfig = (config, { target, dev }, webpack) => {
   const fileLoader = config.module.rules.find(fileLoaderFinder);
   fileLoader.exclude = [/@mdi\/svg\/.*\.svg$/, ...fileLoader.exclude];
 
-  // console.log(config);
   const MDISVGLOADER = {
     test: /@mdi\/svg\/.*\.svg$/,
     use: [

@@ -12,9 +12,9 @@ import { Link } from 'react-router-dom';
 import { getSubFooter } from 'volto-subfooter';
 
 // TODO: Would dynamically importing these reduce bundle size?
-import TwitterSVG from '@mdi/svg/svg/facebook.svg';
+import FacebookSVG from '@mdi/svg/svg/facebook.svg';
 import LinkedInSVG from '@mdi/svg/svg/linkedin.svg';
-import FacebookSVG from '@mdi/svg/svg/twitter.svg';
+import TwitterSVG from '@mdi/svg/svg/twitter.svg';
 import YouTubeSVG from '@mdi/svg/svg/youtube.svg';
 
 const messages = defineMessages({
