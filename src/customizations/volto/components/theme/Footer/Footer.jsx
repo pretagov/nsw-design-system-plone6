@@ -1,4 +1,5 @@
 import { getNavigation } from '@plone/volto/actions';
+import { Icon } from '@plone/volto/components';
 import {
   flattenToAppURL,
   getBaseUrl,
@@ -9,6 +10,12 @@ import { defineMessages, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getSubFooter } from 'volto-subfooter';
+
+// TODO: Would dynamically importing these reduce bundle size?
+import FacebookSVG from '@mdi/svg/svg/facebook.svg';
+import LinkedInSVG from '@mdi/svg/svg/linkedin.svg';
+import TwitterSVG from '@mdi/svg/svg/twitter.svg';
+import YouTubeSVG from '@mdi/svg/svg/youtube.svg';
 
 const messages = defineMessages({
   copyright: {
@@ -26,13 +33,37 @@ const messages = defineMessages({
   },
 });
 
+const socialFieldIconMapping = {
+  twitter_username: {
+    href: (strings, username) => `https://www.twitter.com/${username}`,
+    socialName: 'Twitter',
+    Logo: TwitterSVG,
+  },
+  facebook_username: {
+    href: (strings, username) => `https://www.facebook.com/${username}`,
+    socialName: 'Facebook',
+    Logo: FacebookSVG,
+  },
+  linkedin_url: {
+    href: (strings, url) => url,
+    socialName: 'LinkedIn',
+    Logo: LinkedInSVG,
+  },
+  youtube_url: {
+    href: (strings, url) => url,
+    socialName: 'YouTube',
+    Logo: YouTubeSVG,
+  },
+};
+
 function Footer() {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const { subFooter } = useSelector((state) => ({
+  const { subFooter, siteSettings } = useSelector((state) => ({
     navItems: state.navigation.items,
     siteActions: state.actions.actions.site_actions,
     subFooter: state.reduxAsyncConnect.subfooter,
+    siteSettings: state.nswSiteSettings.data,
   }));
 
   useEffect(() => {
@@ -46,6 +77,11 @@ function Footer() {
   const lowerFooterLinks = subFooter[lowerFooterLinksIndex];
   const upperFooterLinks = subFooter?.filter(
     (item, index) => index !== lowerFooterLinksIndex,
+  );
+
+  const socialFieldsToDisplay = Object.keys(socialFieldIconMapping).filter(
+    (fieldname) =>
+      siteSettings && siteSettings[fieldname] && !!siteSettings[fieldname],
   );
 
   return (
@@ -121,29 +157,54 @@ function Footer() {
           <div className="nsw-container">
             <p>{intl.formatMessage(messages.acknowledgementOfCountry)}</p>
             <hr />
-            {lowerFooterLinks && lowerFooterLinks.items ? (
-              <ul>
-                {lowerFooterLinks.items.map(
-                  ({ title, linkUrl, href, visible }, index) => {
-                    if (visible === false) {
-                      return null;
-                    }
-                    if (!linkUrl && !href) {
-                      return <li key={`lowerLinks-${index}`}>{title}</li>;
-                    }
-                    let linkHref = href ? href : linkUrl[0]?.['@id'];
-                    linkHref = isInternalURL(linkHref)
-                      ? flattenToAppURL(linkHref)
-                      : linkHref;
+            <div className="nsw-footer__links">
+              {lowerFooterLinks && lowerFooterLinks.items ? (
+                <ul>
+                  {lowerFooterLinks.items.map(
+                    ({ title, linkUrl, href, visible }, index) => {
+                      if (visible === false) {
+                        return null;
+                      }
+                      if (!linkUrl && !href) {
+                        return <li key={`lowerLinks-${index}`}>{title}</li>;
+                      }
+                      let linkHref = href ? href : linkUrl[0]?.['@id'];
+                      linkHref = isInternalURL(linkHref)
+                        ? flattenToAppURL(linkHref)
+                        : linkHref;
+                      return (
+                        <li key={`lowerLinks-${index}`}>
+                          <Link to={linkHref}>{title}</Link>
+                        </li>
+                      );
+                    },
+                  )}
+                </ul>
+              ) : null}
+              {socialFieldsToDisplay.length > 0 ? (
+                <div className="nsw-footer__social">
+                  {socialFieldsToDisplay.map((fieldname) => {
+                    const username = siteSettings[fieldname];
+                    const { href, socialName, Logo } = socialFieldIconMapping[
+                      fieldname
+                    ];
+
                     return (
-                      <li key={`lowerLinks-${index}`}>
-                        <Link to={linkHref}>{title}</Link>
-                      </li>
+                      <a
+                        key={fieldname}
+                        className="nsw-icon-button"
+                        href={href`${username}`}
+                        rel="noreferrer"
+                        target="_blank"
+                      >
+                        <Icon name={Logo} size="36px" color="white" />
+                        <span className="sr-only">{socialName}</span>
+                      </a>
                     );
-                  },
-                )}
-              </ul>
-            ) : null}
+                  })}
+                </div>
+              ) : null}
+            </div>
             <div className="nsw-footer__info">
               <div className="nsw-footer__copyright">
                 {intl.formatMessage(messages.copyright)}
