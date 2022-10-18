@@ -15,7 +15,7 @@ const Logo = () => {
   return (
     <UniversalLink href={settings.isMultilingual ? `/${lang}` : '/'}>
       {logoUrl && !logoUrl.includes('++resource++plone-logo.svg') ? (
-        <img style={{ height: '4.75rem' }} src={logoUrl} alt={siteTitle} />
+        <img style={{ height: '4.75rem' }} src={logoUrl} alt="" />
       ) : (
         <>
           <svg
@@ -46,7 +46,7 @@ const Logo = () => {
               fill="#D7153A"
             ></path>
           </svg>
-          <span className="sr-only">NSW Government</span>
+          <span className="sr-only">{siteTitle}</span>
         </>
       )}
     </UniversalLink>
