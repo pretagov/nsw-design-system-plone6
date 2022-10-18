@@ -2,7 +2,6 @@ import { FormFieldWrapper } from '@plone/volto/components';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { Button } from 'semantic-ui-react';
 
 const messages = defineMessages({
   Color: {
@@ -33,6 +32,7 @@ const darkColours = [
   'orange-02',
 ];
 
+// TODO: This widget is HORRIBLY inaccessible. No focus indicator, incorrect click semantics, no indiciation of when a value is changed, etc.
 const ColorPickerWidget = (props) => {
   const { id, title, required, value, onChange, colors, className } = props;
 
@@ -42,7 +42,6 @@ const ColorPickerWidget = (props) => {
     if (!props.value && props.default) {
       props.onChange(props.id, props.default);
     }
-    // Yes, this is correct.
   });
 
   function updateColour(colourName) {
@@ -64,29 +63,28 @@ const ColorPickerWidget = (props) => {
           display: 'grid',
           gridTemplateColumns: 'repeat(10, 1fr)',
           gridTemplateRows: 'repeat(4, 1fr) 1fr',
-          gap: 0,
+          gap: '2px',
           overflowX: 'auto',
           paddingBottom: '0.5rem',
           scrollBehavior: 'smooth',
         }}
       >
         {colors.map((color) => {
-          console.log(color.name);
           const colourVariable = `var(--nsw-palette-${color.name})`;
           return (
-            <div
-              style={{
-                borderRadius: 0,
-                backgroundColor: colourVariable,
-                margin: 0,
-                padding: '0.5rem',
-              }}
-            >
+            <>
               <label
                 className={
                   darkColours.includes(color.name) ? 'nsw-text--light' : null
                 }
-                style={{ whiteSpace: 'nowrap' }}
+                style={{
+                  whiteSpace: 'nowrap',
+                  borderRadius: 0,
+                  backgroundColor: colourVariable,
+                  margin: 0,
+                  padding: '0.5rem',
+                  minHeight: '48px',
+                }}
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -111,22 +109,11 @@ const ColorPickerWidget = (props) => {
                   margin: 0,
                 }}
               ></input>
-            </div>
+            </>
           );
         })}
       </div>
-      <div class="nsw-card nsw-card--headline nsw-card--dark">
-        <div class="nsw-card__content">
-          <div class="nsw-card__title">Example card</div>
-          <span
-            class="material-icons nsw-material-icons"
-            focusable="false"
-            aria-hidden="true"
-          >
-            east
-          </span>
-        </div>
-      </div>
+      <p className="nsw-h3">Current colour: {value}</p>
     </FormFieldWrapper>
   ) : null;
 };
