@@ -79,12 +79,10 @@ function Footer() {
     (item, index) => index !== lowerFooterLinksIndex,
   );
 
-  console.log('nswSettings', siteSettings);
-
   const socialFieldsToDisplay = Object.keys(socialFieldIconMapping).filter(
-    (fieldname) => siteSettings[fieldname] && !!siteSettings[fieldname],
+    (fieldname) =>
+      siteSettings && siteSettings[fieldname] && !!siteSettings[fieldname],
   );
-  console.log('socialIcons', socialFieldsToDisplay);
 
   return (
     <>
@@ -190,8 +188,6 @@ function Footer() {
                     const { href, socialName, Logo } = socialFieldIconMapping[
                       fieldname
                     ];
-
-                    console.log(fieldname, href, socialName);
 
                     return (
                       <a

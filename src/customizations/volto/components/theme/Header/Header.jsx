@@ -60,9 +60,9 @@ const SearchStartButton = ({ searchInputElement }) => {
 };
 
 const Header = ({ nswDesignSystem }) => {
-  const { token, siteTitle } = useSelector((state) => ({
-    token: state.userSession.token,
+  const { siteSettings, siteTitle } = useSelector((state) => ({
     siteTitle: state.siteInfo.title,
+    siteSettings: state.nswSiteSettings.data,
   }));
   const { pathname } = useLocation();
   const searchInputElement = useRef(null);
@@ -88,9 +88,11 @@ const Header = ({ nswDesignSystem }) => {
               <div className="nsw-header__waratah">
                 <Logo />
               </div>
-              <div className="nsw-header__name">
-                <div className="nsw-header__title">{siteTitle}</div>
-              </div>
+              {siteSettings && !siteSettings.show_site_title_text ? null : (
+                <div className="nsw-header__name">
+                  <div className="nsw-header__title">{siteTitle}</div>
+                </div>
+              )}
             </div>
             <MenuOpenButton />
             <SearchStartButton searchInputElement={searchInputElement} />
