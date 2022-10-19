@@ -6,6 +6,7 @@ import {
   getBlocksLayoutFieldname,
   withBlockExtensions,
 } from '@plone/volto/helpers';
+import config from '@plone/volto/registry';
 import React, { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -34,6 +35,7 @@ const View = (props) => {
   const location = useLocation();
   const panels = getPanels(data.data);
   const blockMetadata = metadata || properties;
+  const accordionConfig = config.blocks.blocksConfig.accordion;
 
   const accordionElement = useRef(null);
   useEffect(() => {
@@ -46,7 +48,10 @@ const View = (props) => {
 
   return (
     <div
-      className={`accordion-block nsw-accordion js-accordion ${data.styles?.theme}`}
+      className={`accordion-block nsw-accordion js-accordion ${
+        data.styles ? data.styles.theme : accordionConfig?.defaults?.theme
+      }}`}
+      {...accordionConfig.options}
       ref={accordionElement}
     >
       {panels.map(([id, panel], index) => {
