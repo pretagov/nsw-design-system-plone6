@@ -14,9 +14,11 @@ export const updateAsyncConnectConfig = (config) => {
         ) {
           dispatchActions.push({
             key: 'nswSiteSettings',
-            promise: ({ location, store: { dispatch } }) => {
+            promise: async ({ location, store: { dispatch } }) => {
               __SERVER__ &&
-                dispatch(getNswSiteSettings(getBaseUrl(location.pathname)));
+                (await dispatch(
+                  getNswSiteSettings(getBaseUrl(location.pathname)),
+                ));
             },
           });
         }
