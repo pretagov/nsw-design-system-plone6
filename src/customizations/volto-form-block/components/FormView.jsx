@@ -38,6 +38,7 @@ const FormView = ({
   resetFormState,
   resetFormOnError,
   captcha,
+  id,
 }) => {
   const intl = useIntl();
 
@@ -80,6 +81,7 @@ const FormView = ({
       ) : (
         // TODO: The original component has a `loading` state. Is this needed here?
         <form
+          id={id}
           className="nsw-form nsw-container"
           onSubmit={onSubmit}
           method="post"
