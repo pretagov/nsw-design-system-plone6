@@ -38,7 +38,7 @@ const ContentBlockView = ({ data, isEditMode }) => {
           })}
         </ul>
       ) : null}
-      {data?.viewMore ? (
+      {data?.viewMore && data.viewMore[0] ? (
         <div className="nsw-content-block__link">
           <a href={data.viewMore[0].getURL}>View more</a>
         </div>
