@@ -80,7 +80,8 @@ const Header = ({ nswDesignSystem }) => {
       {/* TODO: Anon-tools and language selector currently don't work nor have a NSW component. Need to integrate. */}
       {/* <Anontools /> */}
       {/* <LanguageSelector /> */}
-      <Masthead />
+      {siteSettings && !siteSettings.show_masthead ? null : <Masthead />}
+
       <header className="nsw-header">
         <div className="nsw-header__container">
           <div className="nsw-header__inner">
