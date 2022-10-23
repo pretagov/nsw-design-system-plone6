@@ -1,9 +1,10 @@
 import { getBreadcrumbs } from '@plone/volto/actions';
+import { UniversalLink } from '@plone/volto/components';
 import { getBaseUrl, hasApiExpander } from '@plone/volto/helpers';
 import React, { useEffect } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const messages = defineMessages({
   home: {
@@ -43,9 +44,12 @@ const Breadcrumbs = () => {
       >
         <ol>
           <li>
-            <Link to={root || '/'} title={intl.formatMessage(messages.home)}>
+            <UniversalLink
+              href={root || '/'}
+              title={intl.formatMessage(messages.home)}
+            >
               Home
-            </Link>
+            </UniversalLink>
           </li>
           {items.map((item, index, items) => {
             return index === items.length - 1 ? (
@@ -54,9 +58,7 @@ const Breadcrumbs = () => {
               </li>
             ) : (
               <li key={item.url}>
-                <Link key={item.url} to={item.url}>
-                  {item.title}
-                </Link>
+                <UniversalLink href={item.url}>{item.title}</UniversalLink>
               </li>
             );
           })}
