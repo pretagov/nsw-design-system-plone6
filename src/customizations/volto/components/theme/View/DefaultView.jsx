@@ -222,24 +222,22 @@ const DefaultView = ({ content, location }) => {
   }));
 
   // TODO: This currently spits out a list of null values, which is not valid for `Object.fromEntries`
-  const colourNameValueMapping = Object.keys(
-    colourFieldnameVariableMapping,
-  ).map((fieldname) => {
-    const value = siteSettings?.[fieldname];
-    if (!value) {
-      return null;
-    }
-    return [colourFieldnameVariableMapping[fieldname], value];
-  });
-
-  const coloursToSet = Object.fromEntries(colourNameValueMapping);
+  const coloursToSet = Object.keys(colourFieldnameVariableMapping)
+    .map((fieldname) => {
+      const value = siteSettings?.[fieldname];
+      if (!value) {
+        return null;
+      }
+      return [colourFieldnameVariableMapping[fieldname], value];
+    })
+    .filter((value) => !!value);
 
   return (
     <>
-      {coloursToSet ? (
+      {coloursToSet && coloursToSet.length > 0 ? (
         <Helmet
           // TODO: This creates multiple style tags, we should merge them into a single one.
-          style={Object.entries(coloursToSet).map(([variableName, value]) => {
+          style={coloursToSet.map(([variableName, value]) => {
             return {
               type: 'text/css',
               cssText: `:root { --${variableName}: var(--nsw-palette-${value}) }`,
