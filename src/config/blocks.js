@@ -1,7 +1,10 @@
 import sliderSVG from '@plone/volto/icons/slider.svg';
 import { defineMessages } from 'react-intl';
 // Todo: Setup path imports for blocks
-import config from '@plone/volto/registry';
+import {
+  HeroWithBlocks,
+  HeroWithDropdownQuickNavigation,
+} from 'nsw-design-system-plone6/components/Blocks/Hero';
 import * as Components from '../components';
 import { CardSchema } from '../components/Blocks/Card';
 import { DropdownQuickNavigationSchema } from '../components/Blocks/DropdownQuickNavigation/schema';
@@ -189,15 +192,18 @@ const blockVariations = {
   hero: [
     {
       id: 'default',
-      isDefault: true,
       title: 'Default',
-      template: null,
+      isDefault: true,
+    },
+    {
+      id: 'heroWithBlocks',
+      title: 'With blocks',
+      template: HeroWithBlocks,
     },
     {
       id: 'heroWithDropdownQuickNavigation',
       title: 'With quick navigation',
-      // template: () => <p>Hello world!</p>,
-      template: Components.DropdownQuickNavigationView,
+      template: HeroWithDropdownQuickNavigation,
       schemaEnhancer: ({ schema, formData, intl }) => {
         const dropdownQuickNavigationSchema = DropdownQuickNavigationSchema({
           intl,
