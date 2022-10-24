@@ -6,6 +6,8 @@ export const Hero = ({
   imageUrl = null,
   linkTitle = null,
   linkUrl = null,
+  linksTitle = '',
+  linksList = [],
   contentChildren,
   boxChildren,
 }) => {
@@ -24,8 +26,28 @@ export const Hero = ({
                 </a>
               </div>
             ) : null}
-            <div className="nsw-m-top-md">{contentChildren}</div>
+            {contentChildren ? (
+              <div className="nsw-m-top-md">{contentChildren}</div>
+            ) : null}
           </div>
+          {linksList && linksList.length > 0 ? (
+            <div class="nsw-hero-banner__links">
+              <div class="nsw-hero-banner__list">
+                {linksTitle ? (
+                  <div class="nsw-hero-banner__sub-title">{linksTitle}</div>
+                ) : null}
+                <ul>
+                  {linksList.map((linkItem) => {
+                    return (
+                      <li key={linkItem.title}>
+                        <a href={linkItem.link}>{linkItem.title}</a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </div>
+          ) : null}
           <div className="nsw-hero-banner__box">
             {imageUrl && (
               <img src={imageUrl} alt="" className="nsw-hero-banner__image" />

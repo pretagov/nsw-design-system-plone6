@@ -22,6 +22,7 @@ import {
   emptyBlocksForm,
   flattenToAppURL,
   getBaseUrl,
+  isInternalURL,
 } from '@plone/volto/helpers';
 import { injectLazyLibs } from '@plone/volto/helpers/Loadable/Loadable';
 import config from '@plone/volto/registry';
@@ -360,6 +361,20 @@ class EditComponent extends Component {
       this.props.data.placeholder ||
       this.props.intl.formatMessage(messages.placeholder);
 
+    const variations =
+      config.blocks.blocksConfig[this.props.data['@type']].variations;
+    const variation = variations.find((item) => {
+      return item.id === this.props.data.variation;
+    });
+    const linksList =
+      this.props.data?.links.map((linkItem) => {
+        let href = linkItem.link && linkItem.link[0] && linkItem.link[0]['@id'];
+        if (isInternalURL(href)) {
+          href = flattenToAppURL(href);
+        }
+        return { title: linkItem.title, link: href };
+      }) || [];
+
     return (
       <div
         className={cx('block hero', {
@@ -505,102 +520,123 @@ class EditComponent extends Component {
               {this.props.selected ? (
                 <div className="toolbar">{this.props.ToolbarButtons}</div>
               ) : null}
-              <div className="nsw-m-top-md">
-                {this.props.data.block &&
-                blockHasValue(
-                  this.props.data?.block.blocks[this.childBlockId],
-                ) ? (
-                  // We need the div to set the ref on a custom component
-                  <div ref={this.blockEditorRef}>
-                    <BlocksForm
-                      key={this.childBlockId}
-                      title={this.props.data.placeholder}
-                      manage={this.props.manage}
-                      allowedBlocks={this.allowedBlocks}
-                      metadata={{
-                        ...this.ownerBlockMetadata,
-                        disableNewBlocks: true,
-                      }}
-                      properties={this.childBlockdata}
-                      selectedBlock={
-                        this.props.selected ? this.state.selectedBlock : null
-                      }
-                      onSelectBlock={(id) => {
-                        this.setState({ selectedBlock: id });
-                      }}
-                      disableNewBlocks={true}
-                      onChangeFormData={(newFormData) => {
-                        this.props.onChangeBlock(this.ownerBlockID, {
-                          ...this.props.data,
-                          block: {
-                            ...this.props.data.block,
-                            ...newFormData,
-                          },
-                        });
-                      }}
-                      onChangeField={(id, value) => {
-                        if (['blocks', 'blocks_layout'].indexOf(id) > -1) {
-                          this.setState({
-                            blockState: {
-                              ...this.state.blockState,
-                              [id]: value,
-                            },
-                          });
+              {variation && variation.id === 'heroWithBlocks' ? (
+                <div className="nsw-m-top-md">
+                  {this.props.data.block &&
+                  blockHasValue(
+                    this.props.data?.block.blocks[this.childBlockId],
+                  ) ? (
+                    // We need the div to set the ref on a custom component
+                    <div ref={this.blockEditorRef}>
+                      <BlocksForm
+                        key={this.childBlockId}
+                        title={this.props.data.placeholder}
+                        manage={this.props.manage}
+                        allowedBlocks={this.allowedBlocks}
+                        metadata={{
+                          ...this.ownerBlockMetadata,
+                          disableNewBlocks: true,
+                        }}
+                        properties={this.childBlockdata}
+                        selectedBlock={
+                          this.props.selected ? this.state.selectedBlock : null
+                        }
+                        onSelectBlock={(id) => {
+                          this.setState({ selectedBlock: id });
+                        }}
+                        disableNewBlocks={true}
+                        onChangeFormData={(newFormData) => {
                           this.props.onChangeBlock(this.ownerBlockID, {
                             ...this.props.data,
-                            data: {
-                              blocks: {
-                                [this.childBlockId]: {
-                                  ...this.state.blockState,
-                                },
-                              },
+                            block: {
+                              ...this.props.data.block,
+                              ...newFormData,
                             },
                           });
-                        } else {
-                          this.props.onChangeField(id, value);
-                        }
+                        }}
+                        onChangeField={(id, value) => {
+                          if (['blocks', 'blocks_layout'].indexOf(id) > -1) {
+                            this.setState({
+                              blockState: {
+                                ...this.state.blockState,
+                                [id]: value,
+                              },
+                            });
+                            this.props.onChangeBlock(this.ownerBlockID, {
+                              ...this.props.data,
+                              data: {
+                                blocks: {
+                                  [this.childBlockId]: {
+                                    ...this.state.blockState,
+                                  },
+                                },
+                              },
+                            });
+                          } else {
+                            this.props.onChangeField(id, value);
+                          }
+                        }}
+                        pathname={this.props.pathname}
+                      />
+                    </div>
+                  ) : (
+                    <NewBlockAddButton
+                      inverted={true}
+                      block={this.childBlockId}
+                      onChangeBlock={(block, newValues) => {
+                        const newBlock = {
+                          ...this.props.data.block.blocks[block],
+                          ...newValues,
+                        };
+                        const childBlockdata = {
+                          ...this.props.data.block,
+                          blocks: {
+                            ...this.props.data.block.blocks,
+                            [block]: newBlock,
+                          },
+                        };
+                        this.props.onChangeBlock(this.ownerBlockID, {
+                          ...this.props.data,
+                          block: childBlockdata,
+                        });
+                        // TODO: This hidden state is such a mess :(
+                        this.childBlockdata = childBlockdata;
                       }}
-                      pathname={this.props.pathname}
+                      allowedBlocks={this.allowedBlocks}
                     />
-                  </div>
-                ) : (
-                  <NewBlockAddButton
-                    inverted={true}
-                    block={this.childBlockId}
-                    onChangeBlock={(block, newValues) => {
-                      const newBlock = {
-                        ...this.props.data.block.blocks[block],
-                        ...newValues,
-                      };
-                      const childBlockdata = {
-                        ...this.props.data.block,
-                        blocks: {
-                          ...this.props.data.block.blocks,
-                          [block]: newBlock,
-                        },
-                      };
-                      this.props.onChangeBlock(this.ownerBlockID, {
-                        ...this.props.data,
-                        block: childBlockdata,
-                      });
-                      // TODO: This hidden state is such a mess :(
-                      this.childBlockdata = childBlockdata;
-                    }}
-                    allowedBlocks={this.allowedBlocks}
-                  />
-                )}
-              </div>
+                  )}
+                </div>
+              ) : null}
             </>
           }
           boxChildren={
-            this.props.data.url ? (
+            variation && variation.id === 'heroWithLinks' ? (
+              <div class="nsw-hero-banner__links">
+                <div class="nsw-hero-banner__list">
+                  {this.props.data.linksTitle ? (
+                    <div class="nsw-hero-banner__sub-title">
+                      {this.props.data.linksTitle}
+                    </div>
+                  ) : null}
+                  <ul>
+                    {linksList.map((linkItem) => {
+                      return (
+                        <li key={linkItem.title}>
+                          <a href={linkItem.link}>{linkItem.title}</a>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              </div>
+            ) : this.props.data.url ? (
               <img
                 src={`${flattenToAppURL(this.props.data.url)}/@@images/image`}
                 alt=""
               />
             ) : (
               <div className="image-add" style={{ width: '100%' }}>
-                <Message className="image-message">
+                <Message style={{ height: '100%', minHeight: '100px' }}>
                   {this.state.uploading && (
                     <Dimmer active>
                       <Loader indeterminate>
