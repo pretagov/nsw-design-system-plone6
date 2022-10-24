@@ -20,7 +20,7 @@ import YouTubeSVG from '@mdi/svg/svg/youtube.svg';
 const messages = defineMessages({
   copyright: {
     id: 'Copyright',
-    defaultMessage: 'Copyright © 2021',
+    defaultMessage: 'Copyright',
   },
   acknowledgementOfCountry: {
     id: 'Acknowledgement Of Country',
@@ -207,7 +207,9 @@ function Footer() {
             </div>
             <div className="nsw-footer__info">
               <div className="nsw-footer__copyright">
-                {intl.formatMessage(messages.copyright)}
+                {`${intl.formatMessage(
+                  messages.copyright,
+                )} © ${new Date().getFullYear()}`}
               </div>
               <div className="nsw-footer__built">
                 {intl.formatMessage(messages.builtBy)}

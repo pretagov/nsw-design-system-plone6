@@ -1,7 +1,11 @@
 import sliderSVG from '@plone/volto/icons/slider.svg';
 import { defineMessages } from 'react-intl';
 // Todo: Setup path imports for blocks
-import config from '@plone/volto/registry';
+import {
+  HeroWithBlocks,
+  HeroWithDropdownQuickNavigation,
+  HeroWithLinks,
+} from 'nsw-design-system-plone6/components/Blocks/Hero';
 import * as Components from '../components';
 import { CardSchema } from '../components/Blocks/Card';
 import { DropdownQuickNavigationSchema } from '../components/Blocks/DropdownQuickNavigation/schema';
@@ -12,6 +16,10 @@ const messages = defineMessages({
     id: 'Card',
     defaultMessage: 'Card',
   },
+  title: {
+    id: 'Title',
+    defaultMessage: 'Title',
+  },
   searchFacetsTitleDefault: {
     id: 'Filter results',
     defaultMessage: 'Filter results',
@@ -19,6 +27,18 @@ const messages = defineMessages({
   searchFullWidthSearchBar: {
     id: 'Full width search bar',
     defaultMessage: 'Full width search bar',
+  },
+  link: {
+    id: 'Link',
+    defaultMessage: 'Link',
+  },
+  links: {
+    id: 'Links',
+    defaultMessage: 'Links',
+  },
+  linksTitle: {
+    id: 'Links title',
+    defaultMessage: 'Links title',
   },
   imageSettings: {
     id: 'Image settings',
@@ -189,15 +209,64 @@ const blockVariations = {
   hero: [
     {
       id: 'default',
-      isDefault: true,
       title: 'Default',
-      template: null,
+      isDefault: true,
+    },
+    {
+      id: 'heroWithLinks',
+      title: 'With links',
+      template: HeroWithLinks,
+      schemaEnhancer: ({ schema, formData, intl }) => {
+        schema.properties.linksTitle = {
+          title: intl.formatMessage(messages.linksTitle),
+          type: 'string',
+        };
+        schema.properties.links = {
+          title: intl.formatMessage(messages.links),
+          widget: 'object_list',
+          schema: {
+            title: intl.formatMessage(messages.link),
+            fieldsets: [
+              {
+                id: 'default',
+                title: 'Default',
+                fields: ['title', 'link'],
+              },
+            ],
+            properties: {
+              title: {
+                title: intl.formatMessage(messages.title),
+              },
+              link: {
+                title: intl.formatMessage(messages.link),
+                widget: 'object_browser',
+                mode: 'link',
+              },
+            },
+          },
+        };
+
+        const defaultFieldsetIndex = schema.fieldsets.findIndex(
+          (fieldset) => fieldset.id === 'default',
+        );
+
+        schema.fieldsets[defaultFieldsetIndex].fields = [
+          ...schema.fieldsets[defaultFieldsetIndex].fields,
+          'linksTitle',
+          'links',
+        ];
+        return schema;
+      },
+    },
+    {
+      id: 'heroWithBlocks',
+      title: 'With blocks',
+      template: HeroWithBlocks,
     },
     {
       id: 'heroWithDropdownQuickNavigation',
       title: 'With quick navigation',
-      // template: () => <p>Hello world!</p>,
-      template: Components.DropdownQuickNavigationView,
+      template: HeroWithDropdownQuickNavigation,
       schemaEnhancer: ({ schema, formData, intl }) => {
         const dropdownQuickNavigationSchema = DropdownQuickNavigationSchema({
           intl,
