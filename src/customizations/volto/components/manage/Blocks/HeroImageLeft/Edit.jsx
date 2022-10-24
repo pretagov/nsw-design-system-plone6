@@ -22,6 +22,7 @@ import {
   emptyBlocksForm,
   flattenToAppURL,
   getBaseUrl,
+  isInternalURL,
 } from '@plone/volto/helpers';
 import { injectLazyLibs } from '@plone/volto/helpers/Loadable/Loadable';
 import config from '@plone/volto/registry';
@@ -365,6 +366,14 @@ class EditComponent extends Component {
     const variation = variations.find((item) => {
       return item.id === this.props.data.variation;
     });
+    const linksList =
+      this.props.data?.links.map((linkItem) => {
+        let href = linkItem.link && linkItem.link[0] && linkItem.link[0]['@id'];
+        if (isInternalURL(href)) {
+          href = flattenToAppURL(href);
+        }
+        return { title: linkItem.title, link: href };
+      }) || [];
 
     return (
       <div
@@ -511,7 +520,7 @@ class EditComponent extends Component {
               {this.props.selected ? (
                 <div className="toolbar">{this.props.ToolbarButtons}</div>
               ) : null}
-              {variation.id === 'heroWithBlocks' ? (
+              {variation && variation.id === 'heroWithBlocks' ? (
                 <div className="nsw-m-top-md">
                   {this.props.data.block &&
                   blockHasValue(
@@ -601,7 +610,26 @@ class EditComponent extends Component {
             </>
           }
           boxChildren={
-            this.props.data.url ? (
+            variation && variation.id === 'heroWithLinks' ? (
+              <div class="nsw-hero-banner__links">
+                <div class="nsw-hero-banner__list">
+                  {this.props.data.linksTitle ? (
+                    <div class="nsw-hero-banner__sub-title">
+                      {this.props.data.linksTitle}
+                    </div>
+                  ) : null}
+                  <ul>
+                    {linksList.map((linkItem) => {
+                      return (
+                        <li key={linkItem.title}>
+                          <a href={linkItem.link}>{linkItem.title}</a>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              </div>
+            ) : this.props.data.url ? (
               <img
                 src={`${flattenToAppURL(this.props.data.url)}/@@images/image`}
                 alt=""

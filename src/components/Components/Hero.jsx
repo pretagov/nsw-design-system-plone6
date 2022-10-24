@@ -6,6 +6,7 @@ export const Hero = ({
   imageUrl = null,
   linkTitle = null,
   linkUrl = null,
+  linksTitle = '',
   linksList = [],
   contentChildren,
   boxChildren,
@@ -32,28 +33,17 @@ export const Hero = ({
           {linksList && linksList.length > 0 ? (
             <div class="nsw-hero-banner__links">
               <div class="nsw-hero-banner__list">
-                <div class="nsw-hero-banner__sub-title">
-                  Key coronavirus links
-                </div>
+                {linksTitle ? (
+                  <div class="nsw-hero-banner__sub-title">{linksTitle}</div>
+                ) : null}
                 <ul>
-                  <li>
-                    <a href="#">COVIDSafe App</a>
-                  </li>
-                  <li>
-                    <a href="#">Current COVID-19 case locations</a>
-                  </li>
-                  <li>
-                    <a href="#">Travel to and from NSW</a>
-                  </li>
-                  <li>
-                    <a href="#">Health and wellbeing</a>
-                  </li>
-                  <li>
-                    <a href="#">Business and work</a>
-                  </li>
-                  <li>
-                    <a href="#">COVID-19 testing centres</a>
-                  </li>
+                  {linksList.map((linkItem) => {
+                    return (
+                      <li key={linkItem.title}>
+                        <a href={linkItem.link}>{linkItem.title}</a>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </div>
