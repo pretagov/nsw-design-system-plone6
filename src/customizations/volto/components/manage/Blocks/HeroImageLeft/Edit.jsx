@@ -367,7 +367,7 @@ class EditComponent extends Component {
       return item.id === this.props.data.variation;
     });
     const linksList =
-      this.props.data?.links.map((linkItem) => {
+      this.props.data?.links?.map((linkItem) => {
         let href = linkItem.link && linkItem.link[0] && linkItem.link[0]['@id'];
         if (isInternalURL(href)) {
           href = flattenToAppURL(href);
