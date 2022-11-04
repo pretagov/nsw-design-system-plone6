@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@plone/scripts": "2.1.2",
-    "mrs-developer": "1.7.1",
+    "mrs-developer": "2.0.0",
     "release-it": "^15.4.2"
   }
 }
