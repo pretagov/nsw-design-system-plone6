@@ -3,12 +3,14 @@ import {
   getBlocksFieldname,
   getBlocksLayoutFieldname,
   hasBlocksData,
+  Helmet,
 } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
 import { Image } from 'semantic-ui-react';
 
 const messages = defineMessages({
@@ -207,11 +209,48 @@ const PloneClassicLayout = ({ content }) => {
   );
 };
 
+const colourFieldnameVariableMapping = {
+  nsw_brand_dark: 'nsw-brand-dark',
+  nsw_brand_light: 'nsw-brand-light',
+  nsw_brand_accent: 'nsw-brand-accent',
+  nsw_brand_supplementary: 'nsw-brand-supplementary',
+};
+
 const DefaultView = ({ content, location }) => {
-  return hasBlocksData(content) ? (
-    <BlocksLayout content={content} location={location} />
-  ) : (
-    <PloneClassicLayout content={content} />
+  const { siteSettings } = useSelector((state) => ({
+    siteSettings: state.nswSiteSettings.data,
+  }));
+
+  // TODO: This currently spits out a list of null values, which is not valid for `Object.fromEntries`
+  const coloursToSet = Object.keys(colourFieldnameVariableMapping)
+    .map((fieldname) => {
+      const value = siteSettings?.[fieldname];
+      if (!value) {
+        return null;
+      }
+      return [colourFieldnameVariableMapping[fieldname], value];
+    })
+    .filter((value) => !!value);
+
+  return (
+    <>
+      {coloursToSet && coloursToSet.length > 0 ? (
+        <Helmet
+          // TODO: This creates multiple style tags, we should merge them into a single one.
+          style={coloursToSet.map(([variableName, value]) => {
+            return {
+              type: 'text/css',
+              cssText: `:root { --${variableName}: var(--nsw-palette-${value}) }`,
+            };
+          })}
+        />
+      ) : null}
+      {hasBlocksData(content) ? (
+        <BlocksLayout content={content} location={location} />
+      ) : (
+        <PloneClassicLayout content={content} />
+      )}
+    </>
   );
 };
 
