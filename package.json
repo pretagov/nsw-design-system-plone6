@@ -31,7 +31,7 @@
     "react-color": "2.19.3",
     "volto-form-block": "2.8.0",
     "volto-siteinfo": "1.0.0",
-    "volto-subfooter": "1.1.0"
+    "volto-subfooter": "2.0.0"
   },
   "peerDependencies": {
     "@plone/volto": "16.0.0-alpha.39"
