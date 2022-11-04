@@ -3,26 +3,21 @@ import { getNswSiteSettings } from '../actions';
 
 export const updateAsyncConnectConfig = (config) => {
   config.settings.asyncPropsExtenders = [
-    ...(config.settings.asyncPropsExtenders ?? []),
+    ...(config.settings.asyncPropsExtenders || []),
     {
       path: '/',
       extend: (dispatchActions) => {
-        if (
-          dispatchActions.filter(
-            (asyncAction) => asyncAction.key === 'nswSiteSettings',
-          ).length === 0
-        ) {
-          dispatchActions.push({
-            key: 'nswSiteSettings',
-            promise: async ({ location, store: { dispatch } }) => {
-              __SERVER__ &&
-                (await dispatch(
-                  getNswSiteSettings(getBaseUrl(location.pathname)),
-                ));
-            },
-          });
-        }
-        return dispatchActions;
+        const nswSiteSettings = {
+          key: 'nswSiteSettings',
+          promise: ({ location, store: { dispatch } }) => {
+            const action = getNswSiteSettings(getBaseUrl(location.pathname));
+            return dispatch(action).catch((e) => {
+              // eslint-disable-next-line
+              console.log('Error getting nswSiteSettings');
+            });
+          },
+        };
+        return [...dispatchActions, nswSiteSettings];
       },
     },
   ];
