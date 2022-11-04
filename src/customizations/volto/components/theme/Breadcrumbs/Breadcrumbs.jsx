@@ -21,10 +21,14 @@ const Breadcrumbs = () => {
   const intl = useIntl();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
-  const { items, root } = useSelector((state) => ({
-    items: state.breadcrumbs.items,
-    root: state.breadcrumbs.root,
-  }));
+  const root = useSelector((state) => state.breadcrumbs?.root);
+  const items = useSelector((state) => state.breadcrumbs?.items);
+  const breadcrumbStartDepth = useSelector(
+    (state) => state.nswSiteSettings?.data?.breadcrumb_start_depth,
+  );
+  const siteDepth = useSelector(
+    (state) => state.nswSiteSettings?.data?.site_depth,
+  );
 
   useEffect(() => {
     if (!hasApiExpander('breadcrumbs', getBaseUrl(pathname))) {
@@ -33,6 +37,10 @@ const Breadcrumbs = () => {
   }, [pathname, dispatch]);
 
   if (pathname === '/') {
+    return null;
+  }
+
+  if (breadcrumbStartDepth && siteDepth < breadcrumbStartDepth) {
     return null;
   }
 
