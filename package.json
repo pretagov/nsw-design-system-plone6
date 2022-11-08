@@ -32,7 +32,7 @@
     "volto-form-block": "3.0.0",
     "volto-siteinfo": "1.0.1",
     "volto-subblocks": "2.0.0",
-    "volto-subfooter": "1.1.0"
+    "volto-subfooter": "2.0.0"
   },
   "peerDependencies": {
     "@plone/volto": "16.0.0-alpha.39"
