@@ -196,25 +196,13 @@ const BlocksLayout = ({ content, location }) => {
                       config.blocks.blocksConfig[blockType]?.['view'] || null;
                     // debugger;
                     return Block !== null ? (
-                      <div className="nsw-section">
-                        <Section
-                          // title={blockData.title}
-                          // description={blockData.description}
-                          padding={blockData.sectionspacing}
-                          isBox={blockData.sectionbox}
-                          colour={blockData.sectioncolour}
-                          shouldInvert={blockData.sectioninvert}
-                          showSeparator={blockData.sectionshowSeparator}
-                        >
-                          <Block
-                            key={blockId}
-                            id={blockId}
-                            properties={content}
-                            data={blocksData[blockId]}
-                            path={getBaseUrl(location?.pathname || '')}
-                          />
-                        </Section>
-                      </div>
+                      <Block
+                        key={blockId}
+                        id={blockId}
+                        properties={content}
+                        data={blocksData[blockId]}
+                        path={getBaseUrl(location?.pathname || '')}
+                      />
                     ) : (
                       <div key={blockId}>
                         {intl.formatMessage(messages.unknownBlock, {
