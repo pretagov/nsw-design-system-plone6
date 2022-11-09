@@ -7,6 +7,7 @@ import {
 } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
 import cx from 'classnames';
+import { Section } from 'nsw-design-system-plone6/components/Components/Section';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
@@ -36,6 +37,15 @@ const coreContentBlockTypes = [
   'slate',
 ];
 
+const sectionFields = [
+  'sectionspacing',
+  'sectionimage',
+  'sectionbox',
+  'sectioncolour',
+  'sectioninvert',
+  'sectionshowSeparator',
+];
+
 const getCoreContentGroupedLayout = (blocksInLayout, blocksData) => {
   if (!blocksInLayout || !blocksInLayout.length) {
     return [];
@@ -57,9 +67,36 @@ const getCoreContentGroupedLayout = (blocksInLayout, blocksData) => {
     const currentBlockType = currentBlock['@type'];
     const previousBlockOrGroup = result[result.length - 1];
 
+    if (_blockNeedsSection(currentBlock)) {
+      // Make sure we have another block
+      if (previousBlockOrGroup) {
+        const previousBlock =
+          previousBlockOrGroup instanceof Array
+            ? previousBlockOrGroup[previousBlockOrGroup.length - 1]
+            : previousBlockOrGroup;
+        const previousBlockSectionData = Object.fromEntries(
+          sectionFields.map((k) => [k, blocksData[previousBlock]?.[k]]),
+        );
+        const currentBlockSectionData = Object.fromEntries(
+          sectionFields.map((k) => [k, currentBlock?.[k]]),
+        );
+
+        if (
+          JSON.stringify(previousBlockSectionData) ===
+          JSON.stringify(currentBlockSectionData)
+        ) {
+          previousBlockOrGroup.push(currentBlockId);
+          result.splice(result.length - 1, 1, previousBlockOrGroup);
+        } else {
+          result.push([currentBlockId]);
+        }
+      } else {
+        result.push([currentBlockId]);
+      }
+    }
     // If the previous block is a group and the current block is a core content block,
     // add the current block to the group.
-    if (
+    else if (
       previousBlockOrGroup instanceof Array &&
       coreContentBlockTypes.includes(currentBlockType)
     ) {
@@ -80,6 +117,13 @@ const getCoreContentGroupedLayout = (blocksInLayout, blocksData) => {
   }, []);
 };
 
+function _blockNeedsSection(blockData) {
+  if (Object.keys(blockData).some((r) => sectionFields.includes(r))) {
+    return true;
+  }
+  return false;
+}
+
 const BlocksLayout = ({ content, location }) => {
   const intl = useIntl();
   const blocksFieldname = getBlocksFieldname(content);
@@ -93,83 +137,137 @@ const BlocksLayout = ({ content, location }) => {
 
   return (
     <div id="page-document">
-      {groupedBlocksLayout.map((blockIdOrGroup, index) => {
-        if (blockIdOrGroup instanceof Array) {
-          const blockGroup = blockIdOrGroup; // Rename it just to make the code more readable
-          return (
-            <div
-              key={`blockgroup-${index}`}
-              className={cx('nsw-container', {
-                'nsw-p-bottom-md': index + 1 === groupedBlocksLayout.length,
-              })}
-            >
-              {blockGroup.map((blockId) => {
-                // Copy pasted from below. Should really make this a function!
-                const blockData = blocksData?.[blockId];
-                const blockType = blockData?.['@type'];
-                const Block =
-                  config.blocks.blocksConfig[blockType]?.['view'] || null;
-                return Block !== null ? (
-                  <Block
-                    key={blockId}
-                    id={blockId}
-                    properties={content}
-                    data={blocksData[blockId]}
-                    path={getBaseUrl(location?.pathname || '')}
-                  />
-                ) : (
-                  <div key={blockId}>
-                    {intl.formatMessage(messages.unknownBlock, {
-                      block: blockType,
+      <div className="nsw-layout">
+        <div className="nsw-layout__main">
+          {groupedBlocksLayout.map((blockIdOrGroup, index) => {
+            if (blockIdOrGroup instanceof Array) {
+              const blockGroup = blockIdOrGroup; // Rename it just to make the code more readable
+              if (_blockNeedsSection(blocksData?.[blockGroup[0]])) {
+                const blockWithSectionData = blocksData?.[blockGroup[0]];
+                // debugger;
+                return (
+                  <Section
+                    // title={blockData.title}
+                    // description={blockData.description}
+                    padding={blockWithSectionData.sectionspacing}
+                    isBox={blockWithSectionData.sectionbox}
+                    colour={blockWithSectionData.sectioncolour}
+                    shouldInvert={blockWithSectionData.sectioninvert}
+                    showSeparator={blockWithSectionData.sectionshowSeparator}
+                  >
+                    {blockGroup.map((blockId) => {
+                      // Copy pasted from below. Should really make this a function!
+                      const blockData = blocksData?.[blockId];
+                      const blockType = blockData?.['@type'];
+                      const Block =
+                        config.blocks.blocksConfig[blockType]?.['view'] || null;
+                      // debugger;
+                      return Block !== null ? (
+                        <Block
+                          key={blockId}
+                          id={blockId}
+                          properties={content}
+                          data={blocksData[blockId]}
+                          path={getBaseUrl(location?.pathname || '')}
+                        />
+                      ) : (
+                        <div key={blockId}>
+                          {intl.formatMessage(messages.unknownBlock, {
+                            block: blockType,
+                          })}
+                        </div>
+                      );
                     })}
-                  </div>
+                  </Section>
                 );
-              })}
-            </div>
-          );
-        }
-
-        const blockId = blockIdOrGroup; // Rename it just to make the code more readable
-        const blockData = blocksData?.[blockId];
-        const blockType = blockData?.['@type'];
-        const Block = config.blocks.blocksConfig[blockType]?.['view'] || null;
-
-        if (Block === null) {
-          return (
-            <div key={blockId}>
-              {intl.formatMessage(messages.unknownBlock, {
-                block: blockType,
-              })}
-            </div>
-          );
-        }
-
-        return fullWidthBlockTypes.includes(blockType) ? (
-          <Block
-            key={blockId}
-            id={blockId}
-            properties={content}
-            data={blocksData[blockId]}
-            path={getBaseUrl(location?.pathname || '')}
-          />
-        ) : (
-          <div
-            key={blockId}
-            className={cx('nsw-container', {
-              'nsw-p-bottom-md':
-                index + 1 === groupedBlocksLayout.length &&
-                blockType !== 'nsw_section',
-            })}
-          >
-            <Block
-              id={blockId}
-              properties={content}
-              data={blocksData[blockId]}
-              path={getBaseUrl(location?.pathname || '')}
-            />
-          </div>
-        );
-      })}
+              }
+              return (
+                <div
+                  key={`blockgroup-${index}`}
+                  className={cx('nsw-container', {
+                    'nsw-p-bottom-md': index + 1 === groupedBlocksLayout.length,
+                  })}
+                >
+                  {blockGroup.map((blockId) => {
+                    // Copy pasted from below. Should really make this a function!
+                    const blockData = blocksData?.[blockId];
+                    const blockType = blockData?.['@type'];
+                    const Block =
+                      config.blocks.blocksConfig[blockType]?.['view'] || null;
+                    // debugger;
+                    return Block !== null ? (
+                      <div className="nsw-section">
+                        <Section
+                          // title={blockData.title}
+                          // description={blockData.description}
+                          padding={blockData.sectionspacing}
+                          isBox={blockData.sectionbox}
+                          colour={blockData.sectioncolour}
+                          shouldInvert={blockData.sectioninvert}
+                          showSeparator={blockData.sectionshowSeparator}
+                        >
+                          <Block
+                            key={blockId}
+                            id={blockId}
+                            properties={content}
+                            data={blocksData[blockId]}
+                            path={getBaseUrl(location?.pathname || '')}
+                          />
+                        </Section>
+                      </div>
+                    ) : (
+                      <div key={blockId}>
+                        {intl.formatMessage(messages.unknownBlock, {
+                          block: blockType,
+                        })}
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            }
+            const blockId = blockIdOrGroup; // Rename it just to make the code more readable
+            const blockData = blocksData?.[blockId];
+            const blockType = blockData?.['@type'];
+            const Block =
+              config.blocks.blocksConfig[blockType]?.['view'] || null;
+            if (Block === null) {
+              return (
+                <div key={blockId}>
+                  {intl.formatMessage(messages.unknownBlock, {
+                    block: blockType,
+                  })}
+                </div>
+              );
+            }
+            return fullWidthBlockTypes.includes(blockType) ? (
+              <Block
+                key={blockId}
+                id={blockId}
+                properties={content}
+                data={blocksData[blockId]}
+                path={getBaseUrl(location?.pathname || '')}
+              />
+            ) : (
+              <div
+                key={blockId}
+                className={cx('nsw-container', {
+                  'nsw-p-bottom-md':
+                    index + 1 === groupedBlocksLayout.length &&
+                    blockType !== 'nsw_section',
+                })}
+              >
+                <Block
+                  id={blockId}
+                  properties={content}
+                  data={blocksData[blockId]}
+                  path={getBaseUrl(location?.pathname || '')}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };

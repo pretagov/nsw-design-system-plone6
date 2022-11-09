@@ -22,5 +22,5 @@ export {
 } from './Blocks/DropdownQuickNavigation';
 export { InPageAlertEdit, InPageAlertView } from './Blocks/InPageAlert';
 export { LinkListEdit, LinkListView } from './Blocks/LinkList';
-export { SectionEdit, SectionView } from './Blocks/Section';
+export { SectionEdit, SectionSchema, SectionView } from './Blocks/Section';
 export { SidebarEdit, SidebarView } from './Blocks/Sidebar';

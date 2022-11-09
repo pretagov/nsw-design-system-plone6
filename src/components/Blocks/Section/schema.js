@@ -68,14 +68,14 @@ export const sectionSchema = ({ intl }) => {
         id: 'default',
         title: 'Default',
         fields: [
-          'title',
-          'description',
-          'spacing',
-          'image',
-          'box',
-          'colour',
-          'invert',
-          'showSeparator',
+          // 'title',
+          // 'description',
+          'sectionspacing',
+          'sectionimage',
+          'sectionbox',
+          'sectioncolour',
+          'sectioninvert',
+          'sectionshowSeparator',
         ],
       },
     ],
@@ -88,7 +88,7 @@ export const sectionSchema = ({ intl }) => {
         title: intl.formatMessage(messages.sectionDescriptionTitle),
         type: 'string',
       },
-      spacing: {
+      sectionspacing: {
         title: intl.formatMessage(messages.spacingTitle),
         description: intl.formatMessage(messages.spacingDescription),
         type: 'string',
@@ -100,18 +100,18 @@ export const sectionSchema = ({ intl }) => {
         ],
         default: 'full',
       },
-      image: {
+      sectionimage: {
         title: intl.formatMessage(messages.imageTitle),
         type: 'file',
         widget: 'file',
       },
-      box: {
+      sectionbox: {
         title: intl.formatMessage(messages.boxTitle),
         description: intl.formatMessage(messages.boxDescription),
         type: 'boolean',
         default: false,
       },
-      colour: {
+      sectioncolour: {
         title: intl.formatMessage(messages.colourTitle),
         type: 'string',
         factory: 'Choice',
@@ -129,13 +129,13 @@ export const sectionSchema = ({ intl }) => {
         ],
         default: 'brand-light',
       },
-      invert: {
+      sectioninvert: {
         title: intl.formatMessage(messages.invertTitle),
         description: intl.formatMessage(messages.invertDescription),
         type: 'boolean',
         default: false,
       },
-      showSeparator: {
+      sectionshowSeparator: {
         title: intl.formatMessage(messages.showSeparatorTitle),
         description: intl.formatMessage(messages.showSeparatorTitleDescription),
         type: 'boolean',
