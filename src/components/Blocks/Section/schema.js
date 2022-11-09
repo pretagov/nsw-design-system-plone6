@@ -98,7 +98,7 @@ export const sectionSchema = ({ intl }) => {
           ['half', 'Half spacing'],
           ['no', 'No spacing'],
         ],
-        default: 'full',
+        // default: 'full',
       },
       sectionimage: {
         title: intl.formatMessage(messages.imageTitle),
@@ -109,7 +109,7 @@ export const sectionSchema = ({ intl }) => {
         title: intl.formatMessage(messages.boxTitle),
         description: intl.formatMessage(messages.boxDescription),
         type: 'boolean',
-        default: false,
+        // default: false,
       },
       sectioncolour: {
         title: intl.formatMessage(messages.colourTitle),
@@ -127,19 +127,19 @@ export const sectionSchema = ({ intl }) => {
           ['grey-03', 'Grey 03'],
           ['grey-04', 'Grey 04'],
         ],
-        default: 'brand-light',
+        // default: 'brand-light',
       },
       sectioninvert: {
         title: intl.formatMessage(messages.invertTitle),
         description: intl.formatMessage(messages.invertDescription),
         type: 'boolean',
-        default: false,
+        // default: false,
       },
       sectionshowSeparator: {
         title: intl.formatMessage(messages.showSeparatorTitle),
         description: intl.formatMessage(messages.showSeparatorTitleDescription),
         type: 'boolean',
-        default: false,
+        // default: false,
       },
     },
   };
