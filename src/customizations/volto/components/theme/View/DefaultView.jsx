@@ -66,16 +66,16 @@ const getCoreContentGroupedLayout = (blocksInLayout, blocksData) => {
     const currentBlock = blocksData[currentBlockId];
     const currentBlockType = currentBlock['@type'];
     const previousBlockOrGroup = result[result.length - 1];
+    const previousBlock =
+      previousBlockOrGroup instanceof Array
+        ? blocksData[previousBlockOrGroup[previousBlockOrGroup.length - 1]]
+        : blocksData[previousBlockOrGroup];
 
     if (_blockNeedsSection(currentBlock)) {
       // Make sure we have another block
       if (previousBlockOrGroup) {
-        const previousBlock =
-          previousBlockOrGroup instanceof Array
-            ? previousBlockOrGroup[previousBlockOrGroup.length - 1]
-            : previousBlockOrGroup;
         const previousBlockSectionData = Object.fromEntries(
-          sectionFields.map((k) => [k, blocksData[previousBlock]?.[k]]),
+          sectionFields.map((k) => [k, previousBlock?.[k]]),
         );
         const currentBlockSectionData = Object.fromEntries(
           sectionFields.map((k) => [k, currentBlock?.[k]]),
@@ -93,10 +93,14 @@ const getCoreContentGroupedLayout = (blocksInLayout, blocksData) => {
       } else {
         result.push([currentBlockId]);
       }
+      return result;
     }
+
     // If the previous block is a group and the current block is a core content block,
     // add the current block to the group.
-    else if (
+    if (previousBlock && _blockNeedsSection(previousBlock)) {
+      result.push([currentBlockId]);
+    } else if (
       previousBlockOrGroup instanceof Array &&
       coreContentBlockTypes.includes(currentBlockType)
     ) {
