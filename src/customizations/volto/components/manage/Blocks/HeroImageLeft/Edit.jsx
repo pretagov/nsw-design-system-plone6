@@ -296,7 +296,12 @@ class EditComponent extends Component {
       });
     }
 
-    if (nextProps.selected !== this.props.selected) {
+    if (!nextProps.selected) {
+      this.titleEditor.editor.blur();
+      this.descriptionEditor.editor.blur();
+    }
+
+    if (nextProps.selected && !this.props.selected) {
       if (this.state.currentFocused === 'title') {
         this.titleEditor.focus();
       } else {
