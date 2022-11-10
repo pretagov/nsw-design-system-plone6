@@ -142,7 +142,16 @@ const BlocksLayout = ({ content, location }) => {
   return (
     <div id="page-document">
       <div className="nsw-layout">
-        <div className="nsw-layout__main">
+        <div
+          className="nsw-layout__main"
+          style={
+            fullWidthBlockTypes.includes(
+              blocksData[blocksInLayout[0]]?.['@type'],
+            )
+              ? { paddingBlockStart: '0' }
+              : null
+          }
+        >
           {groupedBlocksLayout.map((blockIdOrGroup, index) => {
             if (blockIdOrGroup instanceof Array) {
               const blockGroup = blockIdOrGroup; // Rename it just to make the code more readable
