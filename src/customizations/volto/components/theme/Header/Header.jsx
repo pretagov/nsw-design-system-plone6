@@ -9,6 +9,7 @@ import {
 import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { useGoogleAnalytics } from 'volto-google-analytics';
 import Navigation from '../Navigation/Navigation';
 import { Masthead } from './Masthead';
 
@@ -73,6 +74,7 @@ const Header = ({ nswDesignSystem }) => {
         new nswDesignSystem['SiteSearch'](searchInputElement.current).init();
       });
   }, [searchInputElement]);
+  useGoogleAnalytics();
 
   //   TODO: We should be able to use a fragment instead of a div here. Not sure why the `Navigation` component isn't being rendered if we use a fragment.
   return (
