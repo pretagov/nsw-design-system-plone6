@@ -8,6 +8,14 @@ const messages = defineMessages({
     id: 'Schema_Description_Title',
     defaultMessage: 'Description',
   },
+  sectionTypeTitle: {
+    id: 'Schema_SectionType_Title',
+    defaultMessage: 'Section type',
+  },
+  sectionTypeDescription: {
+    id: 'Schema_SectionType_Description',
+    defaultMessage: '',
+  },
   spacingTitle: {
     id: 'Schema_Spacing_Title',
     defaultMessage: 'Spacing',
@@ -60,7 +68,35 @@ const messages = defineMessages({
   },
 });
 
-export const sectionSchema = ({ intl }) => {
+const sectionTypeFieldsMapping = {
+  sameAsPrevious: [
+    'sectioninvert',
+    'sectionspacing',
+    'sectionbox',
+    'sectionshowSeparator',
+  ],
+  colour: [
+    'sectioninvert',
+    'sectionspacing',
+    'sectionbox',
+    'sectionshowSeparator',
+  ],
+  image: [
+    'sectionimage',
+    'sectioninvert',
+    'sectionspacing',
+    'sectionbox',
+    'sectionshowSeparator',
+  ],
+};
+
+export const sectionSchema = ({ intl, formData }) => {
+  let sectionType = formData && formData.sectionType;
+
+  if (sectionType && sectionType.startsWith('colour-')) {
+    sectionType = 'colour';
+  }
+
   return {
     required: ['spacing', 'box', 'colour', 'invert'],
     fieldsets: [
@@ -68,18 +104,37 @@ export const sectionSchema = ({ intl }) => {
         id: 'default',
         title: 'Default',
         fields: [
-          // 'title',
-          // 'description',
-          'sectionspacing',
-          'sectionimage',
-          'sectionbox',
-          'sectioncolour',
-          'sectioninvert',
-          'sectionshowSeparator',
+          'title',
+          'description',
+          'sectionType',
+          ...(sectionTypeFieldsMapping[sectionType] ?? []),
         ],
+        required: ['sectionType'],
       },
     ],
     properties: {
+      sectionType: {
+        title: intl.formatMessage(messages.sectionTypeTitle),
+        type: 'string',
+        factory: 'Choice',
+        choices: [
+          ['', 'No section'],
+          ['sameAsPrevious', 'Same as previous'],
+          ['colour-brand-light', 'Light'],
+          ['colour-brand-dark', 'Dark'],
+          ['colour-brand-supplementary', 'Supplementary'],
+          ['colour-brand-black', 'Black'],
+          ['colour-white', 'White'],
+          ['colour-off-white', 'Off White'],
+          ['colour-grey-01', 'Grey 01'],
+          ['colour-grey-02', 'Grey 02'],
+          ['colour-grey-03', 'Grey 03'],
+          ['colour-grey-04', 'Grey 04'],
+          ['image', 'Image'],
+        ],
+        placeholder: 'temporary',
+        // default: 'full',
+      },
       title: {
         title: intl.formatMessage(messages.sectionTitleTitle),
         type: 'string',

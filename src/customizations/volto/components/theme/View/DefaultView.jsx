@@ -7,6 +7,7 @@ import {
 } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
 import cx from 'classnames';
+import { getSectionColour } from 'nsw-design-system-plone6/components/Blocks/Section/utils';
 import { Section } from 'nsw-design-system-plone6/components/Components/Section';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -38,6 +39,7 @@ const coreContentBlockTypes = [
 ];
 
 const sectionFields = [
+  'sectionType',
   'sectionspacing',
   'sectionimage',
   'sectionbox',
@@ -82,8 +84,9 @@ const getCoreContentGroupedLayout = (blocksInLayout, blocksData) => {
         );
 
         if (
+          currentBlockSectionData.sectionType === 'sameAsPrevious' ||
           JSON.stringify(previousBlockSectionData) ===
-          JSON.stringify(currentBlockSectionData)
+            JSON.stringify(currentBlockSectionData)
         ) {
           previousBlockOrGroup.push(currentBlockId);
           result.splice(result.length - 1, 1, previousBlockOrGroup);
@@ -157,6 +160,7 @@ const BlocksLayout = ({ content, location }) => {
               const blockGroup = blockIdOrGroup; // Rename it just to make the code more readable
               if (_blockNeedsSection(blocksData?.[blockGroup[0]])) {
                 const blockWithSectionData = blocksData?.[blockGroup[0]];
+                const sectionColour = getSectionColour(blockWithSectionData);
                 // debugger;
                 return (
                   <Section
@@ -164,7 +168,7 @@ const BlocksLayout = ({ content, location }) => {
                     // description={blockData.description}
                     padding={blockWithSectionData.sectionspacing}
                     isBox={blockWithSectionData.sectionbox}
-                    colour={blockWithSectionData.sectioncolour}
+                    colour={sectionColour}
                     shouldInvert={blockWithSectionData.sectioninvert}
                     showSeparator={blockWithSectionData.sectionshowSeparator}
                   >

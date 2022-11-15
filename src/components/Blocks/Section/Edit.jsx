@@ -217,7 +217,7 @@ const SubblockEdit = ({
 
       <SidebarPortal selected={selected && selectedBlock === sectionBlockId}>
         <BlockDataForm
-          schema={schema({ intl })}
+          schema={schema({ intl, formData: data })}
           title="Section block"
           onChangeField={(id, value) => {
             onChangeBlock(sectionBlockId, {

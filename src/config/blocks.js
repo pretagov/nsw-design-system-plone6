@@ -481,6 +481,7 @@ function removeVariationsFromBlock(config, blockId, variationsToRemove) {
 function withSectionSchema({ schema, formData, intl }) {
   const sectionSchema = SectionSchema({
     intl,
+    formData,
   });
   schema.properties = {
     ...schema.properties,
@@ -492,7 +493,11 @@ function withSectionSchema({ schema, formData, intl }) {
   const sectionFieldset = {
     id: 'sectionFieldset',
     title: 'Section',
-    fields: [...sectionSchema.fieldsets[0].fields],
+    fields: [
+      ...sectionSchema.fieldsets[defaultFieldsetIndex].fields.filter(
+        (fieldId) => !['title', 'description'].includes(fieldId),
+      ),
+    ],
   };
   schema.fieldsets = [...schema.fieldsets, sectionFieldset];
   return schema;
@@ -557,6 +562,9 @@ export const updateBlocksConfig = (config) => {
     });
   });
   Object.keys(config.blocks.blocksConfig).forEach((blockId) => {
+    if (blockId === 'nsw_section') {
+      return;
+    }
     config.blocks.blocksConfig[blockId].schemaEnhancer = composeSchema(
       config.blocks.blocksConfig[blockId].schemaEnhancer,
       withSectionSchema,
