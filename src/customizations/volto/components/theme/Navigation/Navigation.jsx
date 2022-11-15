@@ -138,9 +138,9 @@ const Navigation = () => {
   const location = useLocation();
   const { items, root } = useSelector((state) => ({
     token: state.userSession.token,
-    items: state.reduxAsyncConnect.navigation?.items || state.navigation?.items,
+    items: state.navigation?.items || state.navigation?.items,
     lang: state.intl.locale,
-    root: state.reduxAsyncConnect.breadcrumbs.root,
+    root: state.breadcrumbs.root,
   }));
 
   const navigationController = useRef(null);
