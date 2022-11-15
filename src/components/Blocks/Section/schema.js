@@ -69,12 +69,7 @@ const messages = defineMessages({
 });
 
 const sectionTypeFieldsMapping = {
-  sameAsPrevious: [
-    'sectioninvert',
-    'sectionspacing',
-    'sectionbox',
-    'sectionshowSeparator',
-  ],
+  sameAsPrevious: [],
   colour: [
     'sectioninvert',
     'sectionspacing',
@@ -98,7 +93,6 @@ export const sectionSchema = ({ intl, formData }) => {
   }
 
   return {
-    required: ['spacing', 'box', 'colour', 'invert'],
     fieldsets: [
       {
         id: 'default',
@@ -112,6 +106,7 @@ export const sectionSchema = ({ intl, formData }) => {
         required: ['sectionType'],
       },
     ],
+    required: ['sectionType'],
     properties: {
       sectionType: {
         title: intl.formatMessage(messages.sectionTypeTitle),
@@ -132,8 +127,7 @@ export const sectionSchema = ({ intl, formData }) => {
           ['colour-grey-04', 'Grey 04'],
           ['image', 'Image'],
         ],
-        placeholder: 'temporary',
-        // default: 'full',
+        default: '',
       },
       title: {
         title: intl.formatMessage(messages.sectionTitleTitle),
@@ -153,7 +147,7 @@ export const sectionSchema = ({ intl, formData }) => {
           ['half', 'Half spacing'],
           ['no', 'No spacing'],
         ],
-        // default: 'full',
+        placeholder: 'Full spacing',
       },
       sectionimage: {
         title: intl.formatMessage(messages.imageTitle),

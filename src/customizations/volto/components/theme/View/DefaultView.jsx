@@ -125,6 +125,17 @@ const getCoreContentGroupedLayout = (blocksInLayout, blocksData) => {
 };
 
 function _blockNeedsSection(blockData) {
+  // We don't want to double up on sections.
+  if (blockData['@type'] === 'nsw_section') {
+    return false;
+  }
+  if (blockData.sectionType) {
+    return true;
+  }
+  // The value is an empty string if we had a value in the past but set it back to no section
+  if (blockData.sectionType === '') {
+    return false;
+  }
   if (Object.keys(blockData).some((r) => sectionFields.includes(r))) {
     return true;
   }
