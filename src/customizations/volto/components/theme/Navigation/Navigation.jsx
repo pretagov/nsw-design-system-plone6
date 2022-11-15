@@ -1,8 +1,11 @@
 import loadable from '@loadable/component';
+import { getNavigation } from '@plone/volto/actions';
 import { UniversalLink as Link } from '@plone/volto/components';
+import { getBaseUrl } from '@plone/volto/helpers';
+import config from '@plone/volto/registry';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 const getItemUrl = (item) => {
@@ -135,13 +138,14 @@ const MainNavItem = ({ item }) => {
 
 const Navigation = () => {
   const intl = useIntl();
+  const dispatch = useDispatch();
   const location = useLocation();
-  const { items, root } = useSelector((state) => ({
-    token: state.userSession.token,
-    items: state.navigation?.items || state.navigation?.items,
-    lang: state.intl.locale,
-    root: state.breadcrumbs.root,
-  }));
+  const items = useSelector(
+    (state) => state.navigation?.items || state.navigation?.items,
+  );
+  const root = useSelector((state) => state.breadcrumbs.root);
+  const token = useSelector((state) => state.userSession.token);
+  const lang = useSelector((state) => state.intl.locale);
 
   const navigationController = useRef(null);
   if (__CLIENT__ && !navigationController.current) {
@@ -166,6 +170,11 @@ const Navigation = () => {
       navigationController.current.closeSubNav();
     }
   }, [location]);
+  useEffect(() => {
+    dispatch(
+      getNavigation(getBaseUrl(location.pathname), config.settings.navDepth),
+    );
+  }, [token, dispatch, location.pathname]);
 
   return useMemo(() => {
     return (
@@ -209,7 +218,7 @@ const Navigation = () => {
         </ul>
       </nav>
     );
-  }, [intl, items]);
+  }, [intl, items, root]);
 };
 
 export default Navigation;
