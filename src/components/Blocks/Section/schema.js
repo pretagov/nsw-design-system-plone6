@@ -118,7 +118,7 @@ export const sectionSchema = ({ intl, formData }) => {
           ['colour-brand-light', 'Light'],
           ['colour-brand-dark', 'Dark'],
           ['colour-brand-supplementary', 'Supplementary'],
-          ['colour-brand-black', 'Black'],
+          ['colour-black', 'Black'],
           ['colour-white', 'White'],
           ['colour-off-white', 'Off White'],
           ['colour-grey-01', 'Grey 01'],
