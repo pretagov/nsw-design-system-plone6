@@ -176,8 +176,6 @@ const BlocksLayout = ({ content, location }) => {
                 return (
                   <Section
                     key={index}
-                    // title={blockData.title}
-                    // description={blockData.description}
                     padding={blockWithSectionData.sectionspacing}
                     isBox={blockWithSectionData.sectionbox}
                     colour={sectionColour}
