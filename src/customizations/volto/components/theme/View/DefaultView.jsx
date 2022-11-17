@@ -42,10 +42,8 @@ const sectionFields = [
   'sectionType',
   'sectionspacing',
   'sectionimage',
-  'sectionbox',
   'sectioncolour',
   'sectioninvert',
-  'sectionshowSeparator',
 ];
 
 const getCoreContentGroupedLayout = (blocksInLayout, blocksData) => {
@@ -179,7 +177,6 @@ const BlocksLayout = ({ content, location }) => {
                     isBox={blockWithSectionData.sectionType === 'box'}
                     colour={sectionColour}
                     shouldInvert={blockWithSectionData.sectioninvert}
-                    showSeparator={blockWithSectionData.sectionshowSeparator}
                   >
                     {blockGroup.map((blockId) => {
                       // Copy pasted from below. Should really make this a function!

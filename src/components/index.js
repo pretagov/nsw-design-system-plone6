@@ -23,4 +23,9 @@ export {
 export { InPageAlertEdit, InPageAlertView } from './Blocks/InPageAlert';
 export { LinkListEdit, LinkListView } from './Blocks/LinkList';
 export { SectionEdit, SectionSchema, SectionView } from './Blocks/Section';
+export {
+  SeparatorEdit,
+  separatorSchema,
+  SeparatorView,
+} from './Blocks/Separator';
 export { SidebarEdit, SidebarView } from './Blocks/Sidebar';

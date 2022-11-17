@@ -21,7 +21,6 @@ const SectionView = ({ data, isEditMode, ...props }) => {
       colour={colour}
       shouldInvert={data.sectioninvert}
       imageSrc={imageSrc}
-      showSeparator={data.sectionshowSeparator}
     >
       <RenderBlocks {...props} metadata={metadata} content={data.block} />
     </Section>

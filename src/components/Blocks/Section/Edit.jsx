@@ -167,7 +167,6 @@ const SubblockEdit = ({
             ? `data:${data.image['content-type']};base64,${data.image.data}`
             : null
         }
-        showSeparator={data.showSeparator}
       >
         <>
           {data.block && blockHasValue(data?.block.blocks[childBlockId]) ? (

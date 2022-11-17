@@ -185,6 +185,15 @@ const nswBlocks = [
     },
   },
   {
+    id: 'separator',
+    title: 'Separator',
+    icon: sliderSVG,
+    group: 'nsw',
+    view: Components.SeparatorView,
+    edit: Components.SeparatorEdit,
+    restricted: false,
+  },
+  {
     id: 'nsw_sidebar',
     title: 'Sidebar',
     icon: sliderSVG,

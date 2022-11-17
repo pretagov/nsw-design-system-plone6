@@ -28,15 +28,6 @@ const messages = defineMessages({
     id: 'Schema_Image_Title',
     defaultMessage: 'Image',
   },
-  boxTitle: {
-    id: 'Schema_Box_Title',
-    defaultMessage: 'Display as box?',
-  },
-  boxDescription: {
-    id: 'Schema_Box_Description',
-    defaultMessage:
-      'A box section will have rounded corners and a thin grey outline',
-  },
   colourTitle: {
     id: 'Schema_Colour_Title',
     defaultMessage: 'Colour',
@@ -45,37 +36,13 @@ const messages = defineMessages({
     id: 'Schema_Invert_Title',
     defaultMessage: 'Display with inverted text?',
   },
-  showSeparatorTitle: {
-    id: 'Schema_ShowSeparator_Title',
-    defaultMessage: 'Show separator?',
-  },
-  showSeparatorTitleDescription: {
-    id: 'Schema_ShowSeparator_Description',
-    defaultMessage: 'Enabling shows a horizontal separator after the section.',
-  },
 });
 
 const sectionTypeFieldsMapping = {
   sameAsPrevious: [],
-  colour: [
-    'sectioninvert',
-    'sectionspacing',
-    // 'sectionbox',
-    'sectionshowSeparator',
-  ],
-  image: [
-    'sectionimage',
-    'sectioninvert',
-    'sectionspacing',
-    // 'sectionbox',
-    'sectionshowSeparator',
-  ],
-  box: [
-    'sectioninvert',
-    'sectionspacing',
-    // 'sectionbox',
-    'sectionshowSeparator',
-  ],
+  colour: ['sectioninvert', 'sectionspacing'],
+  image: ['sectionimage', 'sectioninvert', 'sectionspacing'],
+  box: ['sectioninvert', 'sectionspacing'],
 };
 
 export const sectionSchema = ({ intl, formData }) => {
@@ -148,12 +115,6 @@ export const sectionSchema = ({ intl, formData }) => {
         type: 'file',
         widget: 'file',
       },
-      // sectionbox: {
-      //   title: intl.formatMessage(messages.boxTitle),
-      //   description: intl.formatMessage(messages.boxDescription),
-      //   type: 'boolean',
-      //   // default: false,
-      // },
       sectioncolour: {
         title: intl.formatMessage(messages.colourTitle),
         type: 'string',
@@ -170,18 +131,10 @@ export const sectionSchema = ({ intl, formData }) => {
           ['grey-03', 'Grey 03'],
           ['grey-04', 'Grey 04'],
         ],
-        // default: 'brand-light',
       },
       sectioninvert: {
         title: intl.formatMessage(messages.invertTitle),
         type: 'boolean',
-        // default: false,
-      },
-      sectionshowSeparator: {
-        title: intl.formatMessage(messages.showSeparatorTitle),
-        description: intl.formatMessage(messages.showSeparatorTitleDescription),
-        type: 'boolean',
-        // default: false,
       },
     },
   };
