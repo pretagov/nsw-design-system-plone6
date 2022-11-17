@@ -172,7 +172,6 @@ const BlocksLayout = ({ content, location }) => {
               if (_blockNeedsSection(blocksData?.[blockGroup[0]])) {
                 const blockWithSectionData = blocksData?.[blockGroup[0]];
                 const sectionColour = getSectionColour(blockWithSectionData);
-                // debugger;
                 return (
                   <Section
                     key={index}
@@ -188,7 +187,6 @@ const BlocksLayout = ({ content, location }) => {
                       const blockType = blockData?.['@type'];
                       const Block =
                         config.blocks.blocksConfig[blockType]?.['view'] || null;
-                      // debugger;
                       return Block !== null ? (
                         <Block
                           key={blockId}
@@ -221,7 +219,6 @@ const BlocksLayout = ({ content, location }) => {
                     const blockType = blockData?.['@type'];
                     const Block =
                       config.blocks.blocksConfig[blockType]?.['view'] || null;
-                    // debugger;
                     return Block !== null ? (
                       <Block
                         key={blockId}
