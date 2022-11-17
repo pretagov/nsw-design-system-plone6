@@ -175,6 +175,7 @@ const BlocksLayout = ({ content, location }) => {
                 // debugger;
                 return (
                   <Section
+                    key={index}
                     // title={blockData.title}
                     // description={blockData.description}
                     padding={blockWithSectionData.sectionspacing}
