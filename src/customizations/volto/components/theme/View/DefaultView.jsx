@@ -176,7 +176,7 @@ const BlocksLayout = ({ content, location }) => {
                   <Section
                     key={index}
                     padding={blockWithSectionData.sectionspacing}
-                    isBox={blockWithSectionData.sectionbox}
+                    isBox={blockWithSectionData.sectionType === 'box'}
                     colour={sectionColour}
                     shouldInvert={blockWithSectionData.sectioninvert}
                     showSeparator={blockWithSectionData.sectionshowSeparator}

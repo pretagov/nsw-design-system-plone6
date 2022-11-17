@@ -73,14 +73,20 @@ const sectionTypeFieldsMapping = {
   colour: [
     'sectioninvert',
     'sectionspacing',
-    'sectionbox',
+    // 'sectionbox',
     'sectionshowSeparator',
   ],
   image: [
     'sectionimage',
     'sectioninvert',
     'sectionspacing',
-    'sectionbox',
+    // 'sectionbox',
+    'sectionshowSeparator',
+  ],
+  box: [
+    'sectioninvert',
+    'sectionspacing',
+    // 'sectionbox',
     'sectionshowSeparator',
   ],
 };
@@ -126,6 +132,7 @@ export const sectionSchema = ({ intl, formData }) => {
           ['colour-grey-03', 'Grey 03'],
           ['colour-grey-04', 'Grey 04'],
           ['image', 'Image'],
+          ['box', 'Box'],
         ],
         default: '',
       },
@@ -154,12 +161,12 @@ export const sectionSchema = ({ intl, formData }) => {
         type: 'file',
         widget: 'file',
       },
-      sectionbox: {
-        title: intl.formatMessage(messages.boxTitle),
-        description: intl.formatMessage(messages.boxDescription),
-        type: 'boolean',
-        // default: false,
-      },
+      // sectionbox: {
+      //   title: intl.formatMessage(messages.boxTitle),
+      //   description: intl.formatMessage(messages.boxDescription),
+      //   type: 'boolean',
+      //   // default: false,
+      // },
       sectioncolour: {
         title: intl.formatMessage(messages.colourTitle),
         type: 'string',

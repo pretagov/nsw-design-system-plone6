@@ -159,7 +159,7 @@ const SubblockEdit = ({
         title={data.title}
         description={data.description}
         padding={data.spacing}
-        isBox={data.box}
+        isBox={data.sectionType === 'box'}
         colour={data.colour}
         shouldInvert={data.invert}
         imageSrc={

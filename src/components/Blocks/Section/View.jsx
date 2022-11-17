@@ -17,7 +17,7 @@ const SectionView = ({ data, isEditMode, ...props }) => {
       title={data.title}
       description={data.description}
       padding={data.sectionspacing}
-      isBox={data.sectionbox}
+      isBox={data.sectionType === 'box'}
       colour={colour}
       shouldInvert={data.sectioninvert}
       imageSrc={imageSrc}
