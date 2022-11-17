@@ -8,6 +8,14 @@ const messages = defineMessages({
     id: 'Schema_Description_Title',
     defaultMessage: 'Description',
   },
+  sectionTypeTitle: {
+    id: 'Schema_SectionType_Title',
+    defaultMessage: 'Section type',
+  },
+  sectionTypeDescription: {
+    id: 'Schema_SectionType_Description',
+    defaultMessage: '',
+  },
   spacingTitle: {
     id: 'Schema_Spacing_Title',
     defaultMessage: 'Spacing',
@@ -20,49 +28,31 @@ const messages = defineMessages({
     id: 'Schema_Image_Title',
     defaultMessage: 'Image',
   },
-  // imageDescription: {
-  //   id: 'Schema_Image_Description',
-  //   defaultMessage: 'Image',
-  // },
-  boxTitle: {
-    id: 'Schema_Box_Title',
-    defaultMessage: 'Display as box?',
-  },
-  boxDescription: {
-    id: 'Schema_Box_Description',
-    defaultMessage:
-      'A box section will have rounded corners and a thin grey outline',
-  },
   colourTitle: {
     id: 'Schema_Colour_Title',
     defaultMessage: 'Colour',
   },
-  // colourDescription: {
-  //   id: 'Schema_Colour_Description',
-  //   defaultMessage: 'Colour',
-  // },
   invertTitle: {
     id: 'Schema_Invert_Title',
-    defaultMessage: 'Invert support?',
-  },
-  invertDescription: {
-    id: 'Schema_Invert_Description',
-    defaultMessage:
-      'Enable if you want to use components and links inside the sections with dark background',
-  },
-  showSeparatorTitle: {
-    id: 'Schema_ShowSeparator_Title',
-    defaultMessage: 'Show separator?',
-  },
-  showSeparatorTitleDescription: {
-    id: 'Schema_ShowSeparator_Description',
-    defaultMessage: 'Enabling shows a horizontal separator after the section.',
+    defaultMessage: 'Display with inverted text?',
   },
 });
 
-export const sectionSchema = ({ intl }) => {
+const sectionTypeFieldsMapping = {
+  sameAsPrevious: [],
+  colour: ['sectioninvert', 'sectionspacing'],
+  image: ['sectionimage', 'sectioninvert', 'sectionspacing'],
+  box: ['sectioninvert', 'sectionspacing'],
+};
+
+export const sectionSchema = ({ intl, formData }) => {
+  let sectionType = formData && formData.sectionType;
+
+  if (sectionType && sectionType.startsWith('colour-')) {
+    sectionType = 'colour';
+  }
+
   return {
-    required: ['spacing', 'box', 'colour', 'invert'],
     fieldsets: [
       {
         id: 'default',
@@ -70,16 +60,36 @@ export const sectionSchema = ({ intl }) => {
         fields: [
           'title',
           'description',
-          'spacing',
-          'image',
-          'box',
-          'colour',
-          'invert',
-          'showSeparator',
+          'sectionType',
+          ...(sectionTypeFieldsMapping[sectionType] ?? []),
         ],
+        required: ['sectionType'],
       },
     ],
+    required: ['sectionType'],
     properties: {
+      sectionType: {
+        title: intl.formatMessage(messages.sectionTypeTitle),
+        type: 'string',
+        factory: 'Choice',
+        choices: [
+          ['', 'No section'],
+          ['sameAsPrevious', 'Same as previous'],
+          ['colour-brand-light', 'Light'],
+          ['colour-brand-dark', 'Dark'],
+          ['colour-brand-supplementary', 'Supplementary'],
+          ['colour-black', 'Black'],
+          ['colour-white', 'White'],
+          ['colour-off-white', 'Off White'],
+          ['colour-grey-01', 'Grey 01'],
+          ['colour-grey-02', 'Grey 02'],
+          ['colour-grey-03', 'Grey 03'],
+          ['colour-grey-04', 'Grey 04'],
+          ['image', 'Image'],
+          ['box', 'Box'],
+        ],
+        default: '',
+      },
       title: {
         title: intl.formatMessage(messages.sectionTitleTitle),
         type: 'string',
@@ -88,7 +98,7 @@ export const sectionSchema = ({ intl }) => {
         title: intl.formatMessage(messages.sectionDescriptionTitle),
         type: 'string',
       },
-      spacing: {
+      sectionspacing: {
         title: intl.formatMessage(messages.spacingTitle),
         description: intl.formatMessage(messages.spacingDescription),
         type: 'string',
@@ -98,20 +108,14 @@ export const sectionSchema = ({ intl }) => {
           ['half', 'Half spacing'],
           ['no', 'No spacing'],
         ],
-        default: 'full',
+        placeholder: 'Full spacing',
       },
-      image: {
+      sectionimage: {
         title: intl.formatMessage(messages.imageTitle),
         type: 'file',
         widget: 'file',
       },
-      box: {
-        title: intl.formatMessage(messages.boxTitle),
-        description: intl.formatMessage(messages.boxDescription),
-        type: 'boolean',
-        default: false,
-      },
-      colour: {
+      sectioncolour: {
         title: intl.formatMessage(messages.colourTitle),
         type: 'string',
         factory: 'Choice',
@@ -127,19 +131,10 @@ export const sectionSchema = ({ intl }) => {
           ['grey-03', 'Grey 03'],
           ['grey-04', 'Grey 04'],
         ],
-        default: 'brand-light',
       },
-      invert: {
+      sectioninvert: {
         title: intl.formatMessage(messages.invertTitle),
-        description: intl.formatMessage(messages.invertDescription),
         type: 'boolean',
-        default: false,
-      },
-      showSeparator: {
-        title: intl.formatMessage(messages.showSeparatorTitle),
-        description: intl.formatMessage(messages.showSeparatorTitleDescription),
-        type: 'boolean',
-        default: false,
       },
     },
   };

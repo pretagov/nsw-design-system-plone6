@@ -1,3 +1,4 @@
+import { composeSchema } from '@plone/volto/helpers';
 import sliderSVG from '@plone/volto/icons/slider.svg';
 import { defineMessages } from 'react-intl';
 // Todo: Setup path imports for blocks
@@ -10,6 +11,7 @@ import * as Components from '../components';
 import { CardSchema } from '../components/Blocks/Card';
 import { DropdownQuickNavigationSchema } from '../components/Blocks/DropdownQuickNavigation/schema';
 import CardListing from '../components/Blocks/Listing/CardListing';
+import { SectionSchema } from '../components/Blocks/Section';
 
 const messages = defineMessages({
   card: {
@@ -181,6 +183,15 @@ const nswBlocks = [
       addPermission: [],
       view: [],
     },
+  },
+  {
+    id: 'separator',
+    title: 'Separator',
+    icon: sliderSVG,
+    group: 'nsw',
+    view: Components.SeparatorView,
+    edit: Components.SeparatorEdit,
+    restricted: false,
   },
   {
     id: 'nsw_sidebar',
@@ -476,6 +487,31 @@ function removeVariationsFromBlock(config, blockId, variationsToRemove) {
   });
 }
 
+function withSectionSchema({ schema, formData, intl }) {
+  const sectionSchema = SectionSchema({
+    intl,
+    formData,
+  });
+  schema.properties = {
+    ...schema.properties,
+    ...sectionSchema.properties,
+  };
+  const defaultFieldsetIndex = schema.fieldsets.findIndex(
+    (fieldset) => fieldset.id === 'default',
+  );
+  const sectionFieldset = {
+    id: 'sectionFieldset',
+    title: 'Section',
+    fields: [
+      ...sectionSchema.fieldsets[defaultFieldsetIndex].fields.filter(
+        (fieldId) => !['title', 'description'].includes(fieldId),
+      ),
+    ],
+  };
+  schema.fieldsets = [...schema.fieldsets, sectionFieldset];
+  return schema;
+}
+
 export const updateBlocksConfig = (config) => {
   // Add 'NSW' group
   config.blocks.groupBlocksOrder = [
@@ -533,6 +569,15 @@ export const updateBlocksConfig = (config) => {
         variationIndex
       ].schemaEnhancer = schemaEnhancer;
     });
+  });
+  Object.keys(config.blocks.blocksConfig).forEach((blockId) => {
+    if (blockId === 'nsw_section') {
+      return;
+    }
+    config.blocks.blocksConfig[blockId].schemaEnhancer = composeSchema(
+      config.blocks.blocksConfig[blockId].schemaEnhancer,
+      withSectionSchema,
+    );
   });
 
   // Remove requirement for titles

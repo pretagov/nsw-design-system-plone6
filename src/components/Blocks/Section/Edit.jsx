@@ -159,7 +159,7 @@ const SubblockEdit = ({
         title={data.title}
         description={data.description}
         padding={data.spacing}
-        isBox={data.box}
+        isBox={data.sectionType === 'box'}
         colour={data.colour}
         shouldInvert={data.invert}
         imageSrc={
@@ -167,7 +167,6 @@ const SubblockEdit = ({
             ? `data:${data.image['content-type']};base64,${data.image.data}`
             : null
         }
-        showSeparator={data.showSeparator}
       >
         <>
           {data.block && blockHasValue(data?.block.blocks[childBlockId]) ? (
@@ -217,7 +216,7 @@ const SubblockEdit = ({
 
       <SidebarPortal selected={selected && selectedBlock === sectionBlockId}>
         <BlockDataForm
-          schema={schema({ intl })}
+          schema={schema({ intl, formData: data })}
           title="Section block"
           onChangeField={(id, value) => {
             onChangeBlock(sectionBlockId, {
