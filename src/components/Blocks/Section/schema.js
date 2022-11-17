@@ -28,10 +28,6 @@ const messages = defineMessages({
     id: 'Schema_Image_Title',
     defaultMessage: 'Image',
   },
-  // imageDescription: {
-  //   id: 'Schema_Image_Description',
-  //   defaultMessage: 'Image',
-  // },
   boxTitle: {
     id: 'Schema_Box_Title',
     defaultMessage: 'Display as box?',
@@ -45,18 +41,9 @@ const messages = defineMessages({
     id: 'Schema_Colour_Title',
     defaultMessage: 'Colour',
   },
-  // colourDescription: {
-  //   id: 'Schema_Colour_Description',
-  //   defaultMessage: 'Colour',
-  // },
   invertTitle: {
     id: 'Schema_Invert_Title',
-    defaultMessage: 'Invert support?',
-  },
-  invertDescription: {
-    id: 'Schema_Invert_Description',
-    defaultMessage:
-      'Enable if you want to use components and links inside the sections with dark background',
+    defaultMessage: 'Display with inverted text?',
   },
   showSeparatorTitle: {
     id: 'Schema_ShowSeparator_Title',
@@ -187,7 +174,6 @@ export const sectionSchema = ({ intl, formData }) => {
       },
       sectioninvert: {
         title: intl.formatMessage(messages.invertTitle),
-        description: intl.formatMessage(messages.invertDescription),
         type: 'boolean',
         // default: false,
       },
