@@ -86,7 +86,7 @@ function Footer() {
       siteSettings && siteSettings[fieldname] && !!siteSettings[fieldname],
   );
   const acknowledgementOfCountry =
-    siteSettings.acknowledgement_of_country ??
+    siteSettings?.acknowledgement_of_country ??
     intl.formatMessage(messages.acknowledgementOfCountry);
 
   return (
