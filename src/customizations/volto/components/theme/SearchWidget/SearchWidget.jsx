@@ -63,7 +63,7 @@ const SearchWidget = () => {
           <Icon
             name={SearchSVG}
             className="material-icons nsw-material-icons"
-            size="24px"
+            size="36px"
             ariaHidden={true}
           />
           <span className="sr-only">{intl.formatMessage(messages.search)}</span>
