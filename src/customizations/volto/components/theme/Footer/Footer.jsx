@@ -86,6 +86,9 @@ function Footer() {
     (fieldname) =>
       siteSettings && siteSettings[fieldname] && !!siteSettings[fieldname],
   );
+  const acknowledgementOfCountry =
+    siteSettings.acknowledgement_of_country ??
+    intl.formatMessage(messages.acknowledgementOfCountry);
 
   return (
     <>
@@ -158,7 +161,7 @@ function Footer() {
         ) : null}
         <div className="nsw-footer__lower">
           <div className="nsw-container">
-            <p>{intl.formatMessage(messages.acknowledgementOfCountry)}</p>
+            <p>{acknowledgementOfCountry}</p>
             <hr />
             <div className="nsw-footer__links">
               {lowerFooterLinks && lowerFooterLinks.items ? (
