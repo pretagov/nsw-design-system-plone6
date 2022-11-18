@@ -15,6 +15,7 @@ import Navigation from '../Navigation/Navigation';
 import { Masthead } from './Masthead';
 
 import MenuSVG from '@material-design-icons/svg/filled/menu.svg';
+import SearchSVG from '@material-design-icons/svg/filled/search.svg';
 
 const MenuOpenButton = () => (
   <div className="nsw-header__menu">
@@ -47,13 +48,12 @@ const SearchStartButton = ({ searchInputElement }) => {
         aria-controls="header-search"
         ref={searchInputElement}
       >
-        <span
+        <Icon
+          name={SearchSVG}
           className="material-icons nsw-material-icons"
-          focusable="false"
-          aria-hidden="true"
-        >
-          search
-        </span>
+          size="36px"
+          ariaHidden={true}
+        />
         <span>
           <span className="sr-only">Show</span> Search
         </span>
