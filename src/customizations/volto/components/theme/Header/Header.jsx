@@ -1,6 +1,7 @@
 import loadable from '@loadable/component';
 import {
   Anontools,
+  Icon,
   LanguageSelector,
   Logo,
   SearchWidget,
@@ -13,6 +14,8 @@ import { useGoogleAnalytics } from 'volto-google-analytics';
 import Navigation from '../Navigation/Navigation';
 import { Masthead } from './Masthead';
 
+import MenuSVG from '@material-design-icons/svg/filled/menu.svg';
+
 const MenuOpenButton = () => (
   <div className="nsw-header__menu">
     <button
@@ -21,13 +24,12 @@ const MenuOpenButton = () => (
       aria-expanded="false"
       aria-controls="main-nav"
     >
-      <span
+      <Icon
+        name={MenuSVG}
         className="material-icons nsw-material-icons"
-        focusable="false"
-        aria-hidden="true"
-      >
-        menu
-      </span>
+        size="24px"
+        ariaHidden={true}
+      />
       <span>
         <span className="sr-only">Open</span> Menu
       </span>
