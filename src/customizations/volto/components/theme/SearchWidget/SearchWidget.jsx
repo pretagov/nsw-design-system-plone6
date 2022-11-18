@@ -1,6 +1,10 @@
+import { Icon } from '@plone/volto/components';
 import React, { useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useHistory, useLocation } from 'react-router-dom';
+
+import CloseSVG from '@material-design-icons/svg/filled/close.svg';
+import SearchSVG from '@material-design-icons/svg/filled/search.svg';
 
 const messages = defineMessages({
   search: {
@@ -56,14 +60,12 @@ const SearchWidget = () => {
           //   placeholder={intl.formatMessage(messages.searchSite)}
         />
         <button className="nsw-icon-button nsw-icon-button--flex" type="submit">
-          <span
+          <Icon
+            name={SearchSVG}
             className="material-icons nsw-material-icons"
-            focusable="false"
-            aria-hidden="true"
-          >
-            {/* This text is used to set the material icon, doesn't need i18n */}
-            search
-          </span>
+            size="24px"
+            ariaHidden={true}
+          />
           <span className="sr-only">{intl.formatMessage(messages.search)}</span>
         </button>
       </form>
@@ -72,14 +74,12 @@ const SearchWidget = () => {
         aria-expanded="true"
         aria-controls="header-search"
       >
-        <span
+        <Icon
+          name={CloseSVG}
           className="material-icons nsw-material-icons"
-          focusable="false"
-          aria-hidden="true"
-        >
-          {/* This text is used to set the material icon, doesn't need i18n */}
-          close
-        </span>
+          size="24px"
+          ariaHidden={true}
+        />
         <span className="sr-only">
           {intl.formatMessage(messages.closeSearch)}
         </span>
