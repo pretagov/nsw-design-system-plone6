@@ -168,6 +168,7 @@ const Navigation = () => {
       navigationController.current.openSubNavElements.length > 0
     ) {
       navigationController.current.closeSubNav();
+      navigationController.current.mobileHideMainNav({ propertyName: '' });
     }
   }, [location]);
   useEffect(() => {
