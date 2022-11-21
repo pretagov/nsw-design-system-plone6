@@ -1,12 +1,17 @@
 import loadable from '@loadable/component';
 import { getNavigation } from '@plone/volto/actions';
-import { UniversalLink as Link } from '@plone/volto/components';
+import { Icon, UniversalLink as Link } from '@plone/volto/components';
 import { getBaseUrl } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+
+import CloseSVG from '@material-design-icons/svg/filled/close.svg';
+import EastSVG from '@material-design-icons/svg/filled/east.svg';
+import KeyboardArrowLeftSVG from '@material-design-icons/svg/filled/keyboard_arrow_left.svg';
+import KeyboardArrowRightSVG from '@material-design-icons/svg/filled/keyboard_arrow_right.svg';
 
 const getItemUrl = (item) => {
   return item.url || item['@id'] || '';
@@ -53,13 +58,12 @@ const MainNavItem = ({ item }) => {
     <>
       <Link href={itemLink}>
         <span>{itemTitle}</span>
-        <span
+        <Icon
+          name={KeyboardArrowRightSVG}
           className="material-icons nsw-material-icons"
-          focusable="false"
-          aria-hidden="true"
-        >
-          keyboard_arrow_right
-        </span>
+          size="24px"
+          ariaHidden={true}
+        />
       </Link>
 
       {/* TODO: i18n messages for submenu labels */}
@@ -76,13 +80,12 @@ const MainNavItem = ({ item }) => {
             aria-expanded="true"
             aria-controls={navSubmenuId}
           >
-            <span
+            <Icon
+              name={KeyboardArrowLeftSVG}
               className="material-icons nsw-material-icons"
-              focusable="false"
-              aria-hidden="true"
-            >
-              keyboard_arrow_left
-            </span>
+              size="24px"
+              ariaHidden={true}
+            />
             <span>
               Back<span className="sr-only"> to previous menu</span>
             </span>
@@ -93,13 +96,12 @@ const MainNavItem = ({ item }) => {
             type="button"
             aria-expanded="true"
           >
-            <span
+            <Icon
+              name={CloseSVG}
               className="material-icons nsw-material-icons"
-              focusable="false"
-              aria-hidden="true"
-            >
-              close
-            </span>
+              size="24px"
+              ariaHidden={true}
+            />
             <span className="sr-only">Close Menu</span>
           </button>
         </div>
@@ -107,13 +109,12 @@ const MainNavItem = ({ item }) => {
         <div className="nsw-main-nav__title">
           <Link href={itemLink}>
             <span>{itemTitle}</span>
-            <span
+            <Icon
+              name={EastSVG}
               className="material-icons nsw-material-icons"
-              focusable="false"
-              aria-hidden="true"
-            >
-              east
-            </span>
+              size="24px"
+              ariaHidden={true}
+            />
           </Link>
         </div>
 
@@ -193,13 +194,12 @@ const Navigation = () => {
             type="button"
             aria-expanded="true"
           >
-            <span
+            <Icon
+              name={CloseSVG}
               className="material-icons nsw-material-icons"
-              focusable="false"
-              aria-hidden="true"
-            >
-              close
-            </span>
+              size="24px"
+              ariaHidden={true}
+            />
             <span className="sr-only">
               {intl.formatMessage(messages.closeMobileMenu)}
             </span>

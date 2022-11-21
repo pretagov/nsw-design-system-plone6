@@ -1,0 +1,20 @@
+html {
+  font-size: 100% !important;
+}
+
+body.public-ui {
+  font-size: var(--nsw-font-size-sm-mobile);
+  line-height: var(--nsw-line-height-sm-mobile);
+  font-family: var(--nsw-font-family);
+  font-weight: var(--nsw-font-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--nsw-text-dark);
+
+  @media (min-width: 62rem) {
+    & {
+      font-size: var(--nsw-font-size-sm-desktop);
+      line-height: var(--nsw-line-height-sm-desktop);
+    }
+  }
+}
