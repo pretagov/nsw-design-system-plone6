@@ -1,5 +1,8 @@
+import { Icon } from '@plone/volto/components';
 import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
+
+import SearchSVG from '@material-design-icons/svg/filled/search.svg';
 
 const messages = defineMessages({
   search: {
@@ -52,13 +55,12 @@ const SearchInput = ({
             className="nsw-button nsw-button--white nsw-button--flex"
             type="submit"
           >
-            <span
+            <Icon
+              name={SearchSVG}
               className="material-icons nsw-material-icons"
-              focusable="false"
-              aria-hidden="true"
-            >
-              search
-            </span>
+              size="36px"
+              ariaHidden={true}
+            />
           </button>
         </div>
       </div>
