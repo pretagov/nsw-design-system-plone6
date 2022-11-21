@@ -22,14 +22,6 @@ const messages = defineMessages({
   },
 });
 
-// TODO: Have both of these as config.settings options to allow customisation.
-const fullWidthBlockTypes = [
-  'hero',
-  'nsw_section',
-  'nsw_inPageAlert',
-  'nsw_announcementBar',
-  'form',
-];
 const fullWidthContentBlocks = ['form'];
 
 const sectionFields = [
@@ -49,7 +41,7 @@ const getCoreContentGroupedLayout = (blocksInLayout, blocksData) => {
     (blockId) => {
       if (fullWidthContentBlocks.includes(blockId)) {
         return true;
-      } else if (fullWidthBlockTypes.includes(blockId)) {
+      } else if (config.settings.fullWidthBlockTypes.includes(blockId)) {
         return false;
       }
       return true;
@@ -75,10 +67,6 @@ const getCoreContentGroupedLayout = (blocksInLayout, blocksData) => {
       previousBlockOrGroup instanceof Array
         ? blocksData[previousBlockOrGroup[previousBlockOrGroup.length - 1]]
         : blocksData[previousBlockOrGroup];
-
-    if (currentBlock['@type'] === 'form') {
-      debugger;
-    }
 
     if (_blockNeedsSection(currentBlock)) {
       // Make sure we have another block
@@ -159,9 +147,26 @@ const BlocksLayout = ({ content, location }) => {
     blocksInLayout,
     blocksData,
   );
-  const blocksNeedSections = Object.values(blocksData).some((blockData) =>
-    _blockNeedsSection(blockData),
+
+  const blocksNeedSections = Object.values(blocksData).some(
+    (blockData) =>
+      _blockNeedsSection(blockData) ||
+      config.settings.fullWidthBlockTypes.includes(blockData['@type']),
   );
+
+  // Below block of code is all needed for `hideTopPadding?`
+  const breadcrumbStartDepth = useSelector(
+    (state) => state.nswSiteSettings?.data?.breadcrumb_start_depth,
+  );
+  const siteDepth = useSelector(
+    (state) => state.nswSiteSettings?.data?.site_depth,
+  );
+  const breadcrumbsHidden =
+    location.pathname === '/' || siteDepth < breadcrumbStartDepth;
+  const hideTopPadding =
+    config.settings.fullWidthBlockTypes.includes(
+      blocksData[blocksInLayout[0]]?.['@type'],
+    ) === breadcrumbsHidden;
 
   return (
     <div id="page-document">
@@ -169,12 +174,9 @@ const BlocksLayout = ({ content, location }) => {
         <div
           className="nsw-layout__main"
           style={{
-            paddingBlockStart: fullWidthBlockTypes.includes(
-              blocksData[blocksInLayout[0]]?.['@type'],
-            )
-              ? '0'
-              : null,
-            paddingBlockEnd: fullWidthBlockTypes.includes(
+            // XOR operation, not sure of a nicer way of doing it in JS
+            paddingBlockStart: hideTopPadding ? 0 : null,
+            paddingBlockEnd: config.settings.fullWidthBlockTypes.includes(
               blocksData[blocksInLayout.length]?.['@type'],
             )
               ? '0'
@@ -302,7 +304,7 @@ const BlocksLayout = ({ content, location }) => {
                 </div>
               );
             }
-            return fullWidthBlockTypes.includes(blockType) ? (
+            return config.settings.fullWidthBlockTypes.includes(blockType) ? (
               <Block
                 key={blockId}
                 id={blockId}
