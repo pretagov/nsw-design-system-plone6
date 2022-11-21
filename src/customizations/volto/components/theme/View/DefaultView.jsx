@@ -30,13 +30,7 @@ const fullWidthBlockTypes = [
   'nsw_announcementBar',
   'form',
 ];
-const coreContentBlockTypes = [
-  'text',
-  'description',
-  'image',
-  'video',
-  'slate',
-];
+const fullWidthContentBlocks = ['form'];
 
 const sectionFields = [
   'sectionType',
@@ -50,6 +44,17 @@ const getCoreContentGroupedLayout = (blocksInLayout, blocksData) => {
   if (!blocksInLayout || !blocksInLayout.length) {
     return [];
   }
+
+  const coreContentBlockTypes = Object.keys(config.blocks.blocksConfig).filter(
+    (blockId) => {
+      if (fullWidthContentBlocks.includes(blockId)) {
+        return true;
+      } else if (fullWidthBlockTypes.includes(blockId)) {
+        return false;
+      }
+      return true;
+    },
+  );
 
   return blocksInLayout?.reduce((result, currentBlockId) => {
     // Handles the messy case where a block is not in the layout
@@ -70,6 +75,10 @@ const getCoreContentGroupedLayout = (blocksInLayout, blocksData) => {
       previousBlockOrGroup instanceof Array
         ? blocksData[previousBlockOrGroup[previousBlockOrGroup.length - 1]]
         : blocksData[previousBlockOrGroup];
+
+    if (currentBlock['@type'] === 'form') {
+      debugger;
+    }
 
     if (_blockNeedsSection(currentBlock)) {
       // Make sure we have another block
@@ -150,26 +159,70 @@ const BlocksLayout = ({ content, location }) => {
     blocksInLayout,
     blocksData,
   );
+  const blocksNeedSections = Object.values(blocksData).some((blockData) =>
+    _blockNeedsSection(blockData),
+  );
 
   return (
     <div id="page-document">
       <div className="nsw-layout">
         <div
           className="nsw-layout__main"
-          style={
-            fullWidthBlockTypes.includes(
+          style={{
+            paddingBlockStart: fullWidthBlockTypes.includes(
               blocksData[blocksInLayout[0]]?.['@type'],
             )
-              ? { paddingBlockStart: '0' }
-              : null
-          }
+              ? '0'
+              : null,
+            paddingBlockEnd: fullWidthBlockTypes.includes(
+              blocksData[blocksInLayout.length]?.['@type'],
+            )
+              ? '0'
+              : null,
+          }}
         >
           {groupedBlocksLayout.map((blockIdOrGroup, index) => {
             if (blockIdOrGroup instanceof Array) {
               const blockGroup = blockIdOrGroup; // Rename it just to make the code more readable
-              if (_blockNeedsSection(blocksData?.[blockGroup[0]])) {
+              if (blocksNeedSections) {
                 const blockWithSectionData = blocksData?.[blockGroup[0]];
                 const sectionColour = getSectionColour(blockWithSectionData);
+                if (_blockNeedsSection(blockWithSectionData)) {
+                  return (
+                    <Section
+                      key={index}
+                      padding={blockWithSectionData.sectionspacing}
+                      isBox={blockWithSectionData.sectionType === 'box'}
+                      colour={sectionColour}
+                      shouldInvert={blockWithSectionData.sectioninvert}
+                    >
+                      {blockGroup.map((blockId) => {
+                        // Copy pasted from below. Should really make this a function!
+                        const blockData = blocksData?.[blockId];
+                        const blockType = blockData?.['@type'];
+                        const Block =
+                          config.blocks.blocksConfig[blockType]?.['view'] ||
+                          null;
+                        return Block !== null ? (
+                          <Block
+                            key={blockId}
+                            id={blockId}
+                            properties={content}
+                            data={blocksData[blockId]}
+                            path={getBaseUrl(location?.pathname || '')}
+                          />
+                        ) : (
+                          <div key={blockId}>
+                            {intl.formatMessage(messages.unknownBlock, {
+                              block: blockType,
+                            })}
+                          </div>
+                        );
+                      })}
+                    </Section>
+                  );
+                }
+
                 return (
                   <Section
                     key={index}
