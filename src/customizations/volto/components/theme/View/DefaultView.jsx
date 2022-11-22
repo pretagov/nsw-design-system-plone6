@@ -78,11 +78,7 @@ const getCoreContentGroupedLayout = (blocksInLayout, blocksData) => {
           sectionFields.map((k) => [k, currentBlock?.[k]]),
         );
 
-        if (
-          currentBlockSectionData.sectionType === 'sameAsPrevious' ||
-          JSON.stringify(previousBlockSectionData) ===
-            JSON.stringify(currentBlockSectionData)
-        ) {
+        if (currentBlockSectionData.sectionType === 'sameAsPrevious') {
           previousBlockOrGroup.push(currentBlockId);
           result.splice(result.length - 1, 1, previousBlockOrGroup);
         } else {
