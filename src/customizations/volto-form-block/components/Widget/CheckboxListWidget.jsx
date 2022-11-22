@@ -70,7 +70,7 @@ const CheckboxListWidget = ({
                   id={checkboxId}
                   checked={value?.includes(opt.value)}
                   onChange={({ target }) => {
-                    return updateValueList(target.value, target.checked);
+                    return updateValueList(opt.value, target.checked);
                   }}
                   {...attributes}
                 />
