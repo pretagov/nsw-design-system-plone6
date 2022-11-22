@@ -1,6 +1,7 @@
 import loadable from '@loadable/component';
 import {
   Anontools,
+  Icon,
   LanguageSelector,
   Logo,
   SearchWidget,
@@ -13,6 +14,9 @@ import { useGoogleAnalytics } from 'volto-google-analytics';
 import Navigation from '../Navigation/Navigation';
 import { Masthead } from './Masthead';
 
+import MenuSVG from '@material-design-icons/svg/filled/menu.svg';
+import SearchSVG from '@material-design-icons/svg/filled/search.svg';
+
 const MenuOpenButton = () => (
   <div className="nsw-header__menu">
     <button
@@ -21,13 +25,12 @@ const MenuOpenButton = () => (
       aria-expanded="false"
       aria-controls="main-nav"
     >
-      <span
+      <Icon
+        name={MenuSVG}
         className="material-icons nsw-material-icons"
-        focusable="false"
-        aria-hidden="true"
-      >
-        menu
-      </span>
+        size="24px"
+        ariaHidden={true}
+      />
       <span>
         <span className="sr-only">Open</span> Menu
       </span>
@@ -45,13 +48,12 @@ const SearchStartButton = ({ searchInputElement }) => {
         aria-controls="header-search"
         ref={searchInputElement}
       >
-        <span
+        <Icon
+          name={SearchSVG}
           className="material-icons nsw-material-icons"
-          focusable="false"
-          aria-hidden="true"
-        >
-          search
-        </span>
+          size="36px"
+          ariaHidden={true}
+        />
         <span>
           <span className="sr-only">Show</span> Search
         </span>

@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { UniversalLink } from '@plone/volto/components';
+import { Icon, UniversalLink } from '@plone/volto/components';
 import { FormattedMessage } from 'react-intl';
 import { Menu } from 'semantic-ui-react';
+
+import KeyboardArrowLeftSVG from '@material-design-icons/svg/filled/keyboard_arrow_left.svg';
+import KeyboardArrowRightSVG from '@material-design-icons/svg/filled/keyboard_arrow_right.svg';
 
 const NumberedPage = ({ pageNumber, onClick, isCurrent = false }) => {
   return (
@@ -49,13 +52,12 @@ const Pagination = ({
                 onChangePage(e, { activePage: current - 1 });
               }}
             >
-              <span
+              <Icon
+                name={KeyboardArrowLeftSVG}
                 className="material-icons nsw-material-icons"
-                focusable="false"
-                aria-hidden="true"
-              >
-                keyboard_arrow_left
-              </span>
+                size="24px"
+                ariaHidden={true}
+              />
               <span className="sr-only">Back</span>
             </UniversalLink>
           </li>
@@ -104,13 +106,12 @@ const Pagination = ({
                 onChangePage(e, { activePage: current + 1 });
               }}
             >
-              <span
+              <Icon
+                name={KeyboardArrowRightSVG}
                 className="material-icons nsw-material-icons"
-                focusable="false"
-                aria-hidden="true"
-              >
-                keyboard_arrow_right
-              </span>
+                size="24px"
+                ariaHidden={true}
+              />
               <span className="sr-only">Next</span>
             </UniversalLink>
           </li>
