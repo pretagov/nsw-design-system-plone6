@@ -43,46 +43,50 @@ const EventView = (props) => {
   const { content } = props;
 
   return (
-    <div id="page-document" className="ui container viewwrapper event-view">
-      <Grid>
-        <Grid.Column width={7} className="mobile hidden">
-          {hasBlocksData(content) ? (
-            <RenderBlocks {...props} />
-          ) : (
-            <EventTextfieldView {...props} />
-          )}
-        </Grid.Column>
-        <Grid.Column width={5} className="mobile hidden">
-          <EventDetails content={content} />
-        </Grid.Column>
-        <Grid.Column width={12} only="mobile">
-          {hasBlocksData(content) ? (
-            <>
-              <RenderBlocks
-                {...props}
-                content={{
-                  ...content,
-                  blocks_layout: {
-                    items: props.content.blocks_layout.items.slice(0, 1),
-                  },
-                }}
-              />
-              <EventDetails content={content} display_as="div" />
-              <RenderBlocks
-                {...props}
-                content={{
-                  ...content,
-                  blocks_layout: {
-                    items: props.content.blocks_layout.items.slice(1),
-                  },
-                }}
-              />
-            </>
-          ) : (
-            <EventTextfieldView {...props} />
-          )}
-        </Grid.Column>
-      </Grid>
+    <div id="page-document" className="view-wrapper event-view nsw-container">
+      <div className="nsw-layout">
+        <div className="nsw-layout__main">
+          <Grid>
+            <Grid.Column width={7} className="mobile hidden">
+              {hasBlocksData(content) ? (
+                <RenderBlocks {...props} />
+              ) : (
+                <EventTextfieldView {...props} />
+              )}
+            </Grid.Column>
+            <Grid.Column width={5} className="mobile hidden">
+              <EventDetails content={content} />
+            </Grid.Column>
+            <Grid.Column width={12} only="mobile">
+              {hasBlocksData(content) ? (
+                <>
+                  <RenderBlocks
+                    {...props}
+                    content={{
+                      ...content,
+                      blocks_layout: {
+                        items: props.content.blocks_layout.items.slice(0, 1),
+                      },
+                    }}
+                  />
+                  <EventDetails content={content} display_as="div" />
+                  <RenderBlocks
+                    {...props}
+                    content={{
+                      ...content,
+                      blocks_layout: {
+                        items: props.content.blocks_layout.items.slice(1),
+                      },
+                    }}
+                  />
+                </>
+              ) : (
+                <EventTextfieldView {...props} />
+              )}
+            </Grid.Column>
+          </Grid>
+        </div>
+      </div>
     </div>
   );
 };
