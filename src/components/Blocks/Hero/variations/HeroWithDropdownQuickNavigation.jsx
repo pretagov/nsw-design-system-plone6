@@ -19,6 +19,7 @@ export const HeroWithDropdownQuickNavigation = ({ data, ...props }) => {
         imageUrl={imageUrl}
         linkTitle={data.linkTitle}
         linkUrl={linkUrl}
+        width={data.heroWidth}
         contentChildren={<DropdownQuickNavigationView {...props} data={data} />}
       />
     </>

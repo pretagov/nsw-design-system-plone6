@@ -28,6 +28,7 @@ export const HeroWithLinks = ({ data, ...props }) => {
         linkUrl={linkUrl}
         linksTitle={data.linksTitle || ''}
         linksList={linksList}
+        width={data.heroWidth}
       />
     </>
   );
