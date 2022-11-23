@@ -148,7 +148,6 @@ const FormView = ({
               type="submit"
               className="nsw-button nsw-button--dark"
               value="Submit"
-              disabled={formState.loading}
             />
           </div>
         </form>

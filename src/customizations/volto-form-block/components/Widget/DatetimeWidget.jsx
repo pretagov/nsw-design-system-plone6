@@ -48,9 +48,10 @@ function DatetimeWidgetComponent(props) {
   const yearRef = React.useRef();
 
   function handleInputChange() {
-    const day = dayRef.value;
-    const month = monthRef.value;
-    const year = yearRef.value;
+    const day = dayRef.current?.value;
+    const month = monthRef.current?.value;
+    const year = yearRef.current?.value;
+
     if (day && month && year) {
       onChange(id, `${year}-${month}-${day}`);
     } else {
