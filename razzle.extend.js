@@ -9,7 +9,7 @@ const modifyWebpackConfig = (config, { target, dev }, webpack) => {
   fileLoader.exclude = [
     /@mdi\/svg\/.*\.svg$/,
     /@material-design-icons\/svg\/filled\.svg$/,
-    /nsw-design-system-plone6\/.*\.svg$/,
+    /nsw-design-system-plone6\/assets\/.*\.svg$/,
     ...fileLoader.exclude,
   ];
 
@@ -52,7 +52,7 @@ const modifyWebpackConfig = (config, { target, dev }, webpack) => {
     ],
   };
   const NSWSVGLOEADER = {
-    test: /nsw-design-system-plone6\/.*\.svg$/,
+    test: /nsw-design-system-plone6\/assets\/.*\.svg$/,
     use: [
       {
         loader: 'svg-loader',
