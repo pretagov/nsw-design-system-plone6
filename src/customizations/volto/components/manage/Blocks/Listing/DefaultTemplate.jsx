@@ -15,7 +15,6 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
   return (
     <div className="nsw-list-items">
       {items.map((item) => {
-        console.log(item);
         return (
           <div
             key={item['@id']}
