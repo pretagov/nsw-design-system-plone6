@@ -1,11 +1,26 @@
+import React from 'react';
+
 import { Icon } from '@plone/volto/components';
 import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
-import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import SearchSVG from '@material-design-icons/svg/filled/search.svg';
 
-export function HeroSearchView({ data }) {
-  console.log(data.image);
+export function HeroSearchView({ data, id: blockId }) {
+  const history = useHistory();
+  const inputId = `${blockId}-heroSearchInput`;
+
+  function onSubmit(event) {
+    const formData = new FormData(event.target);
+    // TODO: Add path to scope the search if required
+    history.push(
+      `/search?SearchableText=${encodeURIComponent(
+        formData.get(inputId),
+      )}&path=/)}`,
+    );
+    event.preventDefault();
+  }
+
   return (
     <div
       className="nsw-section nsw-section--image"
@@ -23,9 +38,13 @@ export function HeroSearchView({ data }) {
               <p className="nsw-intro">
                 {data.description ? data.description : null}
               </p>
-              <form role="search" className="hero-search__form">
+              <form
+                role="search"
+                onSubmit={onSubmit}
+                className="hero-search__form"
+              >
                 <div className="nsw-form__input-group nsw-form__input-group--icon">
-                  <label className="sr-only" htmlFor="form-input-group-1">
+                  <label className="sr-only" htmlFor={inputId}>
                     {data.accessibleLabelName
                       ? data.accessibleLabelName
                       : 'Search site for:'}
@@ -33,9 +52,8 @@ export function HeroSearchView({ data }) {
                   <input
                     className="nsw-form__input"
                     type="text"
-                    id="form-input-group-1"
-                    name="form-input-group-1"
-                    value=""
+                    id={inputId}
+                    name={inputId}
                     placeholder={
                       data.inputPlaceholderText
                         ? data.inputPlaceholderText
@@ -46,6 +64,7 @@ export function HeroSearchView({ data }) {
                     className="nsw-button nsw-button--dark nsw-button--flex"
                     type="submit"
                   >
+                    {/* TODO: i18n Hero search button */}
                     <span className="sr-only">Search</span>
                     <Icon
                       name={SearchSVG}

@@ -3,8 +3,8 @@ import React from 'react';
 import { heroSearchSchema } from './schema';
 import { HeroSearchView } from './View';
 
-function HeroSearchEditDisplay({ data }) {
-  return <HeroSearchView data={data} />;
+function HeroSearchEditDisplay({ data, id }) {
+  return <HeroSearchView data={data} id={id} />;
 }
 
 function HeroSearchData(props) {
