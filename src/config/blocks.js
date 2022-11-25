@@ -364,19 +364,75 @@ function asMediaSchemaExtender(schema, intl, formData) {
 }
 
 const schemaEnhancers = {
-  video: ({ schema, intl, formData }) => {
-    return asMediaSchemaExtender(schema, intl, formData);
-  },
   image: ({ schema, intl, formData }) => {
     return asMediaSchemaExtender(schema, intl, formData);
   },
-  toc: ({ schema }) => {
-    const fieldsToRemove = ['title', 'hide_title', 'ordered'];
-    fieldsToRemove.map((field) => {
-      const indexToRemove = schema.fieldsets[0].fields.indexOf(field);
-      schema.fieldsets[0].fields.splice(indexToRemove, 1);
-      delete schema.properties[field];
-    });
+  listing: ({ schema, intl, formData }) => {
+    schema.properties.clickableArea = {
+      title: 'Clickable area',
+      type: 'string',
+      factory: 'Choice',
+      choices: [
+        ['title', 'Title only'],
+        ['block', 'All of item'],
+      ],
+      default: 'title',
+    };
+    schema.properties.showDescription = {
+      title: 'Show description',
+      type: 'boolean',
+      default: true,
+    };
+    schema.properties.showUrl = {
+      title: 'Show URL',
+      type: 'boolean',
+    };
+    schema.properties.showDate = {
+      title: 'Show date',
+      type: 'boolean',
+    };
+    schema.properties.showTags = {
+      title: 'Show tags',
+      type: 'boolean',
+    };
+    schema.properties.imagePosition = {
+      title: 'Image position',
+      type: 'string',
+      factory: 'Choice',
+      choices: [
+        ['hidden', 'Hidden'],
+        ['left', 'Left'],
+        ['right', 'Right'],
+      ],
+      default: 'hidden',
+    };
+    schema.properties.dateField = {
+      title: 'Date field',
+      type: 'string',
+      factory: 'Choice',
+      choices: [
+        ['CreationDate', 'Creation date'],
+        ['EffectiveDate', 'Publication date'],
+        ['ModificationDate', 'Last modified'],
+        ['ExpirationDate', 'Expiration date'],
+      ],
+      default: 'EffectiveDate',
+    };
+    const itemDisplayFieldset = {
+      id: 'listingDisplayFieldset',
+      title: 'Item Settings',
+      fields: [
+        'showDescription',
+        'showUrl',
+        'showTags',
+        'showDate',
+        ...[formData.showDate ? ['dateField'] : []],
+        'imagePosition',
+        'clickableArea',
+      ],
+      required: [],
+    };
+    schema.fieldsets.push(itemDisplayFieldset);
     return schema;
   },
   search: ({ schema, intl }) => {
@@ -394,6 +450,18 @@ const schemaEnhancers = {
       'fullWidthSearchBar',
     ];
     return schema;
+  },
+  toc: ({ schema }) => {
+    const fieldsToRemove = ['title', 'hide_title', 'ordered'];
+    fieldsToRemove.map((field) => {
+      const indexToRemove = schema.fieldsets[0].fields.indexOf(field);
+      schema.fieldsets[0].fields.splice(indexToRemove, 1);
+      delete schema.properties[field];
+    });
+    return schema;
+  },
+  video: ({ schema, intl, formData }) => {
+    return asMediaSchemaExtender(schema, intl, formData);
   },
 };
 
