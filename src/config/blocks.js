@@ -143,6 +143,20 @@ const nswBlocks = [
     },
   },
   {
+    id: 'heroSearch',
+    title: 'Hero search',
+    icon: sliderSVG,
+    group: 'nsw',
+    view: Components.HeroSearchView,
+    edit: Components.HeroSearchEdit,
+    restricted: false,
+    mostUsed: true,
+    security: {
+      addPermission: [],
+      view: [],
+    },
+  },
+  {
     id: 'nsw_inPageAlert',
     title: 'In-page Alert',
     icon: sliderSVG,
