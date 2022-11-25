@@ -1,13 +1,17 @@
 import { ConditionalLink } from '@plone/volto/components';
+import config from '@plone/volto/registry';
 import cx from 'classnames';
 import React from 'react';
+import { useCookies } from 'react-cookie';
 
 // TODO: Customisable datetime format
-const dateTimeFormat = new Intl.DateTimeFormat(navigator.language, {
-  style: 'long',
-});
-
 const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
+  const [cookies] = useCookies();
+  const currentLanguage =
+    cookies['I18N_LANGUAGE'] || config.settings.defaultLanguage;
+  const dateTimeFormat = new Intl.DateTimeFormat(currentLanguage, {
+    style: 'long',
+  });
   return (
     <div className="nsw-list-items">
       {items.map((item) => {
