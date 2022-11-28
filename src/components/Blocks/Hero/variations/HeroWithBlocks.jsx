@@ -20,6 +20,7 @@ export const HeroWithBlocks = ({ data, ...props }) => {
         imageUrl={imageUrl}
         linkTitle={data.linkTitle}
         linkUrl={linkUrl}
+        width={data.heroWidth}
         contentChildren={
           <RenderBlocks {...props} metadata={metadata} content={data.block} />
         }
