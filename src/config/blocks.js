@@ -10,7 +10,7 @@ import {
 import * as Components from '../components';
 import { CardSchema } from '../components/Blocks/Card';
 import { DropdownQuickNavigationSchema } from '../components/Blocks/DropdownQuickNavigation/schema';
-import CardListing from '../components/Blocks/Listing/CardListing';
+import { CardListing } from '../components/Blocks/Listing/CardListing';
 import { SectionSchema } from '../components/Blocks/Section';
 
 const messages = defineMessages({
@@ -399,17 +399,20 @@ const schemaEnhancers = {
       title: 'Show tags',
       type: 'boolean',
     };
-    schema.properties.imagePosition = {
-      title: 'Image position',
-      type: 'string',
-      factory: 'Choice',
-      choices: [
-        ['hidden', 'Hidden'],
-        ['left', 'Left'],
-        ['right', 'Right'],
-      ],
-      default: 'hidden',
-    };
+    // Below check needed so we don't overwrite the card settings
+    schema.properties.imagePosition = schema.properties.imagePosition
+      ? schema.properties.imagePosition
+      : {
+          title: 'Image position',
+          type: 'string',
+          factory: 'Choice',
+          choices: [
+            ['hidden', 'Hidden'],
+            ['left', 'Left'],
+            ['right', 'Right'],
+          ],
+          default: 'hidden',
+        };
     schema.properties.dateField = {
       title: 'Date field',
       type: 'string',
@@ -430,9 +433,10 @@ const schemaEnhancers = {
         'showUrl',
         'showTags',
         'showDate',
-        ...[formData.showDate ? ['dateField'] : []],
-        'imagePosition',
-        'clickableArea',
+        ...(formData.showDate ? ['dateField'] : []),
+        ...(formData.variation !== 'cardListing'
+          ? ['imagePosition', 'clickableArea']
+          : []),
       ],
       required: [],
     };
