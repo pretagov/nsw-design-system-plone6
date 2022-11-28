@@ -108,7 +108,7 @@ function SelectWidget(props) {
         })),
         // Only set "no-value" option if there's no default in the field
         // TODO: also if this.props.defaultValue?
-        ...(noValueOption && !defaultOption
+        ...(noValueOption && !defaultOption && !required
           ? [
               {
                 label: intl.formatMessage(messages.no_value),
@@ -151,7 +151,13 @@ function SelectWidget(props) {
           className="nsw-form__select"
           id={inputId}
           // TODO: Do we need a name here?
-          value={normalizedValue ? normalizedValue : options[0].value}
+          value={
+            normalizedValue
+              ? normalizedValue['value']
+              : required
+              ? options[0].value
+              : 'no-value'
+          }
           disabled={shouldDisable}
           {...attributes}
           onChange={({ target: selectedOption }) => {
