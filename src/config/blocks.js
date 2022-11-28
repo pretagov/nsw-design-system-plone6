@@ -55,6 +55,10 @@ const messages = defineMessages({
     id: 'Number of columns',
     defaultMessage: 'Number of columns',
   },
+  heroWidth: {
+    id: 'Width',
+    defaultMessage: 'Width',
+  },
   // Media schema
   size: {
     id: 'Size',
@@ -433,6 +437,32 @@ const schemaEnhancers = {
       required: [],
     };
     schema.fieldsets.push(itemDisplayFieldset);
+    return schema;
+  },
+  hero: ({ schema, intl }) => {
+    schema.properties.heroWidth = {
+      title: intl.formatMessage(messages.heroWidth),
+      type: 'string',
+      factory: 'Choice',
+      // TODO: i18n hero width choices
+      choices: [
+        ['default', 'Default'],
+        ['wide', 'Wide'],
+        ['extraWide', 'Extra wide'],
+      ],
+      default: 'default',
+    };
+    const defaultFieldsetIndex = schema.fieldsets.findIndex(
+      (fieldset) => fieldset.id === 'default',
+    );
+    schema.fieldsets[defaultFieldsetIndex].fields = [
+      ...schema.fieldsets[defaultFieldsetIndex].fields,
+      'heroWidth',
+    ];
+    schema.fieldsets[defaultFieldsetIndex].required = [
+      ...(schema.fieldsets[defaultFieldsetIndex]?.fields ?? []),
+      'heroWidth',
+    ];
     return schema;
   },
   search: ({ schema, intl }) => {

@@ -432,6 +432,7 @@ class EditComponent extends Component {
           imageUrl={null}
           linkTitle={this.props.data.linkTitle}
           linkHref={null}
+          width={this.props.data.width}
           contentChildren={
             <>
               <Editor
