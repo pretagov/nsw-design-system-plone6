@@ -1,7 +1,7 @@
 import { ConditionalLink } from '@plone/volto/components';
+import { flattenToAppURL } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
 import cx from 'classnames';
-import React from 'react';
 import { useCookies } from 'react-cookie';
 
 // TODO: Customisable datetime format
@@ -15,6 +15,12 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
   return (
     <div className="nsw-list-items">
       {items.map((item) => {
+        const image =
+          data.imagePosition !== 'hidden' && item.image_field
+            ? `${flattenToAppURL(item['@id'])}/@@images/${
+                item.image_field
+              }/teaser`
+            : null;
         return (
           <div
             key={item['@id']}
@@ -57,9 +63,9 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
                 </div>
               ) : null}
             </div>
-            {data.imagePosition !== 'hidden' ? (
+            {data.imagePosition !== 'hidden' && image ? (
               <div class="nsw-list-item__image">
-                <img src="https://picsum.photos/id/3/400/200" alt="" />
+                <img src={image} alt="" />
               </div>
             ) : null}
           </div>
