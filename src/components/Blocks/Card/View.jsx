@@ -8,7 +8,7 @@ const CardView = ({ data, isEditMode }) => {
     href = flattenToAppURL(href);
   }
 
-  return <Card {...data} href={href} />;
+  return <Card {...data} href={href} isEditMode={isEditMode} />;
 };
 
 export default CardView;
