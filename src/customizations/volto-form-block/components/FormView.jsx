@@ -1,7 +1,8 @@
 import config from '@plone/volto/registry';
 import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { Button, Message } from 'semantic-ui-react';
+import 'semantic-ui-less/definitions/elements/loader.less';
+import { Button, Dimmer, Loader, Message } from 'semantic-ui-react';
 import { getFieldName } from 'volto-form-block/components/utils';
 import Field from './Field';
 
@@ -54,6 +55,15 @@ const FormView = ({
       fields_to_send.push(key);
     }
   }
+
+  if (formState.loading) {
+    return (
+      <Dimmer active inverted>
+        <Loader inverted>Loading</Loader>
+      </Dimmer>
+    );
+  }
+
   return (
     <>
       {data.title && <h2>{data.title}</h2>}
