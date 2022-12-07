@@ -1,4 +1,4 @@
-import { ConditionalLink } from '@plone/volto/components';
+import { ConditionalLink, FormattedDate } from '@plone/volto/components';
 import { flattenToAppURL } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
 import cx from 'classnames';
@@ -21,6 +21,8 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
                 item.image_field
               }/teaser`
             : null;
+        const date =
+          item[data.dateField] === 'None' ? null : item[data.dateField];
         return (
           <div
             key={item['@id']}
@@ -40,9 +42,9 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
               {data.showUrl || data.showDate ? (
                 <div class="nsw-list-item__info">
                   {data.showUrl ? item.getURL : null}
-                  {data.showDate
-                    ? dateTimeFormat.format(new Date(item[data.dateField]))
-                    : null}
+                  {data.showDate && date ? (
+                    <FormattedDate date={date} locale="en-au" />
+                  ) : null}
                 </div>
               ) : null}
 
