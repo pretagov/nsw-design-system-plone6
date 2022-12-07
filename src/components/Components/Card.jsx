@@ -20,6 +20,7 @@ export function Card({
   isEditMode,
 }) {
   const linkTitle = title || href;
+  const cleanDate = date === 'None' ? null : date;
 
   return (
     <div
@@ -44,9 +45,11 @@ export function Card({
         </div>
       ) : null}
       <div className="nsw-card__content">
-        {date || urlDisplay ? (
+        {cleanDate || urlDisplay ? (
           <div className="nsw-card__date">
-            {date ? <FormattedDate date={date} locale="en-au" /> : null}
+            {cleanDate ? (
+              <FormattedDate date={cleanDate} locale="en-au" />
+            ) : null}
             {urlDisplay ? (
               <p style={{ marginBlockEnd: '0' }}>{urlDisplay}</p>
             ) : null}
