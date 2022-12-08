@@ -5,6 +5,7 @@ import {
   LanguageSelector,
   Logo,
   SearchWidget,
+  UniversalLink,
 } from '@plone/volto/components';
 
 import React, { useEffect, useRef } from 'react';
@@ -41,23 +42,56 @@ const MenuOpenButton = () => (
 const SearchStartButton = ({ searchInputElement }) => {
   return (
     <div className="nsw-header__search">
-      <button
-        type="button"
-        className="js-open-search"
-        aria-expanded="false"
-        aria-controls="header-search"
-        ref={searchInputElement}
-      >
-        <Icon
-          name={SearchSVG}
-          className="material-icons nsw-material-icons"
-          size="36px"
-          ariaHidden={true}
-        />
-        <span>
-          <span className="sr-only">Show</span> Search
-        </span>
-      </button>
+      {__CLIENT__ ? (
+        <button
+          type="button"
+          className="js-open-search"
+          aria-expanded="false"
+          aria-controls="header-search"
+          ref={searchInputElement}
+        >
+          <Icon
+            name={SearchSVG}
+            className="material-icons nsw-material-icons"
+            size="36px"
+            ariaHidden={true}
+          />
+          <span>
+            <span className="sr-only">Show</span> Search
+          </span>
+        </button>
+      ) : (
+        // Below styling is only for buttons in the NSW Design System code unfortunately.
+        <UniversalLink
+          href="/search"
+          style={{
+            fontSize: 'var(--nsw-font-size-xxs-mobile)',
+            lineHeight: 'var(--nsw-line-height-xxs-mobile)',
+            fontWeight: 'var(--nsw-font-bold)',
+            borderRadius: 'var(--nsw-border-radius)',
+            textAlign: 'center',
+            color: 'var(--nsw-brand-dark)',
+            width: '3rem',
+            height: '3rem',
+            background: '0 0',
+            border: '0',
+            padding: '0',
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Icon
+            name={SearchSVG}
+            className="material-icons nsw-material-icons"
+            size="36px"
+            ariaHidden={true}
+          />
+          <span className="sr-only">Search</span>
+        </UniversalLink>
+      )}
     </div>
   );
 };
