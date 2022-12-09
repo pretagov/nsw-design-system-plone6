@@ -52,6 +52,7 @@ const SearchWidget = ({ searchInputController }) => {
       id="header-search"
       hidden
     >
+      {/* TODO: Progressive Enhancement, this currently just takes you to the default search page */}
       <form role="search" action="/search" onSubmit={onSubmit}>
         <label htmlFor="nsw-header-input" className="sr-only">
           Search site for:
