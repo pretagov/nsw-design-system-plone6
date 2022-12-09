@@ -1,5 +1,5 @@
 import { Icon } from '@plone/volto/components';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useHistory, useLocation } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ const messages = defineMessages({
   },
 });
 
-const SearchWidget = () => {
+const SearchWidget = ({ searchInputController }) => {
   const intl = useIntl();
   const [text, setText] = useState('');
   const { pathname } = useLocation();
@@ -35,7 +35,15 @@ const SearchWidget = () => {
     const path =
       pathname?.length > 0 ? `&path=${encodeURIComponent(pathname)}` : '';
     history.push(`/search?SearchableText=${encodeURIComponent(text)}${path}`);
+    setText('');
     event.preventDefault();
+
+    if (searchInputController) {
+      // Pressed needed to workaround NSW JS not accounting for change of state
+      searchInputController.pressed = true;
+      searchInputController.showHide();
+      searchInputController.pressed = false;
+    }
   }
 
   return (
@@ -44,6 +52,7 @@ const SearchWidget = () => {
       id="header-search"
       hidden
     >
+      {/* TODO: Progressive Enhancement, this currently just takes you to the default search page */}
       <form role="search" action="/search" onSubmit={onSubmit}>
         <label htmlFor="nsw-header-input" className="sr-only">
           Search site for:
