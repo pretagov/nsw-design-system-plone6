@@ -101,15 +101,22 @@ const Header = ({ nswDesignSystem }) => {
     siteTitle: state.siteInfo.title,
     siteSettings: state.nswSiteSettings.data,
   }));
-  const { pathname } = useLocation();
   const searchInputElement = useRef(null);
-  useEffect(() => {
-    loadable(() => import('nsw-design-system/src/main'))
+  const searchInputController = useRef(null);
+  if (__CLIENT__ && !searchInputController.current && searchInputElement) {
+    loadable(() => import('nsw-design-system/src/components/header/header'), {
+      ssr: false,
+    })
       .load()
-      .then((nswDesignSystem) => {
-        new nswDesignSystem['SiteSearch'](searchInputElement.current).init();
+      .then((navigation) => {
+        if (!searchInputController.current) {
+          searchInputController.current = new navigation.default(
+            searchInputElement.current,
+          );
+          searchInputController.current.init();
+        }
       });
-  }, [searchInputElement]);
+  }
   useGoogleAnalytics();
 
   //   TODO: We should be able to use a fragment instead of a div here. Not sure why the `Navigation` component isn't being rendered if we use a fragment.
@@ -142,7 +149,7 @@ const Header = ({ nswDesignSystem }) => {
           </div>
 
           {/* This will only be the search input. The button to display the search input is still rendered by the header */}
-          <SearchWidget />
+          <SearchWidget searchInputController={searchInputController.current} />
         </div>
       </header>
 
