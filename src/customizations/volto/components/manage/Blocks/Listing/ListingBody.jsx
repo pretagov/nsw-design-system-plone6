@@ -5,6 +5,25 @@ import React, { createRef } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Dimmer, Loader } from 'semantic-ui-react';
 
+const NoResults = ({ hasLoaded }) => {
+  return (
+    <>
+      {hasLoaded ? (
+        <FormattedMessage
+          id="No results found."
+          defaultMessage="No results found."
+        />
+      ) : (
+        <Dimmer active={!hasLoaded} inverted>
+          <Loader indeterminate size="small">
+            <FormattedMessage id="loading" defaultMessage="Loading" />
+          </Loader>
+        </Dimmer>
+      )}
+    </>
+  );
+};
+
 const ListingBody = withQuerystringResults((props) => {
   const {
     data = {},
@@ -67,31 +86,11 @@ const ListingBody = withQuerystringResults((props) => {
           defaultMessage="No items found in this container."
         />
       )}
-      {hasLoaded && (
-        <FormattedMessage
-          id="No results found."
-          defaultMessage="No results found."
-        />
-      )}
-      <Dimmer active={!hasLoaded} inverted>
-        <Loader indeterminate size="small">
-          <FormattedMessage id="loading" defaultMessage="Loading" />
-        </Loader>
-      </Dimmer>
+      <NoResults hasLoaded={hasLoaded} />
     </div>
   ) : (
     <div>
-      {hasLoaded && (
-        <FormattedMessage
-          id="No results found."
-          defaultMessage="No results found."
-        />
-      )}
-      <Dimmer active={!hasLoaded} inverted>
-        <Loader indeterminate size="small">
-          <FormattedMessage id="loading" defaultMessage="Loading" />
-        </Loader>
-      </Dimmer>
+      <NoResults hasLoaded={hasLoaded} />
     </div>
   );
 });
