@@ -1,6 +1,7 @@
 import { UniversalLink } from '@plone/volto/components';
 import config from '@plone/volto/registry';
 import { useSelector } from 'react-redux';
+import './Logo.custom.less';
 
 const Logo = () => {
   const { settings } = config;
@@ -15,7 +16,7 @@ const Logo = () => {
   return (
     <UniversalLink href={settings.isMultilingual ? `/${lang}` : '/'}>
       {logoUrl && !logoUrl.includes('++resource++plone-logo.svg') ? (
-        <img style={{ height: '4.75rem' }} src={logoUrl} alt="" />
+        <img class="nsw-header__logo" src={logoUrl} alt="" />
       ) : (
         <>
           <svg
