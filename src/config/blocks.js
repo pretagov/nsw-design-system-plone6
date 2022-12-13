@@ -374,6 +374,21 @@ const schemaEnhancers = {
   image: ({ schema, intl, formData }) => {
     return asMediaSchemaExtender(schema, intl, formData);
   },
+  listing: ({ schema, intl, formData }) => {
+    schema.properties.noResultsMessage = {
+      // TODO: Listing schemaEnhancer noResultsMessage title
+      title: 'No results message',
+      widget: 'richtext',
+    };
+    const defaultFieldsetIndex = schema.fieldsets.findIndex(
+      (fieldset) => fieldset.id === 'default',
+    );
+    schema.fieldsets[defaultFieldsetIndex].fields = [
+      ...schema.fieldsets[defaultFieldsetIndex].fields,
+      'noResultsMessage',
+    ];
+    return schema;
+  },
   toc: ({ schema }) => {
     const fieldsToRemove = ['title', 'hide_title', 'ordered'];
     fieldsToRemove.map((field) => {
@@ -568,7 +583,10 @@ export const updateBlocksConfig = (config) => {
   ];
 
   Object.entries(schemaEnhancers).forEach(([blockId, enhancer]) => {
-    config.blocks.blocksConfig[blockId].schemaEnhancer = enhancer;
+    config.blocks.blocksConfig[blockId].schemaEnhancer = composeSchema(
+      config.blocks.blocksConfig[blockId].schemaEnhancer,
+      enhancer,
+    );
   });
 
   removeFieldsFromBlock(config, 'accordion', ['right_arrows', 'non_exclusive']);

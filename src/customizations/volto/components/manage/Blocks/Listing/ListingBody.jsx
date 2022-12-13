@@ -1,11 +1,14 @@
 import { Pagination } from '@plone/volto/components';
 import withQuerystringResults from '@plone/volto/components/manage/Blocks/Listing/withQuerystringResults';
 import config from '@plone/volto/registry';
-import React, { createRef } from 'react';
+import { createRef } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Dimmer, Loader } from 'semantic-ui-react';
 
-const NoResults = ({ hasLoaded }) => {
+const NoResults = ({ hasLoaded, customMessage }) => {
+  if (customMessage) {
+    return <div dangerouslySetInnerHTML={{ __html: customMessage }} />;
+  }
   return (
     <>
       {hasLoaded ? (
@@ -55,6 +58,7 @@ const ListingBody = withQuerystringResults((props) => {
   }
 
   const listingRef = createRef();
+  const customMessage = data.noResultsMessage?.data;
 
   return listingItems?.length > 0 ? (
     <div ref={listingRef}>
@@ -86,11 +90,11 @@ const ListingBody = withQuerystringResults((props) => {
           defaultMessage="No items found in this container."
         />
       )}
-      <NoResults hasLoaded={hasLoaded} />
+      <NoResults hasLoaded={hasLoaded} customMessage={customMessage} />
     </div>
   ) : (
     <div>
-      <NoResults hasLoaded={hasLoaded} />
+      <NoResults hasLoaded={hasLoaded} customMessage={customMessage} />
     </div>
   );
 });
