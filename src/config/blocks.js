@@ -376,8 +376,14 @@ const schemaEnhancers = {
   },
   listing: ({ schema, intl, formData }) => {
     schema.properties.noResultsMessage = {
-      // TODO: Listing schemaEnhancer noResultsMessage title
+      // TODO: Listing schemaEnhancer noResultsMessage title, description and placeholder
       title: 'No results message',
+      description:
+        'Customise the message to display when no results are found. Leave blank for default',
+      placeholder: intl.formatMessage({
+        id: 'No results found.',
+        defaultMessage: 'No results found.',
+      }),
       widget: 'richtext',
     };
     const defaultFieldsetIndex = schema.fieldsets.findIndex(
