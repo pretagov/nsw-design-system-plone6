@@ -6,7 +6,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { Dimmer, Loader } from 'semantic-ui-react';
 
 const NoResults = ({ hasLoaded, customMessage }) => {
-  if (customMessage) {
+  if (customMessage && customMessage !== '<p></p>') {
     return <div dangerouslySetInnerHTML={{ __html: customMessage }} />;
   }
   return (
