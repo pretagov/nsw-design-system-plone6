@@ -10,7 +10,7 @@ import {
 import * as Components from '../components';
 import { CardSchema } from '../components/Blocks/Card';
 import { DropdownQuickNavigationSchema } from '../components/Blocks/DropdownQuickNavigation/schema';
-import CardListing from '../components/Blocks/Listing/CardListing';
+import { CardListing } from '../components/Blocks/Listing/CardListing';
 import { SectionSchema } from '../components/Blocks/Section';
 
 const messages = defineMessages({
@@ -368,19 +368,97 @@ function asMediaSchemaExtender(schema, intl, formData) {
 }
 
 const schemaEnhancers = {
-  video: ({ schema, intl, formData }) => {
-    return asMediaSchemaExtender(schema, intl, formData);
-  },
   image: ({ schema, intl, formData }) => {
     return asMediaSchemaExtender(schema, intl, formData);
   },
-  toc: ({ schema }) => {
-    const fieldsToRemove = ['title', 'hide_title', 'ordered'];
-    fieldsToRemove.map((field) => {
-      const indexToRemove = schema.fieldsets[0].fields.indexOf(field);
-      schema.fieldsets[0].fields.splice(indexToRemove, 1);
-      delete schema.properties[field];
-    });
+  listing: ({ schema, intl, formData }) => {
+    schema.properties.clickableArea = {
+      title: 'Clickable area',
+      type: 'string',
+      factory: 'Choice',
+      choices: [
+        ['title', 'Title only'],
+        ['block', 'All of item'],
+      ],
+      default: 'title',
+    };
+    schema.properties.showDescription = {
+      title: 'Show description',
+      type: 'boolean',
+      default: true,
+    };
+    schema.properties.showUrl = {
+      title: 'Show URL',
+      type: 'boolean',
+    };
+    schema.properties.showDate = {
+      title: 'Show date',
+      type: 'boolean',
+    };
+    schema.properties.showTags = {
+      title: 'Show tags',
+      type: 'boolean',
+    };
+    // Below check needed so we don't overwrite the card settings
+    schema.properties.imagePosition = schema.properties.imagePosition
+      ? schema.properties.imagePosition
+      : {
+          title: 'Image position',
+          type: 'string',
+          factory: 'Choice',
+          choices: [
+            ['hidden', 'Hidden'],
+            ['left', 'Left'],
+            ['right', 'Right'],
+          ],
+          default: 'hidden',
+        };
+    schema.properties.dateField = {
+      title: 'Date field',
+      type: 'string',
+      factory: 'Choice',
+      choices: [
+        ['CreationDate', 'Creation date'],
+        ['EffectiveDate', 'Publication date'],
+        ['ModificationDate', 'Last modified'],
+        ['ExpirationDate', 'Expiration date'],
+      ],
+      default: 'EffectiveDate',
+    };
+    const itemDisplayFieldset = {
+      id: 'listingDisplayFieldset',
+      title: 'Item Settings',
+      fields: [
+        'showDescription',
+        'showUrl',
+        'showTags',
+        'showDate',
+        ...(formData.showDate ? ['dateField'] : []),
+        ...(formData.variation !== 'cardListing'
+          ? ['imagePosition', 'clickableArea']
+          : []),
+      ],
+      required: [],
+    };
+    schema.fieldsets.push(itemDisplayFieldset);
+    schema.properties.noResultsMessage = {
+      // TODO: Listing schemaEnhancer noResultsMessage title, description and placeholder
+      title: 'No results message',
+      description:
+        'Customise the message to display when no results are found. Leave blank for default',
+      placeholder: intl.formatMessage({
+        id: 'No results found.',
+        defaultMessage: 'No results found.',
+      }),
+      widget: 'richtext',
+    };
+    const defaultFieldsetIndex = schema.fieldsets.findIndex(
+      (fieldset) => fieldset.id === 'default',
+    );
+    schema.fieldsets[defaultFieldsetIndex].fields = [
+      ...schema.fieldsets[defaultFieldsetIndex].fields,
+      'noResultsMessage',
+    ];
     return schema;
   },
   hero: ({ schema, intl }) => {
@@ -424,6 +502,18 @@ const schemaEnhancers = {
       'fullWidthSearchBar',
     ];
     return schema;
+  },
+  toc: ({ schema }) => {
+    const fieldsToRemove = ['title', 'hide_title', 'ordered'];
+    fieldsToRemove.map((field) => {
+      const indexToRemove = schema.fieldsets[0].fields.indexOf(field);
+      schema.fieldsets[0].fields.splice(indexToRemove, 1);
+      delete schema.properties[field];
+    });
+    return schema;
+  },
+  video: ({ schema, intl, formData }) => {
+    return asMediaSchemaExtender(schema, intl, formData);
   },
 };
 
@@ -568,7 +658,10 @@ export const updateBlocksConfig = (config) => {
   ];
 
   Object.entries(schemaEnhancers).forEach(([blockId, enhancer]) => {
-    config.blocks.blocksConfig[blockId].schemaEnhancer = enhancer;
+    config.blocks.blocksConfig[blockId].schemaEnhancer = composeSchema(
+      config.blocks.blocksConfig[blockId].schemaEnhancer,
+      enhancer,
+    );
   });
 
   removeFieldsFromBlock(config, 'accordion', ['right_arrows', 'non_exclusive']);
