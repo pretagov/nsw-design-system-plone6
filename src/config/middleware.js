@@ -52,19 +52,19 @@ export function customMiddleware() {
     const nswMiddleware = express.Router();
     nswMiddleware.id = 'nsw-middleware';
     nswMiddleware.all('**/@@site-logo/*', siteLogoMiddlewareFunction);
-    Object.entries(staticResourceMapping).forEach(([path, data]) => {
-      nswMiddleware.get(path, (req, res) => {
-        return getResource(data.url)
-          .then((resource) => {
-            res.set('Content-Type', data.contentType);
-            res.set('Content-Disposition', `inline`);
-            res.send(resource.body);
-          })
-          .catch((err) => {
-            return res.status(400).send(err);
-          });
-      });
-    });
+    // Object.entries(staticResourceMapping).forEach(([path, data]) => {
+    //   nswMiddleware.get(path, (req, res) => {
+    //     return getResource(data.url)
+    //       .then((resource) => {
+    //         res.set('Content-Type', data.contentType);
+    //         res.set('Content-Disposition', `inline`);
+    //         res.send(resource.body);
+    //       })
+    //       .catch((err) => {
+    //         return res.status(400).send(err);
+    //       });
+    //   });
+    // });
 
     return nswMiddleware;
   }
