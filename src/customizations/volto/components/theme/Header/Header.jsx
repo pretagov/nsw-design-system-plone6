@@ -5,6 +5,7 @@ import {
   LanguageSelector,
   Logo,
   SearchWidget,
+  UniversalLink,
 } from '@plone/volto/components';
 
 import React, { useEffect, useRef } from 'react';
@@ -41,23 +42,56 @@ const MenuOpenButton = () => (
 const SearchStartButton = ({ searchInputElement }) => {
   return (
     <div className="nsw-header__search">
-      <button
-        type="button"
-        className="js-open-search"
-        aria-expanded="false"
-        aria-controls="header-search"
-        ref={searchInputElement}
-      >
-        <Icon
-          name={SearchSVG}
-          className="material-icons nsw-material-icons"
-          size="36px"
-          ariaHidden={true}
-        />
-        <span>
-          <span className="sr-only">Show</span> Search
-        </span>
-      </button>
+      {__CLIENT__ ? (
+        <button
+          type="button"
+          className="js-open-search"
+          aria-expanded="false"
+          aria-controls="header-search"
+          ref={searchInputElement}
+        >
+          <Icon
+            name={SearchSVG}
+            className="material-icons nsw-material-icons"
+            size="36px"
+            ariaHidden={true}
+          />
+          <span>
+            <span className="sr-only">Show</span> Search
+          </span>
+        </button>
+      ) : (
+        // Below styling is only for buttons in the NSW Design System code unfortunately.
+        <UniversalLink
+          href="/search"
+          style={{
+            fontSize: 'var(--nsw-font-size-xxs-mobile)',
+            lineHeight: 'var(--nsw-line-height-xxs-mobile)',
+            fontWeight: 'var(--nsw-font-bold)',
+            borderRadius: 'var(--nsw-border-radius)',
+            textAlign: 'center',
+            color: 'var(--nsw-brand-dark)',
+            width: '3rem',
+            height: '3rem',
+            background: '0 0',
+            border: '0',
+            padding: '0',
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Icon
+            name={SearchSVG}
+            className="material-icons nsw-material-icons"
+            size="36px"
+            ariaHidden={true}
+          />
+          <span className="sr-only">Search</span>
+        </UniversalLink>
+      )}
     </div>
   );
 };
@@ -67,15 +101,22 @@ const Header = ({ nswDesignSystem }) => {
     siteTitle: state.siteInfo.title,
     siteSettings: state.nswSiteSettings.data,
   }));
-  const { pathname } = useLocation();
   const searchInputElement = useRef(null);
-  useEffect(() => {
-    loadable(() => import('nsw-design-system/src/main'))
+  const searchInputController = useRef(null);
+  if (__CLIENT__ && !searchInputController.current && searchInputElement) {
+    loadable(() => import('nsw-design-system/src/components/header/header'), {
+      ssr: false,
+    })
       .load()
-      .then((nswDesignSystem) => {
-        new nswDesignSystem['SiteSearch'](searchInputElement.current).init();
+      .then((navigation) => {
+        if (!searchInputController.current) {
+          searchInputController.current = new navigation.default(
+            searchInputElement.current,
+          );
+          searchInputController.current.init();
+        }
       });
-  }, [searchInputElement]);
+  }
   useGoogleAnalytics();
 
   //   TODO: We should be able to use a fragment instead of a div here. Not sure why the `Navigation` component isn't being rendered if we use a fragment.
@@ -108,7 +149,7 @@ const Header = ({ nswDesignSystem }) => {
           </div>
 
           {/* This will only be the search input. The button to display the search input is still rendered by the header */}
-          <SearchWidget />
+          <SearchWidget searchInputController={searchInputController.current} />
         </div>
       </header>
 

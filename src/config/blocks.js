@@ -441,6 +441,24 @@ const schemaEnhancers = {
       required: [],
     };
     schema.fieldsets.push(itemDisplayFieldset);
+    schema.properties.noResultsMessage = {
+      // TODO: Listing schemaEnhancer noResultsMessage title, description and placeholder
+      title: 'No results message',
+      description:
+        'Customise the message to display when no results are found. Leave blank for default',
+      placeholder: intl.formatMessage({
+        id: 'No results found.',
+        defaultMessage: 'No results found.',
+      }),
+      widget: 'richtext',
+    };
+    const defaultFieldsetIndex = schema.fieldsets.findIndex(
+      (fieldset) => fieldset.id === 'default',
+    );
+    schema.fieldsets[defaultFieldsetIndex].fields = [
+      ...schema.fieldsets[defaultFieldsetIndex].fields,
+      'noResultsMessage',
+    ];
     return schema;
   },
   hero: ({ schema, intl }) => {
@@ -640,7 +658,10 @@ export const updateBlocksConfig = (config) => {
   ];
 
   Object.entries(schemaEnhancers).forEach(([blockId, enhancer]) => {
-    config.blocks.blocksConfig[blockId].schemaEnhancer = enhancer;
+    config.blocks.blocksConfig[blockId].schemaEnhancer = composeSchema(
+      config.blocks.blocksConfig[blockId].schemaEnhancer,
+      enhancer,
+    );
   });
 
   removeFieldsFromBlock(config, 'accordion', ['right_arrows', 'non_exclusive']);
