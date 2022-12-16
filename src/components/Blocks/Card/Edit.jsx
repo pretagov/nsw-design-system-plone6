@@ -1,13 +1,9 @@
 import { BlockDataForm, SidebarPortal } from '@plone/volto/components';
 import React from 'react';
-import { useIntl } from 'react-intl';
 import CardSchema from './schema';
 import Card from './View';
 
-const CardEditDisplay = ({ data, id, isEditMode, onSelectBlock }) => {
-  const intl = useIntl();
-  const { title, description } = data;
-
+const CardEditDisplay = ({ data, isEditMode }) => {
   return <Card data={data} isEditMode={isEditMode} />;
 };
 
