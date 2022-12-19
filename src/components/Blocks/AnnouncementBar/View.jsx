@@ -1,4 +1,4 @@
-import React from 'react';
+import { InPageAlert } from 'nsw-design-system-plone6/components/Components/InPageAlert';
 
 const backgroundColourMapping = {
   dark: 'var(--nsw-brand-dark)',
@@ -21,36 +21,47 @@ const iconColourMapping = {
 
 export function AnnouncementBarView({ data, isEditMode }) {
   return (
-    <div
-      className={`nsw-in-page-alert nsw-in-page-alert--${data.alertType}`}
-      style={{
-        marginTop: '0',
-        borderLeft: '0',
-        backgroundColor: backgroundColourMapping[data.colour],
-        color: textColourMapping[data.colour],
-      }}
-    >
+    <>
       <div
+        className={`nsw-in-page-alert nsw-in-page-alert--${data.alertType}`}
         style={{
-          display: 'flex',
-          marginInline: 'auto',
-          width: '100%',
-          maxWidth: 'var(--nsw-container-width)',
+          marginTop: '0',
+          borderLeft: '0',
+          backgroundColor: backgroundColourMapping[data.colour],
+          color: textColourMapping[data.colour],
         }}
       >
-        <span
-          className="material-icons nsw-material-icons nsw-in-page-alert__icon"
-          style={{ color: iconColourMapping[data.colour] }}
-          focusable="false"
-          aria-hidden="true"
-        >
-          chevron_right
-        </span>
         <div
-          className="nsw-in-page-alert__content"
-          dangerouslySetInnerHTML={{ __html: data.body?.data }}
-        ></div>
+          style={{
+            display: 'flex',
+            marginInline: 'auto',
+            width: '100%',
+            maxWidth: 'var(--nsw-container-width)',
+          }}
+        >
+          <span
+            className="material-icons nsw-material-icons nsw-in-page-alert__icon"
+            style={{ color: iconColourMapping[data.colour] }}
+            focusable="false"
+            aria-hidden="true"
+          >
+            chevron_right
+          </span>
+          <div
+            className="nsw-in-page-alert__content"
+            dangerouslySetInnerHTML={{ __html: data.body?.data }}
+          ></div>
+        </div>
       </div>
-    </div>
+
+      <InPageAlert
+        alertType="chevron_right"
+        content={data.body?.data}
+        includeMargin={true}
+        includeContainer={true}
+        isCompact={data.isCompact}
+        colour={data.colour}
+      />
+    </>
   );
 }
