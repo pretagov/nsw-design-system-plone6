@@ -644,6 +644,8 @@ export const updateBlocksConfig = (config) => {
     config.blocks.blocksConfig[block.id] = { sidebarTab: 1, ...block };
   });
 
+  config.blocks.blocksConfig['form'].blockHasOwnFocusManagement = true;
+
   Object.entries(blockVariations).forEach(([blockId, variations]) => {
     config.blocks.blocksConfig[blockId].variations = [
       ...(config.blocks.blocksConfig[blockId].variations ?? []),
