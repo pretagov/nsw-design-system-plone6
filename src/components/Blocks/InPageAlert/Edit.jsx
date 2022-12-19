@@ -11,20 +11,22 @@ const InPageAlertEditDisplay = ({ data, id, onChangeBlock, schema }) => {
     <InPageAlert
       alertType={data.alertType}
       content={
-        <WysiwygWidget
-          wrapped={false}
-          id={id}
-          name={id}
-          onChange={(blockId, value) => {
-            onChangeBlock(blockId, {
-              ...data,
-              body: value,
-            });
-          }}
-          // TODO: in-page alert placeholder i18n
-          placeholder="Enter your alert message here"
-          value={data.body}
-        />
+        <div style={{ minWidth: '30%' }}>
+          <WysiwygWidget
+            wrapped={false}
+            id={id}
+            name={id}
+            onChange={(blockId, value) => {
+              onChangeBlock(blockId, {
+                ...data,
+                body: value,
+              });
+            }}
+            // TODO: in-page alert placeholder i18n
+            placeholder="Enter your alert message here"
+            value={data.body}
+          />
+        </div>
       }
       includeMargin={data.includeMargin}
       isCompact={data.isCompact}
