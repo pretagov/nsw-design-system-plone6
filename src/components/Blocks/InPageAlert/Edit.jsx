@@ -13,6 +13,7 @@ const InPageAlertEditDisplay = ({ data, id, onChangeBlock, schema }) => {
       content={
         <div style={{ minWidth: '30%' }}>
           <WysiwygWidget
+            title={id}
             wrapped={false}
             id={id}
             name={id}

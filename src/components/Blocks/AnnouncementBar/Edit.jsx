@@ -13,6 +13,7 @@ function AnnouncementBarEditDisplay({ data, id, onChangeBlock }) {
       content={
         <div style={{ minWidth: '30%' }}>
           <WysiwygWidget
+            title={id}
             wrapped={false}
             id={id}
             name={id}
@@ -37,6 +38,14 @@ function AnnouncementBarEditDisplay({ data, id, onChangeBlock }) {
 }
 
 function AnnouncementBarData({ data, block, onChangeBlock, schema }) {
+  const defaultFieldsetIndex = schema.fieldsets.findIndex(
+    (fieldset) => fieldset.id === 'default',
+  );
+  // Remove 'body' from the schema to display
+  schema.fieldsets[defaultFieldsetIndex].fields = schema.fieldsets[
+    defaultFieldsetIndex
+  ].fields.filter((field) => field !== 'body');
+
   return (
     <div>
       <BlockDataForm
