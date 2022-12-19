@@ -47,7 +47,6 @@ export function InPageAlert({
   if (includeMargin) {
     backgroundStyle['marginBlockStart'] = '0';
   }
-  console.log(iconColourMapping[colour]);
 
   return (
     <div
