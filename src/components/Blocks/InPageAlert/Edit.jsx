@@ -1,15 +1,46 @@
-import { BlockDataForm, SidebarPortal } from '@plone/volto/components';
-import React from 'react';
+import {
+  BlockDataForm,
+  SidebarPortal,
+  WysiwygWidget,
+} from '@plone/volto/components';
+import { InPageAlert } from 'nsw-design-system-plone6/components/Components/InPageAlert';
 import InPageAlertSchema from './schema';
-import View from './View';
 
-const InPageAlertEditDisplay = ({ data, id, isEditMode, onSelectBlock }) => {
-  return <View data={data} isEditMode={true} />;
+const InPageAlertEditDisplay = ({ data, id, onChangeBlock, schema }) => {
+  return (
+    <InPageAlert
+      alertType={data.alertType}
+      content={
+        <WysiwygWidget
+          wrapped={false}
+          id={id}
+          name={id}
+          onChange={(blockId, value) => {
+            onChangeBlock(blockId, {
+              ...data,
+              body: value,
+            });
+          }}
+          // TODO: in-page alert placeholder i18n
+          placeholder="Enter your alert message here"
+          value={data.body}
+        />
+      }
+      includeMargin={data.includeMargin}
+      isCompact={data.isCompact}
+    />
+  );
 };
 
 const InPageAlertData = (props) => {
-  const { data, block, onChangeBlock } = props;
-  const schema = InPageAlertSchema({ ...props });
+  const { data, block, onChangeBlock, schema } = props;
+  const defaultFieldsetIndex = schema.fieldsets.findIndex(
+    (fieldset) => fieldset.id === 'default',
+  );
+  // Remove 'body' from the schema to display
+  schema.fieldsets[defaultFieldsetIndex].fields = schema.fieldsets[
+    defaultFieldsetIndex
+  ].fields.filter((field) => field !== 'body');
   return (
     <div>
       <BlockDataForm
@@ -30,15 +61,17 @@ const InPageAlertData = (props) => {
 
 const InPageAlertEdit = (props) => {
   const { data, onChangeBlock, block, selected } = props;
+  const schema = InPageAlertSchema({ ...props });
   return (
     <>
-      <InPageAlertEditDisplay data={data} id={block} isEditMode />
+      <InPageAlertEditDisplay {...props} schema={schema} />
       <SidebarPortal selected={selected}>
         <InPageAlertData
           key={block}
           data={data}
           block={block}
           onChangeBlock={onChangeBlock}
+          schema={schema}
           {...props}
         />
       </SidebarPortal>
