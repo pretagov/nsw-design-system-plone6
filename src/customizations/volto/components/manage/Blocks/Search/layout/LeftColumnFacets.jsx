@@ -102,22 +102,16 @@ const LeftColumnFacets = (props) => {
                 isEditMode={isEditMode}
                 sortOn={sortOn}
                 sortOrder={sortOrder}
-                setSortOn={(sortOn) => {
-                  flushSync(() => {
-                    setSortOn(sortOn);
-                    onTriggerSearch(searchedText || '', facets, sortOn);
-                  });
-                }}
-                setSortOrder={(sortOrder) => {
-                  flushSync(() => {
-                    setSortOrder(sortOrder);
-                    onTriggerSearch(
-                      searchedText || '',
-                      facets,
-                      sortOn,
-                      sortOrder,
-                    );
-                  });
+                updateSort={({ sortOn, sortOrder }) => {
+                  setSortOn(sortOn);
+                  setSortOrder(sortOrder);
+                  onTriggerSearch(searchedText || '', facets, sortOn);
+                  onTriggerSearch(
+                    searchedText || '',
+                    facets,
+                    sortOn,
+                    sortOrder,
+                  );
                 }}
               />
             )}

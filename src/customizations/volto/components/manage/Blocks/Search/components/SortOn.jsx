@@ -1,10 +1,9 @@
-import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 
 const messages = defineMessages({
   noSelection: {
-    id: 'No selection',
-    defaultMessage: 'No selection',
+    id: 'Relevance',
+    defaultMessage: 'Relevance',
   },
   sortBy: {
     id: 'Sort by',
@@ -12,30 +11,42 @@ const messages = defineMessages({
   },
 });
 
+const sortOptions = {
+  Relevance: {
+    sort_on: '',
+    sort_order: '',
+  },
+  'Most recent': {
+    sort_on: 'created',
+    sort_order: 'descending',
+  },
+  'A-Z': {
+    sort_on: 'sortable_title',
+    sort_order: 'ascending',
+  },
+};
+
 const SortOn = (props) => {
   const {
     data = {},
     sortOn = null,
     isEditMode,
     querystring = {},
-    setSortOn,
+    updateSort,
   } = props;
-  const { sortable_indexes } = querystring;
-
   const intl = useIntl();
 
   const activeSortOn = sortOn || data?.query?.sort_on || '';
-
-  const { sortOnOptions = [] } = data;
-  const value = activeSortOn || intl.formatMessage(messages.noSelection);
-  const label =
-    activeSortOn && sortable_indexes
-      ? sortable_indexes[activeSortOn]?.title
-      : activeSortOn || intl.formatMessage(messages.noSelection);
+  const value =
+    Object.keys(sortOptions)[
+      Object.values(sortOptions).findIndex(
+        (option) => option.sort_on === activeSortOn,
+      )
+    ] || intl.formatMessage(messages.noSelection);
 
   return (
     <div className="nsw-results-bar__sorting">
-      <label className="nsw-form__label" for="results-sort">
+      <label className="nsw-form__label" htmlFor="results-sort">
         {data.sortOnLabel || intl.formatMessage(messages.sortBy)}
       </label>
       {/* eslint-disable-next-line jsx-a11y/no-onchange */}
@@ -46,14 +57,19 @@ const SortOn = (props) => {
         name="results-sort"
         value={value}
         onChange={({ target }) => {
-          !isEditMode && setSortOn(target.value);
+          if (isEditMode) {
+            return;
+          }
+          updateSort({
+            sortOn: sortOptions[target.value].sort_on,
+            sortOrder: sortOptions[target.value].sort_order,
+          });
         }}
       >
-        {sortOnOptions.map((sortKey) => {
-          const label = sortable_indexes[sortKey]?.title || sortKey;
+        {Object.keys(sortOptions).map((sortOption) => {
           return (
-            <option key={sortKey} value={sortKey}>
-              {label}
+            <option key={sortOption} value={sortOption}>
+              {sortOption}
             </option>
           );
         })}
