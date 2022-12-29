@@ -56,14 +56,6 @@ const FormView = ({
     }
   }
 
-  if (formState.loading) {
-    return (
-      <Dimmer active inverted>
-        <Loader inverted>Loading</Loader>
-      </Dimmer>
-    );
-  }
-
   return (
     <>
       {data.title && <h2>{data.title}</h2>}
@@ -154,10 +146,17 @@ const FormView = ({
             </Message>
           )}
           <div className="nsw-form__group">
+            {formState.loading ? (
+              <Dimmer active inverted>
+                <Loader inverted>Submitting form</Loader>
+              </Dimmer>
+            ) : null}
             <input
               type="submit"
               className="nsw-button nsw-button--dark"
               value="Submit"
+              // TODO: Disabling buttons is an awful experience, but we need it until we can POST without JS
+              disabled={formState.loading}
             />
           </div>
         </form>
