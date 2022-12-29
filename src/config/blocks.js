@@ -151,6 +151,7 @@ const nswBlocks = [
     title: 'In-page Alert',
     icon: sliderSVG,
     group: 'nsw',
+    blockHasOwnFocusManagement: true,
     view: Components.InPageAlertView,
     edit: Components.InPageAlertEdit,
     restricted: false,

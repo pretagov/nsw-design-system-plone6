@@ -1,15 +1,51 @@
-import { BlockDataForm, SidebarPortal } from '@plone/volto/components';
-import React from 'react';
+import {
+  BlockDataForm,
+  SidebarPortal,
+  WysiwygWidget,
+} from '@plone/volto/components';
+import { InPageAlert } from 'nsw-design-system-plone6/components/Components/InPageAlert';
 import { announcementBarSchema } from './schema';
-import { AnnouncementBarView } from './View';
 
-function AnnouncementBarEditDisplay({ data, id, isEditMode, onSelectBlock }) {
-  return <AnnouncementBarView data={data} isEditMode={true} />;
+function AnnouncementBarEditDisplay({ data, id, onChangeBlock }) {
+  return (
+    <InPageAlert
+      alertType="chevron_right"
+      content={
+        <div style={{ minWidth: '30%' }}>
+          <WysiwygWidget
+            title={id}
+            wrapped={false}
+            id={id}
+            name={id}
+            onChange={(blockId, value) => {
+              onChangeBlock(blockId, {
+                ...data,
+                body: value,
+              });
+            }}
+            // TODO: in-page alert placeholder i18n
+            placeholder="Enter your alert message here"
+            value={data.body}
+          />
+        </div>
+      }
+      includeMargin={true}
+      includeContainer={true}
+      isCompact={data.isCompact}
+      colour={data.colour}
+    />
+  );
 }
 
-function AnnouncementBarData(props) {
-  const { data, block, onChangeBlock } = props;
-  const schema = announcementBarSchema({ ...props });
+function AnnouncementBarData({ data, block, onChangeBlock, schema }) {
+  const defaultFieldsetIndex = schema.fieldsets.findIndex(
+    (fieldset) => fieldset.id === 'default',
+  );
+  // Remove 'body' from the schema to display
+  schema.fieldsets[defaultFieldsetIndex].fields = schema.fieldsets[
+    defaultFieldsetIndex
+  ].fields.filter((field) => field !== 'body');
+
   return (
     <div>
       <BlockDataForm
@@ -30,16 +66,21 @@ function AnnouncementBarData(props) {
 
 export function AnnouncementBarEdit(props) {
   const { data, onChangeBlock, block, selected } = props;
+  const schema = announcementBarSchema({ ...props });
   return (
     <>
-      <AnnouncementBarEditDisplay data={data} id={block} isEditMode />
+      <AnnouncementBarEditDisplay
+        data={data}
+        id={block}
+        onChangeBlock={onChangeBlock}
+      />
       <SidebarPortal selected={selected}>
         <AnnouncementBarData
           key={block}
           data={data}
           block={block}
           onChangeBlock={onChangeBlock}
-          {...props}
+          schema={schema}
         />
       </SidebarPortal>
     </>
