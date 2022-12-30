@@ -1,9 +1,31 @@
 import { Pagination } from '@plone/volto/components';
 import withQuerystringResults from '@plone/volto/components/manage/Blocks/Listing/withQuerystringResults';
 import config from '@plone/volto/registry';
-import React, { createRef } from 'react';
+import { createRef } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Dimmer, Loader } from 'semantic-ui-react';
+
+const NoResults = ({ hasLoaded, customMessage }) => {
+  if (customMessage && customMessage !== '<p></p>') {
+    return <div dangerouslySetInnerHTML={{ __html: customMessage }} />;
+  }
+  return (
+    <>
+      {hasLoaded ? (
+        <FormattedMessage
+          id="No results found."
+          defaultMessage="No results found."
+        />
+      ) : (
+        <Dimmer active={!hasLoaded} inverted>
+          <Loader indeterminate size="small">
+            <FormattedMessage id="loading" defaultMessage="Loading" />
+          </Loader>
+        </Dimmer>
+      )}
+    </>
+  );
+};
 
 const ListingBody = withQuerystringResults((props) => {
   const {
@@ -36,6 +58,7 @@ const ListingBody = withQuerystringResults((props) => {
   }
 
   const listingRef = createRef();
+  const customMessage = data.noResultsMessage?.data;
 
   return listingItems?.length > 0 ? (
     <div ref={listingRef}>
@@ -67,31 +90,11 @@ const ListingBody = withQuerystringResults((props) => {
           defaultMessage="No items found in this container."
         />
       )}
-      {hasLoaded && (
-        <FormattedMessage
-          id="No results found."
-          defaultMessage="No results found."
-        />
-      )}
-      <Dimmer active={!hasLoaded} inverted>
-        <Loader indeterminate size="small">
-          <FormattedMessage id="loading" defaultMessage="Loading" />
-        </Loader>
-      </Dimmer>
+      <NoResults hasLoaded={hasLoaded} customMessage={customMessage} />
     </div>
   ) : (
     <div>
-      {hasLoaded && (
-        <FormattedMessage
-          id="No results found."
-          defaultMessage="No results found."
-        />
-      )}
-      <Dimmer active={!hasLoaded} inverted>
-        <Loader indeterminate size="small">
-          <FormattedMessage id="loading" defaultMessage="Loading" />
-        </Loader>
-      </Dimmer>
+      <NoResults hasLoaded={hasLoaded} customMessage={customMessage} />
     </div>
   );
 });

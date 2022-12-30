@@ -24,6 +24,7 @@ const View = ({ data, ...props }) => {
         imageUrl={imageUrl}
         linkTitle={data.linkTitle}
         linkUrl={linkUrl}
+        width={data.heroWidth}
       />
     );
   }

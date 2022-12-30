@@ -24,10 +24,11 @@ const CheckboxListWidget = ({
   };
 
   let attributes = {};
-  if (required) {
-    attributes.required = true;
-    attributes['aria-required'] = true;
-  }
+  // Causes all of the checkboxes to be checked.
+  // if (required) {
+  //   attributes.required = true;
+  //   attributes['aria-required'] = true;
+  // }
 
   const isInvalid = invalid === true || invalid === 'true';
   if (isInvalid) {
