@@ -1,33 +1,13 @@
-import cx from 'classnames';
-import React from 'react';
+import { InPageAlert } from 'nsw-design-system-plone6/components/Components/InPageAlert';
 
-const alertTypeIconMapping = {
-  info: 'info',
-  success: 'check_circle',
-  warning: 'error',
-  error: 'cancel', // Title is 'critical'
-};
-
-const InPageAlertView = ({ data, isEditMode }) => {
+const InPageAlertView = ({ data }) => {
   return (
-    <div
-      className={cx(`nsw-in-page-alert nsw-in-page-alert--${data.alertType}`, {
-        'nsw-in-page-alert--compact': data.isCompact,
-      })}
-      style={data.includeMargin ? null : { marginTop: '0' }}
-    >
-      <span
-        className="material-icons nsw-material-icons nsw-in-page-alert__icon"
-        focusable="false"
-        aria-hidden="true"
-      >
-        {alertTypeIconMapping[data.alertType]}
-      </span>
-      <div
-        className="nsw-in-page-alert__content"
-        dangerouslySetInnerHTML={{ __html: data.body?.data }}
-      ></div>
-    </div>
+    <InPageAlert
+      alertType={data.alertType}
+      content={data.body?.data}
+      includeMargin={data.includeMargin}
+      isCompact={data.isCompact}
+    />
   );
 };
 
