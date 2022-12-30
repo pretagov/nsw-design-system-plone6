@@ -62,7 +62,7 @@ const RadioWidget = ({
                   id={radioId}
                   value={opt.value}
                   checked={opt.value === value}
-                  onChange={(e) => onChange(id, e.target.value)}
+                  onChange={(e) => onChange(id, opt.value)}
                   {...attributes}
                 />
                 <label className="nsw-form__radio-label" htmlFor={radioId}>
