@@ -151,6 +151,7 @@ const nswBlocks = [
     title: 'In-page Alert',
     icon: sliderSVG,
     group: 'nsw',
+    blockHasOwnFocusManagement: true,
     view: Components.InPageAlertView,
     edit: Components.InPageAlertEdit,
     restricted: false,
@@ -643,6 +644,8 @@ export const updateBlocksConfig = (config) => {
   nswBlocks.forEach((block) => {
     config.blocks.blocksConfig[block.id] = { sidebarTab: 1, ...block };
   });
+
+  config.blocks.blocksConfig['form'].blockHasOwnFocusManagement = true;
 
   Object.entries(blockVariations).forEach(([blockId, variations]) => {
     config.blocks.blocksConfig[blockId].variations = [
