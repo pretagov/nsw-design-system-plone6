@@ -1,6 +1,7 @@
 import { Icon } from '@plone/volto/components';
-import React from 'react';
+import { useEffect } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
+import { useLocation, useParams } from 'react-router';
 
 import SearchSVG from '@material-design-icons/svg/filled/search.svg';
 
@@ -21,6 +22,17 @@ const SearchInput = ({
 }) => {
   const intl = useIntl();
   const inputHtmlId = `${blockId}-searchtext`;
+  const { search } = useLocation();
+  const searchParams = new URLSearchParams(search);
+  const urlSearchedText = searchParams.get('SearchableText');
+
+  useEffect(() => {
+    if (!urlSearchedText) {
+      return;
+    }
+    setSearchText(urlSearchedText);
+    onTriggerSearch(urlSearchedText);
+  }, [setSearchText, onTriggerSearch, urlSearchedText]);
 
   return (
     <div className="search-input">

@@ -1,7 +1,8 @@
 import config from '@plone/volto/registry';
 import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { Button, Message } from 'semantic-ui-react';
+import 'semantic-ui-less/definitions/elements/loader.less';
+import { Button, Dimmer, Loader, Message } from 'semantic-ui-react';
 import { getFieldName } from 'volto-form-block/components/utils';
 import Field from './Field';
 
@@ -54,6 +55,7 @@ const FormView = ({
       fields_to_send.push(key);
     }
   }
+
   return (
     <>
       {data.title && <h2>{data.title}</h2>}
@@ -144,10 +146,17 @@ const FormView = ({
             </Message>
           )}
           <div className="nsw-form__group">
+            {formState.loading ? (
+              <Dimmer active inverted>
+                <Loader inverted>Submitting form</Loader>
+              </Dimmer>
+            ) : null}
             <input
               type="submit"
               className="nsw-button nsw-button--dark"
               value="Submit"
+              // TODO: Disabling buttons is an awful experience, but we need it until we can POST without JS
+              disabled={formState.loading}
             />
           </div>
         </form>

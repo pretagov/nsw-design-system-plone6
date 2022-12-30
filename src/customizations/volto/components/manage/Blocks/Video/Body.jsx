@@ -4,7 +4,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Message } from 'semantic-ui-react';
 
-const Body = ({ data, isEditMode }) => {
+const Body = ({ data, isEditMode, isSelectedInEditMode }) => {
   let placeholder = data.preview_image
     ? isInternalURL(data.preview_image)
       ? `${flattenToAppURL(data.preview_image)}/@@images/image`
@@ -55,6 +55,10 @@ const Body = ({ data, isEditMode }) => {
     onKeyPress: onKeyDown,
     ref: ref,
   };
+
+  if (isEditMode && !isSelectedInEditMode) {
+    return <img className="placeholder" src={placeholder} alt="" />;
+  }
 
   return (
     <figure

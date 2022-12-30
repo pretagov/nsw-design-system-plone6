@@ -238,7 +238,7 @@ const FileWidget = (props) => {
             )}
 
             <div className="">{value && value.filename}</div>
-            <button className="nsw-button nsw-button--dark">
+            <button type="button" className="nsw-button nsw-button--dark">
               {value
                 ? intl.formatMessage(messages.replaceFile)
                 : intl.formatMessage(messages.addNewFile)}
