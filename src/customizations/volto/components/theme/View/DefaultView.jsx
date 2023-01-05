@@ -1,3 +1,10 @@
+/**
+ * Document view component.
+ * @module components/theme/View/DefaultView
+ *
+ * Container lookup from component registry is not included (https://github.com/plone/volto/pull/4032)
+ */
+
 import {
   getBaseUrl,
   getBlocksFieldname,
