@@ -98,6 +98,7 @@ const LeftColumnFacets = (props) => {
             {data.showSortOn && (
               <SortOn
                 querystring={querystring}
+                searchedText={searchedText}
                 data={data}
                 isEditMode={isEditMode}
                 sortOn={sortOn}
