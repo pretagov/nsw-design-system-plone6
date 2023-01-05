@@ -35,7 +35,7 @@ const SortOn = (props) => {
 
   return (
     <div className="nsw-results-bar__sorting">
-      <label className="nsw-form__label" for="results-sort">
+      <label className="nsw-form__label" htmlFor="results-sort">
         {data.sortOnLabel || intl.formatMessage(messages.sortBy)}
       </label>
       {/* eslint-disable-next-line jsx-a11y/no-onchange */}
