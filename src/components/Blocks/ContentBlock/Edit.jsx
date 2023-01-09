@@ -1,9 +1,20 @@
 import { BlockDataForm, SidebarPortal } from '@plone/volto/components';
-import ContentBlock from './View';
+import { ContentBlock } from 'nsw-design-system-plone6/components/Components/ContentBlock';
+import { getLinks, getViewMore } from './helpers';
 import { contentBlockSchema } from './schema';
 
-function ContentBlockEditDisplay({ data, isEditMode }) {
-  return <ContentBlock data={data} isEditMode={isEditMode} />;
+function ContentBlockEditDisplay({ data }) {
+  return (
+    <ContentBlock
+      title={data.title}
+      description={data.description}
+      viewMoreUrl={getViewMore(data)}
+      links={getLinks(data)}
+      image={data.image}
+      imageIsIcon={data.imageIsIcon}
+      isEditMode={true}
+    />
+  );
 }
 
 function ContentBlockData(props) {

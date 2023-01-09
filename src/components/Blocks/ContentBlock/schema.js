@@ -61,7 +61,14 @@ export const contentBlockSchema = ({ intl }) => {
       {
         id: 'default',
         title: 'Default',
-        fields: ['title', 'copy', 'links', 'viewMore', 'image', 'imageIsIcon'],
+        fields: [
+          'title',
+          'description',
+          'links',
+          'viewMore',
+          'image',
+          'imageIsIcon',
+        ],
       },
     ],
     properties: {
