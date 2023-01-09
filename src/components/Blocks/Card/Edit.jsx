@@ -23,6 +23,22 @@ function CardEditDisplay({ data, id, onChangeBlock }) {
           />
         </div>
       }
+      description={
+        // TODO: Better styling than inline
+        <div style={{ cursor: 'text' }}>
+          <TextLineEdit
+            fieldName="description"
+            fieldDataName="description"
+            placeholder="Card description"
+            block={id}
+            data={data}
+            onChangeBlock={(blockId, newData) => {
+              onChangeBlock(blockId, newData);
+            }}
+            renderTag="span"
+          />
+        </div>
+      }
       isEditMode={true}
     />
   );

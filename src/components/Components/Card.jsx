@@ -56,7 +56,9 @@ export function Card({
           </div>
         ) : null}
         <div className="nsw-card__title">
-          {!isEditMode ? (
+          {isEditMode ? (
+            linkTitle
+          ) : (
             <Link to={href}>
               {isValidElement(title) ? (
                 <div dangerouslySetInnerHTML={{ __html: title }}></div>
@@ -64,12 +66,18 @@ export function Card({
                 linkTitle
               )}
             </Link>
-          ) : (
-            linkTitle
           )}
         </div>
         {description ? (
-          <div className="nsw-card__copy">{description}</div>
+          <div className="nsw-card__copy">
+            {isEditMode ? (
+              description
+            ) : isValidElement(title) ? (
+              <span dangerouslySetInnerHTML={{ __html: description }}></span>
+            ) : (
+              description
+            )}
+          </div>
         ) : null}
 
         <Icon
@@ -78,13 +86,6 @@ export function Card({
           size="1.875rem"
           ariaHidden={true}
         />
-        {/* <span
-          className="material-icons nsw-material-icons"
-          focusable="false"
-          aria-hidden="true"
-        >
-          east
-        </span> */}
       </div>
     </div>
   );
