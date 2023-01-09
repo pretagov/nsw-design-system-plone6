@@ -6,7 +6,7 @@ import { cardSchema } from './schema';
 function CardEditDisplay({ data, id, onChangeBlock }) {
   return (
     <Card
-      data={data}
+      {...data}
       title={
         <TextLineEdit
           fieldName="title"
