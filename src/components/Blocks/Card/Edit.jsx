@@ -4,16 +4,17 @@ import { Card } from 'nsw-design-system-plone6/components/Components/Card';
 import { cardSchema } from './schema';
 
 function CardEditDisplay({ data, id, onChangeBlock }) {
+  // TODO: Better styling than inline
+  // TODO: Card edit placeholder i18n
   return (
     <Card
       {...data}
       title={
-        // TODO: Better styling than inline
         <div style={{ cursor: 'text' }}>
           <TextLineEdit
             fieldName="title"
             fieldDataName="title"
-            placeholder="Card title"
+            placeholder="Add a title..."
             block={id}
             data={data}
             onChangeBlock={(blockId, newData) => {
@@ -24,12 +25,11 @@ function CardEditDisplay({ data, id, onChangeBlock }) {
         </div>
       }
       description={
-        // TODO: Better styling than inline
         <div style={{ cursor: 'text' }}>
           <TextLineEdit
             fieldName="description"
             fieldDataName="description"
-            placeholder="Card description"
+            placeholder="Add a description..."
             block={id}
             data={data}
             onChangeBlock={(blockId, newData) => {
