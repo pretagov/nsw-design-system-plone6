@@ -68,7 +68,7 @@ export const contentBlockSchema = ({ intl }) => {
       title: {
         title: intl.formatMessage(messages.title),
       },
-      copy: {
+      description: {
         title: intl.formatMessage(messages.copy),
         widget: 'textarea',
       },

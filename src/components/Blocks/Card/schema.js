@@ -1,4 +1,5 @@
 import { defineMessages } from 'react-intl';
+
 const messages = defineMessages({
   styling: {
     id: 'Styling',
@@ -119,5 +120,3 @@ export const cardSchema = ({ intl }) => {
     },
   };
 };
-
-export default cardSchema;

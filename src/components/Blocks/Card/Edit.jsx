@@ -1,15 +1,52 @@
 import { BlockDataForm, SidebarPortal } from '@plone/volto/components';
-import React from 'react';
-import CardSchema from './schema';
-import Card from './View';
+import TextLineEdit from '@plone/volto/components/manage/TextLineEdit/TextLineEdit';
+import { Card } from 'nsw-design-system-plone6/components/Components/Card';
+import { cardSchema } from './schema';
 
-const CardEditDisplay = ({ data, isEditMode }) => {
-  return <Card data={data} isEditMode={isEditMode} />;
-};
+function CardEditDisplay({ data, id, onChangeBlock }) {
+  return (
+    <Card
+      {...data}
+      title={
+        // TODO: Better styling than inline
+        <div style={{ cursor: 'text' }}>
+          <TextLineEdit
+            fieldName="title"
+            fieldDataName="title"
+            placeholder="Card title"
+            block={id}
+            data={data}
+            onChangeBlock={(blockId, newData) => {
+              onChangeBlock(blockId, newData);
+            }}
+            renderTag="span"
+          />
+        </div>
+      }
+      description={
+        // TODO: Better styling than inline
+        <div style={{ cursor: 'text' }}>
+          <TextLineEdit
+            fieldName="description"
+            fieldDataName="description"
+            placeholder="Card description"
+            block={id}
+            data={data}
+            onChangeBlock={(blockId, newData) => {
+              onChangeBlock(blockId, newData);
+            }}
+            renderTag="span"
+          />
+        </div>
+      }
+      isEditMode={true}
+    />
+  );
+}
 
-const CardData = (props) => {
+function CardData(props) {
   const { data, block, onChangeBlock } = props;
-  const schema = CardSchema({ ...props });
+  const schema = cardSchema({ intl: props.intl });
   return (
     <BlockDataForm
       schema={schema}
@@ -24,14 +61,19 @@ const CardData = (props) => {
       block={block}
     />
   );
-};
+}
 
 // TODO: Support for tags and support for dates
-const CardEdit = (props) => {
+export function CardEdit(props) {
   const { data, onChangeBlock, block, selected } = props;
   return (
     <>
-      <CardEditDisplay data={data} id={block} isEditMode />
+      <CardEditDisplay
+        data={data}
+        id={block}
+        onChangeBlock={onChangeBlock}
+        isEditMode
+      />
       <SidebarPortal selected={selected}>
         <CardData
           key={block}
@@ -43,6 +85,4 @@ const CardEdit = (props) => {
       </SidebarPortal>
     </>
   );
-};
-
-export default CardEdit;
+}

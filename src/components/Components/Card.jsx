@@ -1,6 +1,6 @@
 import { FormattedDate, Icon } from '@plone/volto/components';
 import cx from 'classnames';
-import React from 'react';
+import { isValidElement } from 'react';
 import { Link } from 'react-router-dom';
 
 import EastSVG from '@material-design-icons/svg/filled/east.svg';
@@ -8,13 +8,13 @@ import EastSVG from '@material-design-icons/svg/filled/east.svg';
 // TODO: Support adding alt text to images
 export function Card({
   title,
-  titleIsHeadline,
   description,
   href,
   image,
-  imagePosition,
   date,
   urlDisplay,
+  titleIsHeadline,
+  imagePosition,
   colour,
   shouldHighlight,
   isEditMode,
@@ -56,10 +56,28 @@ export function Card({
           </div>
         ) : null}
         <div className="nsw-card__title">
-          {!isEditMode ? <Link to={href}>{linkTitle}</Link> : linkTitle}
+          {isEditMode ? (
+            linkTitle
+          ) : (
+            <Link to={href}>
+              {isValidElement(title) ? (
+                <div dangerouslySetInnerHTML={{ __html: title }}></div>
+              ) : (
+                linkTitle
+              )}
+            </Link>
+          )}
         </div>
         {description ? (
-          <div className="nsw-card__copy">{description}</div>
+          <div className="nsw-card__copy">
+            {isEditMode ? (
+              description
+            ) : isValidElement(title) ? (
+              <span dangerouslySetInnerHTML={{ __html: description }}></span>
+            ) : (
+              description
+            )}
+          </div>
         ) : null}
 
         <Icon
@@ -68,13 +86,6 @@ export function Card({
           size="1.875rem"
           ariaHidden={true}
         />
-        {/* <span
-          className="material-icons nsw-material-icons"
-          focusable="false"
-          aria-hidden="true"
-        >
-          east
-        </span> */}
       </div>
     </div>
   );
