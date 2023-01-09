@@ -1,19 +1,14 @@
 import { BlockDataForm, SidebarPortal } from '@plone/volto/components';
-import React from 'react';
-import { useIntl } from 'react-intl';
-import ContentBlockSchema from './schema';
 import ContentBlock from './View';
+import { contentBlockSchema } from './schema';
 
-const ContentBlockEditDisplay = ({ data, id, isEditMode, onSelectBlock }) => {
-  const intl = useIntl();
-  const { title, description } = data;
-
+function ContentBlockEditDisplay({ data, isEditMode }) {
   return <ContentBlock data={data} isEditMode={isEditMode} />;
-};
+}
 
-const ContentBlockData = (props) => {
+function ContentBlockData(props) {
   const { data, block, onChangeBlock } = props;
-  const schema = ContentBlockSchema({ ...props });
+  const schema = contentBlockSchema({ ...props });
   return (
     <div>
       <BlockDataForm
@@ -30,9 +25,9 @@ const ContentBlockData = (props) => {
       />
     </div>
   );
-};
+}
 
-const ContentBlockEdit = (props) => {
+export function ContentBlockEdit(props) {
   const { data, onChangeBlock, block, selected } = props;
   return (
     <>
@@ -48,6 +43,4 @@ const ContentBlockEdit = (props) => {
       </SidebarPortal>
     </>
   );
-};
-
-export default ContentBlockEdit;
+}

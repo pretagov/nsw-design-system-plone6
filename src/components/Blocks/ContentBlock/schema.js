@@ -95,5 +95,3 @@ export const contentBlockSchema = ({ intl }) => {
     },
   };
 };
-
-export default contentBlockSchema;

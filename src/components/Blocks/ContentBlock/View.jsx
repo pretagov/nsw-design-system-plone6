@@ -1,7 +1,5 @@
-import React from 'react';
-
 // TODO: Allow adding alt text to images
-const ContentBlockView = ({ data, isEditMode }) => {
+export function ContentBlockView({ data, isEditMode }) {
   return (
     <div className="nsw-content-block__content">
       {data?.image ? (
@@ -45,6 +43,4 @@ const ContentBlockView = ({ data, isEditMode }) => {
       ) : null}
     </div>
   );
-};
-
-export default ContentBlockView;
+}
