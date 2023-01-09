@@ -77,7 +77,8 @@ export const contentBlockSchema = ({ intl }) => {
       },
       description: {
         title: intl.formatMessage(messages.copy),
-        widget: 'textarea',
+        type: 'string',
+        widget: 'richtext',
       },
       links: {
         title: intl.formatMessage(messages.links),

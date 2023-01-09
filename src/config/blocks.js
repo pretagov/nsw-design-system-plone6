@@ -111,6 +111,7 @@ const nswBlocks = [
     group: 'nsw',
     view: Components.ContentBlockView,
     edit: Components.ContentBlockEdit,
+    blockSchema: Components.contentBlockSchema,
     restricted: false,
     mostUsed: false,
     security: {

@@ -3,7 +3,7 @@ export const getViewMore = (data) =>
 
 export const getLinks = (data) =>
   data.links
-    .filter((item) => {
+    ?.filter((item) => {
       return item.link && item.link[0] && item.title;
     })
     .map((item) => {
