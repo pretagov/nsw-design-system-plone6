@@ -8,18 +8,20 @@ function CardEditDisplay({ data, id, onChangeBlock }) {
     <Card
       {...data}
       title={
-        <TextLineEdit
-          fieldName="title"
-          fieldDataName="title"
-          placeholder="Card title"
-          block={id}
-          data={data}
-          onChangeBlock={(blockId, newData) => {
-            onChangeBlock(blockId, newData);
-          }}
-          // renderTag=""
-          // renderClassName=""
-        />
+        // TODO: Better styling than inline
+        <div style={{ cursor: 'text' }}>
+          <TextLineEdit
+            fieldName="title"
+            fieldDataName="title"
+            placeholder="Card title"
+            block={id}
+            data={data}
+            onChangeBlock={(blockId, newData) => {
+              onChangeBlock(blockId, newData);
+            }}
+            renderTag="span"
+          />
+        </div>
       }
       isEditMode={true}
     />

@@ -21,7 +21,6 @@ export function Card({
 }) {
   const linkTitle = title || href;
   const cleanDate = date === 'None' ? null : date;
-  console.log(title);
 
   return (
     <div
