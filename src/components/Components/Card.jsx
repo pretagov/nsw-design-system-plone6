@@ -59,13 +59,7 @@ export function Card({
           {!isEditMode ? (
             <Link to={href}>
               {isValidElement(title) ? (
-                <>
-                  <p>test</p>
-                  <div
-                    // className="nsw-in-page-alert__content"
-                    dangerouslySetInnerHTML={{ __html: title }}
-                  ></div>
-                </>
+                <div dangerouslySetInnerHTML={{ __html: title }}></div>
               ) : (
                 linkTitle
               )}
