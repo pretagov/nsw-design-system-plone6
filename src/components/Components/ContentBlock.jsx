@@ -54,9 +54,9 @@ export function ContentBlock({
       <p className="nsw-content-block__copy">{description}</p>
       {links ? (
         <ul className="nsw-content-block__list">
-          {links.map(({ title, url }) => {
+          {links.map(({ title, url }, index) => {
             return (
-              <li key={url}>
+              <li key={index}>
                 <UniversalLink href={url}>{title}</UniversalLink>
               </li>
             );
