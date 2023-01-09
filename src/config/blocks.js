@@ -8,7 +8,7 @@ import {
   HeroWithLinks,
 } from 'nsw-design-system-plone6/components/Blocks/Hero';
 import * as Components from '../components';
-import { CardSchema } from '../components/Blocks/Card';
+import { cardSchema } from '../components/Blocks/Card';
 import { DropdownQuickNavigationSchema } from '../components/Blocks/DropdownQuickNavigation/schema';
 import { CardListing } from '../components/Blocks/Listing/CardListing';
 import { SectionSchema } from '../components/Blocks/Section';
@@ -523,19 +523,21 @@ const variationSchemaEnhancers = {
   listing: {
     cardListing: ({ schema, intl }) => {
       // Add the card display settings to the listing settings
-      const cardSchema = CardSchema({
+      const cardSchemaObject = cardSchema({
         intl,
       });
       schema.properties = {
         ...schema.properties,
-        ...cardSchema.properties,
+        ...cardSchemaObject.properties,
       };
       const stylingFieldsetIndex = 1;
       const variationFieldset = {
         id: 'cardListingVariation',
         title: 'Card Display Settings',
-        fields: [...cardSchema.fieldsets[stylingFieldsetIndex].fields],
-        required: [...cardSchema.fieldsets[stylingFieldsetIndex].required],
+        fields: [...cardSchemaObject.fieldsets[stylingFieldsetIndex].fields],
+        required: [
+          ...cardSchemaObject.fieldsets[stylingFieldsetIndex].required,
+        ],
       };
       schema.fieldsets.push(variationFieldset);
 

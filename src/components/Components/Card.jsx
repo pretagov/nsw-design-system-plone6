@@ -1,6 +1,6 @@
 import { FormattedDate, Icon } from '@plone/volto/components';
 import cx from 'classnames';
-import React from 'react';
+import { isValidElement } from 'react';
 import { Link } from 'react-router-dom';
 
 import EastSVG from '@material-design-icons/svg/filled/east.svg';
@@ -8,19 +8,20 @@ import EastSVG from '@material-design-icons/svg/filled/east.svg';
 // TODO: Support adding alt text to images
 export function Card({
   title,
-  titleIsHeadline,
   description,
   href,
   image,
-  imagePosition,
   date,
   urlDisplay,
+  titleIsHeadline,
+  imagePosition,
   colour,
   shouldHighlight,
   isEditMode,
 }) {
   const linkTitle = title || href;
   const cleanDate = date === 'None' ? null : date;
+  console.log(title);
 
   return (
     <div
@@ -56,7 +57,23 @@ export function Card({
           </div>
         ) : null}
         <div className="nsw-card__title">
-          {!isEditMode ? <Link to={href}>{linkTitle}</Link> : linkTitle}
+          {!isEditMode ? (
+            <Link to={href}>
+              {isValidElement(title) ? (
+                <>
+                  <p>test</p>
+                  <div
+                    // className="nsw-in-page-alert__content"
+                    dangerouslySetInnerHTML={{ __html: title }}
+                  ></div>
+                </>
+              ) : (
+                linkTitle
+              )}
+            </Link>
+          ) : (
+            linkTitle
+          )}
         </div>
         {description ? (
           <div className="nsw-card__copy">{description}</div>
