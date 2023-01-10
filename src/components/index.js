@@ -15,7 +15,11 @@ export {
 } from './Blocks/AnnouncementBar';
 export { CalloutEdit, CalloutView } from './Blocks/Callout';
 export { CardEdit, CardView } from './Blocks/Card';
-export { ContentBlockEdit, ContentBlockView } from './Blocks/ContentBlock';
+export {
+  ContentBlockEdit,
+  ContentBlockView,
+  contentBlockSchema,
+} from './Blocks/ContentBlock';
 export {
   DropdownQuickNavigationEdit,
   DropdownQuickNavigationView,
@@ -25,7 +29,7 @@ export { LinkListEdit, LinkListView } from './Blocks/LinkList';
 export { SectionEdit, SectionSchema, SectionView } from './Blocks/Section';
 export {
   SeparatorEdit,
-  separatorSchema,
   SeparatorView,
+  separatorSchema,
 } from './Blocks/Separator';
 export { SidebarEdit, SidebarView } from './Blocks/Sidebar';

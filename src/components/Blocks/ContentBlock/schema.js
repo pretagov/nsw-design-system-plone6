@@ -61,7 +61,14 @@ export const contentBlockSchema = ({ intl }) => {
       {
         id: 'default',
         title: 'Default',
-        fields: ['title', 'copy', 'links', 'viewMore', 'image', 'imageIsIcon'],
+        fields: [
+          'title',
+          'description',
+          'links',
+          'viewMore',
+          'image',
+          'imageIsIcon',
+        ],
       },
     ],
     properties: {
@@ -70,7 +77,8 @@ export const contentBlockSchema = ({ intl }) => {
       },
       description: {
         title: intl.formatMessage(messages.copy),
-        widget: 'textarea',
+        type: 'string',
+        widget: 'richtext',
       },
       links: {
         title: intl.formatMessage(messages.links),
@@ -95,5 +103,3 @@ export const contentBlockSchema = ({ intl }) => {
     },
   };
 };
-
-export default contentBlockSchema;
