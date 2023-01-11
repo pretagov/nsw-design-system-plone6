@@ -241,6 +241,8 @@ function asGridSchemaExtender({ schema, intl, formData }) {
         ['__grid', voltoConfig.blocks.blocksConfig['__grid'].title],
         ...gridBlocks.map((block) => [block.id, block.title]),
       ],
+      default:
+        voltoConfig.blocks.blocksConfig[schema.block].gridAllowedBlocks[0],
     };
     schema.fieldsets[0].fields.push('@type');
   }
