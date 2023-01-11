@@ -1,5 +1,8 @@
-import {Icon, SidebarPortal} from '@plone/volto/components';
-import {withBlockExtensions} from '@plone/volto/helpers';
+// Added the `onChangeBlock` custom function to `GridData`
+// Imported lodash
+
+import { Icon, SidebarPortal } from '@plone/volto/components';
+import { withBlockExtensions } from '@plone/volto/helpers';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
@@ -31,6 +34,8 @@ import templates from '@kitconcept/volto-blocks-grid/components/Grid/templates';
 import { getAllowedBlocks } from '@kitconcept/volto-blocks-grid/components/utils';
 
 import config from '@plone/volto/registry';
+
+import { omit } from 'lodash';
 
 /**
  * Edit image block class.
@@ -456,11 +461,19 @@ class EditGrid extends Component {
                   return;
                 }
                 const allowedBlock = allowedBlocks[0];
-                value.columns?.forEach((column) => {
+                const sharedValues = omit(value, [
+                  '@type',
+                  'sectionType',
+                  'columns',
+                ]);
+                value.columns?.forEach((column, columnIndex) => {
                   if (column['@type'] !== allowedBlock) {
                     column['@type'] = allowedBlock;
                   }
+
+                  value.columns[columnIndex] = { ...column, ...sharedValues };
                 });
+
                 this.props.onChangeBlock(blockId, value);
               }}
             ></GridData>

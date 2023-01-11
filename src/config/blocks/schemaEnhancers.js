@@ -1,5 +1,6 @@
 import { composeSchema } from '@plone/volto/helpers';
 import voltoConfig from '@plone/volto/registry';
+import { cardStylingSchema } from 'nsw-design-system-plone6/components';
 import { SectionSchema } from 'nsw-design-system-plone6/components/Blocks/Section';
 import { gridBlocks } from 'nsw-design-system-plone6/config/blocks/blockDefinitions';
 import { defineMessages } from 'react-intl';
@@ -21,8 +22,29 @@ const messages = defineMessages({
 });
 
 const schemaEnhancers = {
-  __grid: ({ schema, intl, formData }) => {
-    return asGridSchemaExtender({ schema, intl, formData });
+  __grid: ({ schema: schemaToUpdate, intl, formData }) => {
+    const schema = asGridSchemaExtender({
+      schema: schemaToUpdate,
+      intl,
+      formData,
+    });
+
+    const cardSchemaObject = cardStylingSchema({
+      intl,
+    });
+    schema.properties = {
+      ...schema.properties,
+      ...cardSchemaObject.properties,
+    };
+    const variationFieldset = {
+      id: 'cardListingVariation',
+      title: 'Card Display Settings',
+      fields: [...cardSchemaObject.fieldsets[0].fields],
+      required: [...cardSchemaObject.fieldsets[0].required],
+    };
+    schema.fieldsets.push(variationFieldset);
+
+    return schema;
   },
   contentBlockGrid: ({ schema, intl, formData }) => {
     return asGridSchemaExtender({ schema, intl, formData });
@@ -232,6 +254,8 @@ function asGridSchemaExtender({ schema, intl, formData }) {
   delete schema.properties.headline;
 
   if (!schema.properties['@type']) {
+    const allowedBlock =
+      voltoConfig.blocks.blocksConfig[schema.block].gridAllowedBlocks[0];
     // Add a 'grid selector'
     schema.properties['@type'] = {
       title: 'Grid type',
@@ -241,8 +265,7 @@ function asGridSchemaExtender({ schema, intl, formData }) {
         ['__grid', voltoConfig.blocks.blocksConfig['__grid'].title],
         ...gridBlocks.map((block) => [block.id, block.title]),
       ],
-      default:
-        voltoConfig.blocks.blocksConfig[schema.block].gridAllowedBlocks[0],
+      default: allowedBlock,
     };
     schema.fieldsets[0].fields.push('@type');
   }
