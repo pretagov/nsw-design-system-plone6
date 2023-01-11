@@ -48,16 +48,10 @@ const messages = defineMessages({
   },
 });
 
-export const cardSchema = ({ intl }) => {
+export const cardStylingSchema = ({ intl }) => {
   return {
-    required: ['title', 'link'],
+    required: [],
     fieldsets: [
-      {
-        id: 'default',
-        title: 'Default',
-        fields: ['title', 'description', 'link', 'image'],
-        required: [],
-      },
       {
         id: 'styling',
         title: intl.formatMessage(messages.styling),
@@ -71,21 +65,6 @@ export const cardSchema = ({ intl }) => {
       },
     ],
     properties: {
-      title: {
-        title: intl.formatMessage(messages.title),
-      },
-      description: {
-        title: intl.formatMessage(messages.description),
-      },
-      link: {
-        title: intl.formatMessage(messages.linkTitle),
-        widget: 'object_browser',
-        mode: 'link',
-      },
-      image: {
-        title: intl.formatMessage(messages.image),
-        widget: 'file',
-      },
       shouldHighlight: {
         title: intl.formatMessage(messages.shouldHighlightTitle),
         description: intl.formatMessage(messages.shouldHighlightDescription),
@@ -118,5 +97,47 @@ export const cardSchema = ({ intl }) => {
         ],
       },
     },
+  };
+};
+
+export const singleCardSchema = ({ intl }) => {
+  return {
+    required: ['title', 'link'],
+    fieldsets: [
+      {
+        id: 'default',
+        title: 'Default',
+        fields: ['title', 'description', 'link', 'image'],
+        required: [],
+      },
+    ],
+    properties: {
+      title: {
+        title: intl.formatMessage(messages.title),
+      },
+      description: {
+        title: intl.formatMessage(messages.description),
+        type: 'string',
+        widget: 'richtext',
+      },
+      link: {
+        title: intl.formatMessage(messages.linkTitle),
+        widget: 'object_browser',
+        mode: 'link',
+      },
+      image: {
+        title: intl.formatMessage(messages.image),
+        widget: 'file',
+      },
+    },
+  };
+};
+
+export const cardSchema = ({ intl }) => {
+  const stylingSchema = cardStylingSchema({ intl });
+  const singleSchema = singleCardSchema({ intl });
+  return {
+    ...singleSchema,
+    ...stylingSchema,
   };
 };

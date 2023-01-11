@@ -14,7 +14,7 @@ export {
   AnnouncementBarView,
 } from './Blocks/AnnouncementBar';
 export { CalloutEdit, CalloutView } from './Blocks/Callout';
-export { CardEdit, CardView } from './Blocks/Card';
+export * from './Blocks/Card';
 export {
   ContentBlockEdit,
   ContentBlockView,

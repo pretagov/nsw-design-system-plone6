@@ -8,7 +8,6 @@ import {
   HeroWithLinks,
 } from 'nsw-design-system-plone6/components/Blocks/Hero';
 import * as Components from '../components';
-import { cardSchema } from '../components/Blocks/Card';
 import { DropdownQuickNavigationSchema } from '../components/Blocks/DropdownQuickNavigation/schema';
 import { CardListing } from '../components/Blocks/Listing/CardListing';
 import { SectionSchema } from '../components/Blocks/Section';
@@ -97,6 +96,7 @@ const nswBlocks = [
     group: 'nsw',
     view: Components.CardView,
     edit: Components.CardEdit,
+    blockSchema: Components.singleCardSchema,
     restricted: false,
     mostUsed: true,
     security: {
@@ -524,7 +524,7 @@ const variationSchemaEnhancers = {
   listing: {
     cardListing: ({ schema, intl }) => {
       // Add the card display settings to the listing settings
-      const cardSchemaObject = cardSchema({
+      const cardSchemaObject = Components.singleCardSchema({
         intl,
       });
       schema.properties = {
