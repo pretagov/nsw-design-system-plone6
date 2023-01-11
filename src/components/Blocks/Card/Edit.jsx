@@ -1,7 +1,11 @@
-import { BlockDataForm, SidebarPortal } from '@plone/volto/components';
+import {
+  BlockDataForm,
+  SidebarPortal,
+  WysiwygWidget,
+} from '@plone/volto/components';
 import TextLineEdit from '@plone/volto/components/manage/TextLineEdit/TextLineEdit';
 import { Card } from 'nsw-design-system-plone6/components/Components/Card';
-import { cardSchema } from './schema';
+import { singleCardSchema as cardSchema } from './schema';
 
 function CardEditDisplay({ data, id, onChangeBlock }) {
   // TODO: Better styling than inline
@@ -25,19 +29,21 @@ function CardEditDisplay({ data, id, onChangeBlock }) {
         </div>
       }
       description={
-        <div style={{ cursor: 'text' }}>
-          <TextLineEdit
-            fieldName="description"
-            fieldDataName="description"
-            placeholder="Add a description..."
-            block={id}
-            data={data}
-            onChangeBlock={(blockId, newData) => {
-              onChangeBlock(blockId, newData);
-            }}
-            renderTag="span"
-          />
-        </div>
+        <WysiwygWidget
+          title={id}
+          wrapped={false}
+          id={id}
+          name={id}
+          onChange={(blockId, value) => {
+            onChangeBlock(blockId, {
+              ...data,
+              description: value,
+            });
+          }}
+          // TODO: content block  placeholder i18n
+          placeholder="Add a description..."
+          value={data.description}
+        />
       }
       isEditMode={true}
     />

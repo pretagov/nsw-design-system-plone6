@@ -70,13 +70,18 @@ export function Card({
         </div>
         {description ? (
           <div className="nsw-card__copy">
-            {isEditMode ? (
+            {isValidElement(description) ? (
               description
-            ) : isValidElement(title) ? (
+            ) : (
+              <div dangerouslySetInnerHTML={{ __html: description.data }}></div>
+            )}
+            {/* {!isEditMode ? (
+              description
+            ) : isValidElement(description) ? (
               <span dangerouslySetInnerHTML={{ __html: description }}></span>
             ) : (
               description
-            )}
+            )} */}
           </div>
         ) : null}
 
