@@ -448,7 +448,22 @@ class EditGrid extends Component {
               this.state.selectedColumnIndex !== 0
             }
           >
-            <GridData {...this.props}></GridData>
+            <GridData
+              {...this.props}
+              onChangeBlock={(blockId, value) => {
+                const allowedBlocks = getAllowedBlocks(value['@type']);
+                if (!allowedBlocks || allowedBlocks.length < 1) {
+                  return;
+                }
+                const allowedBlock = allowedBlocks[0];
+                value.columns?.forEach((column) => {
+                  if (column['@type'] !== allowedBlock) {
+                    column['@type'] = allowedBlock;
+                  }
+                });
+                this.props.onChangeBlock(blockId, value);
+              }}
+            ></GridData>
           </SidebarPortal>
         </div>
       </>
