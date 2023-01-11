@@ -15,14 +15,20 @@ import addSVG from '@plone/volto/icons/add.svg';
 import clearSVG from '@plone/volto/icons/clear.svg';
 import configSVG from '@plone/volto/icons/configuration.svg';
 
-import {BlockRenderer, TemplateChooser} from '../../components';
-import GridData from './Data';
-import NewBlockAddButton from './NewBlockAddButton';
+import {
+  BlockRenderer,
+  TemplateChooser,
+} from '@kitconcept/volto-blocks-grid/components';
+import GridData from '@kitconcept/volto-blocks-grid/components/Grid/Data';
+import NewBlockAddButton from '@kitconcept/volto-blocks-grid/components/Grid/NewBlockAddButton';
 
-import {reorderArray, replaceItemOfArray} from '../../helpers';
+import {
+  reorderArray,
+  replaceItemOfArray,
+} from '@kitconcept/volto-blocks-grid/helpers';
 
-import {getAllowedBlocks} from '../utils';
-import templates from './templates';
+import templates from '@kitconcept/volto-blocks-grid/components/Grid/templates';
+import { getAllowedBlocks } from '@kitconcept/volto-blocks-grid/components/utils';
 
 import config from '@plone/volto/registry';
 
