@@ -7,46 +7,98 @@ import TextLineEdit from '@plone/volto/components/manage/TextLineEdit/TextLineEd
 import { Card } from 'nsw-design-system-plone6/components/Components/Card';
 import { singleCardSchema as cardSchema } from './schema';
 
+const validationRules = {
+  '\n':
+    'Cards should have a single line description. Consider using a content block',
+  '</p><p>':
+    'Cards should have a single line description. Consider using a content block',
+};
+
+function Validation({ messages }) {
+  return (
+    <>
+      {messages.map((message) => {
+        return (
+          <div className="nsw-in-page-alert nsw-in-page-alert--warning nsw-in-page-alert--compact">
+            <span className="nsw-in-page-alert__content">
+              <p className="nsw-small">
+                <span
+                  className="material-icons nsw-material-icons nsw-in-page-alert__icon"
+                  focusable="false"
+                  aria-hidden="true"
+                >
+                  error
+                </span>
+                {message}
+              </p>
+            </span>
+          </div>
+        );
+      })}
+    </>
+  );
+}
+
 function CardEditDisplay({ data, id, onChangeBlock }) {
   // TODO: Better styling than inline
   // TODO: Card edit placeholder i18n
+
+  const warnings = Object.entries(validationRules)
+    .map(([regex, message]) => {
+      console.log(
+        'regexTest',
+        RegExp(regex, 'g').test(data.description.data),
+        data.description.data,
+      );
+
+      if (RegExp(regex, 'g').test(data.description.data)) {
+        return message;
+      }
+
+      return null;
+    })
+    .filter((message) => message);
+
   return (
-    <Card
-      {...data}
-      title={
-        <div style={{ cursor: 'text' }}>
-          <TextLineEdit
-            fieldName="title"
-            fieldDataName="title"
-            placeholder="Add a title..."
-            block={id}
-            data={data}
-            onChangeBlock={(blockId, newData) => {
-              onChangeBlock(blockId, newData);
+    <div>
+      <Card
+        {...data}
+        title={
+          <div style={{ cursor: 'text' }}>
+            <TextLineEdit
+              fieldName="title"
+              fieldDataName="title"
+              placeholder="Add a title..."
+              block={id}
+              data={data}
+              onChangeBlock={(blockId, newData) => {
+                onChangeBlock(blockId, newData);
+              }}
+              renderTag="span"
+            />
+          </div>
+        }
+        description={
+          <WysiwygWidget
+            title={id}
+            wrapped={false}
+            id={id}
+            name={id}
+            onChange={(blockId, value) => {
+              onChangeBlock(blockId, {
+                ...data,
+                description: value,
+              });
             }}
-            renderTag="span"
+            // TODO: content block  placeholder i18n
+            placeholder="Add a description..."
+            value={data.description}
           />
-        </div>
-      }
-      description={
-        <WysiwygWidget
-          title={id}
-          wrapped={false}
-          id={id}
-          name={id}
-          onChange={(blockId, value) => {
-            onChangeBlock(blockId, {
-              ...data,
-              description: value,
-            });
-          }}
-          // TODO: content block  placeholder i18n
-          placeholder="Add a description..."
-          value={data.description}
-        />
-      }
-      isEditMode={true}
-    />
+        }
+        isEditMode={true}
+      />
+      <Validation messages={warnings} />
+    </div>
   );
 }
 
