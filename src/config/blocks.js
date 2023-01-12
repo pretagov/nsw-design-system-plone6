@@ -8,7 +8,7 @@ import {
   HeroWithLinks,
 } from 'nsw-design-system-plone6/components/Blocks/Hero';
 import * as Components from '../components';
-import { CardSchema } from '../components/Blocks/Card';
+import { cardSchema } from '../components/Blocks/Card';
 import { DropdownQuickNavigationSchema } from '../components/Blocks/DropdownQuickNavigation/schema';
 import { CardListing } from '../components/Blocks/Listing/CardListing';
 import { SectionSchema } from '../components/Blocks/Section';
@@ -111,6 +111,7 @@ const nswBlocks = [
     group: 'nsw',
     view: Components.ContentBlockView,
     edit: Components.ContentBlockEdit,
+    blockSchema: Components.contentBlockSchema,
     restricted: false,
     mostUsed: false,
     security: {
@@ -372,76 +373,12 @@ const schemaEnhancers = {
   image: ({ schema, intl, formData }) => {
     return asMediaSchemaExtender(schema, intl, formData);
   },
-  listing: ({ schema, intl, formData }) => {
-    schema.properties.clickableArea = {
-      title: 'Clickable area',
-      type: 'string',
-      factory: 'Choice',
-      choices: [
-        ['title', 'Title only'],
-        ['block', 'All of item'],
-      ],
-      default: 'title',
-    };
-    schema.properties.showDescription = {
-      title: 'Show description',
-      type: 'boolean',
-      default: true,
-    };
-    schema.properties.showUrl = {
-      title: 'Show URL',
-      type: 'boolean',
-    };
-    schema.properties.showDate = {
-      title: 'Show date',
-      type: 'boolean',
-    };
-    schema.properties.showTags = {
-      title: 'Show tags',
-      type: 'boolean',
-    };
-    // Below check needed so we don't overwrite the card settings
-    schema.properties.imagePosition = schema.properties.imagePosition
-      ? schema.properties.imagePosition
-      : {
-          title: 'Image position',
-          type: 'string',
-          factory: 'Choice',
-          choices: [
-            ['hidden', 'Hidden'],
-            ['left', 'Left'],
-            ['right', 'Right'],
-          ],
-          default: 'hidden',
-        };
-    schema.properties.dateField = {
-      title: 'Date field',
-      type: 'string',
-      factory: 'Choice',
-      choices: [
-        ['CreationDate', 'Creation date'],
-        ['EffectiveDate', 'Publication date'],
-        ['ModificationDate', 'Last modified'],
-        ['ExpirationDate', 'Expiration date'],
-      ],
-      default: 'EffectiveDate',
-    };
-    const itemDisplayFieldset = {
-      id: 'listingDisplayFieldset',
-      title: 'Item Settings',
-      fields: [
-        'showDescription',
-        'showUrl',
-        'showTags',
-        'showDate',
-        ...(formData.showDate ? ['dateField'] : []),
-        ...(formData.variation !== 'cardListing'
-          ? ['imagePosition', 'clickableArea']
-          : []),
-      ],
-      required: [],
-    };
-    schema.fieldsets.push(itemDisplayFieldset);
+  listing: ({ schema: originalSchema, intl, formData }) => {
+    const schema = withListingDisplayControls({
+      schema: originalSchema,
+      intl,
+      formData,
+    });
     schema.properties.noResultsMessage = {
       // TODO: Listing schemaEnhancer noResultsMessage title, description and placeholder
       title: 'No results message',
@@ -488,7 +425,12 @@ const schemaEnhancers = {
     ];
     return schema;
   },
-  search: ({ schema, intl }) => {
+  search: ({ schema: originalSchema, intl, formData }) => {
+    const schema = withListingDisplayControls({
+      schema: originalSchema,
+      intl,
+      formData,
+    });
     schema.properties.facetsTitle.default = intl.formatMessage(
       messages.searchFacetsTitleDefault,
     );
@@ -523,19 +465,21 @@ const variationSchemaEnhancers = {
   listing: {
     cardListing: ({ schema, intl }) => {
       // Add the card display settings to the listing settings
-      const cardSchema = CardSchema({
+      const cardSchemaObject = cardSchema({
         intl,
       });
       schema.properties = {
         ...schema.properties,
-        ...cardSchema.properties,
+        ...cardSchemaObject.properties,
       };
       const stylingFieldsetIndex = 1;
       const variationFieldset = {
         id: 'cardListingVariation',
         title: 'Card Display Settings',
-        fields: [...cardSchema.fieldsets[stylingFieldsetIndex].fields],
-        required: [...cardSchema.fieldsets[stylingFieldsetIndex].required],
+        fields: [...cardSchemaObject.fieldsets[stylingFieldsetIndex].fields],
+        required: [
+          ...cardSchemaObject.fieldsets[stylingFieldsetIndex].required,
+        ],
       };
       schema.fieldsets.push(variationFieldset);
 
@@ -630,6 +574,79 @@ function withSectionSchema({ schema, formData, intl }) {
     ],
   };
   schema.fieldsets = [...schema.fieldsets, sectionFieldset];
+  return schema;
+}
+
+function withListingDisplayControls({ schema, formData, intl }) {
+  schema.properties.clickableArea = {
+    title: 'Clickable area',
+    type: 'string',
+    factory: 'Choice',
+    choices: [
+      ['title', 'Title only'],
+      ['block', 'All of item'],
+    ],
+    default: 'title',
+  };
+  schema.properties.showDescription = {
+    title: 'Show description',
+    type: 'boolean',
+    default: true,
+  };
+  schema.properties.showUrl = {
+    title: 'Show URL',
+    type: 'boolean',
+  };
+  schema.properties.showDate = {
+    title: 'Show date',
+    type: 'boolean',
+  };
+  schema.properties.showTags = {
+    title: 'Show tags',
+    type: 'boolean',
+  };
+  // Below check needed so we don't overwrite the card settings
+  schema.properties.imagePosition = schema.properties.imagePosition
+    ? schema.properties.imagePosition
+    : {
+        title: 'Image position',
+        type: 'string',
+        factory: 'Choice',
+        choices: [
+          ['hidden', 'Hidden'],
+          ['left', 'Left'],
+          ['right', 'Right'],
+        ],
+        default: 'hidden',
+      };
+  schema.properties.dateField = {
+    title: 'Date field',
+    type: 'string',
+    factory: 'Choice',
+    choices: [
+      ['CreationDate', 'Creation date'],
+      ['EffectiveDate', 'Publication date'],
+      ['ModificationDate', 'Last modified'],
+      ['ExpirationDate', 'Expiration date'],
+    ],
+    default: 'EffectiveDate',
+  };
+  const itemDisplayFieldset = {
+    id: 'listingDisplayFieldset',
+    title: 'Item Settings',
+    fields: [
+      'showDescription',
+      'showUrl',
+      'showTags',
+      'showDate',
+      ...(formData.showDate ? ['dateField'] : []),
+      ...(formData.variation !== 'cardListing'
+        ? ['imagePosition', 'clickableArea']
+        : []),
+    ],
+    required: [],
+  };
+  schema.fieldsets.push(itemDisplayFieldset);
   return schema;
 }
 
