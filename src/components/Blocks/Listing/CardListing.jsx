@@ -32,6 +32,7 @@ export function CardListing({ items, isEditMode, ...data }) {
             <Card
               {...data}
               {...item}
+              description={!data.showDescription ? null : item.description}
               image={image}
               href={href}
               urlDisplay={data.showUrl ? href : null}
