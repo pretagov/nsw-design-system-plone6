@@ -12,6 +12,7 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
   const dateTimeFormat = new Intl.DateTimeFormat(currentLanguage, {
     style: 'long',
   });
+  console.log('showDescription', data.showDescription);
   return (
     <div className="nsw-list-items">
       {items.map((item) => {
@@ -48,7 +49,7 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
                 </div>
               ) : null}
 
-              {!data.showDescription ? null : (
+              {!data.showDescription && item.description ? null : (
                 <div className="nsw-list-item__copy">{item.description}</div>
               )}
               {data.showTags && item.Subject?.length > 0 ? (
