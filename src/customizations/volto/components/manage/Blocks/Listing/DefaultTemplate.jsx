@@ -1,18 +1,9 @@
 import { ConditionalLink, FormattedDate } from '@plone/volto/components';
 import { flattenToAppURL } from '@plone/volto/helpers';
-import config from '@plone/volto/registry';
 import cx from 'classnames';
-import { useCookies } from 'react-cookie';
 
 // TODO: Customisable datetime format
 const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
-  const [cookies] = useCookies();
-  const currentLanguage =
-    cookies['I18N_LANGUAGE'] || config.settings.defaultLanguage;
-  const dateTimeFormat = new Intl.DateTimeFormat(currentLanguage, {
-    style: 'long',
-  });
-  console.log('showDescription', data.showDescription);
   return (
     <div className="nsw-list-items">
       {items.map((item) => {
@@ -50,7 +41,10 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
               ) : null}
 
               {!data.showDescription && item.description ? null : (
-                <div className="nsw-list-item__copy">{item.description}</div>
+                <div
+                  className="nsw-list-item__copy"
+                  dangerouslySetInnerHTML={{ __html: item.description }}
+                />
               )}
               {data.showTags && item.Subject?.length > 0 ? (
                 <div className="nsw-list-item__tags">
