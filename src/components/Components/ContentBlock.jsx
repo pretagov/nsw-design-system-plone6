@@ -57,7 +57,7 @@ export function ContentBlock({
         {isValidElement(description) ? (
           description
         ) : (
-          <div dangerouslySetInnerHTML={{ __html: description.data }}></div>
+          <div dangerouslySetInnerHTML={{ __html: description?.data }}></div>
         )}
       </p>
       {links ? (
