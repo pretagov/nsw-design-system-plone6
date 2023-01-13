@@ -45,13 +45,7 @@ function CardEditDisplay({ data, id, onChangeBlock }) {
 
   const warnings = Object.entries(validationRules)
     .map(([regex, message]) => {
-      console.log(
-        'regexTest',
-        RegExp(regex, 'g').test(data.description.data),
-        data.description.data,
-      );
-
-      if (RegExp(regex, 'g').test(data.description.data)) {
+      if (RegExp(regex, 'g').test(data.description?.data)) {
         return message;
       }
 
