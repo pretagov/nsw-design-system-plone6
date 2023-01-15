@@ -1,11 +1,26 @@
+import { createContent } from '@plone/volto/actions';
 import {
   BlockDataForm,
   SidebarPortal,
   WysiwygWidget,
 } from '@plone/volto/components';
+import imageBlockSVG from '@plone/volto/components/manage/Blocks/Image/block-image.svg';
 import TextLineEdit from '@plone/volto/components/manage/TextLineEdit/TextLineEdit';
+import { getBaseUrl } from '@plone/volto/helpers';
 import { Card } from 'nsw-design-system-plone6/components/Components/Card';
+import { readAsDataURL } from 'promise-file-reader';
+import { useEffect, useState } from 'react';
+import { defineMessages, useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
 import { singleCardSchema as cardSchema } from './schema';
+
+const messages = defineMessages({
+  addImage: {
+    id: 'Add image',
+    defaultMessage: 'Add image',
+  },
+});
 
 const validationRules = {
   '\n':
@@ -40,8 +55,48 @@ function Validation({ messages }) {
 }
 
 function CardEditDisplay({ data, id, onChangeBlock }) {
+  const intl = useIntl();
+  const dispatch = useDispatch();
+  const contentCreationAction = useSelector(
+    (state) => state.content.subrequests[id],
+  );
+  const { pathname } = useLocation();
   // TODO: Better styling than inline
   // TODO: Card edit placeholder i18n
+
+  useEffect(() => {
+    if (
+      contentCreationAction?.data &&
+      data.image !== contentCreationAction.data?.['@id']
+    ) {
+      onChangeBlock(id, {
+        ...data,
+        image: contentCreationAction.data['@id'],
+      });
+    }
+  }, [contentCreationAction, data, onChangeBlock, id]);
+
+  function imageUpload({ target }) {
+    const file = target.files[0];
+    readAsDataURL(file).then((data) => {
+      const fields = data.match(/^data:(.*);(.*),(.*)$/);
+      dispatch(
+        createContent(
+          getBaseUrl(pathname),
+          {
+            '@type': 'Image',
+            image: {
+              data: fields[3],
+              encoding: fields[2],
+              'content-type': fields[1],
+              filename: file.name,
+            },
+          },
+          id,
+        ),
+      );
+    });
+  }
 
   const warnings = Object.entries(validationRules)
     .map(([regex, message]) => {
@@ -88,6 +143,26 @@ function CardEditDisplay({ data, id, onChangeBlock }) {
             placeholder="Add a description..."
             value={data.description}
           />
+        }
+        image={
+          data.image ? (
+            `${data.image}/@@images/image`
+          ) : (
+            // TODO: Card edit block image field styling is all inline
+            <div style={{ marginInline: 'auto', paddingBlockEnd: '6px' }}>
+              <label style={{ width: '100%' }}>
+                <img style={{ display: 'block' }} src={imageBlockSVG} alt="" />
+                <span className="nsw-button nsw-button--dark">
+                  {intl.formatMessage(messages.addImage)}
+                </span>
+                <input
+                  type="file"
+                  onChange={imageUpload}
+                  style={{ display: 'none' }}
+                />
+              </label>
+            </div>
+          )
         }
         isEditMode={true}
       />

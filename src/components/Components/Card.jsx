@@ -33,16 +33,20 @@ export function Card({
       })}
     >
       {image ? (
-        <div className="nsw-card__image">
-          <img
-            src={
-              typeof image === 'string'
-                ? image
-                : `data:${image['content-type']};base64,${image.data}`
-            }
-            alt=""
-          />
-        </div>
+        isValidElement(image) ? (
+          image
+        ) : (
+          <div className="nsw-card__image">
+            <img
+              src={
+                typeof image === 'string'
+                  ? image
+                  : `data:${image['content-type']};base64,${image.data}`
+              }
+              alt=""
+            />
+          </div>
+        )
       ) : null}
       <div className="nsw-card__content">
         {cleanDate || urlDisplay ? (

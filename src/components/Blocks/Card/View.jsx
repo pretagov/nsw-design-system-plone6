@@ -8,5 +8,12 @@ export function CardView({ data, isEditMode }) {
     href = flattenToAppURL(href);
   }
 
-  return <Card {...data} href={href} isEditMode={isEditMode} />;
+  return (
+    <Card
+      {...data}
+      href={href}
+      image={data.image ? `${data.image}/@@images/image` : null}
+      isEditMode={isEditMode}
+    />
+  );
 }
