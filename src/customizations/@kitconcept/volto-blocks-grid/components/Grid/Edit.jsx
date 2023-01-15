@@ -380,9 +380,9 @@ class EditGrid extends Component {
                                     onKeyDown={(e) => e.stopPropagation()}
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      this.props.onSelectBlock(
-                                        this.props.block,
-                                      );
+                                      // this.props.onSelectBlock(
+                                      //   this.props.block,
+                                      // );
                                       this.onChangeSelectedColumnItem(index);
                                     }}
                                   >
@@ -407,11 +407,12 @@ class EditGrid extends Component {
                                         block={item.id}
                                         edit
                                         type={item['@type']}
-                                        selected={
-                                          this.props.selected &&
-                                          this.state.selectedColumnIndex ===
-                                            index
-                                        }
+                                        selected={false}
+                                        // selected={
+                                        //   this.props.selected &&
+                                        //   this.state.selectedColumnIndex ===
+                                        //     index
+                                        // }
                                         onChangeBlock={(block, data) => {
                                           this.onChangeGridItem(index, data);
                                         }}
@@ -448,9 +449,10 @@ class EditGrid extends Component {
           </DragDropContext>
           <SidebarPortal
             selected={
-              this.props.selected &&
-              !this.state.selectedColumnIndex &&
-              this.state.selectedColumnIndex !== 0
+              // this.props.selected &&
+              // !this.state.selectedColumnIndex &&
+              // this.state.selectedColumnIndex !== 0
+              this.props.selected
             }
           >
             <GridData
