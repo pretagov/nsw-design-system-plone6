@@ -32,9 +32,12 @@ const validationRules = {
 function Validation({ messages }) {
   return (
     <>
-      {messages.map((message) => {
+      {messages.map((message, i) => {
         return (
-          <div className="nsw-in-page-alert nsw-in-page-alert--warning nsw-in-page-alert--compact">
+          <div
+            key={i}
+            className="nsw-in-page-alert nsw-in-page-alert--warning nsw-in-page-alert--compact"
+          >
             <span className="nsw-in-page-alert__content">
               <p className="nsw-small">
                 <span
