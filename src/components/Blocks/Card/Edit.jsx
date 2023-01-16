@@ -1,19 +1,23 @@
 import { createContent } from '@plone/volto/actions';
 import {
   BlockDataForm,
+  Icon,
   SidebarPortal,
   WysiwygWidget,
 } from '@plone/volto/components';
 import imageBlockSVG from '@plone/volto/components/manage/Blocks/Image/block-image.svg';
+import withObjectBrowser from '@plone/volto/components/manage/Sidebar/ObjectBrowser';
 import TextLineEdit from '@plone/volto/components/manage/TextLineEdit/TextLineEdit';
 import { getBaseUrl } from '@plone/volto/helpers';
 import { Card } from 'nsw-design-system-plone6/components/Components/Card';
 import { readAsDataURL } from 'promise-file-reader';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { singleCardSchema as cardSchema } from './schema';
+
+import navTreeSVG from '@plone/volto/icons/nav.svg';
 
 const messages = defineMessages({
   addImage: {
@@ -57,7 +61,12 @@ function Validation({ messages }) {
   );
 }
 
-function CardEditDisplay({ data, id, onChangeBlock }) {
+function CardEditDisplayComponent({
+  data,
+  id,
+  onChangeBlock,
+  openObjectBrowser,
+}) {
   const intl = useIntl();
   const dispatch = useDispatch();
   const contentCreationAction = useSelector(
@@ -131,21 +140,46 @@ function CardEditDisplay({ data, id, onChangeBlock }) {
           </div>
         }
         description={
-          <WysiwygWidget
-            title={id}
-            wrapped={false}
-            id={id}
-            name={id}
-            onChange={(blockId, value) => {
-              onChangeBlock(blockId, {
-                ...data,
-                description: value,
-              });
-            }}
-            // TODO: content block  placeholder i18n
-            placeholder="Add a description..."
-            value={data.description}
-          />
+          <>
+            <WysiwygWidget
+              title={id}
+              wrapped={false}
+              id={id}
+              name={id}
+              onChange={(blockId, value) => {
+                onChangeBlock(blockId, {
+                  ...data,
+                  description: value,
+                });
+              }}
+              // TODO: content block  placeholder i18n
+              placeholder="Add a description..."
+              value={data.description}
+            />
+            <button
+              className="nsw-button nsw-button--dark"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                openObjectBrowser({
+                  mode: 'link',
+                  currentPath: pathname,
+                  onSelectItem: (url, item) => {
+                    onChangeBlock(id, {
+                      ...data,
+                      link: [item],
+                    });
+                  },
+                });
+              }}
+            >
+              Edit link
+              <span
+                style={{ position: 'unset' }}
+                className="material-icons nsw-material-icons"
+              ></span>
+            </button>
+          </>
         }
         image={
           data.image ? (
@@ -173,6 +207,8 @@ function CardEditDisplay({ data, id, onChangeBlock }) {
     </div>
   );
 }
+
+const CardEditDisplay = withObjectBrowser(CardEditDisplayComponent);
 
 function CardData(props) {
   const { data, block, onChangeBlock } = props;
