@@ -41,7 +41,7 @@
     "@plone/volto": ">= 16.6.0 < 17.0.0"
   },
   "devDependencies": {
-    "@plone/scripts": "2.2.2",
+    "@plone/scripts": "2.3.0",
     "mrs-developer": "2.1.0",
     "release-it": "^15.4.2"
   }
