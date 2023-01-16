@@ -1,9 +1,19 @@
-import { FormattedDate, Icon } from '@plone/volto/components';
+import { FormattedDate, Icon, UniversalLink } from '@plone/volto/components';
 import cx from 'classnames';
 import { isValidElement } from 'react';
-import { Link } from 'react-router-dom';
 
 import EastSVG from '@material-design-icons/svg/filled/east.svg';
+
+export function DefaultIcon() {
+  return (
+    <Icon
+      name={EastSVG}
+      className="default material-icons nsw-material-icons"
+      size="1.875rem"
+      ariaHidden={true}
+    />
+  );
+}
 
 // TODO: Support adding alt text to images
 export function Card({
@@ -12,6 +22,7 @@ export function Card({
   href,
   image,
   date,
+  icon,
   urlDisplay,
   titleIsHeadline,
   imagePosition,
@@ -63,13 +74,13 @@ export function Card({
           {isEditMode ? (
             linkTitle
           ) : (
-            <Link to={href}>
+            <UniversalLink href={href}>
               {isValidElement(title) ? (
                 <div dangerouslySetInnerHTML={{ __html: title }}></div>
               ) : (
                 linkTitle
               )}
-            </Link>
+            </UniversalLink>
           )}
         </div>
         {description ? (
@@ -89,12 +100,7 @@ export function Card({
           </div>
         ) : null}
 
-        <Icon
-          name={EastSVG}
-          className="material-icons nsw-material-icons"
-          size="1.875rem"
-          ariaHidden={true}
-        />
+        {icon ? icon : <DefaultIcon />}
       </div>
     </div>
   );

@@ -1,23 +1,28 @@
 import { createContent } from '@plone/volto/actions';
 import {
   BlockDataForm,
-  Icon,
+  SidebarPopup,
   SidebarPortal,
+  TextWidget,
   WysiwygWidget,
 } from '@plone/volto/components';
 import imageBlockSVG from '@plone/volto/components/manage/Blocks/Image/block-image.svg';
 import withObjectBrowser from '@plone/volto/components/manage/Sidebar/ObjectBrowser';
+import ObjectBrowserBody from '@plone/volto/components/manage/Sidebar/ObjectBrowserBody';
 import TextLineEdit from '@plone/volto/components/manage/TextLineEdit/TextLineEdit';
 import { getBaseUrl } from '@plone/volto/helpers';
-import { Card } from 'nsw-design-system-plone6/components/Components/Card';
+import { getHref } from 'nsw-design-system-plone6/components/Blocks/Card/helpers';
+import {
+  Card,
+  DefaultIcon,
+} from 'nsw-design-system-plone6/components/Components/Card';
 import { readAsDataURL } from 'promise-file-reader';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
+import { Segment } from 'semantic-ui-react';
 import { singleCardSchema as cardSchema } from './schema';
-
-import navTreeSVG from '@plone/volto/icons/nav.svg';
 
 const messages = defineMessages({
   addImage: {
@@ -69,13 +74,15 @@ function CardEditDisplayComponent({
 }) {
   const intl = useIntl();
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
   const contentCreationAction = useSelector(
     (state) => state.content.subrequests[id],
   );
-  const { pathname } = useLocation();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   // TODO: Better styling than inline
   // TODO: Card edit placeholder i18n
 
+  // TODO: This will stomp over changes made to the image.
   useEffect(() => {
     if (
       contentCreationAction?.data &&
@@ -156,29 +163,6 @@ function CardEditDisplayComponent({
               placeholder="Add a description..."
               value={data.description}
             />
-            <button
-              className="nsw-button nsw-button--dark"
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                openObjectBrowser({
-                  mode: 'link',
-                  currentPath: pathname,
-                  onSelectItem: (url, item) => {
-                    onChangeBlock(id, {
-                      ...data,
-                      link: [item],
-                    });
-                  },
-                });
-              }}
-            >
-              Edit link
-              <span
-                style={{ position: 'unset' }}
-                className="material-icons nsw-material-icons"
-              ></span>
-            </button>
           </>
         }
         image={
@@ -201,8 +185,61 @@ function CardEditDisplayComponent({
             </div>
           )
         }
+        icon={
+          <button
+            style={{ border: 0, padding: 0 }}
+            onClick={() => {
+              setIsSidebarOpen(true);
+            }}
+          >
+            <span className="sr-only">Edit link</span>
+            <DefaultIcon />
+          </button>
+        }
         isEditMode={true}
       />
+      <SidebarPopup open={isSidebarOpen} onClose={() => {}} overlay={false}>
+        <div className="object-browser-with-input">
+          <Segment.Group
+            attached="bottom"
+            style={{
+              height: 'unset',
+              marginBlock: '0 !important',
+              paddingBlock: '1rem',
+            }}
+          >
+            <div className="ui form">
+              <TextWidget
+                title="Link URL"
+                wrapped={true}
+                value={getHref(data)}
+                onChange={(_, value) => {
+                  onChangeBlock(id, {
+                    ...data,
+                    link: value,
+                  });
+                }}
+              />
+            </div>
+          </Segment.Group>
+          <ObjectBrowserBody
+            data={data}
+            block={id}
+            dataName={'link'}
+            mode={'link'}
+            contextURL={getBaseUrl(pathname)}
+            closeObjectBrowser={() => {
+              console.log('close object browser');
+              setIsSidebarOpen(false);
+            }}
+            onSelectItem={() => {
+              console.log('Browser item select');
+              setIsSidebarOpen(false);
+            }}
+            onChangeBlock={onChangeBlock}
+          />
+        </div>
+      </SidebarPopup>
       <Validation messages={warnings} />
     </div>
   );
