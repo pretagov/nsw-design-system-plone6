@@ -1,5 +1,7 @@
 // Added the `onChangeBlock` custom function to `GridData`
 // Imported lodash
+// Changed the editor to not allow selecting child blocks
+// Changed the delete column icon to trashSVG
 
 import { Icon, SidebarPortal } from '@plone/volto/components';
 import { withBlockExtensions } from '@plone/volto/helpers';
@@ -15,8 +17,8 @@ import {Button, Grid, Ref} from 'semantic-ui-react';
 import {v4 as uuid} from 'uuid';
 
 import addSVG from '@plone/volto/icons/add.svg';
-import clearSVG from '@plone/volto/icons/clear.svg';
 import configSVG from '@plone/volto/icons/configuration.svg';
+import trashSVG from '@plone/volto/icons/delete.svg';
 
 import {
   BlockRenderer,
@@ -396,7 +398,7 @@ class EditGrid extends Component {
                                       className="remove-block-button"
                                     >
                                       <Icon
-                                        name={clearSVG}
+                                        name={trashSVG}
                                         className="circled"
                                         size="24px"
                                       />
