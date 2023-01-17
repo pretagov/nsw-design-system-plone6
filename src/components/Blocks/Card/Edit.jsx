@@ -38,7 +38,7 @@ import { Button } from 'semantic-ui-react';
 const validationRules = {
   '\n':
     'Cards should have a single line description. Consider using a content block',
-  '</p><p>':
+  '</p><':
     'Cards should have a single line description. Consider using a content block',
 };
 
