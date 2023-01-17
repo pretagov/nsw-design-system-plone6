@@ -80,11 +80,11 @@ export const contentBlockSchema = ({ intl }) => {
         type: 'string',
         widget: 'richtext',
       },
-      links: {
-        title: intl.formatMessage(messages.links),
-        widget: 'object_list',
-        schema: LinkListSchema,
-      },
+      // links: {
+      //   title: intl.formatMessage(messages.links),
+      //   widget: 'object_list',
+      //   schema: LinkListSchema,
+      // },
       link: {
         title: intl.formatMessage(messages.viewMore),
         widget: 'object_browser',
