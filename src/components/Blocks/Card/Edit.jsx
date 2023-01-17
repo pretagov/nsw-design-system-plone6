@@ -30,6 +30,10 @@ const messages = defineMessages({
     defaultMessage: 'Add image',
   },
 });
+// Delete image button
+import { Icon } from '@plone/volto/components';
+import clearSVG from '@plone/volto/icons/clear.svg';
+import { Button } from 'semantic-ui-react';
 
 const validationRules = {
   '\n':
@@ -129,6 +133,29 @@ function CardEditDisplayComponent({
 
   return (
     <div>
+      {data.image ? (
+        <div className="toolbar" style={{ top: '5px', left: '5px' }}>
+          <>
+            <Button.Group>
+              <Button
+                aria-label={`Select grid block`}
+                icon
+                basic
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const dataWithoutImage = data;
+                  delete dataWithoutImage.image;
+                  onChangeBlock(id, dataWithoutImage);
+                  console.log('clicked');
+                  // setSelectedBlock(sectionBlockId);
+                }}
+              >
+                <Icon name={clearSVG} size="24px" />
+              </Button>
+            </Button.Group>
+          </>
+        </div>
+      ) : null}
       <Card
         {...data}
         title={
