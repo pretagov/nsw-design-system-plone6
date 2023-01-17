@@ -9,7 +9,7 @@ export function ContentBlockView({ data }) {
       description={data.description}
       viewMoreUrl={getViewMore(data)}
       links={getLinks(data)}
-      image={data.image}
+      image={data.image ? `${data.image}/@@images/image` : null}
       imageIsIcon={data.imageIsIcon}
     />
   );

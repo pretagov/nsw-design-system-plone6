@@ -85,7 +85,7 @@ export const contentBlockSchema = ({ intl }) => {
         widget: 'object_list',
         schema: LinkListSchema,
       },
-      viewMore: {
+      link: {
         title: intl.formatMessage(messages.viewMore),
         widget: 'object_browser',
         mode: 'link',

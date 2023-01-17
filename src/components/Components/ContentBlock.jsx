@@ -33,24 +33,37 @@ export function ContentBlock({
   imageIsIcon,
   isEditMode,
 }) {
+  console.log('viewMoreUrl', viewMoreUrl);
   return (
     <div className="nsw-content-block__content">
       {image ? (
-        <div className="nsw-content-block__image">
-          {imageIsIcon ? (
-            <div className="nsw-content-block__icon">
+        isValidElement(image) ? (
+          image
+        ) : (
+          <div className="nsw-content-block__image">
+            {imageIsIcon ? (
+              <div className="nsw-content-block__icon">
+                <img
+                  src={
+                    typeof image === 'string'
+                      ? image
+                      : `data:${image['content-type']};base64,${image.data}`
+                  }
+                  alt=""
+                />
+              </div>
+            ) : (
               <img
-                src={`data:${image['content-type']};base64,${image.data}`}
+                src={
+                  typeof image === 'string'
+                    ? image
+                    : `data:${image['content-type']};base64,${image.data}`
+                }
                 alt=""
               />
-            </div>
-          ) : (
-            <img
-              src={`data:${image['content-type']};base64,${image.data}`}
-              alt=""
-            />
-          )}
-        </div>
+            )}
+          </div>
+        )
       ) : null}
       <div className="nsw-content-block__title">{title}</div>
       <p className="nsw-content-block__copy">
@@ -76,13 +89,17 @@ export function ContentBlock({
         </ul>
       ) : null}
       {viewMoreUrl ? (
-        <div className="nsw-content-block__link">
-          {isEditMode ? (
-            'View more'
-          ) : (
-            <UniversalLink href={viewMoreUrl}>View more</UniversalLink>
-          )}
-        </div>
+        isValidElement(viewMoreUrl) ? (
+          viewMoreUrl
+        ) : (
+          <div className="nsw-content-block__link">
+            {isEditMode ? (
+              'View more'
+            ) : (
+              <UniversalLink href={viewMoreUrl}>View more</UniversalLink>
+            )}
+          </div>
+        )
       ) : null}
     </div>
   );

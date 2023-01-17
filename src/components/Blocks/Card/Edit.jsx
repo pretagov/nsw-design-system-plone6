@@ -6,7 +6,7 @@ import {
   TextWidget,
   WysiwygWidget,
 } from '@plone/volto/components';
-import imageBlockSVG from '@plone/volto/components/manage/Blocks/Image/block-image.svg';
+
 import withObjectBrowser from '@plone/volto/components/manage/Sidebar/ObjectBrowser';
 import ObjectBrowserBody from '@plone/volto/components/manage/Sidebar/ObjectBrowserBody';
 import TextLineEdit from '@plone/volto/components/manage/TextLineEdit/TextLineEdit';
@@ -16,20 +16,14 @@ import {
   Card,
   DefaultIcon,
 } from 'nsw-design-system-plone6/components/Components/Card';
+import { ImagePickerWidget } from 'nsw-design-system-plone6/components/Widgets';
 import { readAsDataURL } from 'promise-file-reader';
 import { useEffect, useState } from 'react';
-import { defineMessages, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { Segment } from 'semantic-ui-react';
 import { singleCardSchema as cardSchema } from './schema';
 
-const messages = defineMessages({
-  addImage: {
-    id: 'Add image',
-    defaultMessage: 'Add image',
-  },
-});
 // Delete image button
 import { Icon } from '@plone/volto/components';
 import clearSVG from '@plone/volto/icons/clear.svg';
@@ -76,7 +70,6 @@ function CardEditDisplayComponent({
   onChangeBlock,
   openObjectBrowser,
 }) {
-  const intl = useIntl();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const contentCreationAction = useSelector(
@@ -146,8 +139,6 @@ function CardEditDisplayComponent({
                   const dataWithoutImage = data;
                   delete dataWithoutImage.image;
                   onChangeBlock(id, dataWithoutImage);
-                  console.log('clicked');
-                  // setSelectedBlock(sectionBlockId);
                 }}
               >
                 <Icon name={clearSVG} size="24px" />
@@ -196,20 +187,7 @@ function CardEditDisplayComponent({
           data.image ? (
             `${data.image}/@@images/image`
           ) : (
-            // TODO: Card edit block image field styling is all inline
-            <div style={{ marginInline: 'auto', paddingBlockEnd: '6px' }}>
-              <label style={{ width: '100%' }}>
-                <img style={{ display: 'block' }} src={imageBlockSVG} alt="" />
-                <span className="nsw-button nsw-button--dark">
-                  {intl.formatMessage(messages.addImage)}
-                </span>
-                <input
-                  type="file"
-                  onChange={imageUpload}
-                  style={{ display: 'none' }}
-                />
-              </label>
-            </div>
+            <ImagePickerWidget onChange={imageUpload} />
           )
         }
         icon={
@@ -256,11 +234,9 @@ function CardEditDisplayComponent({
             mode={'link'}
             contextURL={getBaseUrl(pathname)}
             closeObjectBrowser={() => {
-              console.log('close object browser');
               setIsSidebarOpen(false);
             }}
             onSelectItem={() => {
-              console.log('Browser item select');
               setIsSidebarOpen(false);
             }}
             onChangeBlock={onChangeBlock}
