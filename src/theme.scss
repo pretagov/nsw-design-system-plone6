@@ -1,3 +1,7 @@
+// @import 'nsw-design-system/src/components/content-block/_content-block';
+// @use 'nsw-design-system/src/components/content-block/_content-block';
+@use 'nsw-design-system/src/main';
+
 html {
   font-size: 100% !important;
 }
@@ -21,4 +25,8 @@ body.public-ui {
 
 .object-browser-with-input .ui.segments {
   margin-block: 0 !important;
+}
+
+.nsw-content-block__copy ul {
+  @extend .nsw-content-block__list;
 }
