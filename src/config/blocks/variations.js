@@ -14,14 +14,6 @@ const messages = defineMessages({
     id: 'Title',
     defaultMessage: 'Title',
   },
-  searchFacetsTitleDefault: {
-    id: 'Filter results',
-    defaultMessage: 'Filter results',
-  },
-  searchFullWidthSearchBar: {
-    id: 'Full width search bar',
-    defaultMessage: 'Full width search bar',
-  },
   link: {
     id: 'Link',
     defaultMessage: 'Link',
@@ -46,23 +38,6 @@ const messages = defineMessages({
   numberOfColumns: {
     id: 'Number of columns',
     defaultMessage: 'Number of columns',
-  },
-  heroWidth: {
-    id: 'Width',
-    defaultMessage: 'Width',
-  },
-  // Media schema
-  size: {
-    id: 'Size',
-    defaultMessage: 'Size',
-  },
-  caption: {
-    id: 'Caption',
-    defaultMessage: 'Caption',
-  },
-  captionBackgroundColour: {
-    id: 'Caption background colour',
-    defaultMessage: 'Caption background colour',
   },
 });
 

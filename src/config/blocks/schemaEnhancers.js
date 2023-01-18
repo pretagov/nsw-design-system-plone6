@@ -19,6 +19,20 @@ const messages = defineMessages({
     id: 'Caption background colour',
     defaultMessage: 'Caption background colour',
   },
+  // Hero block
+  heroWidth: {
+    id: 'Width',
+    defaultMessage: 'Width',
+  },
+  // Search block
+  searchFacetsTitleDefault: {
+    id: 'Filter results',
+    defaultMessage: 'Filter results',
+  },
+  searchFullWidthSearchBar: {
+    id: 'Full width search bar',
+    defaultMessage: 'Full width search bar',
+  },
 });
 
 const schemaEnhancers = {
