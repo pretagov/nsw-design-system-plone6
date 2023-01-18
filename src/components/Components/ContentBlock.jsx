@@ -82,13 +82,13 @@ export function ContentBlock({
         )
       ) : null}
       <div className="nsw-content-block__title">{title}</div>
-      <p className="nsw-content-block__copy">
+      <div className="nsw-content-block__copy">
         {isValidElement(description) ? (
           description
         ) : (
           <div dangerouslySetInnerHTML={{ __html: description?.data }}></div>
         )}
-      </p>
+      </div>
       {links ? (
         <ul className="nsw-content-block__list">
           {links.map(({ title, url }, index) => {
