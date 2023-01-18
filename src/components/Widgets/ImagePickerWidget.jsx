@@ -1,10 +1,5 @@
 import imageBlockSVG from '@plone/volto/components/manage/Blocks/Image/block-image.svg';
 
-import { Icon } from '@plone/volto/components';
-import clearSVG from '@plone/volto/icons/clear.svg';
-import configSVG from '@plone/volto/icons/configuration.svg';
-import { Button } from 'semantic-ui-react';
-
 import { defineMessages, useIntl } from 'react-intl';
 
 const messages = defineMessages({
@@ -19,7 +14,7 @@ export function ImagePickerWidget({ onChange }) {
 
   return (
     <>
-      // TODO: Card edit block image field styling is all inline
+      {/* TODO: Card edit block image field styling is all inline */}
       <div style={{ marginInline: 'auto', paddingBlockEnd: '6px' }}>
         <label style={{ width: '100%' }}>
           <img style={{ display: 'block' }} src={imageBlockSVG} alt="" />
