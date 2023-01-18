@@ -1,7 +1,8 @@
-// @import 'nsw-design-system/src/components/content-block/_content-block';
-// @use 'nsw-design-system/src/components/content-block/_content-block';
 @use 'nsw-design-system/src/main';
+@use 'styles/edit';
+@use 'styles/view';
 
+// Code below is a reset for the public UI to ensure it looks correct
 html {
   font-size: 100% !important;
 }
@@ -20,20 +21,5 @@ body.public-ui {
       font-size: var(--nsw-font-size-sm-desktop);
       line-height: var(--nsw-line-height-sm-desktop);
     }
-  }
-}
-
-.object-browser-with-input .ui.segments {
-  margin-block: 0 !important;
-}
-
-.nsw-content-block__copy ul {
-  @extend .nsw-content-block__list;
-}
-
-#page-edit .block {
-  & *[data-slate-editor='true'],
-  .DraftEditor-root {
-    cursor: text;
   }
 }

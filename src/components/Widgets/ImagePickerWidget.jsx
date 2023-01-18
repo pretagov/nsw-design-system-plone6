@@ -1,4 +1,4 @@
-import imageBlockSVG from '@plone/volto/components/manage/Blocks/Image/block-image.svg';
+import { DefaultImage } from 'nsw-design-system-plone6/components/Components/Card';
 
 import { defineMessages, useIntl } from 'react-intl';
 
@@ -9,18 +9,18 @@ const messages = defineMessages({
   },
 });
 
-export function ImagePickerWidget({ onChange }) {
+export function ImagePickerWidget({ onChange, blockSelected }) {
   const intl = useIntl();
 
   return (
     <>
       {/* TODO: Card edit block image field styling is all inline */}
-      <div style={{ marginInline: 'auto', paddingBlockEnd: '6px' }}>
+      <div className="widget image-picker-widget">
         <label style={{ width: '100%' }}>
-          <img style={{ display: 'block' }} src={imageBlockSVG} alt="" />
-          <span className="nsw-button nsw-button--dark">
+          <span className="sr-only">
             {intl.formatMessage(messages.addImage)}
           </span>
+          <DefaultImage />
           <input type="file" onChange={onChange} style={{ display: 'none' }} />
         </label>
       </div>

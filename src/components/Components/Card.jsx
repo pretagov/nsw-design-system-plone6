@@ -3,6 +3,7 @@ import cx from 'classnames';
 import { isValidElement } from 'react';
 
 import EastSVG from '@material-design-icons/svg/filled/east.svg';
+import NswLogo from 'nsw-design-system-plone6/assets/NSW-ONLY-nsw-government-logo.svg';
 
 export function DefaultIcon() {
   return (
@@ -11,6 +12,20 @@ export function DefaultIcon() {
       className="default material-icons nsw-material-icons"
       size="1.875rem"
       ariaHidden={true}
+    />
+  );
+}
+
+export function DefaultImage() {
+  return (
+    <svg
+      {...NswLogo.attributes}
+      style={{
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+      }}
+      dangerouslySetInnerHTML={{ __html: NswLogo.content }}
     />
   );
 }
@@ -43,19 +58,23 @@ export function Card({
         'nsw-card--horizontal': imagePosition === 'side',
       })}
     >
-      {image ? (
+      {imagePosition !== 'hidden' ? (
         isValidElement(image) ? (
           image
         ) : (
           <div className="nsw-card__image">
-            <img
-              src={
-                typeof image === 'string'
-                  ? image
-                  : `data:${image['content-type']};base64,${image.data}`
-              }
-              alt=""
-            />
+            {image ? (
+              <img
+                src={
+                  typeof image === 'string'
+                    ? image
+                    : `data:${image['content-type']};base64,${image.data}`
+                }
+                alt=""
+              />
+            ) : (
+              <DefaultImage />
+            )}
           </div>
         )
       ) : null}

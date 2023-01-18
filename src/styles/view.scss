@@ -1,0 +1,6 @@
+@use 'nsw-design-system/src/main';
+
+// Make sure that all `ul` within content blocks are styled correctly
+.nsw-content-block__copy ul {
+  @extend .nsw-content-block__list;
+}

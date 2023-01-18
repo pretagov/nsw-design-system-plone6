@@ -7,7 +7,6 @@ import {
   WysiwygWidget,
 } from '@plone/volto/components';
 
-import withObjectBrowser from '@plone/volto/components/manage/Sidebar/ObjectBrowser';
 import ObjectBrowserBody from '@plone/volto/components/manage/Sidebar/ObjectBrowserBody';
 import TextLineEdit from '@plone/volto/components/manage/TextLineEdit/TextLineEdit';
 import { getBaseUrl } from '@plone/volto/helpers';
@@ -64,12 +63,7 @@ function Validation({ messages }) {
   );
 }
 
-function CardEditDisplayComponent({
-  data,
-  id,
-  onChangeBlock,
-  openObjectBrowser,
-}) {
+function CardEditDisplay({ data, id, onChangeBlock }) {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const contentCreationAction = useSelector(
@@ -131,7 +125,6 @@ function CardEditDisplayComponent({
           <>
             <Button.Group>
               <Button
-                aria-label={`Select grid block`}
                 icon
                 basic
                 onClick={(e) => {
@@ -141,7 +134,8 @@ function CardEditDisplayComponent({
                   onChangeBlock(id, dataWithoutImage);
                 }}
               >
-                <Icon name={clearSVG} size="24px" />
+                <span className="sr-only">Edit card link</span>
+                <Icon ariaHidden="true" name={clearSVG} size="24px" />
               </Button>
             </Button.Group>
           </>
@@ -195,7 +189,7 @@ function CardEditDisplayComponent({
               setIsSidebarOpen(true);
             }}
           >
-            <span className="sr-only">Edit link</span>
+            <span className="sr-only">Edit card link</span>
             <DefaultIcon />
           </button>
         }
@@ -246,8 +240,6 @@ function CardEditDisplayComponent({
   );
 }
 
-const CardEditDisplay = withObjectBrowser(CardEditDisplayComponent);
-
 function CardData(props) {
   const { data, block, onChangeBlock } = props;
   const schema = cardSchema({ intl: props.intl });
@@ -272,12 +264,7 @@ export function CardEdit(props) {
   const { data, onChangeBlock, block, selected } = props;
   return (
     <>
-      <CardEditDisplay
-        data={data}
-        id={block}
-        onChangeBlock={onChangeBlock}
-        isEditMode
-      />
+      <CardEditDisplay {...props} id={block} />
       <SidebarPortal selected={selected}>
         <CardData
           key={block}

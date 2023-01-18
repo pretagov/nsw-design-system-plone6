@@ -86,15 +86,18 @@ export const cardStylingSchema = ({ intl }) => {
           ['light', 'Light'],
           ['dark', 'Dark'],
         ],
+        default: 'white',
       },
       imagePosition: {
         title: intl.formatMessage(messages.imagePosition),
         type: 'string',
         factory: 'Choice',
         choices: [
+          ['hidden', 'Hidden'],
           ['above', 'Above'],
           ['side', 'Beside'],
         ],
+        default: 'above',
       },
     },
   };
@@ -108,7 +111,7 @@ export const singleCardSchema = ({ intl }) => {
         id: 'default',
         title: 'Default',
         fields: ['title', 'description', 'link', 'image'],
-        required: [],
+        required: ['title', 'link'],
       },
     ],
     properties: {

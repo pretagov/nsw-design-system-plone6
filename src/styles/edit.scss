@@ -1,0 +1,28 @@
+@use 'nsw-design-system/src/main';
+
+#page-edit {
+  // The custom object browser with an input above it
+  .object-browser-with-input .ui.segments {
+    margin-block: 0 !important;
+  }
+
+  // Blocks that use 'TextLine' or 'WYSIWYG' component
+  .block {
+    & *[data-slate-editor='true'],
+    .DraftEditor-root {
+      cursor: text;
+    }
+  }
+
+  // Image picker widget
+  .widget.image-picker-widget {
+    margin-inline: auto;
+    padding-block-end: 6px;
+    cursor: pointer;
+
+    & svg,
+    img {
+      cursor: pointer;
+    }
+  }
+}
