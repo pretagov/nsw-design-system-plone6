@@ -40,54 +40,20 @@ const messages = defineMessages({
 
 const schemaEnhancers = {
   __grid: ({ schema: schemaToUpdate, intl, formData }) => {
-    const schema = asGridSchemaExtender({
+    return asGridSchemaExtender({
       schema: schemaToUpdate,
       intl,
       formData,
+      stylingSchema: cardStylingSchema,
     });
-
-    const cardSchemaObject = cardStylingSchema({
-      intl,
-    });
-    schema.properties = {
-      ...schema.properties,
-      ...cardSchemaObject.properties,
-    };
-    const variationFieldset = {
-      id: 'cardListingVariation',
-      // TODO: Schema enhancer i18n
-      title: 'Display Settings',
-      fields: [...cardSchemaObject.fieldsets[0].fields],
-      required: [...cardSchemaObject.fieldsets[0].required],
-    };
-    schema.fieldsets.push(variationFieldset);
-
-    return schema;
   },
   contentBlockGrid: ({ schema: schemaToUpdate, intl, formData }) => {
-    const schema = asGridSchemaExtender({
+    return asGridSchemaExtender({
       schema: schemaToUpdate,
       intl,
       formData,
+      stylingSchema: contentBlockStylingSchema,
     });
-
-    const contentBlockStylingSchemaObject = contentBlockStylingSchema({
-      intl,
-    });
-    schema.properties = {
-      ...schema.properties,
-      ...contentBlockStylingSchemaObject.properties,
-    };
-    // TODO: Content block schema enhancer title
-    const variationFieldset = {
-      id: 'cardListingVariation',
-      title: 'Display Settings',
-      fields: [...contentBlockStylingSchemaObject.fieldsets[0].fields],
-      required: [...contentBlockStylingSchemaObject.fieldsets[0].required],
-    };
-    schema.fieldsets.push(variationFieldset);
-
-    return schema;
   },
   image: ({ schema, intl, formData }) => {
     return asMediaSchemaExtender(schema, intl, formData);
@@ -297,7 +263,7 @@ function withListingDisplayControls({ schema, formData, intl }) {
   return schema;
 }
 
-function asGridSchemaExtender({ schema, intl, formData }) {
+function asGridSchemaExtender({ schema, intl, formData, stylingSchema }) {
   const defaultFieldsetIndex = schema.fieldsets.findIndex(
     (fieldset) => fieldset.id === 'default',
   );
@@ -323,6 +289,24 @@ function asGridSchemaExtender({ schema, intl, formData }) {
     };
     schema.fieldsets[0].fields.push('@type');
   }
+
+  // Add display options
+  const stylingSchemaObject = stylingSchema({
+    intl,
+  });
+  schema.properties = {
+    ...schema.properties,
+    ...stylingSchemaObject.properties,
+  };
+  // TODO: Content block schema enhancer title
+  const variationFieldset = {
+    id: 'stylingVariation',
+    title: 'Display Settings',
+    fields: [...stylingSchemaObject.fieldsets[0].fields],
+    required: [...stylingSchemaObject.fieldsets[0].required],
+  };
+  schema.fieldsets.push(variationFieldset);
+
   return schema;
 }
 
