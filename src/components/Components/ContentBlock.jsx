@@ -33,7 +33,6 @@ export function ContentBlock({
   imageIsIcon,
   isEditMode,
 }) {
-  console.log('viewMoreUrl', viewMoreUrl);
   return (
     <div className="nsw-content-block__content">
       {image ? (
