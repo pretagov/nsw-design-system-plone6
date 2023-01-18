@@ -7,7 +7,15 @@ import { DefaultImage } from 'nsw-design-system-plone6/components/Components/Car
 
 ContentBlock.propTypes = {
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  description: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  description: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+    PropTypes.shape({
+      'content-type': PropTypes.string.isRequired,
+      data: PropTypes.string.isRequired,
+      encoding: PropTypes.string.isRequired,
+    }),
+  ]),
   viewMoreUrl: PropTypes.string,
   links: PropTypes.arrayOf(
     PropTypes.shape({
