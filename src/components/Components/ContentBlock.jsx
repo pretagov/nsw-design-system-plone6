@@ -2,6 +2,9 @@ import { UniversalLink } from '@plone/volto/components';
 import PropTypes from 'prop-types';
 import { isValidElement } from 'react';
 
+// TODO: Keeping this in card isn't great
+import { DefaultImage } from 'nsw-design-system-plone6/components/Components/Card';
+
 ContentBlock.propTypes = {
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   description: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
@@ -31,18 +34,31 @@ export function ContentBlock({
   links,
   image,
   imageIsIcon,
+  imagePosition,
   isEditMode,
 }) {
   return (
     <div className="nsw-content-block__content">
-      {image ? (
-        isValidElement(image) ? (
-          image
-        ) : (
-          <div className="nsw-content-block__image">
-            {imageIsIcon ? (
-              <div className="nsw-content-block__icon">
+      {imagePosition !== 'hidden' ? (
+        image ? (
+          isValidElement(image) ? (
+            image
+          ) : (
+            <div className="nsw-content-block__image">
+              {imageIsIcon ? (
+                <div className="nsw-content-block__icon">
+                  <img
+                    src={
+                      typeof image === 'string'
+                        ? image
+                        : `data:${image['content-type']};base64,${image.data}`
+                    }
+                    alt=""
+                  />
+                </div>
+              ) : (
                 <img
+                  className="nsw-content-block__image"
                   src={
                     typeof image === 'string'
                       ? image
@@ -50,18 +66,11 @@ export function ContentBlock({
                   }
                   alt=""
                 />
-              </div>
-            ) : (
-              <img
-                src={
-                  typeof image === 'string'
-                    ? image
-                    : `data:${image['content-type']};base64,${image.data}`
-                }
-                alt=""
-              />
-            )}
-          </div>
+              )}
+            </div>
+          )
+        ) : (
+          <DefaultImage className="nsw-content-block__image" />
         )
       ) : null}
       <div className="nsw-content-block__title">{title}</div>

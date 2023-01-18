@@ -16,10 +16,11 @@ export function DefaultIcon() {
   );
 }
 
-export function DefaultImage() {
+export function DefaultImage({ className }) {
   return (
     <svg
       {...NswLogo.attributes}
+      className={className}
       style={{
         width: '100%',
         height: '100%',
