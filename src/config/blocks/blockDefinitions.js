@@ -29,7 +29,7 @@ export const nswBlocks = [
     view: Components.CardView,
     edit: Components.CardEdit,
     blockSchema: Components.singleCardSchema,
-    restricted: false,
+    restricted: true,
     mostUsed: true,
     security: {
       addPermission: [],
@@ -44,7 +44,7 @@ export const nswBlocks = [
     view: Components.ContentBlockView,
     edit: Components.ContentBlockEdit,
     blockSchema: Components.contentBlockSchema,
-    restricted: false,
+    restricted: true,
     mostUsed: false,
     security: {
       addPermission: [],
