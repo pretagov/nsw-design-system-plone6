@@ -5,12 +5,10 @@ import { getLinks, getViewMore } from './helpers';
 export function ContentBlockView({ data }) {
   return (
     <ContentBlock
-      title={data.title}
-      description={data.description}
+      {...data}
       viewMoreUrl={getViewMore(data)}
       links={getLinks(data)}
       image={data.image ? `${data.image}/@@images/image` : null}
-      imageIsIcon={data.imageIsIcon}
     />
   );
 }

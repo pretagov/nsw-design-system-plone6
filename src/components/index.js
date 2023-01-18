@@ -15,11 +15,7 @@ export {
 } from './Blocks/AnnouncementBar';
 export { CalloutEdit, CalloutView } from './Blocks/Callout';
 export * from './Blocks/Card';
-export {
-  ContentBlockEdit,
-  ContentBlockView,
-  contentBlockSchema,
-} from './Blocks/ContentBlock';
+export * from './Blocks/ContentBlock';
 export {
   DropdownQuickNavigationEdit,
   DropdownQuickNavigationView,

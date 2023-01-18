@@ -28,6 +28,15 @@ const messages = defineMessages({
     id: 'Image is icon',
     defaultMessage: 'Image is icon',
   },
+  // Styling schema
+  styling: {
+    id: 'Styling',
+    defaultMessage: 'Styling',
+  },
+  imagePosition: {
+    id: 'Image Position',
+    defaultMessage: 'Image Position',
+  },
 });
 
 const LinkListSchema = ({ intl }) => {
@@ -49,6 +58,33 @@ const LinkListSchema = ({ intl }) => {
         title: intl.formatMessage(messages.link),
         widget: 'object_browser',
         mode: 'link',
+      },
+    },
+  };
+};
+
+export const contentBlockStylingSchema = ({ intl }) => {
+  return {
+    required: [],
+    fieldsets: [
+      {
+        id: 'styling',
+        title: intl.formatMessage(messages.styling),
+        fields: ['imagePosition'],
+        required: [],
+      },
+    ],
+    properties: {
+      imagePosition: {
+        title: intl.formatMessage(messages.imagePosition),
+        type: 'string',
+        factory: 'Choice',
+        choices: [
+          ['hidden', 'Hidden'],
+          ['above', 'Above'],
+          // ['side', 'Beside'],
+        ],
+        default: 'above',
       },
     },
   };

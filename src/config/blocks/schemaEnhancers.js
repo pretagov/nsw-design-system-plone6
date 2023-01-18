@@ -1,6 +1,9 @@
 import { composeSchema } from '@plone/volto/helpers';
 import voltoConfig from '@plone/volto/registry';
-import { cardStylingSchema } from 'nsw-design-system-plone6/components';
+import {
+  cardStylingSchema,
+  contentBlockStylingSchema,
+} from 'nsw-design-system-plone6/components';
 import { SectionSchema } from 'nsw-design-system-plone6/components/Blocks/Section';
 import { gridBlocks } from 'nsw-design-system-plone6/config/blocks/blockDefinitions';
 import { defineMessages } from 'react-intl';
@@ -52,7 +55,8 @@ const schemaEnhancers = {
     };
     const variationFieldset = {
       id: 'cardListingVariation',
-      title: 'Card Display Settings',
+      // TODO: Schema enhancer i18n
+      title: 'Display Settings',
       fields: [...cardSchemaObject.fieldsets[0].fields],
       required: [...cardSchemaObject.fieldsets[0].required],
     };
@@ -60,8 +64,30 @@ const schemaEnhancers = {
 
     return schema;
   },
-  contentBlockGrid: ({ schema, intl, formData }) => {
-    return asGridSchemaExtender({ schema, intl, formData });
+  contentBlockGrid: ({ schema: schemaToUpdate, intl, formData }) => {
+    const schema = asGridSchemaExtender({
+      schema: schemaToUpdate,
+      intl,
+      formData,
+    });
+
+    const contentBlockStylingSchemaObject = contentBlockStylingSchema({
+      intl,
+    });
+    schema.properties = {
+      ...schema.properties,
+      ...contentBlockStylingSchemaObject.properties,
+    };
+    // TODO: Content block schema enhancer title
+    const variationFieldset = {
+      id: 'cardListingVariation',
+      title: 'Display Settings',
+      fields: [...contentBlockStylingSchemaObject.fieldsets[0].fields],
+      required: [...contentBlockStylingSchemaObject.fieldsets[0].required],
+    };
+    schema.fieldsets.push(variationFieldset);
+
+    return schema;
   },
   image: ({ schema, intl, formData }) => {
     return asMediaSchemaExtender(schema, intl, formData);
