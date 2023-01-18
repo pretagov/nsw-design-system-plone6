@@ -150,19 +150,17 @@ function CardEditDisplayComponent({
       <Card
         {...data}
         title={
-          <div style={{ cursor: 'text' }}>
-            <TextLineEdit
-              fieldName="title"
-              fieldDataName="title"
-              placeholder="Add a title..."
-              block={id}
-              data={data}
-              onChangeBlock={(blockId, newData) => {
-                onChangeBlock(blockId, newData);
-              }}
-              renderTag="span"
-            />
-          </div>
+          <TextLineEdit
+            fieldName="title"
+            fieldDataName="title"
+            placeholder="Add a title..."
+            block={id}
+            data={data}
+            onChangeBlock={(blockId, newData) => {
+              onChangeBlock(blockId, newData);
+            }}
+            renderTag="span"
+          />
         }
         description={
           <>

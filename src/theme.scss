@@ -30,3 +30,10 @@ body.public-ui {
 .nsw-content-block__copy ul {
   @extend .nsw-content-block__list;
 }
+
+#page-edit .block {
+  & *[data-slate-editor='true'],
+  .DraftEditor-root {
+    cursor: text;
+  }
+}
