@@ -176,11 +176,13 @@ function CardEditDisplay({ data, id, onChangeBlock }) {
           </>
         }
         image={
-          data.image ? (
-            `${data.image}/@@images/image`
-          ) : (
-            <ImagePickerWidget onChange={imageUpload} />
-          )
+          data.imagePosition !== 'hidden' ? (
+            data.image ? (
+              `${data.image}/@@images/image`
+            ) : (
+              <ImagePickerWidget onChange={imageUpload} />
+            )
+          ) : null
         }
         icon={
           <button

@@ -99,6 +99,7 @@ function ContentBlockEditDisplay({ data, id, onChangeBlock, ...props }) {
         </div>
       ) : null}
       <ContentBlock
+        {...data}
         title={
           <TextLineEdit
             {...props}
@@ -131,11 +132,13 @@ function ContentBlockEditDisplay({ data, id, onChangeBlock, ...props }) {
           />
         }
         image={
-          data.image ? (
-            `${data.image}/@@images/image`
-          ) : (
-            <ImagePickerWidget onChange={imageUpload} />
-          )
+          data.imagePosition !== 'hidden' ? (
+            data.image ? (
+              `${data.image}/@@images/image`
+            ) : (
+              <ImagePickerWidget onChange={imageUpload} />
+            )
+          ) : null
         }
         // viewMoreUrl={getViewMore(data)}
         viewMoreUrl={
@@ -152,7 +155,6 @@ function ContentBlockEditDisplay({ data, id, onChangeBlock, ...props }) {
           </button>
         }
         links={getLinks(data)}
-        imageIsIcon={data.imageIsIcon}
         isEditMode={true}
       />
       <SidebarPopup open={isSidebarOpen} onClose={() => {}} overlay={false}>
