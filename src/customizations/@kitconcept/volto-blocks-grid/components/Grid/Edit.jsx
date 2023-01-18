@@ -382,9 +382,9 @@ class EditGrid extends Component {
                                     onKeyDown={(e) => e.stopPropagation()}
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      // this.props.onSelectBlock(
-                                      //   this.props.block,
-                                      // );
+                                      this.props.onSelectBlock(
+                                        this.props.block,
+                                      );
                                       this.onChangeSelectedColumnItem(index);
                                     }}
                                   >
