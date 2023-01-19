@@ -1,6 +1,14 @@
 @use 'nsw-design-system/src/main';
 
 #page-edit {
+  // Reset button styling
+  button {
+    border: 0;
+    padding: 0;
+    background: 0;
+    cursor: pointer;
+  }
+
   // The custom object browser with an input above it
   .object-browser-with-input .ui.segments {
     margin-block: 0 !important;
@@ -24,5 +32,15 @@
     img {
       cursor: pointer;
     }
+  }
+
+  .nsw-content-block__link {
+    // @extend a;
+    // Copy the anchor styling
+    font-weight: var(--nsw-font-bold);
+    text-decoration: underline;
+    // Needed as the Volto css is causing the size to be incorrect
+    font-size: var(--nsw-font-size-sm-desktop);
+    line-height: var(--nsw-line-height-sm-desktop);
   }
 }

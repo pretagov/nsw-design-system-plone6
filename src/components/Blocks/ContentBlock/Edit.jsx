@@ -142,18 +142,14 @@ function ContentBlockEditDisplay({ data, id, onChangeBlock, ...props }) {
             )
           ) : null
         }
-        // viewMoreUrl={getViewMore(data)}
         viewMoreUrl={
           <button
-            className="nsw-button nsw-button--dark"
-            // style={{ border: 0, padding: 0 }}
+            className="nsw-content-block__link"
             onClick={() => {
               setIsSidebarOpen(true);
             }}
           >
-            Edit link
-            {/* <span className="sr-only">Edit link</span> */}
-            {/* <DefaultIcon /> */}
+            View more <span className="sr-only">: click to edit</span>
           </button>
         }
         links={getLinks(data)}
