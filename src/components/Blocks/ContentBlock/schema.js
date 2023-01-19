@@ -37,31 +37,11 @@ const messages = defineMessages({
     id: 'Image Position',
     defaultMessage: 'Image Position',
   },
+  showViewMoreLink: {
+    id: 'Show view more link',
+    defaultMessage: 'Show view more link',
+  },
 });
-
-const LinkListSchema = ({ intl }) => {
-  return {
-    title: intl.formatMessage(messages.link),
-    required: ['title', 'link'],
-    fieldsets: [
-      {
-        id: 'default',
-        title: 'Default',
-        fields: ['title', 'link'],
-      },
-    ],
-    properties: {
-      title: {
-        title: intl.formatMessage(messages.title),
-      },
-      link: {
-        title: intl.formatMessage(messages.link),
-        widget: 'object_browser',
-        mode: 'link',
-      },
-    },
-  };
-};
 
 export const contentBlockStylingSchema = ({ intl }) => {
   return {
@@ -70,7 +50,7 @@ export const contentBlockStylingSchema = ({ intl }) => {
       {
         id: 'styling',
         title: intl.formatMessage(messages.styling),
-        fields: ['imagePosition'],
+        fields: ['imagePosition', 'showViewMoreLink'],
         required: [],
       },
     ],
@@ -85,6 +65,11 @@ export const contentBlockStylingSchema = ({ intl }) => {
           // ['side', 'Beside'],
         ],
         default: 'above',
+      },
+      showViewMoreLink: {
+        title: intl.formatMessage(messages.showViewMoreLink),
+        type: 'boolean',
+        default: true,
       },
     },
   };
@@ -116,11 +101,6 @@ export const contentBlockSchema = ({ intl }) => {
         type: 'string',
         widget: 'richtext',
       },
-      // links: {
-      //   title: intl.formatMessage(messages.links),
-      //   widget: 'object_list',
-      //   schema: LinkListSchema,
-      // },
       link: {
         title: intl.formatMessage(messages.viewMore),
         widget: 'object_browser',

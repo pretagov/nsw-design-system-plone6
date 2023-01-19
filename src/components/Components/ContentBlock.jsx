@@ -31,7 +31,9 @@ ContentBlock.propTypes = {
       data: PropTypes.string.isRequired,
     }),
   ]),
+  imagePosition: PropTypes.oneOf(['hidden', 'above']),
   imageIsIcon: PropTypes.bool,
+  showViewMoreLink: PropTypes.bool,
   isEditMode: PropTypes.bool,
 };
 
@@ -44,6 +46,7 @@ export function ContentBlock({
   image,
   imageIsIcon,
   imagePosition,
+  showViewMoreLink,
   isEditMode,
 }) {
   return (
@@ -105,7 +108,8 @@ export function ContentBlock({
           })}
         </ul>
       ) : null}
-      {viewMoreUrl ? (
+      {/* Explicit check for false here to maintain backwards compatibility from before this field existed */}
+      {viewMoreUrl && showViewMoreLink !== false ? (
         isValidElement(viewMoreUrl) ? (
           viewMoreUrl
         ) : (
