@@ -388,21 +388,24 @@ class EditGrid extends Component {
                                       this.onChangeSelectedColumnItem(index);
                                     }}
                                   >
-                                    <Button
-                                      aria-label={`Remove grid element ${index}`}
-                                      basic
-                                      icon
-                                      onClick={(e) =>
-                                        this.removeColumn(e, index)
-                                      }
-                                      className="remove-block-button"
-                                    >
-                                      <Icon
-                                        name={trashSVG}
-                                        className="circled"
-                                        size="24px"
-                                      />
-                                    </Button>
+                                    {this.state.selectedColumnIndex ===
+                                    index ? (
+                                      <Button
+                                        aria-label={`Remove grid element ${index}`}
+                                        basic
+                                        icon
+                                        onClick={(e) =>
+                                          this.removeColumn(e, index)
+                                        }
+                                        className="remove-block-button"
+                                      >
+                                        <Icon
+                                          name={trashSVG}
+                                          className="circled"
+                                          size="24px"
+                                        />
+                                      </Button>
+                                    ) : null}
                                     {item['@type'] ? (
                                       <BlockRenderer
                                         {...this.props}
