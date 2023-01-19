@@ -114,6 +114,8 @@ function ContentBlockEditDisplay({ data, id, onChangeBlock, ...props }) {
             renderTag="span"
             // Below are all needed to appease PropTypes
             properties={data}
+            selected={false}
+            blockToFocus={null}
           />
         }
         description={
@@ -231,7 +233,7 @@ export function ContentBlockEdit(props) {
         id={block}
         onChangeBlock={onChangeBlock}
       />
-      <SidebarPortal selected={selected}>
+      {/* <SidebarPortal selected={selected}>
         <ContentBlockData
           key={block}
           data={data}
@@ -239,7 +241,7 @@ export function ContentBlockEdit(props) {
           onChangeBlock={onChangeBlock}
           {...props}
         />
-      </SidebarPortal>
+      </SidebarPortal> */}
     </>
   );
 }

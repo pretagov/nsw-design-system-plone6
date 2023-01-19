@@ -157,6 +157,7 @@ function CardEditDisplay({ data, id, onChangeBlock }) {
             renderTag="span"
             // Below are all needed to appease PropTypes
             properties={data}
+            blockToFocus={null}
           />
         }
         description={

@@ -7,14 +7,14 @@ import { Icon, SidebarPortal } from '@plone/volto/components';
 import { withBlockExtensions } from '@plone/volto/helpers';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React, {Component} from 'react';
-import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
-import {injectIntl} from 'react-intl';
-import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
-import {compose} from 'redux';
-import {Button, Grid, Ref} from 'semantic-ui-react';
-import {v4 as uuid} from 'uuid';
+import React, { Component } from 'react';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'redux';
+import { Button, Grid, Ref } from 'semantic-ui-react';
+import { v4 as uuid } from 'uuid';
 
 import addSVG from '@plone/volto/icons/add.svg';
 import configSVG from '@plone/volto/icons/configuration.svg';
@@ -409,12 +409,12 @@ class EditGrid extends Component {
                                         block={item.id}
                                         edit
                                         type={item['@type']}
-                                        selected={false}
-                                        // selected={
-                                        //   this.props.selected &&
-                                        //   this.state.selectedColumnIndex ===
-                                        //     index
-                                        // }
+                                        // selected={this.}
+                                        selected={
+                                          this.props.selected &&
+                                          this.state.selectedColumnIndex ===
+                                            index
+                                        }
                                         onChangeBlock={(block, data) => {
                                           this.onChangeGridItem(index, data);
                                         }}
@@ -451,10 +451,7 @@ class EditGrid extends Component {
           </DragDropContext>
           <SidebarPortal
             selected={
-              // this.props.selected &&
-              // !this.state.selectedColumnIndex &&
-              // this.state.selectedColumnIndex !== 0
-              this.props.selected
+              this.props.selected || this.state.selectedColumnIndex !== null
             }
           >
             <GridData
