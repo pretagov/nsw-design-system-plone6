@@ -81,6 +81,10 @@ export function ContentBlock({
               )}
             </div>
           )
+        ) : imageIsIcon ? (
+          <div className="nsw-content-block__icon">
+            <DefaultImage className="nsw-content-block__image" />
+          </div>
         ) : (
           <DefaultImage className="nsw-content-block__image" />
         )

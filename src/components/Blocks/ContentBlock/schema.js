@@ -50,7 +50,7 @@ export const contentBlockStylingSchema = ({ intl }) => {
       {
         id: 'styling',
         title: intl.formatMessage(messages.styling),
-        fields: ['imagePosition', 'showViewMoreLink'],
+        fields: ['imagePosition', 'showViewMoreLink', 'imageIsIcon'],
         required: [],
       },
     ],
@@ -71,6 +71,11 @@ export const contentBlockStylingSchema = ({ intl }) => {
         type: 'boolean',
         default: true,
       },
+      imageIsIcon: {
+        title: intl.formatMessage(messages.imageIsIcon),
+        type: 'boolean',
+        default: false,
+      },
     },
   };
 };
@@ -82,14 +87,7 @@ export const contentBlockSchema = ({ intl }) => {
       {
         id: 'default',
         title: 'Default',
-        fields: [
-          'title',
-          'description',
-          'links',
-          'viewMore',
-          'image',
-          'imageIsIcon',
-        ],
+        fields: ['title', 'description', 'viewMore', 'image'],
       },
     ],
     properties: {
@@ -110,11 +108,6 @@ export const contentBlockSchema = ({ intl }) => {
         title: intl.formatMessage(messages.image),
         widget: 'file',
         mode: 'image',
-      },
-      imageIsIcon: {
-        title: intl.formatMessage(messages.imageIsIcon),
-        type: 'boolean',
-        default: false,
       },
     },
   };
