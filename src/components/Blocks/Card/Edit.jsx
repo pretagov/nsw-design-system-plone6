@@ -153,7 +153,10 @@ function CardEditDisplay({ data, id, onChangeBlock }) {
             onChangeBlock={(blockId, newData) => {
               onChangeBlock(blockId, newData);
             }}
+            selected={true}
             renderTag="span"
+            // Below are all needed to appease PropTypes
+            properties={data}
           />
         }
         description={
@@ -255,6 +258,7 @@ function CardData(props) {
           [id]: value,
         });
       }}
+      onChangeBlock={onChangeBlock}
       formData={data}
       block={block}
     />
