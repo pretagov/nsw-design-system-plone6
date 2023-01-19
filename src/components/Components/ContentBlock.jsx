@@ -16,7 +16,7 @@ ContentBlock.propTypes = {
       encoding: PropTypes.string.isRequired,
     }),
   ]),
-  viewMoreUrl: PropTypes.string,
+  viewMoreUrl: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   links: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
@@ -25,6 +25,7 @@ ContentBlock.propTypes = {
   ),
   image: PropTypes.oneOfType([
     PropTypes.string,
+    PropTypes.element,
     PropTypes.shape({
       'content-type': PropTypes.string.isRequired,
       data: PropTypes.string.isRequired,
