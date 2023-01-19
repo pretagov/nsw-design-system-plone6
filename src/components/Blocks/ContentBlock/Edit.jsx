@@ -112,6 +112,8 @@ function ContentBlockEditDisplay({ data, id, onChangeBlock, ...props }) {
               onChangeBlock(blockId, newData);
             }}
             renderTag="span"
+            // Below are all needed to appease PropTypes
+            properties={data}
           />
         }
         description={
@@ -215,6 +217,7 @@ function ContentBlockData(props) {
             [id]: value,
           });
         }}
+        onChangeBlock={onChangeBlock}
         formData={data}
         block={block}
       />
