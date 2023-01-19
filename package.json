@@ -24,7 +24,7 @@
   ],
   "dependencies": {
     "@eeacms/volto-accordion-block": "6.0.0",
-    "@fontsource/public-sans": "4.5.11",
+    "@fontsource/public-sans": "4.5.12",
     "@kitconcept/volto-blocks-grid": "5.2.0",
     "@material-design-icons/svg": "0.14.2",
     "@mdi/svg": "7.1.96",
