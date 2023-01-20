@@ -33,6 +33,7 @@ export const TextLineEdit = (props) => {
     onFocusNextBlock,
     onFocusPreviousBlock,
     onSelectBlock,
+    onFocus,
     properties,
     selected,
     renderTag,
@@ -154,8 +155,12 @@ export const TextLineEdit = (props) => {
   );
 
   const handleFocus = useCallback(() => {
+    if (onFocus) {
+      onFocus();
+      return;
+    }
     onSelectBlock(block);
-  }, [block, onSelectBlock]);
+  }, [block, onSelectBlock, onFocus]);
 
   const RenderTag = renderTag || 'h1';
 
@@ -198,6 +203,7 @@ TextLineEdit.propTypes = {
   onAddBlock: PropTypes.func.isRequired,
   onFocusPreviousBlock: PropTypes.func.isRequired,
   onFocusNextBlock: PropTypes.func.isRequired,
+  onFocus: PropTypes.func,
   data: PropTypes.objectOf(PropTypes.any).isRequired,
   editable: PropTypes.bool,
   detached: PropTypes.bool,

@@ -131,7 +131,7 @@ function CardEditDisplay({ data, id, onChangeBlock, selected }) {
             renderTag="span"
             // Below are all needed to appease PropTypes
             properties={data}
-            blockToFocus={null}
+            onFocus={() => {}}
           />
         }
         description={

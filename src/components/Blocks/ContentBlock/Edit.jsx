@@ -89,7 +89,7 @@ function ContentBlockEditDisplay({ data, id, onChangeBlock, ...props }) {
             // Below are all needed to appease PropTypes
             properties={data}
             selected={false}
-            blockToFocus={null}
+            onFocus={() => {}}
           />
         }
         description={
