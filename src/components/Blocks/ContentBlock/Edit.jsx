@@ -17,11 +17,6 @@ import { readAsDataURL } from 'promise-file-reader';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 
-// Toolbar
-import { Icon } from '@plone/volto/components';
-import clearSVG from '@plone/volto/icons/clear.svg';
-import { Button } from 'semantic-ui-react';
-
 // CustomLinkPicker
 import { SidebarPopup, TextWidget } from '@plone/volto/components';
 import ObjectBrowserBody from '@plone/volto/components/manage/Sidebar/ObjectBrowserBody';
@@ -77,27 +72,6 @@ function ContentBlockEditDisplay({ data, id, onChangeBlock, ...props }) {
 
   return (
     <>
-      {data.image ? (
-        <div className="toolbar" style={{ top: '5px', left: '5px' }}>
-          <>
-            <Button.Group>
-              <Button
-                aria-label={`Select grid block`}
-                icon
-                basic
-                onClick={(e) => {
-                  e.stopPropagation();
-                  const dataWithoutImage = data;
-                  delete dataWithoutImage.image;
-                  onChangeBlock(id, dataWithoutImage);
-                }}
-              >
-                <Icon name={clearSVG} size="24px" />
-              </Button>
-            </Button.Group>
-          </>
-        </div>
-      ) : null}
       <ContentBlock
         {...data}
         title={
@@ -137,11 +111,12 @@ function ContentBlockEditDisplay({ data, id, onChangeBlock, ...props }) {
         }
         image={
           data.imagePosition !== 'hidden' ? (
-            data.image ? (
-              `${data.image}/@@images/image`
-            ) : (
-              <ImagePickerWidget onChange={imageUpload} />
-            )
+            <ImagePickerWidget
+              image={data.image ? `${data.image}/@@images/image` : null}
+              className="nsw-content-block__image"
+              onChange={imageUpload}
+              blockSelected={props.selected}
+            />
           ) : null
         }
         viewMoreUrl={

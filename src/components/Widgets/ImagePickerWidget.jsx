@@ -9,8 +9,21 @@ const messages = defineMessages({
   },
 });
 
-export function ImagePickerWidget({ onChange, blockSelected }) {
+export function ImagePickerWidget({
+  image,
+  className,
+  onChange,
+  blockSelected,
+}) {
   const intl = useIntl();
+
+  function handleClick(event) {
+    if (blockSelected === false) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+  }
 
   return (
     <>
@@ -20,8 +33,17 @@ export function ImagePickerWidget({ onChange, blockSelected }) {
           <span className="sr-only">
             {intl.formatMessage(messages.addImage)}
           </span>
-          <DefaultImage />
-          <input type="file" onChange={onChange} style={{ display: 'none' }} />
+          {image ? (
+            <img className={className} src={image} alt="" />
+          ) : (
+            <DefaultImage />
+          )}
+          <input
+            type="file"
+            onClick={handleClick}
+            onChange={onChange}
+            style={{ display: 'none' }}
+          />
         </label>
       </div>
     </>

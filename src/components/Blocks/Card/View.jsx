@@ -9,9 +9,16 @@ export function CardView({ data, isEditMode }) {
     href = flattenToAppURL(href);
   }
 
+  const description = ['<p></p>', '<p><br/></p>'].includes(
+    data.description?.data,
+  )
+    ? null
+    : data.description;
+
   return (
     <Card
       {...data}
+      description={description}
       href={href}
       image={data.image ? `${data.image}/@@images/image` : null}
       isEditMode={isEditMode}

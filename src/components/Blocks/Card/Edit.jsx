@@ -23,11 +23,6 @@ import { useLocation } from 'react-router';
 import { Segment } from 'semantic-ui-react';
 import { singleCardSchema as cardSchema } from './schema';
 
-// Delete image button
-import { Icon } from '@plone/volto/components';
-import clearSVG from '@plone/volto/icons/clear.svg';
-import { Button } from 'semantic-ui-react';
-
 const validationRules = {
   '\n':
     'Cards should have a single line description. Consider using a content block',
@@ -63,7 +58,7 @@ function Validation({ messages }) {
   );
 }
 
-function CardEditDisplay({ data, id, onChangeBlock }) {
+function CardEditDisplay({ data, id, onChangeBlock, selected }) {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const contentCreationAction = useSelector(
@@ -120,27 +115,6 @@ function CardEditDisplay({ data, id, onChangeBlock }) {
 
   return (
     <div>
-      {data.image ? (
-        <div className="toolbar" style={{ top: '5px', left: '5px' }}>
-          <>
-            <Button.Group>
-              <Button
-                icon
-                basic
-                onClick={(e) => {
-                  e.stopPropagation();
-                  const dataWithoutImage = data;
-                  delete dataWithoutImage.image;
-                  onChangeBlock(id, dataWithoutImage);
-                }}
-              >
-                <span className="sr-only">Edit card link</span>
-                <Icon ariaHidden="true" name={clearSVG} size="24px" />
-              </Button>
-            </Button.Group>
-          </>
-        </div>
-      ) : null}
       <Card
         {...data}
         title={
@@ -181,11 +155,12 @@ function CardEditDisplay({ data, id, onChangeBlock }) {
         }
         image={
           data.imagePosition !== 'hidden' ? (
-            data.image ? (
-              `${data.image}/@@images/image`
-            ) : (
-              <ImagePickerWidget onChange={imageUpload} />
-            )
+            <ImagePickerWidget
+              image={data.image ? `${data.image}/@@images/image` : null}
+              className="nsw-card__image"
+              onChange={imageUpload}
+              blockSelected={selected}
+            />
           ) : null
         }
         icon={
