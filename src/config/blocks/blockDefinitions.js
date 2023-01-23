@@ -115,7 +115,7 @@ export const nswBlocks = [
     group: 'nsw',
     view: Components.SectionView,
     edit: Components.SectionEdit,
-    restricted: false,
+    restricted: true,
     mostUsed: true,
     security: {
       addPermission: [],
