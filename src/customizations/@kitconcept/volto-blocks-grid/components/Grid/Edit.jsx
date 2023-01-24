@@ -189,9 +189,25 @@ class EditGrid extends Component {
 
   removeColumn = (e, index) => {
     e.stopPropagation();
-    const newColumnsState = this.props.data.columns.filter(
-      (item, i) => i !== index,
-    );
+
+    const newColumnsState = this.props.data.columns.reduce((acc, item, i) => {
+      // If the item to delete is a block, make it empty. If it is already empty, remove the column
+      if (index === i) {
+        if (item['@type']) {
+          acc.push({
+            id: uuid(),
+            '@type': null,
+          });
+          return acc;
+        } else if (item['@type'] === null) {
+          return acc;
+        }
+      }
+
+      acc.push(item);
+      return acc;
+    }, []);
+
     this.props.onChangeBlock(this.props.block, {
       ...this.props.data,
       columns: newColumnsState,
