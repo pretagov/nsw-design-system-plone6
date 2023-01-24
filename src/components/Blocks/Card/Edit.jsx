@@ -247,7 +247,7 @@ export function CardEdit(props) {
   return (
     <>
       <CardEditDisplay {...props} id={block} />
-      <SidebarPortal selected={selected}>
+      {/* <SidebarPortal selected={selected}>
         <CardData
           key={block}
           data={data}
@@ -255,7 +255,7 @@ export function CardEdit(props) {
           onChangeBlock={onChangeBlock}
           {...props}
         />
-      </SidebarPortal>
+      </SidebarPortal> */}
     </>
   );
 }
