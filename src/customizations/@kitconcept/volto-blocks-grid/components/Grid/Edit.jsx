@@ -173,23 +173,23 @@ class EditGrid extends Component {
         ? getAllowedBlocks(this.props.data['@type'])[0]
         : null;
 
+    const sharedValues = omit(this.props.data, [
+      '@type',
+      'sectionType',
+      'columns',
+    ]);
+    const newBlockData = {
+      ...sharedValues,
+      id: uuid(),
+      ...(type && { '@type': type }),
+    };
+
     // If an index is passed in, were settings the data in the given column, otherwise, add it to the end
     const newColumnsState = index
       ? this.props.data.columns.map((item, i) =>
-          i === index
-            ? {
-                id: uuid(),
-                ...(type && { '@type': type }),
-              }
-            : item,
+          i === index ? newBlockData : item,
         )
-      : [
-          ...this.props.data.columns,
-          {
-            id: uuid(),
-            ...(type && { '@type': type }),
-          },
-        ];
+      : [...this.props.data.columns, newBlockData];
     if (this.props.data.columns.length < maxNumberOfColumns) {
       this.props.onChangeBlock(this.props.block, {
         ...this.props.data,
