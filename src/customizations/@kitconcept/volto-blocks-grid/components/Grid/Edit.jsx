@@ -2,6 +2,7 @@
 // Imported lodash
 // Changed the editor to not allow selecting child blocks
 // Changed the delete column icon to trashSVG
+// Changed the 'NewBlockAddButton' to create a new block rather than show the block chooser
 
 import { Icon, SidebarPortal } from '@plone/volto/components';
 import { withBlockExtensions } from '@plone/volto/helpers';
@@ -25,7 +26,6 @@ import {
   TemplateChooser,
 } from '@kitconcept/volto-blocks-grid/components';
 import GridData from '@kitconcept/volto-blocks-grid/components/Grid/Data';
-import NewBlockAddButton from '@kitconcept/volto-blocks-grid/components/Grid/NewBlockAddButton';
 
 import {
   reorderArray,
@@ -162,7 +162,7 @@ class EditGrid extends Component {
     });
   }
 
-  addNewColumn = (e) => {
+  addNewColumn = (e, index) => {
     e.stopPropagation();
     var maxNumberOfColumns =
       config.blocks.blocksConfig.__grid.maxNumberOfColumns > 16
@@ -172,13 +172,24 @@ class EditGrid extends Component {
       getAllowedBlocks(this.props.data['@type'])?.length === 1
         ? getAllowedBlocks(this.props.data['@type'])[0]
         : null;
-    const newColumnsState = [
-      ...this.props.data.columns,
-      {
-        id: uuid(),
-        ...(type && { '@type': type }),
-      },
-    ];
+
+    // If an index is passed in, were settings the data in the given column, otherwise, add it to the end
+    const newColumnsState = index
+      ? this.props.data.columns.map((item, i) =>
+          i === index
+            ? {
+                id: uuid(),
+                ...(type && { '@type': type }),
+              }
+            : item,
+        )
+      : [
+          ...this.props.data.columns,
+          {
+            id: uuid(),
+            ...(type && { '@type': type }),
+          },
+        ];
     if (this.props.data.columns.length < maxNumberOfColumns) {
       this.props.onChangeBlock(this.props.block, {
         ...this.props.data,
@@ -443,16 +454,21 @@ class EditGrid extends Component {
                                     ) : (
                                       <div className="uber-grid-default-item">
                                         <p>Add a new block</p>
-                                        <NewBlockAddButton
-                                          block={this.props.blocks}
-                                          index={index}
-                                          onChangeGridItem={
-                                            this.onChangeGridItem
+                                        <Button
+                                          basic
+                                          icon
+                                          onClick={(e) =>
+                                            this.addNewColumn(e, index)
                                           }
-                                          allowedBlocks={getAllowedBlocks(
-                                            this.props.data['@type'],
-                                          )}
-                                        />
+                                          className="add-block-button"
+                                          aria-label={`Add grid block in position ${index}`}
+                                        >
+                                          <Icon
+                                            name={addSVG}
+                                            className="circled"
+                                            size="24px"
+                                          />
+                                        </Button>
                                       </div>
                                     )}
                                   </div>
