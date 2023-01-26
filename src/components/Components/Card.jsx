@@ -1,9 +1,35 @@
-import { FormattedDate, Icon } from '@plone/volto/components';
+import { FormattedDate, Icon, UniversalLink } from '@plone/volto/components';
 import cx from 'classnames';
 import { isValidElement } from 'react';
-import { Link } from 'react-router-dom';
 
 import EastSVG from '@material-design-icons/svg/filled/east.svg';
+import NswLogo from 'nsw-design-system-plone6/assets/NSW-ONLY-nsw-government-logo.svg';
+
+export function DefaultIcon() {
+  return (
+    <Icon
+      name={EastSVG}
+      className="default material-icons nsw-material-icons"
+      size="1.875rem"
+      ariaHidden={true}
+    />
+  );
+}
+
+export function DefaultImage({ className }) {
+  return (
+    <svg
+      {...NswLogo.attributes}
+      className={className}
+      style={{
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+      }}
+      dangerouslySetInnerHTML={{ __html: NswLogo.content }}
+    />
+  );
+}
 
 // TODO: Support adding alt text to images
 export function Card({
@@ -12,6 +38,7 @@ export function Card({
   href,
   image,
   date,
+  icon,
   urlDisplay,
   titleIsHeadline,
   imagePosition,
@@ -32,17 +59,25 @@ export function Card({
         'nsw-card--horizontal': imagePosition === 'side',
       })}
     >
-      {image ? (
-        <div className="nsw-card__image">
-          <img
-            src={
-              typeof image === 'string'
-                ? image
-                : `data:${image['content-type']};base64,${image.data}`
-            }
-            alt=""
-          />
-        </div>
+      {imagePosition !== 'hidden' ? (
+        isValidElement(image) ? (
+          image
+        ) : (
+          <div className="nsw-card__image">
+            {image ? (
+              <img
+                src={
+                  typeof image === 'string'
+                    ? image
+                    : `data:${image['content-type']};base64,${image.data}`
+                }
+                alt=""
+              />
+            ) : (
+              <DefaultImage />
+            )}
+          </div>
+        )
       ) : null}
       <div className="nsw-card__content">
         {cleanDate || urlDisplay ? (
@@ -59,33 +94,33 @@ export function Card({
           {isEditMode ? (
             linkTitle
           ) : (
-            <Link to={href}>
+            <UniversalLink href={href}>
               {isValidElement(title) ? (
                 <div dangerouslySetInnerHTML={{ __html: title }}></div>
               ) : (
                 linkTitle
               )}
-            </Link>
+            </UniversalLink>
           )}
         </div>
         {description ? (
           <div className="nsw-card__copy">
-            {isEditMode ? (
+            {isValidElement(description) ? (
               description
-            ) : isValidElement(title) ? (
+            ) : (
+              <div dangerouslySetInnerHTML={{ __html: description.data }}></div>
+            )}
+            {/* {!isEditMode ? (
+              description
+            ) : isValidElement(description) ? (
               <span dangerouslySetInnerHTML={{ __html: description }}></span>
             ) : (
               description
-            )}
+            )} */}
           </div>
         ) : null}
 
-        <Icon
-          name={EastSVG}
-          className="material-icons nsw-material-icons"
-          size="1.875rem"
-          ariaHidden={true}
-        />
+        {icon ? icon : <DefaultIcon />}
       </div>
     </div>
   );

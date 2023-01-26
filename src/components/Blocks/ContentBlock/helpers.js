@@ -1,5 +1,5 @@
 export const getViewMore = (data) =>
-  (data?.viewMore && data.viewMore[0] && data.viewMore[0].getURL) || null;
+  typeof data.link === 'string' ? data.link : data?.link?.[0]?.getURL;
 
 export const getLinks = (data) =>
   data.links

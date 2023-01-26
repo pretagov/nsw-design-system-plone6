@@ -37,7 +37,8 @@ const Pagination = ({
   onChangePageSize = null,
 }) => {
   if (pageSize || pageSizes || onChangePageSize) {
-    console.warn('Page sizes are currently not supported');
+    // TODO: Correctly support pageSize
+    // console.warn('Page sizes are currently not supported');
   }
 
   return (

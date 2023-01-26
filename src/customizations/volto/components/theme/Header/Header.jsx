@@ -8,7 +8,7 @@ import {
   UniversalLink,
 } from '@plone/volto/components';
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useGoogleAnalytics } from 'volto-google-analytics';
@@ -17,6 +17,17 @@ import { Masthead } from './Masthead';
 
 import MenuSVG from '@material-design-icons/svg/filled/menu.svg';
 import SearchSVG from '@material-design-icons/svg/filled/search.svg';
+
+// TODO: Extract to a 'hooks' folder
+function useIsClient() {
+  const [isClient, setClient] = useState(false);
+
+  useEffect(() => {
+    setClient(true);
+  }, []);
+
+  return isClient;
+}
 
 const MenuOpenButton = () => (
   <div className="nsw-header__menu">
@@ -40,9 +51,10 @@ const MenuOpenButton = () => (
 );
 
 const SearchStartButton = ({ searchInputElement }) => {
+  const isClient = useIsClient();
   return (
     <div className="nsw-header__search">
-      {__CLIENT__ ? (
+      {isClient ? (
         <button
           type="button"
           className="js-open-search"

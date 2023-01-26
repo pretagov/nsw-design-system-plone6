@@ -2,10 +2,21 @@ import { UniversalLink } from '@plone/volto/components';
 import PropTypes from 'prop-types';
 import { isValidElement } from 'react';
 
+// TODO: Keeping this in card isn't great
+import { DefaultImage } from 'nsw-design-system-plone6/components/Components/Card';
+
 ContentBlock.propTypes = {
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  description: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  viewMoreUrl: PropTypes.string,
+  description: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+    PropTypes.shape({
+      'content-type': PropTypes.string.isRequired,
+      data: PropTypes.string.isRequired,
+      encoding: PropTypes.string.isRequired,
+    }),
+  ]),
+  viewMoreUrl: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   links: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
@@ -14,12 +25,15 @@ ContentBlock.propTypes = {
   ),
   image: PropTypes.oneOfType([
     PropTypes.string,
+    PropTypes.element,
     PropTypes.shape({
       'content-type': PropTypes.string.isRequired,
       data: PropTypes.string.isRequired,
     }),
   ]),
+  imagePosition: PropTypes.oneOf(['hidden', 'above']),
   imageIsIcon: PropTypes.bool,
+  showViewMoreLink: PropTypes.bool,
   isEditMode: PropTypes.bool,
 };
 
@@ -31,35 +45,58 @@ export function ContentBlock({
   links,
   image,
   imageIsIcon,
+  imagePosition,
+  showViewMoreLink,
   isEditMode,
 }) {
   return (
     <div className="nsw-content-block__content">
-      {image ? (
-        <div className="nsw-content-block__image">
-          {imageIsIcon ? (
-            <div className="nsw-content-block__icon">
-              <img
-                src={`data:${image['content-type']};base64,${image.data}`}
-                alt=""
-              />
-            </div>
+      {imagePosition !== 'hidden' ? (
+        image ? (
+          isValidElement(image) ? (
+            image
           ) : (
-            <img
-              src={`data:${image['content-type']};base64,${image.data}`}
-              alt=""
-            />
-          )}
-        </div>
+            <div className="nsw-content-block__image">
+              {imageIsIcon ? (
+                <div className="nsw-content-block__icon">
+                  <img
+                    src={
+                      typeof image === 'string'
+                        ? image
+                        : `data:${image['content-type']};base64,${image.data}`
+                    }
+                    alt=""
+                  />
+                </div>
+              ) : (
+                <img
+                  className="nsw-content-block__image"
+                  src={
+                    typeof image === 'string'
+                      ? image
+                      : `data:${image['content-type']};base64,${image.data}`
+                  }
+                  alt=""
+                />
+              )}
+            </div>
+          )
+        ) : imageIsIcon ? (
+          <div className="nsw-content-block__icon">
+            <DefaultImage className="nsw-content-block__image" />
+          </div>
+        ) : (
+          <DefaultImage className="nsw-content-block__image" />
+        )
       ) : null}
       <div className="nsw-content-block__title">{title}</div>
-      <p className="nsw-content-block__copy">
+      <div className="nsw-content-block__copy">
         {isValidElement(description) ? (
           description
         ) : (
           <div dangerouslySetInnerHTML={{ __html: description?.data }}></div>
         )}
-      </p>
+      </div>
       {links ? (
         <ul className="nsw-content-block__list">
           {links.map(({ title, url }, index) => {
@@ -75,14 +112,19 @@ export function ContentBlock({
           })}
         </ul>
       ) : null}
-      {viewMoreUrl ? (
-        <div className="nsw-content-block__link">
-          {isEditMode ? (
-            'View more'
-          ) : (
-            <UniversalLink href={viewMoreUrl}>View more</UniversalLink>
-          )}
-        </div>
+      {/* Explicit check for false here to maintain backwards compatibility from before this field existed */}
+      {viewMoreUrl && showViewMoreLink !== false ? (
+        isValidElement(viewMoreUrl) ? (
+          viewMoreUrl
+        ) : (
+          <div className="nsw-content-block__link">
+            {isEditMode ? (
+              'View more'
+            ) : (
+              <UniversalLink href={viewMoreUrl}>View more</UniversalLink>
+            )}
+          </div>
+        )
       ) : null}
     </div>
   );

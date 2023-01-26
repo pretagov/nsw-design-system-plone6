@@ -28,27 +28,53 @@ const messages = defineMessages({
     id: 'Image is icon',
     defaultMessage: 'Image is icon',
   },
+  // Styling schema
+  styling: {
+    id: 'Styling',
+    defaultMessage: 'Styling',
+  },
+  imagePosition: {
+    id: 'Image Position',
+    defaultMessage: 'Image Position',
+  },
+  showViewMoreLink: {
+    id: 'Show view more link',
+    defaultMessage: 'Show view more link',
+  },
 });
 
-const LinkListSchema = ({ intl }) => {
+export const contentBlockStylingSchema = ({ intl }) => {
   return {
-    title: intl.formatMessage(messages.link),
-    required: ['title', 'link'],
+    required: [],
     fieldsets: [
       {
-        id: 'default',
-        title: 'Default',
-        fields: ['title', 'link'],
+        id: 'styling',
+        title: intl.formatMessage(messages.styling),
+        fields: ['imagePosition', 'showViewMoreLink', 'imageIsIcon'],
+        required: [],
       },
     ],
     properties: {
-      title: {
-        title: intl.formatMessage(messages.title),
+      imagePosition: {
+        title: intl.formatMessage(messages.imagePosition),
+        type: 'string',
+        factory: 'Choice',
+        choices: [
+          ['hidden', 'Hidden'],
+          ['above', 'Above'],
+          // ['side', 'Beside'],
+        ],
+        default: 'above',
       },
-      link: {
-        title: intl.formatMessage(messages.link),
-        widget: 'object_browser',
-        mode: 'link',
+      showViewMoreLink: {
+        title: intl.formatMessage(messages.showViewMoreLink),
+        type: 'boolean',
+        default: true,
+      },
+      imageIsIcon: {
+        title: intl.formatMessage(messages.imageIsIcon),
+        type: 'boolean',
+        default: false,
       },
     },
   };
@@ -61,14 +87,7 @@ export const contentBlockSchema = ({ intl }) => {
       {
         id: 'default',
         title: 'Default',
-        fields: [
-          'title',
-          'description',
-          'links',
-          'viewMore',
-          'image',
-          'imageIsIcon',
-        ],
+        fields: ['title', 'description', 'viewMore', 'image'],
       },
     ],
     properties: {
@@ -80,12 +99,7 @@ export const contentBlockSchema = ({ intl }) => {
         type: 'string',
         widget: 'richtext',
       },
-      links: {
-        title: intl.formatMessage(messages.links),
-        widget: 'object_list',
-        schema: LinkListSchema,
-      },
-      viewMore: {
+      link: {
         title: intl.formatMessage(messages.viewMore),
         widget: 'object_browser',
         mode: 'link',
@@ -94,11 +108,6 @@ export const contentBlockSchema = ({ intl }) => {
         title: intl.formatMessage(messages.image),
         widget: 'file',
         mode: 'image',
-      },
-      imageIsIcon: {
-        title: intl.formatMessage(messages.imageIsIcon),
-        type: 'boolean',
-        default: false,
       },
     },
   };

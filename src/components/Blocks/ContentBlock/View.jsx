@@ -3,14 +3,18 @@ import { getLinks, getViewMore } from './helpers';
 
 // TODO: Allow adding alt text to images
 export function ContentBlockView({ data }) {
+  const description = ['<p></p>', '<p><br/></p>'].includes(
+    data.description?.data,
+  )
+    ? null
+    : data.description;
   return (
     <ContentBlock
-      title={data.title}
-      description={data.description}
+      {...data}
+      description={description}
       viewMoreUrl={getViewMore(data)}
       links={getLinks(data)}
-      image={data.image}
-      imageIsIcon={data.imageIsIcon}
+      image={data.image ? `${data.image}/@@images/image` : null}
     />
   );
 }
