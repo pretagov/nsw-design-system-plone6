@@ -1,6 +1,5 @@
 import { withQueryString } from '@plone/volto/components/manage/Blocks/Search/hocs';
 import { usePagination } from '@plone/volto/helpers';
-import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
 

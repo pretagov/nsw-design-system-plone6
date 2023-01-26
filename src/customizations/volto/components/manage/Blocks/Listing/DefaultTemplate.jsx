@@ -32,7 +32,7 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
                 </ConditionalLink>
               </div>
               {data.showUrl || data.showDate ? (
-                <div class="nsw-list-item__info">
+                <div className="nsw-list-item__info">
                   {data.showUrl ? item.getURL : null}
                   {data.showDate && date ? (
                     <FormattedDate date={date} locale="en-au" />
@@ -61,7 +61,7 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
               ) : null}
             </div>
             {data.imagePosition !== 'hidden' && image ? (
-              <div class="nsw-list-item__image">
+              <div className="nsw-list-item__image">
                 <img src={image} alt="" />
               </div>
             ) : null}

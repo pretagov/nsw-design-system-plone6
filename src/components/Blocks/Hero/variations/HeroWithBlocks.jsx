@@ -1,7 +1,6 @@
 import { RenderBlocks } from '@plone/volto/components';
 import { flattenToAppURL } from '@plone/volto/helpers';
 import { Hero } from 'nsw-design-system-plone6/components/Components/Hero';
-import React from 'react';
 
 export const HeroWithBlocks = ({ data, ...props }) => {
   const metadata = props.metadata || props.properties;

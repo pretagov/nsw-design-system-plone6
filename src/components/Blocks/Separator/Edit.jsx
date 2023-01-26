@@ -1,5 +1,4 @@
 import { BlockDataForm, SidebarPortal } from '@plone/volto/components';
-import React from 'react';
 import { separatorSchema } from './schema';
 
 function SeparatorEditDisplay() {

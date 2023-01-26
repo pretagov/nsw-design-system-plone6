@@ -1,6 +1,5 @@
 import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
 import { Hero } from 'nsw-design-system-plone6/components/Components/Hero';
-import React from 'react';
 
 export const HeroWithLinks = ({ data, ...props }) => {
   const imageUrl = data.url

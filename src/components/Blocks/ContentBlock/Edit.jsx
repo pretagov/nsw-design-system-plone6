@@ -1,13 +1,8 @@
-import {
-  BlockDataForm,
-  SidebarPortal,
-  WysiwygWidget,
-} from '@plone/volto/components';
+import { WysiwygWidget } from '@plone/volto/components';
 import TextLineEdit from '@plone/volto/components/manage/TextLineEdit/TextLineEdit';
 import { ContentBlock } from 'nsw-design-system-plone6/components/Components/ContentBlock';
 import { useEffect, useState } from 'react';
 import { getLinks, getViewMore } from './helpers';
-import { contentBlockSchema } from './schema';
 
 // ImageUpload
 import { createContent } from '@plone/volto/actions';
@@ -176,47 +171,19 @@ function ContentBlockEditDisplay({ data, id, onChangeBlock, ...props }) {
   );
 }
 
-function ContentBlockData(props) {
-  const { data, block, onChangeBlock } = props;
-  const schema = contentBlockSchema({ ...props });
+export function ContentBlockEdit({
+  data,
+  onChangeBlock,
+  block,
+  selected,
+  ...props
+}) {
   return (
-    <div>
-      <BlockDataForm
-        schema={schema}
-        title={schema.title}
-        onChangeField={(id, value) => {
-          onChangeBlock(block, {
-            ...data,
-            [id]: value,
-          });
-        }}
-        onChangeBlock={onChangeBlock}
-        formData={data}
-        block={block}
-      />
-    </div>
-  );
-}
-
-export function ContentBlockEdit(props) {
-  const { data, onChangeBlock, block, selected } = props;
-  return (
-    <>
-      <ContentBlockEditDisplay
-        {...props}
-        data={data}
-        id={block}
-        onChangeBlock={onChangeBlock}
-      />
-      {/* <SidebarPortal selected={selected}>
-        <ContentBlockData
-          key={block}
-          data={data}
-          block={block}
-          onChangeBlock={onChangeBlock}
-          {...props}
-        />
-      </SidebarPortal> */}
-    </>
+    <ContentBlockEditDisplay
+      {...props}
+      data={data}
+      id={block}
+      onChangeBlock={onChangeBlock}
+    />
   );
 }

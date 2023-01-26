@@ -1,5 +1,4 @@
 import { BlockDataForm, SidebarPortal } from '@plone/volto/components';
-import React from 'react';
 import { DropdownQuickNavigationSchema } from './schema';
 import { DropdownQuickNavigationView as View } from './View';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import cx from 'classnames';
 import './Hero.less';
 
@@ -43,10 +42,10 @@ export const Hero = ({
             ) : null}
           </div>
           {linksList && linksList.length > 0 ? (
-            <div class="nsw-hero-banner__links">
-              <div class="nsw-hero-banner__list">
+            <div className="nsw-hero-banner__links">
+              <div className="nsw-hero-banner__list">
                 {linksTitle ? (
-                  <div class="nsw-hero-banner__sub-title">{linksTitle}</div>
+                  <div className="nsw-hero-banner__sub-title">{linksTitle}</div>
                 ) : null}
                 <ul>
                   {linksList.map((linkItem) => {

@@ -485,7 +485,6 @@ class EditGrid extends Component {
             </Droppable>
           </DragDropContext>
           <SidebarPortal selected={this.props.selected}>
-            <p>{this.props.block}</p>
             <GridData
               {...this.props}
               onChangeBlock={(blockId, value) => {

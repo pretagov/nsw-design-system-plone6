@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Sidebar = ({ sidebarPosition, MainComponent, SidebarComponent }) => {
   return (
     <div className="nsw-container">

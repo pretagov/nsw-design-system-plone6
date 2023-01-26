@@ -11,14 +11,13 @@ import {
 } from '@plone/volto/helpers';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 /**
  * View image block class.
  * @class View
  * @extends Component
  */
-export const View = ({ data, detached }) => {
+export const View = ({ data }) => {
   const href = data?.href?.[0]?.['@id'] || '';
   return (
     <figure

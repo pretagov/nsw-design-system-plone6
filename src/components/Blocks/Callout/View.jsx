@@ -1,5 +1,3 @@
-import React from 'react';
-
 const CalloutView = ({ data }) => {
   let nswContents = data?.title
     ? `<h4 className="nsw-callout__title">${data.title}</h4>`

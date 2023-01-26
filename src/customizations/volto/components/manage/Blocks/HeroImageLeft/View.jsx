@@ -1,7 +1,6 @@
 import { flattenToAppURL } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
-import React from 'react';
-import Hero from '../../../../../../components/Components/Hero';
+import Hero from 'nsw-design-system-plone6/components/Components/Hero';
 
 const View = ({ data, ...props }) => {
   const imageUrl = data.url

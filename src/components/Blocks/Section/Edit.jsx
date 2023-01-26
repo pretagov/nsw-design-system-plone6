@@ -12,10 +12,10 @@ import {
 import config from '@plone/volto/registry';
 import { isEmpty } from 'lodash';
 import NewBlockAddButton from 'nsw-design-system-plone6/components/Components/Helpers/NewBlockAddButton';
-import React, { useState } from 'react';
+import { Section } from 'nsw-design-system-plone6/components/Components/Section';
+import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { Button } from 'semantic-ui-react';
-import { Section } from '../../Components/Section';
 import schema from './schema';
 
 import clearSVG from '@plone/volto/icons/clear.svg';
@@ -33,8 +33,8 @@ const SubblockEdit = ({
   properties,
 }) => {
   const intl = useIntl();
-  const [selectedBlock, setSelectedBlock] = useState(sectionBlockId);
-  const [blockState, setBlockState] = useState({});
+  const [selectedBlock, setSelectedBlock] = React.useState(sectionBlockId);
+  const [blockState, setBlockState] = React.useState({});
 
   const childBlockId = data.block?.blocks_layout?.items[0];
 

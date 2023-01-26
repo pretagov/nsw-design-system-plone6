@@ -1,5 +1,4 @@
 import { ConditionalLink } from '@plone/volto/components';
-import React from 'react';
 
 const ListItemsTemplate = ({ items, isEditMode }) => {
   return (

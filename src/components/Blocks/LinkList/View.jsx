@@ -1,5 +1,4 @@
 import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
-import React from 'react';
 
 export function LinkListView({ data, isEditMode }) {
   if (!data.links || data.links.length === 0) {

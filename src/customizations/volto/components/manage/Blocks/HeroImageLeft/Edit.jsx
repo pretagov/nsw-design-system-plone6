@@ -13,7 +13,6 @@ import {
   BlockDataForm,
   BlocksForm,
   Icon,
-  LinkMore,
   SidebarPortal,
 } from '@plone/volto/components';
 import {
@@ -29,7 +28,6 @@ import config from '@plone/volto/registry';
 
 import clearSVG from '@plone/volto/icons/clear.svg';
 
-import Data from '@plone/volto/components/manage/Blocks/HeroImageLeft/Data';
 import schemaHero from '@plone/volto/components/manage/Blocks/HeroImageLeft/schema';
 import NewBlockAddButton from '../../../../../../components/Components/Helpers/NewBlockAddButton';
 import Hero from '../../../../../../components/Components/Hero';
@@ -89,8 +87,6 @@ class EditComponent extends Component {
 
   setInitialData() {
     // TODO: Schema enhancer support
-    // const enhancedSchema = applySchemaEnhancer(schema({ intl }), data);
-    // const enhancedSchema = blockSchema ? blockSchema({ intl }) : null;
     const intl = this.props.intl;
     const enhancedSchema = this.blockSchema ? this.blockSchema({ intl }) : null;
     const defaultValues = Object.keys(enhancedSchema?.properties ?? {}).reduce(
@@ -117,14 +113,7 @@ class EditComponent extends Component {
   constructor(props) {
     super(props);
 
-    const {
-      block,
-      data,
-      selected,
-      manage,
-      onChangeBlock,
-      onChangeField,
-    } = props;
+    const { block, data, manage, onChangeBlock, onChangeField } = props;
 
     // TODO: Make this configurable per-block
     const disallowedBlocks = ['nsw_section'];
@@ -427,8 +416,6 @@ class EditComponent extends Component {
             </div>
           )}
         <Hero
-          // title={this.props.data.title}
-          // description={this.props.data.description}
           imageUrl={null}
           linkTitle={this.props.data.linkTitle}
           linkHref={null}
@@ -617,10 +604,10 @@ class EditComponent extends Component {
           }
           boxChildren={
             variation && variation.id === 'heroWithLinks' ? (
-              <div class="nsw-hero-banner__links">
-                <div class="nsw-hero-banner__list">
+              <div className="nsw-hero-banner__links">
+                <div className="nsw-hero-banner__list">
                   {this.props.data.linksTitle ? (
-                    <div class="nsw-hero-banner__sub-title">
+                    <div className="nsw-hero-banner__sub-title">
                       {this.props.data.linksTitle}
                     </div>
                   ) : null}

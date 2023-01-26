@@ -1,8 +1,6 @@
 import { createContent } from '@plone/volto/actions';
 import {
-  BlockDataForm,
   SidebarPopup,
-  SidebarPortal,
   TextWidget,
   WysiwygWidget,
 } from '@plone/volto/components';
@@ -21,7 +19,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { Segment } from 'semantic-ui-react';
-import { singleCardSchema as cardSchema } from './schema';
 
 const validationRules = {
   '\n':
@@ -221,41 +218,7 @@ function CardEditDisplay({ data, id, onChangeBlock, selected }) {
   );
 }
 
-function CardData(props) {
-  const { data, block, onChangeBlock } = props;
-  const schema = cardSchema({ intl: props.intl });
-  return (
-    <BlockDataForm
-      schema={schema}
-      title={schema.title}
-      onChangeField={(id, value) => {
-        onChangeBlock(block, {
-          ...data,
-          [id]: value,
-        });
-      }}
-      onChangeBlock={onChangeBlock}
-      formData={data}
-      block={block}
-    />
-  );
-}
-
 // TODO: Support for tags and support for dates
-export function CardEdit(props) {
-  const { data, onChangeBlock, block, selected } = props;
-  return (
-    <>
-      <CardEditDisplay {...props} id={block} />
-      {/* <SidebarPortal selected={selected}>
-        <CardData
-          key={block}
-          data={data}
-          block={block}
-          onChangeBlock={onChangeBlock}
-          {...props}
-        />
-      </SidebarPortal> */}
-    </>
-  );
+export function CardEdit({ block, ...props }) {
+  return <CardEditDisplay {...props} id={block} />;
 }

@@ -1,5 +1,4 @@
 import config from '@plone/volto/registry';
-import React from 'react';
 import Sidebar from './Sidebar';
 
 const SidebarView = ({ data }) => {

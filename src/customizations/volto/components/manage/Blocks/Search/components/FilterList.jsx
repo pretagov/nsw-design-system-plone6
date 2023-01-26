@@ -1,4 +1,3 @@
-import React from 'react';
 /**
  * A list of active filtered values and controls to clear those filters.
  *

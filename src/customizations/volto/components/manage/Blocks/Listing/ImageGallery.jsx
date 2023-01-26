@@ -1,6 +1,5 @@
 import { ConditionalLink } from '@plone/volto/components';
 import { flattenToAppURL } from '@plone/volto/helpers';
-import React from 'react';
 
 const ListItemsTemplate = ({ items, isEditMode, imagePosition }) => {
   return (

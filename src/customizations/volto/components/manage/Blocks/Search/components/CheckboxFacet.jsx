@@ -3,7 +3,7 @@ import {
   selectFacetStateToValue,
   selectFacetValueToQuery,
 } from '@plone/volto/components/manage/Blocks/Search/components/base';
-import React from 'react';
+import * as React from 'react';
 
 const CheckboxFacet = (props) => {
   const { facet, choices, isMulti, onChange, value, isEditMode } = props;
