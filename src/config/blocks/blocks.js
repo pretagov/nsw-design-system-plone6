@@ -3,6 +3,8 @@ import {
   nswBlocks,
 } from 'nsw-design-system-plone6/config/blocks/blockDefinitions';
 
+const unwantedBlocks = ['teaser', 'teaserGrid', 'imagesGrid'];
+
 function removeFieldsFromBlock(config, blockId, fieldsToRemove) {
   // Remove the unused fields from the accordion after overriding it's view
   config.blocks.blocksConfig[blockId].schemaEnhancer = ({ schema }) => {
@@ -29,6 +31,12 @@ function removeVariationsFromBlock(config, blockId, variationsToRemove) {
       return;
     }
     blockConfig.variations.splice(indexToRemove, 1);
+  });
+}
+
+function removeUnwantedBlocks(config) {
+  unwantedBlocks.forEach((blockId) => {
+    delete config.blocks.blocksConfig[blockId];
   });
 }
 
@@ -60,6 +68,7 @@ export function applyBlocks(config) {
 
   removeFieldsFromBlock(config, 'accordion', ['right_arrows', 'non_exclusive']);
   removeVariationsFromBlock(config, 'toc', ['horizontalMenu']);
+  removeUnwantedBlocks(config);
 
   // Remove requirement for titles
   config.blocks.requiredBlocks = [];
