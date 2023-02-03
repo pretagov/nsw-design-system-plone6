@@ -73,14 +73,14 @@ const blockVariations = {
               {
                 id: 'default',
                 title: 'Default',
-                fields: ['title', 'link'],
+                fields: ['title', 'url'],
               },
             ],
             properties: {
               title: {
                 title: intl.formatMessage(messages.title),
               },
-              link: {
+              url: {
                 title: intl.formatMessage(messages.link),
                 widget: 'object_browser',
                 mode: 'link',

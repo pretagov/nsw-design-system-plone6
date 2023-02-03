@@ -13,17 +13,17 @@ const messages = defineMessages({
 function LinkSchema({ intl }) {
   return {
     title: intl.formatMessage(messages.link),
-    required: ['link'],
+    required: ['url'],
     fieldsets: [
       {
         id: 'default',
         title: 'Default',
-        fields: ['link'],
-        required: ['link'],
+        fields: ['url'],
+        required: ['url'],
       },
     ],
     properties: {
-      link: {
+      url: {
         title: intl.formatMessage(messages.link),
         widget: 'object_browser',
         mode: 'link',

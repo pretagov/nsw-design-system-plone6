@@ -87,7 +87,7 @@ export const contentBlockSchema = ({ intl }) => {
       {
         id: 'default',
         title: 'Default',
-        fields: ['title', 'description', 'viewMore', 'image'],
+        fields: ['title', 'description', 'url', 'image'],
       },
     ],
     properties: {
@@ -99,7 +99,7 @@ export const contentBlockSchema = ({ intl }) => {
         type: 'string',
         widget: 'richtext',
       },
-      link: {
+      url: {
         title: intl.formatMessage(messages.viewMore),
         widget: 'object_browser',
         mode: 'link',
