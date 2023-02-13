@@ -1,4 +1,4 @@
-import { singleCardSchema } from 'nsw-design-system-plone6/components';
+import { cardStylingSchema } from 'nsw-design-system-plone6/components';
 
 import { DropdownQuickNavigationSchema } from 'nsw-design-system-plone6/components/Blocks/DropdownQuickNavigation/schema';
 import {
@@ -136,21 +136,18 @@ const variationSchemaEnhancers = {
   listing: {
     cardListing: ({ schema, intl }) => {
       // Add the card display settings to the listing settings
-      const cardSchemaObject = singleCardSchema({
+      const stylingSchema = cardStylingSchema({
         intl,
       });
       schema.properties = {
         ...schema.properties,
-        ...cardSchemaObject.properties,
+        ...stylingSchema.properties,
       };
-      const stylingFieldsetIndex = 1;
       const variationFieldset = {
         id: 'cardListingVariation',
         title: 'Card Display Settings',
-        fields: [...cardSchemaObject.fieldsets[stylingFieldsetIndex].fields],
-        required: [
-          ...cardSchemaObject.fieldsets[stylingFieldsetIndex].required,
-        ],
+        fields: [...stylingSchema.fieldsets[0].fields],
+        required: [...stylingSchema.fieldsets[0].required],
       };
       schema.fieldsets.push(variationFieldset);
 
