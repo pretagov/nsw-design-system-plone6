@@ -28,7 +28,7 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
               {/* <div className="nsw-list-item__label">Stories</div> */}
               <div className="nsw-list-item__title">
                 <ConditionalLink item={item} condition={!isEditMode}>
-                  {item.title ? item.title : item.id}
+                  {item.title ? item.title : item['@id']}
                 </ConditionalLink>
               </div>
               {data.showUrl || data.showDate ? (
