@@ -1,7 +1,7 @@
-import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
+import { flattenToAppURL } from '@plone/volto/helpers';
 import { Hero } from 'nsw-design-system-plone6/components/Components/Hero';
 
-export const HeroWithLinks = ({ data, ...props }) => {
+export const HeroWithLinks = ({ data }) => {
   const imageUrl = data.url
     ? `${flattenToAppURL(data?.url)}/@@images/image`
     : null;
@@ -9,13 +9,12 @@ export const HeroWithLinks = ({ data, ...props }) => {
     ? `${flattenToAppURL(data.linkHref[0]?.['@id'])}`
     : null;
 
-  const linksList = data.links.map((linkItem) => {
-    let href = linkItem.link && linkItem.link[0] && linkItem.link[0]['@id'];
-    if (isInternalURL(href)) {
-      href = flattenToAppURL(href);
+  const linksList = data.links?.reduce((list, item) => {
+    if (item.link && item.link[0] && item.link[0]) {
+      list.push({ title: item.title, link: item.link[0] });
     }
-    return { title: linkItem.title, link: href };
-  });
+    return list;
+  }, []);
 
   return (
     <>

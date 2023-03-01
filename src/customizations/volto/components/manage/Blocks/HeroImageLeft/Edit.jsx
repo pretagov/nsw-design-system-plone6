@@ -615,7 +615,11 @@ class EditComponent extends Component {
                     {linksList.map((linkItem) => {
                       return (
                         <li key={linkItem.title}>
-                          <a href={linkItem.link}>{linkItem.title}</a>
+                          {/* Inert should be a bool, but React strips it when using {true} */}
+                          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                          <a href="" inert="">
+                            {linkItem.title}
+                          </a>
                         </li>
                       );
                     })}

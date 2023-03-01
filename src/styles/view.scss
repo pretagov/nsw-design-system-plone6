@@ -4,3 +4,11 @@
 .nsw-content-block__copy ul {
   @extend .nsw-content-block__list;
 }
+
+// A fix for the content-block icon only supporting SVGs in the CSS
+.nsw-content-block__icon {
+    & img {
+      max-width: 4rem;
+      max-height: 4rem;
+    }
+}

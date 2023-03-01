@@ -1,3 +1,4 @@
+import { UniversalLink } from '@plone/volto/components';
 import cx from 'classnames';
 import './Hero.less';
 
@@ -32,9 +33,12 @@ export const Hero = ({
             {description ? <p className="nsw-intro">{description}</p> : null}
             {linkUrl && linkTitle ? (
               <div className="nsw-hero-banner__button">
-                <a href={linkUrl} className="nsw-button nsw-button--white">
+                <UniversalLink
+                  href={linkUrl}
+                  className="nsw-button nsw-button--white"
+                >
                   {linkTitle}
-                </a>
+                </UniversalLink>
               </div>
             ) : null}
             {contentChildren ? (
@@ -51,7 +55,9 @@ export const Hero = ({
                   {linksList.map((linkItem) => {
                     return (
                       <li key={linkItem.title}>
-                        <a href={linkItem.link}>{linkItem.title}</a>
+                        <UniversalLink item={linkItem.link}>
+                          {linkItem.title}
+                        </UniversalLink>
                       </li>
                     );
                   })}

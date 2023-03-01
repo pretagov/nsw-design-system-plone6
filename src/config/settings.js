@@ -10,6 +10,8 @@ export const updateSettingsConfig = (config) => {
     'form',
     ...(config.settings.fullWidthBlockTypes || []),
   ];
+
+  config.settings.showTags = false
 };
 
 export default updateSettingsConfig;
