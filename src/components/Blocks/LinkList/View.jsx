@@ -1,3 +1,4 @@
+import { UniversalLink } from '@plone/volto/components';
 import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
 
 export function LinkListView({ data, isEditMode }) {
@@ -8,7 +9,7 @@ export function LinkListView({ data, isEditMode }) {
   return (
     <div className="nsw-link-list">
       <ul>
-        {data.links.map((linkObject) => {
+        {data.links?.map((linkObject) => {
           if (!linkObject.link || !linkObject.link[0]) {
             return null;
           }
@@ -22,7 +23,7 @@ export function LinkListView({ data, isEditMode }) {
           return (
             <li key={href}>
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <a href={isEditMode ? null : href}>
+              <UniversalLink href={isEditMode ? null : href}>
                 <span>{title}</span>
                 <span
                   className="material-icons nsw-material-icons"
@@ -31,7 +32,7 @@ export function LinkListView({ data, isEditMode }) {
                 >
                   east
                 </span>
-              </a>
+              </UniversalLink>
             </li>
           );
         })}
