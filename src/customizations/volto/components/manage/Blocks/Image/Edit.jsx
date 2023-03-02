@@ -3,6 +3,7 @@
  * @module components/manage/Blocks/Image/Edit
  *
  * Use the Image body component rather than the original edit mode image
+ * Remove 'isInternalUrl' import as it is used by the Body component
  */
 
 import React, { Component } from 'react';
@@ -19,11 +20,7 @@ import { isEqual } from 'lodash';
 import { Icon, ImageSidebar, SidebarPortal } from '@plone/volto/components';
 import { withBlockExtensions } from '@plone/volto/helpers';
 import { createContent } from '@plone/volto/actions';
-import {
-  flattenToAppURL,
-  getBaseUrl,
-  isInternalURL,
-} from '@plone/volto/helpers';
+import { flattenToAppURL, getBaseUrl } from '@plone/volto/helpers';
 
 import imageBlockSVG from '@plone/volto/components/manage/Blocks/Image/block-image.svg';
 import clearSVG from '@plone/volto/icons/clear.svg';
