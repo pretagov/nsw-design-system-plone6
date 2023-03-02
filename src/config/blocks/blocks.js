@@ -3,7 +3,7 @@ import {
   nswBlocks,
 } from 'nsw-design-system-plone6/config/blocks/blockDefinitions';
 
-const unwantedBlocks = ['teaser', 'teaserGrid', 'imagesGrid'];
+const unwantedBlocks = ['teaser', 'teaserGrid'];
 
 function removeFieldsFromBlock(config, blockId, fieldsToRemove) {
   // Remove the unused fields from the accordion after overriding it's view
