@@ -1,6 +1,8 @@
 /**
  * Edit image block.
  * @module components/manage/Blocks/Image/Edit
+ *
+ * Use the Image body component rather than the original edit mode image
  */
 
 import React, { Component } from 'react';
@@ -28,6 +30,9 @@ import clearSVG from '@plone/volto/icons/clear.svg';
 import navTreeSVG from '@plone/volto/icons/nav.svg';
 import aheadSVG from '@plone/volto/icons/ahead.svg';
 import uploadSVG from '@plone/volto/icons/upload.svg';
+
+// Custom imports
+import { Body } from './Body';
 
 const Dropzone = loadable(() => import('react-dropzone'));
 
@@ -247,31 +252,7 @@ class Edit extends Component {
         )}
       >
         {data.url ? (
-          <img
-            className={cx({
-              'full-width': data.align === 'full',
-              large: data.size === 'l',
-              medium: data.size === 'm',
-              small: data.size === 's',
-            })}
-            src={
-              isInternalURL(data.url)
-                ? // Backwards compat in the case that the block is storing the full server URL
-                  (() => {
-                    if (data.size === 'l')
-                      return `${flattenToAppURL(data.url)}/@@images/image`;
-                    if (data.size === 'm')
-                      return `${flattenToAppURL(
-                        data.url,
-                      )}/@@images/image/preview`;
-                    if (data.size === 's')
-                      return `${flattenToAppURL(data.url)}/@@images/image/mini`;
-                    return `${flattenToAppURL(data.url)}/@@images/image`;
-                  })()
-                : data.url
-            }
-            alt={data.alt || ''}
-          />
+          <Body data={data} href={null} />
         ) : (
           <div>
             {this.props.editable && (
