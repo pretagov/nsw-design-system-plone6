@@ -339,11 +339,17 @@ function asMediaSchemaExtender(schema, intl, formData) {
     choices: [
       ['dark', 'Dark'],
       ['light', 'Light'],
+      ['grey', 'Grey'],
       ['transparent', 'No background'],
     ],
+    default: 'grey',
   };
   // TODO: 0 is the 'default' fieldset, but should look it up for safety.
-  schema.fieldsets[0].fields = [...schema.fieldsets[0].fields, 'caption'];
+  schema.fieldsets[0].fields = [
+    ...schema.fieldsets[0].fields,
+    'caption',
+    'captionBackgroundColour',
+  ];
   if (!schema.fieldsets[0].fields.includes('size')) {
     schema.fieldsets[0].fields = [...schema.fieldsets[0].fields, 'size'];
   }
