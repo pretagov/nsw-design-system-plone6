@@ -22,17 +22,30 @@ export function LinkListView({ data, isEditMode }) {
 
           return (
             <li key={href}>
-              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <UniversalLink href={isEditMode ? null : href}>
-                <span>{title}</span>
-                <span
-                  className="material-icons nsw-material-icons"
-                  focusable="false"
-                  aria-hidden="true"
-                >
-                  east
-                </span>
-              </UniversalLink>
+              {isEditMode ? (
+                // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                <a href="" inert="">
+                  <span>{title}</span>
+                  <span
+                    className="material-icons nsw-material-icons"
+                    focusable="false"
+                    aria-hidden="true"
+                  >
+                    east
+                  </span>
+                </a>
+              ) : (
+                <UniversalLink href={href}>
+                  <span>{title}</span>
+                  <span
+                    className="material-icons nsw-material-icons"
+                    focusable="false"
+                    aria-hidden="true"
+                  >
+                    east
+                  </span>
+                </UniversalLink>
+              )}
             </li>
           );
         })}
