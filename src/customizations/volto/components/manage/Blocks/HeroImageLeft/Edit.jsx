@@ -363,6 +363,10 @@ class EditComponent extends Component {
     const linksList =
       this.props.data?.links?.map((linkItem) => {
         let href = linkItem.url && linkItem.url[0] && linkItem.url[0]['@id'];
+        // Backwards support for old schema
+        if (linkItem.link) {
+          href = linkItem.link && linkItem.link[0] && linkItem.link[0]['@id'];
+        }
         if (isInternalURL(href)) {
           href = flattenToAppURL(href);
         }

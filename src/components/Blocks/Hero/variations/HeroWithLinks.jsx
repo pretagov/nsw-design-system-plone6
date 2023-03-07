@@ -13,6 +13,9 @@ export const HeroWithLinks = ({ data }) => {
     if (item?.url && item.url[0]) {
       list.push({ title: item.title, link: item.url[0] });
     }
+    if (item?.link && item.link[0]) {
+      list.push({ title: item.title, link: item.link[0] });
+    }
     return list;
   }, []);
 

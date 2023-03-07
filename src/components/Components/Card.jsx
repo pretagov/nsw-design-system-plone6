@@ -91,7 +91,7 @@ export function Card({
           </div>
         ) : null}
         <div className="nsw-card__title">
-          {isEditMode ? (
+          {isEditMode || !href ? (
             linkTitle
           ) : (
             <UniversalLink href={href}>
