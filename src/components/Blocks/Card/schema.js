@@ -105,13 +105,13 @@ export const cardStylingSchema = ({ intl }) => {
 
 export const singleCardSchema = ({ intl }) => {
   return {
-    required: ['title', 'link'],
+    required: ['title', 'url'],
     fieldsets: [
       {
         id: 'default',
         title: 'Default',
-        fields: ['title', 'description', 'link', 'image'],
-        required: ['title', 'link'],
+        fields: ['title', 'description', 'url', 'image'],
+        required: ['title', 'url'],
       },
     ],
     properties: {
@@ -123,7 +123,7 @@ export const singleCardSchema = ({ intl }) => {
         type: 'string',
         widget: 'richtext',
       },
-      link: {
+      url: {
         title: intl.formatMessage(messages.linkTitle),
         widget: 'object_browser',
         mode: 'link',

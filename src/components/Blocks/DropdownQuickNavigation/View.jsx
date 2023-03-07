@@ -47,7 +47,7 @@ export function DropdownQuickNavigationView({ data, isEditMode = false }) {
     data.links?.[0]?.dropdownValueFirst ?? '',
   );
   const [goToLink, setGoToLink] = React.useState(
-    data.links?.[0]?.link?.[0]['@id'] ?? '',
+    data.links?.[0]?.url?.[0]['@id'] ?? '',
   );
 
   const firstDropdownOptions = React.useMemo(() => {
@@ -111,7 +111,7 @@ export function DropdownQuickNavigationView({ data, isEditMode = false }) {
           label={data.dropdownTitleSecond}
           options={secondDropdownOptions}
           optionValues={secondDropdownOptions.map((option) => {
-            return option.link[0]['@id'];
+            return option.url[0]['@id'];
           })}
           valueField="dropdownValueSecond"
           onChange={(event) => {

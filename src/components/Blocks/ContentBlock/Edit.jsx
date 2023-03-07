@@ -145,7 +145,7 @@ function ContentBlockEditDisplay({ data, id, onChangeBlock, ...props }) {
                 onChange={(_, value) => {
                   onChangeBlock(id, {
                     ...data,
-                    link: value,
+                    url: value,
                   });
                 }}
               />
@@ -154,7 +154,7 @@ function ContentBlockEditDisplay({ data, id, onChangeBlock, ...props }) {
           <ObjectBrowserBody
             data={data}
             block={id}
-            dataName={'link'}
+            dataName={'url'}
             mode={'link'}
             contextURL={getBaseUrl(pathname)}
             closeObjectBrowser={() => {

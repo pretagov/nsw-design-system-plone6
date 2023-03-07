@@ -191,7 +191,7 @@ function CardEditDisplay({ data, id, onChangeBlock, selected }) {
                 onChange={(_, value) => {
                   onChangeBlock(id, {
                     ...data,
-                    link: value,
+                    url: value,
                   });
                 }}
               />
@@ -200,7 +200,7 @@ function CardEditDisplay({ data, id, onChangeBlock, selected }) {
           <ObjectBrowserBody
             data={data}
             block={id}
-            dataName={'link'}
+            dataName={'url'}
             mode={'link'}
             contextURL={getBaseUrl(pathname)}
             closeObjectBrowser={() => {

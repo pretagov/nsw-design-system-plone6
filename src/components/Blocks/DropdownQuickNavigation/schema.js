@@ -34,12 +34,12 @@ const messages = defineMessages({
 export function LinkListSchema({ intl }) {
   return {
     title: intl.formatMessage(messages.link),
-    required: ['dropdownValueFirst', 'dropdownValueSecond', 'link'],
+    required: ['dropdownValueFirst', 'dropdownValueSecond', 'url'],
     fieldsets: [
       {
         id: 'default',
         title: 'Default',
-        fields: ['dropdownValueFirst', 'dropdownValueSecond', 'link'],
+        fields: ['dropdownValueFirst', 'dropdownValueSecond', 'url'],
       },
     ],
     properties: {
@@ -51,7 +51,7 @@ export function LinkListSchema({ intl }) {
         title: intl.formatMessage(messages.dropdownValueSecond),
         type: 'string',
       },
-      link: {
+      url: {
         title: intl.formatMessage(messages.link),
         widget: 'object_browser',
         mode: 'link',

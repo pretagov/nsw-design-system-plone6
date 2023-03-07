@@ -10,10 +10,10 @@ export function LinkListView({ data, isEditMode }) {
     <div className="nsw-link-list">
       <ul>
         {data.links?.map((linkObject) => {
-          if (!linkObject.link || !linkObject.link[0]) {
+          if (!linkObject.url || !linkObject?.url[0]) {
             return null;
           }
-          const link = linkObject.link[0];
+          const link = linkObject.url[0];
           const title = link.title;
           let href = link['@id'];
           if (isInternalURL(href)) {
