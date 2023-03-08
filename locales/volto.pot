@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone\n"
-"POT-Creation-Date: 2021-01-29T12:34:47.097Z\n"
+"POT-Creation-Date: 2023-03-08T10:45:28.387Z\n"
 "Last-Translator: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "Language-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -12,3 +12,268 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8\n"
 "Domain: volto\n"
+
+#: components/Widgets/ImagePickerWidget
+# defaultMessage: Add image
+msgid "Add image"
+msgstr ""
+
+#: components/Blocks/InPageAlert/schema
+# defaultMessage: Alert type
+msgid "Alert type"
+msgstr ""
+
+#: components/Blocks/AnnouncementBar/schema
+#: components/Blocks/InPageAlert/schema
+# defaultMessage: Body
+msgid "Body"
+msgstr ""
+
+#: config/blocks/schemaEnhancers
+# defaultMessage: Caption
+msgid "Caption"
+msgstr ""
+
+#: config/blocks/schemaEnhancers
+# defaultMessage: Caption background colour
+msgid "Caption background colour"
+msgstr ""
+
+#: components/Blocks/AnnouncementBar/schema
+#: components/Blocks/Card/schema
+# defaultMessage: Colour
+msgid "Colour"
+msgstr ""
+
+#: components/Blocks/Callout/schema
+# defaultMessage: Contents
+msgid "Contents"
+msgstr ""
+
+#: components/Blocks/ContentBlock/schema
+# defaultMessage: Copy
+msgid "Copy"
+msgstr ""
+
+#: components/Blocks/Card/schema
+# defaultMessage: Description
+msgid "Description"
+msgstr ""
+
+#: config/blocks/schemaEnhancers
+# defaultMessage: Filter results
+msgid "Filter results"
+msgstr ""
+
+#: components/Blocks/DropdownQuickNavigation/schema
+# defaultMessage: First dropdown title
+msgid "First dropdown title"
+msgstr ""
+
+#: components/Blocks/DropdownQuickNavigation/schema
+# defaultMessage: First dropdown value
+msgid "First dropdown value"
+msgstr ""
+
+#: config/blocks/schemaEnhancers
+# defaultMessage: Full width search bar
+msgid "Full width search bar"
+msgstr ""
+
+#: components/Blocks/Callout/schema
+#: components/Blocks/InPageAlert/schema
+# defaultMessage: Icon
+msgid "Icon"
+msgstr ""
+
+#: components/Blocks/Card/schema
+#: components/Blocks/ContentBlock/schema
+# defaultMessage: Image
+msgid "Image"
+msgstr ""
+
+#: components/Blocks/Card/schema
+#: components/Blocks/ContentBlock/schema
+# defaultMessage: Image Position
+msgid "Image Position"
+msgstr ""
+
+#: components/Blocks/ContentBlock/schema
+# defaultMessage: Image is icon
+msgid "Image is icon"
+msgstr ""
+
+#: config/blocks/variations
+# defaultMessage: Image position
+msgid "Image position"
+msgstr ""
+
+#: config/blocks/variations
+# defaultMessage: Image settings
+msgid "Image settings"
+msgstr ""
+
+#: components/Blocks/InPageAlert/schema
+# defaultMessage: Include margin
+msgid "Include margin"
+msgstr ""
+
+#: components/Blocks/DropdownQuickNavigation/schema
+# defaultMessage: Invert colours?
+msgid "Invert colours?"
+msgstr ""
+
+#: components/Blocks/ContentBlock/schema
+#: components/Blocks/DropdownQuickNavigation/schema
+#: components/Blocks/LinkList/schema
+#: config/blocks/variations
+# defaultMessage: Link
+msgid "Link"
+msgstr ""
+
+#: components/Blocks/Card/schema
+# defaultMessage: Link
+msgid "Link Title"
+msgstr ""
+
+#: components/Blocks/ContentBlock/schema
+#: components/Blocks/DropdownQuickNavigation/schema
+#: components/Blocks/LinkList/schema
+#: config/blocks/variations
+# defaultMessage: Links
+msgid "Links"
+msgstr ""
+
+#: config/blocks/variations
+# defaultMessage: Links title
+msgid "Links title"
+msgstr ""
+
+#: components/Blocks/InPageAlert/schema
+# defaultMessage: Make compact
+msgid "Make compact"
+msgstr ""
+
+#: config/blocks/variations
+# defaultMessage: Number of columns
+msgid "Number of columns"
+msgstr ""
+
+#: components/Blocks/Section/schema
+# defaultMessage: Colour
+msgid "Schema_Colour_Title"
+msgstr ""
+
+#: components/Blocks/Section/schema
+# defaultMessage: Description
+msgid "Schema_Description_Title"
+msgstr ""
+
+#: components/Blocks/Section/schema
+# defaultMessage: Image
+msgid "Schema_Image_Title"
+msgstr ""
+
+#: components/Blocks/Section/schema
+# defaultMessage: Display with inverted text?
+msgid "Schema_Invert_Title"
+msgstr ""
+
+#: components/Blocks/Section/schema
+# defaultMessage: undefined
+msgid "Schema_SectionType_Description"
+msgstr ""
+
+#: components/Blocks/Section/schema
+# defaultMessage: Section type
+msgid "Schema_SectionType_Title"
+msgstr ""
+
+#: components/Blocks/Section/schema
+# defaultMessage: How much spacing should be around this section?
+msgid "Schema_Spacing_Description"
+msgstr ""
+
+#: components/Blocks/Section/schema
+# defaultMessage: Spacing
+msgid "Schema_Spacing_Title"
+msgstr ""
+
+#: components/Blocks/Section/schema
+# defaultMessage: Title
+msgid "Schema_Title_Title"
+msgstr ""
+
+#: components/Blocks/DropdownQuickNavigation/schema
+# defaultMessage: Second dropdown title
+msgid "Second dropdown title"
+msgstr ""
+
+#: components/Blocks/DropdownQuickNavigation/schema
+# defaultMessage: Second dropdown value
+msgid "Second dropdown value"
+msgstr ""
+
+#: components/Widgets/IconPickerWidget
+# defaultMessage: Select an icon
+msgid "Select an icon"
+msgstr ""
+
+#: components/Blocks/Card/schema
+# defaultMessage: Should the card be highlighted?
+msgid "Should Highlight Description"
+msgstr ""
+
+#: components/Blocks/Card/schema
+# defaultMessage: Highlight card
+msgid "Should Highlight Title"
+msgstr ""
+
+#: components/Blocks/ContentBlock/schema
+# defaultMessage: Show view more link
+msgid "Show view more link"
+msgstr ""
+
+#: components/Blocks/Sidebar/schema
+# defaultMessage: Sidebar position
+msgid "Sidebar position"
+msgstr ""
+
+#: config/blocks/schemaEnhancers
+# defaultMessage: Size
+msgid "Size"
+msgstr ""
+
+#: components/Blocks/Card/schema
+#: components/Blocks/ContentBlock/schema
+# defaultMessage: Styling
+msgid "Styling"
+msgstr ""
+
+#: components/Blocks/Callout/schema
+#: components/Blocks/Card/schema
+#: components/Blocks/ContentBlock/schema
+#: config/blocks/variations
+# defaultMessage: Title
+msgid "Title"
+msgstr ""
+
+#: components/Blocks/Card/schema
+# defaultMessage: Whether the font size of the card title should be increased
+msgid "Title is headline description"
+msgstr ""
+
+#: components/Blocks/Card/schema
+# defaultMessage: Title is a headline
+msgid "Title is headline title"
+msgstr ""
+
+#: components/Blocks/ContentBlock/schema
+# defaultMessage: View more
+msgid "View more"
+msgstr ""
+
+#: config/blocks/schemaEnhancers
+# defaultMessage: Width
+msgid "Width"
+msgstr ""

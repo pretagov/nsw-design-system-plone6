@@ -27,9 +27,9 @@ const messages = defineMessages({
     defaultMessage:
       'We pay respect to the Traditional Custodians and First Peoples of NSW, and acknowledge their continued connection to their country and culture.',
   },
-  builtBy: {
-    id: 'Built by',
-    defaultMessage: 'Built by ',
+  builtWith: {
+    id: 'Built with',
+    defaultMessage: 'Built with ',
   },
 });
 
@@ -218,8 +218,8 @@ function Footer() {
               </div>
               <div className="nsw-footer__built">
                 {intl.formatMessage(messages.builtBy)}
-                <a href="https://www.pretagov.com.au" rel="external noreferrer">
-                  PretaGov
+                <a href="https://digitalnsw.pretagov.com.au" rel="external">
+                  Plone 6 NSW Design System V3
                 </a>
               </div>
             </div>
