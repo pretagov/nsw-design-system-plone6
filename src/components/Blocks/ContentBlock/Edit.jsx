@@ -6,7 +6,7 @@ import { getLinks, getViewMore } from './helpers';
 
 // ImageUpload
 import { createContent } from '@plone/volto/actions';
-import { getBaseUrl } from '@plone/volto/helpers';
+import { flattenToAppURL, getBaseUrl } from '@plone/volto/helpers';
 import { ImagePickerWidget } from 'nsw-design-system-plone6/components/Widgets';
 import { readAsDataURL } from 'promise-file-reader';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,13 +32,12 @@ function ContentBlockEditDisplay({ data, id, onChangeBlock, ...props }) {
     (state) => state.content.subrequests[id],
   );
   useEffect(() => {
-    if (
-      contentCreationAction?.data &&
-      data.image !== contentCreationAction.data?.['@id']
-    ) {
+    const imgSrc = flattenToAppURL(contentCreationAction?.data?.['@id']);
+    // Prevents the block update or re-uploading causing a loop
+    if (contentCreationAction?.data && data.image !== imgSrc) {
       onChangeBlock(id, {
         ...data,
-        image: contentCreationAction.data['@id'],
+        image: imgSrc,
       });
     }
   }, [contentCreationAction, data, onChangeBlock, id]);
