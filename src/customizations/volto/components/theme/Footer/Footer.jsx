@@ -217,7 +217,7 @@ function Footer() {
                 )} © ${new Date().getFullYear()}`}
               </div>
               <div className="nsw-footer__built">
-                {intl.formatMessage(messages.builtBy)}
+                {intl.formatMessage(messages.builtWith)}
                 <a href="https://digitalnsw.pretagov.com.au" rel="external">
                   Plone 6 NSW Design System V3
                 </a>
