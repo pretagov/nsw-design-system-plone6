@@ -7,7 +7,7 @@ import {
 
 import ObjectBrowserBody from '@plone/volto/components/manage/Sidebar/ObjectBrowserBody';
 import TextLineEdit from '@plone/volto/components/manage/TextLineEdit/TextLineEdit';
-import { getBaseUrl } from '@plone/volto/helpers';
+import { flattenToAppURL, getBaseUrl } from '@plone/volto/helpers';
 import { getHref } from 'nsw-design-system-plone6/components/Blocks/Card/helpers';
 import {
   Card,
@@ -67,13 +67,12 @@ function CardEditDisplay({ data, id, onChangeBlock, selected }) {
 
   // TODO: This will stomp over changes made to the image.
   useEffect(() => {
-    if (
-      contentCreationAction?.data &&
-      data.image !== contentCreationAction.data?.['@id']
-    ) {
+    const imgSrc = flattenToAppURL(contentCreationAction?.data?.['@id']);
+    // Prevents the block update or re-uploading causing a loop
+    if (contentCreationAction?.data && data.image !== imgSrc) {
       onChangeBlock(id, {
         ...data,
-        image: contentCreationAction.data['@id'],
+        image: imgSrc,
       });
     }
   }, [contentCreationAction, data, onChangeBlock, id]);
