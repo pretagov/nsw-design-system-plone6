@@ -7,8 +7,13 @@
 
 // A fix for the content-block icon only supporting SVGs in the CSS
 .nsw-content-block__icon {
-    & img {
-      max-width: 4rem;
-      max-height: 4rem;
-    }
+  & img {
+    max-width: 4rem;
+    max-height: 4rem;
+  }
+}
+
+mark {
+  font-weight: bold;
+  background-color: transparent;
 }
