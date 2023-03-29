@@ -25,7 +25,7 @@ const ImageView = ({ content }) => (
           {content.subtitle && ` - ${content.subtitle}`}
         </h1>
         {content.description && (
-          <p className="documentDescription">{content.description}</p>
+          <p className="nsw-intro">{content.description}</p>
         )}
         {content?.image?.download && (
           <a href={flattenToAppURL(content.image.download)}>
