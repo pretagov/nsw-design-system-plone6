@@ -331,7 +331,7 @@ const PloneClassicLayout = ({ content }) => {
         <div className="nsw-layout__main">
           <h1 className="documentFirstHeading">{content.title}</h1>
           {content.description && (
-            <p className="documentDescription">{content.description}</p>
+            <p className="nsw-summary">{content.description}</p>
           )}
           {content.image && (
             <Image
