@@ -219,7 +219,7 @@ function Footer() {
               <div className="nsw-footer__built">
                 {intl.formatMessage(messages.builtWith)}
                 <a href="https://digitalnsw.pretagov.com.au" rel="external">
-                  Plone 6 NSW Design System V3
+                  Plone 6 NSW DS
                 </a>
               </div>
             </div>
