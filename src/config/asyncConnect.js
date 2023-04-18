@@ -3,7 +3,7 @@ import { getNswSiteSettings } from '../actions';
 
 export const updateAsyncConnectConfig = (config) => {
   config.settings.asyncPropsExtenders = [
-    ...(config.settings.asyncPropsExtenders || []),
+    ...(config.settings.asyncPropsExtenders ?? []),
     {
       path: '/',
       extend: (dispatchActions) => {

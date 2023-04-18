@@ -7,6 +7,9 @@ const unwantedBlocks = ['teaser', 'teaserGrid'];
 
 function removeFieldsFromBlock(config, blockId, fieldsToRemove) {
   // Remove the unused fields from the accordion after overriding it's view
+  if (!config.blocks.blocksConfig[blockId]) {
+    return;
+  }
   config.blocks.blocksConfig[blockId].schemaEnhancer = ({ schema }) => {
     const wantedFields = schema.fieldsets[1].fields.filter((field) => {
       if (!fieldsToRemove.includes(field)) {
@@ -55,16 +58,20 @@ export function applyBlocks(config) {
     config.blocks.blocksConfig[block.id] = { sidebarTab: 1, ...block };
   });
 
-  config.blocks.blocksConfig['form'].blockHasOwnFocusManagement = true;
+  if (config.blocks.blocksConfig['form']) {
+    config.blocks.blocksConfig['form'].blockHasOwnFocusManagement = true;
+  }
 
-  // Grid block will default to be cards
-  config.blocks.blocksConfig['__grid'].gridAllowedBlocks = ['card'];
-  // TODO: i18n Grid block custom title
-  config.blocks.blocksConfig['__grid'] = {
-    ...config.blocks.blocksConfig['__grid'],
-    title: 'Card grid',
-    group: 'grids',
-  };
+  if (config.blocks.blocksConfig['__grid']) {
+    // Grid block will default to be cards
+    config.blocks.blocksConfig['__grid'].gridAllowedBlocks = ['card'];
+    // TODO: i18n Grid block custom title
+    config.blocks.blocksConfig['__grid'] = {
+      ...config.blocks.blocksConfig['__grid'],
+      title: 'Card grid',
+      group: 'grids',
+    };
+  }
 
   removeFieldsFromBlock(config, 'accordion', ['right_arrows', 'non_exclusive']);
   removeVariationsFromBlock(config, 'toc', ['horizontalMenu']);
