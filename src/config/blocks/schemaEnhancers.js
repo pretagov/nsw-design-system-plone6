@@ -358,6 +358,9 @@ function asMediaSchemaExtender(schema, intl, formData) {
 
 export function applySchemaEnhancers(config) {
   Object.entries(schemaEnhancers).forEach(([blockId, enhancer]) => {
+    if (!config.blocks.blocksConfig[blockId]) {
+      return;
+    }
     config.blocks.blocksConfig[blockId].schemaEnhancer = composeSchema(
       config.blocks.blocksConfig[blockId].schemaEnhancer,
       enhancer,
