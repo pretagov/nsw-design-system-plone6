@@ -14,7 +14,7 @@ const EventTextfieldView = ({ content }) => (
   <React.Fragment>
     {content.title && <h1 className="documentFirstHeading">{content.title}</h1>}
     {content.description && (
-      <p className="documentDescription">{content.description}</p>
+      <p className="nsw-intro">{content.description}</p>
     )}
     {content.image && (
       <Image

@@ -15,6 +15,7 @@ import TextareaWidget from './Widget/TextareaWidget';
 import TextWidget from './Widget/TextWidget';
 
 import config from '@plone/volto/registry';
+import parse from 'html-react-parser';
 
 const messages = defineMessages({
   select_a_value: {
@@ -234,14 +235,7 @@ const Field = (props) => {
             value={value}
           />
         ) : value?.data ? (
-          <>
-            <div
-              className="static-text"
-              dangerouslySetInnerHTML={{
-                __html: `<p style="height:0;">&nbsp;</p>${value.data}`,
-              }}
-            />
-          </>
+          parse(value.data)
         ) : (
           <br />
         ))}

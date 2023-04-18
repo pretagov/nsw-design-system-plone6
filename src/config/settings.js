@@ -11,7 +11,11 @@ export const updateSettingsConfig = (config) => {
     ...(config.settings.fullWidthBlockTypes || []),
   ];
 
-  config.settings.showTags = false
+  config.settings.showTags = false;
+  config.settings.showSelfRegistration =
+    process?.env?.['RAZZLE_ENABLE_SELF_REGISTRATION'] === 'true' ||
+    (typeof window !== 'undefined' &&
+      window.env['RAZZLE_ENABLE_SELF_REGISTRATION'] === 'true');
 };
 
 export default updateSettingsConfig;

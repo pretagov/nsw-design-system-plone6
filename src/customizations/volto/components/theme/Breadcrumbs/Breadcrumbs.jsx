@@ -45,7 +45,7 @@ const Breadcrumbs = () => {
   }
 
   return (
-    <div className="nsw-container nsw-p-bottom-xs">
+    <div className="nsw-container">
       <nav
         aria-label={intl.formatMessage(messages.breadcrumbs)}
         className="nsw-breadcrumbs"
