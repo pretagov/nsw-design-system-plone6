@@ -10,6 +10,9 @@ export const updateAsyncConnectConfig = (config) => {
         const nswSiteSettings = {
           key: 'nswSiteSettings',
           promise: ({ location, store: { dispatch } }) => {
+            if (!__SERVER__) {
+              return;
+            }
             const action = getNswSiteSettings(getBaseUrl(location.pathname));
             return dispatch(action).catch((e) => {
               // eslint-disable-next-line
