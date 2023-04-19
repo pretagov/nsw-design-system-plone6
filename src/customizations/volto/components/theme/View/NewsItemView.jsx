@@ -21,7 +21,10 @@ import RenderBlocks from '@plone/volto/components/theme/View/RenderBlocks';
  */
 const NewsItemView = ({ content }) => {
   return (
-    <div id="page-document" className="view-wrapper event-view nsw-container">
+    <div
+      id="page-document"
+      className="view-wrapper newsitem-view nsw-container"
+    >
       <div className="nsw-layout">
         <div className="nsw-layout__main">
           {hasBlocksData(content) ? (
