@@ -49,6 +49,7 @@ const FilterList = (props) => {
                   facets[facet].map((value) => {
                     return (
                       <button
+                        key={value}
                         onClick={() => {
                           removeFilter({ facet: facet, value: value });
                         }}
