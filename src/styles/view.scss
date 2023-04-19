@@ -22,3 +22,19 @@ mark {
   margin-top: initial;
   @extend .nsw-p-y-sm;
 }
+
+// Hero component's extra-wide support
+.nsw-hero-banner {
+  &--extra-wide {
+    @media (min-width: 48rem) {
+      .nsw-hero-banner__content {
+        width: 67%;
+        max-width: 67%;
+      }
+      .nsw-hero-banner__box,
+      .nsw-hero-banner__links {
+        max-width: 23%;
+      }
+    }
+  }
+}
