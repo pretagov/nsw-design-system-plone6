@@ -74,27 +74,7 @@ const SearchStartButton = ({ searchInputElement }) => {
         </button>
       ) : (
         // Below styling is only for buttons in the NSW Design System code unfortunately.
-        <UniversalLink
-          href="/search"
-          style={{
-            fontSize: 'var(--nsw-font-size-xxs-mobile)',
-            lineHeight: 'var(--nsw-line-height-xxs-mobile)',
-            fontWeight: 'var(--nsw-font-bold)',
-            borderRadius: 'var(--nsw-border-radius)',
-            textAlign: 'center',
-            color: 'var(--nsw-brand-dark)',
-            width: '3rem',
-            height: '3rem',
-            background: '0 0',
-            border: '0',
-            padding: '0',
-            position: 'relative',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
+        <UniversalLink href="/search">
           <Icon
             name={SearchSVG}
             className="material-icons nsw-material-icons"

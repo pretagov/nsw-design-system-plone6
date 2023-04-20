@@ -104,20 +104,14 @@ export function Card({
           )}
         </div>
         {description ? (
-          <div className="nsw-card__copy">
-            {isValidElement(description) ? (
-              description
-            ) : (
-              <div dangerouslySetInnerHTML={{ __html: description.data }}></div>
-            )}
-            {/* {!isEditMode ? (
-              description
-            ) : isValidElement(description) ? (
-              <span dangerouslySetInnerHTML={{ __html: description }}></span>
-            ) : (
-              description
-            )} */}
-          </div>
+          isValidElement(description) ? (
+            <div className="nsw-card__copy">{description}</div>
+          ) : (
+            <div
+              className="nsw-card__copy"
+              dangerouslySetInnerHTML={{ __html: description.data }}
+            ></div>
+          )
         ) : null}
 
         {icon ? icon : <DefaultIcon />}

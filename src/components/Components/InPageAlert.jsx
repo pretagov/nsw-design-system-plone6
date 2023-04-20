@@ -96,6 +96,7 @@ export function InPageAlert({
           {isValidElement(content) ? (
             content
           ) : (
+            // TODO: Headings in the alert should have an `nsw-h5` class on them ass of 3.5.1
             <div
               className="nsw-in-page-alert__content"
               dangerouslySetInnerHTML={{ __html: content }}

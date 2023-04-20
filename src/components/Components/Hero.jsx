@@ -1,6 +1,5 @@
 import { UniversalLink } from '@plone/volto/components';
 import cx from 'classnames';
-import './Hero.less';
 
 const widthClassnameMapping = {
   wide: 'nsw-hero-banner--wide',

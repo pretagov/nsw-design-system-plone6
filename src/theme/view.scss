@@ -1,5 +1,10 @@
 @use 'nsw-design-system/src/main';
 
+// Don't use flex container for the main body
+#main {
+  display: block;
+}
+
 // Make sure that all `ul` within content blocks are styled correctly
 .nsw-content-block__copy ul {
   @extend .nsw-content-block__list;
@@ -21,4 +26,20 @@ mark {
 .nsw-breadcrumbs {
   margin-top: initial;
   @extend .nsw-p-y-sm;
+}
+
+// Hero component's extra-wide support
+.nsw-hero-banner {
+  &--extra-wide {
+    @media (min-width: 48rem) {
+      .nsw-hero-banner__content {
+        width: 67%;
+        max-width: 67%;
+      }
+      .nsw-hero-banner__box,
+      .nsw-hero-banner__links {
+        max-width: 23%;
+      }
+    }
+  }
 }

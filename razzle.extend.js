@@ -2,32 +2,7 @@ const makeLoaderFinder = require('razzle-dev-utils/makeLoaderFinder');
 const fileLoaderFinder = makeLoaderFinder('file-loader');
 
 const plugins = (defaultPlugins) => {
-  return [
-    {
-      name: 'scss',
-      options: {
-        sass: {
-          dev: {
-            sassOptions: {
-              outputStyle: 'expanded',
-              sourceMap: true,
-              includePaths: ['node_modules'],
-              quiet: true,
-            },
-          },
-          prod: {
-            sassOptions: {
-              outputStyle: 'expanded',
-              sourceMap: true,
-              includePaths: ['node_modules'],
-              quiet: true,
-            },
-          },
-        },
-      },
-    },
-    ...defaultPlugins,
-  ];
+  return [...defaultPlugins];
 };
 const modifyWebpackConfig = (config, { target, dev }, webpack) => {
   const fileLoader = config.module.rules.find(fileLoaderFinder);
