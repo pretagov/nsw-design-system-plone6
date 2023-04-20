@@ -1,8 +1,17 @@
+/**
+ * Added `useSelector and `useLocation` imports.
+ * Added the `pageTitle` logic which is rendered as the `<title>` attribute
+ */
+
 import React from 'react';
 import { toPublicURL, Helmet } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
 
 const ContentMetadataTags = (props) => {
+  const siteTitle = useSelector((state) => state.siteInfo?.title);
+  const { pathname } = useLocation();
   const {
     opengraph_title,
     opengraph_description,
@@ -45,10 +54,17 @@ const ContentMetadataTags = (props) => {
 
   const contentImageInfo = getContentImageInfo();
 
+  const contentTitle = (seo_title || title)?.replace(/\u00AD/g, '');
+  const pageTitle = siteTitle
+    ? pathname === '/'
+      ? contentTitle
+      : `${contentTitle} | ${siteTitle}`
+    : contentTitle;
+
   return (
     <>
       <Helmet>
-        <title>{(seo_title || title)?.replace(/\u00AD/g, '')}</title>
+        <title>{pageTitle}</title>
         <meta name="description" content={seo_description || description} />
         <meta
           property="og:title"
