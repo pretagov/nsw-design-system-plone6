@@ -1,5 +1,10 @@
 @use 'nsw-design-system/src/main';
 
+// Don't use flex container for the main body
+#main {
+  display: block;
+}
+
 // Make sure that all `ul` within content blocks are styled correctly
 .nsw-content-block__copy ul {
   @extend .nsw-content-block__list;
