@@ -141,9 +141,8 @@ const Navigation = () => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const location = useLocation();
-  const items = useSelector(
-    (state) => state.navigation?.items || state.navigation?.items,
-  );
+
+  const items = useSelector((state) => state.navigation?.items);
   const root = useSelector((state) => state.breadcrumbs.root);
   const token = useSelector((state) => state.userSession.token);
   const lang = useSelector((state) => state.intl.locale);

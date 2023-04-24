@@ -1,5 +1,5 @@
 import { Icon } from '@plone/volto/components';
-import { flattenToAppURL, isInternalUsRL } from '@plone/volto/helpers';
+import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
 import React, { useEffect } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -54,10 +54,8 @@ const socialFieldIconMapping = {
 function Footer() {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const { subFooter, siteSettings } = useSelector((state) => ({
-    subFooter: state.reduxAsyncConnect.subfooter,
-    siteSettings: state.nswSiteSettings.data,
-  }));
+  const subFooter = useSelector((state) => state.subFooter?.result);
+  const siteSettings = useSelector((state) => state.nswSiteSettings.data);
 
   useEffect(() => {
     dispatch(getSubFooter());
