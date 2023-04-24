@@ -3,6 +3,9 @@ export const updateApiExpandersConfig = (config) => {
     {
       match: '',
       GET_CONTENT: ['actions', 'breadcrumbs', 'navigation'],
+      querystring: {
+        'expand.navigation.depth': config.settings.navDepth,
+      },
     },
   ];
 
