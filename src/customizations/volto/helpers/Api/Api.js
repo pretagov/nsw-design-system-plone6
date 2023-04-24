@@ -47,15 +47,21 @@ class Api {
   constructor(req) {
     const cookies = new Cookies();
 
-    const { responseStartTimeout, responseEndTimeout } =
+    const {
+      responseStartTimeout = 30000,
+      responseEndTimeout = 60000,
+      logRequestedPaths = false,
+    } =
       typeof window !== 'undefined'
         ? {
             responseStartTimeout: window.env?.RAZZLE_RESPONSE_START_TIMEOUT,
             responseEndTimeout: window.env?.RAZZLE_RESPONSE_END_TIMEOUT,
+            logRequestedPaths: window.env?.RAZZLE_LOG_REQUESTED_PATHS,
           }
         : {
             responseStartTimeout: process.env?.RAZZLE_RESPONSE_START_TIMEOUT,
             responseEndTimeout: process.env?.RAZZLE_RESPONSE_END_TIMEOUT,
+            logRequestedPaths: process.env?.RAZZLE_LOG_REQUESTED_PATHS,
           };
 
     methods.forEach((method) => {
@@ -66,12 +72,17 @@ class Api {
         let request;
         let promise = new Promise((resolve, reject) => {
           const url = formatUrl(path);
+
+          if (logRequestedPaths) {
+            console.log(`Starting '${method}' request for path '${url}'`);
+          }
+
           request = superagent[method](url);
 
           if (responseStartTimeout || responseEndTimeout) {
             request.timeout({
-              response: responseStartTimeout, // Wait for the server to start sending.
-              deadline: responseEndTimeout, // Wait for the server to finish response.
+              response: responseStartTimeout, // Wait for the server to start sending. Defaults to 30s
+              deadline: responseEndTimeout, // Wait for the server to finish response. Defaults to 60s
             });
           }
 
