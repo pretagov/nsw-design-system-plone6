@@ -1,3 +1,4 @@
+import updateApiExpandersConfig from './apiExpanders';
 import updateAsyncConnectConfig from './asyncConnect';
 import updateBlocksConfig from './blocks';
 import updateLoadablesConfig from './loadables';
@@ -11,6 +12,7 @@ import updateWidgetsConfig from './widgets';
 import nswLogo from 'nsw-design-system-plone6/assets/NSW-ONLY-nsw-government-logo.svg';
 
 export const applyAddonConfig = (config) => {
+  updateApiExpandersConfig(config);
   updateAsyncConnectConfig(config);
   updateBlocksConfig(config);
   updateLoadablesConfig(config);
