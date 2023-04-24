@@ -2,7 +2,7 @@ export const updateApiExpandersConfig = (config) => {
   config.settings.apiExpanders = [
     {
       match: '',
-      GET_CONTENT: ['actions', 'breadcrumbs'],
+      GET_CONTENT: ['actions', 'breadcrumbs', 'navigation'],
     },
   ];
 
