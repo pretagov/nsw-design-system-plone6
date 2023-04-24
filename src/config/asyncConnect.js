@@ -1,4 +1,3 @@
-import { getBaseUrl } from '@plone/volto/helpers';
 import { getNswSiteSettings } from '../actions';
 
 export const updateAsyncConnectConfig = (config) => {
@@ -9,11 +8,11 @@ export const updateAsyncConnectConfig = (config) => {
       extend: (dispatchActions) => {
         const nswSiteSettings = {
           key: 'nswSiteSettings',
-          promise: ({ location, store: { dispatch } }) => {
+          promise: ({ store: { dispatch } }) => {
             if (!__SERVER__) {
               return;
             }
-            const action = getNswSiteSettings(getBaseUrl(location.pathname));
+            const action = getNswSiteSettings();
             return dispatch(action).catch((e) => {
               // eslint-disable-next-line
               console.log('Error getting nswSiteSettings');
