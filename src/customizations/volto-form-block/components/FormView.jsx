@@ -6,6 +6,8 @@ import { Button, Dimmer, Loader, Message } from 'semantic-ui-react';
 import { getFieldName } from 'volto-form-block/components/utils';
 import Field from './Field';
 
+import { showWhenValidator } from 'volto-form-block/helpers/show_when';
+
 const messages = defineMessages({
   default_submit_label: {
     id: 'form_default_submit_label',
@@ -114,6 +116,30 @@ const FormView = ({
               }),
             );
 
+            const value =
+              subblock.field_type === 'static_text'
+                ? subblock.value
+                : formData[name]?.value;
+            const { show_when, target_value } = subblock;
+
+            const shouldShowValidator = showWhenValidator[show_when];
+            const shouldShowTargetValue =
+              formData[subblock.target_field]?.value;
+
+            // Only checking for false here to preserve backwards compatibility with blocks that haven't been updated and so have a value of 'undefined' or 'null'
+            const shouldShow = shouldShowValidator
+              ? shouldShowValidator({
+                  value: shouldShowTargetValue,
+                  target_value: target_value,
+                }) !== false
+              : true;
+
+            const shouldHide = __CLIENT__ && !shouldShow;
+
+            if (shouldHide) {
+              return <p key={'row' + index}>Empty</p>;
+            }
+
             return (
               <Field
                 key={'row' + index}
@@ -127,11 +153,7 @@ const FormView = ({
                     fields_to_send_with_value,
                   )
                 }
-                value={
-                  subblock.field_type === 'static_text'
-                    ? subblock.value
-                    : formData[name]?.value
-                }
+                value={value}
                 valid={isValidField(name)}
                 formHasErrors={formErrors?.length > 0}
               />
