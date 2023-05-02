@@ -8,6 +8,78 @@ import Field from './Field';
 
 import { showWhenValidator } from 'volto-form-block/helpers/show_when';
 
+const FieldRenderWrapper = ({ subblock, formData, index, blockData, onChangeFormData, formErrors, isValidField, FieldSchema }) => {
+  let name = React.useMemo(() => {
+    return getFieldName(subblock.label, subblock.id);
+  }, [subblock]);
+
+  var fields_to_send = [];
+  var fieldSchemaProperties = FieldSchema(subblock)?.properties;
+  for (var key in fieldSchemaProperties) {
+    if (fieldSchemaProperties[key].send_to_backend) {
+      fields_to_send.push(key);
+    }
+  }
+
+  var fields_to_send_with_value = Object.assign(
+    {},
+    ...fields_to_send.map((field) => {
+      return {
+        [field]: subblock[field],
+      };
+    }),
+  );
+
+  const value = subblock.field_type === 'static_text' ? subblock.value : formData[name]?.value;
+  const { show_when, target_value } = subblock;
+
+  const shouldShowValidator = showWhenValidator[show_when];
+  const shouldShowTargetValue = formData[subblock.target_field]?.value;
+  const targetField = React.useMemo(() => {
+    console.log('updating target field');
+    return blockData.subblocks.find((block) => block.id === subblock.target_field);
+  }, [blockData.subblocks, subblock]);
+
+  // Only checking for false here to preserve backwards compatibility with blocks that haven't been updated and so have a value of 'undefined' or 'null'
+  const shouldShow = shouldShowValidator
+    ? shouldShowValidator({
+        value: shouldShowTargetValue,
+        target_value: target_value,
+      }) !== false
+    : true;
+
+  let description = subblock?.description ?? '';
+
+  // if (shouldShowValidator && !__CLIENT__) {
+  if (shouldShowValidator && targetField && target_value) {
+    const validatorLabel = fieldSchemaProperties.show_when.choices.find(
+      (choice) => choice[0] === show_when,
+    )[1];
+    description = `${description}
+Only required if '${targetField.label}' ${validatorLabel} '${target_value}'.`;
+  }
+
+  // if (shouldHide) {
+  //   return <p key={'row' + index}>Empty</p>;
+  // }
+
+  return (
+    <Field
+      key={'row' + index}
+      {...subblock}
+      name={name}
+      onChange={(field, value) =>
+        onChangeFormData(subblock.id, field, value, fields_to_send_with_value)
+      }
+      value={value}
+      description={description}
+      valid={isValidField(name)}
+      formHasErrors={formErrors?.length > 0}
+      shouldShow={shouldShow}
+    />
+  );
+};
+
 const messages = defineMessages({
   default_submit_label: {
     id: 'form_default_submit_label',
@@ -78,86 +150,10 @@ const FormView = ({
         // TODO: The original component has a `loading` state. Is this needed here?
         <form id={id} className="nsw-form" onSubmit={onSubmit} method="post">
           {data.static_fields?.map((field) => {
-            return (
-              <Field
-                key={field.field_id}
-                {...field}
-                field_type={field.field_type || 'text'}
-                name={
-                  'static_field_' +
-                  (field.field_id ??
-                    field.name?.toLowerCase()?.replace(' ', ''))
-                }
-                value={field.value}
-                onChange={() => {}}
-                disabled
-                valid
-                formHasErrors={formErrors?.length > 0}
-              />
-            );
+            return <Field key={field.field_id} {...field} field_type={field.field_type || 'text'} name={'static_field_' + (field.field_id ?? field.name?.toLowerCase()?.replace(' ', ''))} value={field.value} nChange={() => {}} disabled valid formHasErrors={formErrors?.length > 0} />;
           })}
           {data.subblocks?.map((subblock, index) => {
-            let name = getFieldName(subblock.label, subblock.id);
-
-            var fields_to_send = [];
-            var fieldSchemaProperties = FieldSchema(subblock)?.properties;
-            for (var key in fieldSchemaProperties) {
-              if (fieldSchemaProperties[key].send_to_backend) {
-                fields_to_send.push(key);
-              }
-            }
-
-            var fields_to_send_with_value = Object.assign(
-              {},
-              ...fields_to_send.map((field) => {
-                return {
-                  [field]: subblock[field],
-                };
-              }),
-            );
-
-            const value =
-              subblock.field_type === 'static_text'
-                ? subblock.value
-                : formData[name]?.value;
-            const { show_when, target_value } = subblock;
-
-            const shouldShowValidator = showWhenValidator[show_when];
-            const shouldShowTargetValue =
-              formData[subblock.target_field]?.value;
-
-            // Only checking for false here to preserve backwards compatibility with blocks that haven't been updated and so have a value of 'undefined' or 'null'
-            const shouldShow = shouldShowValidator
-              ? shouldShowValidator({
-                  value: shouldShowTargetValue,
-                  target_value: target_value,
-                }) !== false
-              : true;
-
-            const shouldHide = __CLIENT__ && !shouldShow;
-
-            if (shouldHide) {
-              return <p key={'row' + index}>Empty</p>;
-            }
-
-            return (
-              <Field
-                key={'row' + index}
-                {...subblock}
-                name={name}
-                onChange={(field, value) =>
-                  onChangeFormData(
-                    subblock.id,
-                    field,
-                    value,
-                    fields_to_send_with_value,
-                  )
-                }
-                value={value}
-                valid={isValidField(name)}
-                formHasErrors={formErrors?.length > 0}
-              />
-            );
+            return <FieldRenderWrapper subblock={subblock} index={index} formData={formData} blockData={data} onChangeFormData={onChangeFormData} isValidField={isValidField} FieldSchema={FieldSchema} />;
           })}
           {captcha ? captcha.render() : null}
           {formErrors.length > 0 && (
