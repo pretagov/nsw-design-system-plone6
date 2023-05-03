@@ -8,6 +8,16 @@ import Field from './Field';
 
 import { showWhenValidator } from 'volto-form-block/helpers/show_when';
 
+function useIsClient() {
+  const [isClient, setClient] = React.useState(false);
+
+  React.useEffect(() => {
+    setClient(true);
+  }, []);
+
+  return isClient;
+}
+
 const FieldRenderWrapper = ({
   subblock,
   formData,
@@ -18,6 +28,7 @@ const FieldRenderWrapper = ({
   isValidField,
   FieldSchema,
 }) => {
+  const isClient = useIsClient();
   let name = React.useMemo(() => {
     return getFieldName(subblock.label, subblock.id);
   }, [subblock]);
@@ -60,8 +71,9 @@ const FieldRenderWrapper = ({
         target_value: target_value,
       }) !== false
     : true;
+  // const hasDynamicVisability = shouldShowValidator && targetField && target_value;
   const hasDynamicVisability =
-    shouldShowValidator && targetField && target_value;
+    isClient && shouldShowValidator && targetField && target_value;
 
   let description = subblock?.description ?? '';
 
@@ -80,7 +92,6 @@ Only required if '${targetField.label}' ${validatorLabel} '${target_value}'.`;
 
   return (
     <Field
-      key={'row' + index}
       {...subblock}
       name={name}
       onChange={(field, value) =>
@@ -165,10 +176,37 @@ const FormView = ({
         // TODO: The original component has a `loading` state. Is this needed here?
         <form id={id} className="nsw-form" onSubmit={onSubmit} method="post">
           {data.static_fields?.map((field) => {
-            return <Field key={field.field_id} {...field} field_type={field.field_type || 'text'} name={'static_field_' + (field.field_id ?? field.name?.toLowerCase()?.replace(' ', ''))} value={field.value} nChange={() => {}} disabled valid formHasErrors={formErrors?.length > 0} />;
+            return (
+              <Field
+                key={field.field_id}
+                {...field}
+                field_type={field.field_type || 'text'}
+                name={
+                  'static_field_' +
+                  (field.field_id ??
+                    field.name?.toLowerCase()?.replace(' ', ''))
+                }
+                value={field.value}
+                nChange={() => {}}
+                disabled
+                valid
+                formHasErrors={formErrors?.length > 0}
+              />
+            );
           })}
           {data.subblocks?.map((subblock, index) => {
-            return <FieldRenderWrapper subblock={subblock} index={index} formData={formData} blockData={data} onChangeFormData={onChangeFormData} isValidField={isValidField} FieldSchema={FieldSchema} />;
+            return (
+              <FieldRenderWrapper
+                key={'row' + index}
+                subblock={subblock}
+                index={index}
+                formData={formData}
+                blockData={data}
+                onChangeFormData={onChangeFormData}
+                isValidField={isValidField}
+                FieldSchema={FieldSchema}
+              />
+            );
           })}
           {captcha ? captcha.render() : null}
           {formErrors.length > 0 && (
