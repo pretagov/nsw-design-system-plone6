@@ -8,7 +8,16 @@ import Field from './Field';
 
 import { showWhenValidator } from 'volto-form-block/helpers/show_when';
 
-const FieldRenderWrapper = ({ subblock, formData, index, blockData, onChangeFormData, formErrors, isValidField, FieldSchema }) => {
+const FieldRenderWrapper = ({
+  subblock,
+  formData,
+  index,
+  blockData,
+  onChangeFormData,
+  formErrors,
+  isValidField,
+  FieldSchema,
+}) => {
   let name = React.useMemo(() => {
     return getFieldName(subblock.label, subblock.id);
   }, [subblock]);
@@ -30,14 +39,18 @@ const FieldRenderWrapper = ({ subblock, formData, index, blockData, onChangeForm
     }),
   );
 
-  const value = subblock.field_type === 'static_text' ? subblock.value : formData[name]?.value;
+  const value =
+    subblock.field_type === 'static_text'
+      ? subblock.value
+      : formData[name]?.value;
   const { show_when, target_value } = subblock;
 
   const shouldShowValidator = showWhenValidator[show_when];
   const shouldShowTargetValue = formData[subblock.target_field]?.value;
   const targetField = React.useMemo(() => {
-    console.log('updating target field');
-    return blockData.subblocks.find((block) => block.id === subblock.target_field);
+    return blockData.subblocks.find(
+      (block) => block.id === subblock.target_field,
+    );
   }, [blockData.subblocks, subblock]);
 
   // Only checking for false here to preserve backwards compatibility with blocks that haven't been updated and so have a value of 'undefined' or 'null'
@@ -47,11 +60,13 @@ const FieldRenderWrapper = ({ subblock, formData, index, blockData, onChangeForm
         target_value: target_value,
       }) !== false
     : true;
+  const hasDynamicVisability =
+    shouldShowValidator && targetField && target_value;
 
   let description = subblock?.description ?? '';
 
   // if (shouldShowValidator && !__CLIENT__) {
-  if (shouldShowValidator && targetField && target_value) {
+  if (hasDynamicVisability) {
     const validatorLabel = fieldSchemaProperties.show_when.choices.find(
       (choice) => choice[0] === show_when,
     )[1];
