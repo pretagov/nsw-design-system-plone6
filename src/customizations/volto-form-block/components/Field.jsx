@@ -48,7 +48,6 @@ const Field = (props) => {
     valid,
     disabled = false,
     formHasErrors = false,
-    id,
     widget,
     shouldShow = true,
   } = props;

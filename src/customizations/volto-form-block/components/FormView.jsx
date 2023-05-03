@@ -56,13 +56,17 @@ const FieldRenderWrapper = ({
       : formData[name]?.value;
   const { show_when, target_value } = subblock;
 
-  const shouldShowValidator = showWhenValidator[show_when];
-  const shouldShowTargetValue = formData[subblock.target_field]?.value;
   const targetField = React.useMemo(() => {
-    return blockData.subblocks.find(
-      (block) => block.id === subblock.target_field,
-    );
+    return blockData.subblocks.find((block) => block.id === subblock.id);
   }, [blockData.subblocks, subblock]);
+  const targetFieldName = React.useMemo(() => {
+    if (!targetField) {
+      return;
+    }
+    return getFieldName(targetField.label, targetField.id);
+  }, [targetField]);
+  const shouldShowValidator = showWhenValidator[show_when];
+  const shouldShowTargetValue = formData[targetFieldName]?.value;
 
   // Only checking for false here to preserve backwards compatibility with blocks that haven't been updated and so have a value of 'undefined' or 'null'
   const shouldShow = shouldShowValidator
@@ -72,23 +76,48 @@ const FieldRenderWrapper = ({
       }) !== false
     : true;
   // const hasDynamicVisability = shouldShowValidator && targetField && target_value;
-  const hasDynamicVisability =
-    isClient && shouldShowValidator && targetField && target_value;
+  const hasDynamicVisibility =
+    shouldShowValidator && targetField && target_value;
 
   let description = subblock?.description ?? '';
 
-  // if (shouldShowValidator && !__CLIENT__) {
-  if (hasDynamicVisability) {
-    const validatorLabel = fieldSchemaProperties.show_when.choices.find(
-      (choice) => choice[0] === show_when,
-    )[1];
-    description = `${description}
-Only required if '${targetField.label}' ${validatorLabel} '${target_value}'.`;
+  // Hide the field on the client
+  if (!shouldShow && isClient) {
+    return null;
   }
 
-  // if (shouldHide) {
-  //   return <p key={'row' + index}>Empty</p>;
-  // }
+  // if (shouldShowValidator && !__CLIENT__) {
+  if (hasDynamicVisibility) {
+    if (!isClient) {
+      const validatorLabel = fieldSchemaProperties.show_when.choices.find(
+        (choice) => choice[0] === show_when,
+      )[1];
+      description = `${description}
+Only required if '${targetField.label}' ${validatorLabel} '${target_value}'.`;
+    }
+
+    return (
+      <div class="nsw-p6-linked-field">
+        <Field
+          {...subblock}
+          name={name}
+          onChange={(field, value) =>
+            onChangeFormData(
+              subblock.id,
+              field,
+              value,
+              fields_to_send_with_value,
+            )
+          }
+          value={value}
+          description={description}
+          valid={isValidField(name)}
+          formHasErrors={formErrors?.length > 0}
+          shouldShow={shouldShow}
+        />
+      </div>
+    );
+  }
 
   return (
     <Field

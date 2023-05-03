@@ -43,3 +43,8 @@ mark {
     }
   }
 }
+
+.nsw-p6-linked-field {
+  @extend .nsw-callout;
+  margin-block-start: 0.25rem;
+}
