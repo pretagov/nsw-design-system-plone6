@@ -57,7 +57,9 @@ const FieldRenderWrapper = ({
   const { show_when, target_value } = subblock;
 
   const targetField = React.useMemo(() => {
-    return blockData.subblocks.find((block) => block.id === subblock.id);
+    return blockData.subblocks.find(
+      (block) => block.id === subblock.target_field,
+    );
   }, [blockData.subblocks, subblock]);
   const targetFieldName = React.useMemo(() => {
     if (!targetField) {
