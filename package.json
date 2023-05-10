@@ -28,7 +28,7 @@
     "@kitconcept/volto-blocks-grid": "5.2.0",
     "@material-design-icons/svg": "0.14.6",
     "@mdi/svg": "7.2.96",
-    "html-react-parser": "3.0.15",
+    "html-react-parser": "3.0.16",
     "material-icons": "1.13.6",
     "nsw-design-system": "3.5.1",
     "react-color": "2.19.3",
