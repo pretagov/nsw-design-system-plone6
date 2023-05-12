@@ -162,7 +162,7 @@ const BlocksLayout = ({ content, location }) => {
     (state) => state.nswSiteSettings?.data?.breadcrumb_start_depth,
   );
   const siteDepth = useSelector(
-    (state) => state.nswSiteSettings?.data?.site_depth,
+    (state) => state.breadcrumbs?.items?.length + 1,
   );
   const breadcrumbsHidden =
     location.pathname === '/' || siteDepth < breadcrumbStartDepth;
