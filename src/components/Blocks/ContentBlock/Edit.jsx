@@ -110,6 +110,7 @@ function ContentBlockEditDisplay({ data, id, onChangeBlock, ...props }) {
               className="nsw-content-block__image"
               onChange={imageUpload}
               blockSelected={props.selected}
+              columns={props.columns}
             />
           ) : null
         }

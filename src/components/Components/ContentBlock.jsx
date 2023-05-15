@@ -35,6 +35,14 @@ ContentBlock.propTypes = {
   imageIsIcon: PropTypes.bool,
   showViewMoreLink: PropTypes.bool,
   isEditMode: PropTypes.bool,
+  columns: PropTypes.number,
+};
+
+const columnsImageSizeMapping = {
+  1: 'great',
+  2: 'teaser',
+  3: 'preview',
+  4: 'preview',
 };
 
 // TODO: Support adding alt text to images
@@ -48,7 +56,16 @@ export function ContentBlock({
   imagePosition,
   showViewMoreLink,
   isEditMode,
+  columns,
 }) {
+  const imageString =
+    typeof image === 'string'
+      ? columns
+        ? `${image}/${columnsImageSizeMapping[columns]}`
+        : image
+      : `data:${image['content-type']};base64,${image.data}`;
+
+
   return (
     <div className="nsw-content-block__content">
       {imagePosition !== 'hidden' ? (
@@ -59,25 +76,10 @@ export function ContentBlock({
             <div className="nsw-content-block__image">
               {imageIsIcon ? (
                 <div className="nsw-content-block__icon">
-                  <img
-                    src={
-                      typeof image === 'string'
-                        ? image
-                        : `data:${image['content-type']};base64,${image.data}`
-                    }
-                    alt=""
-                  />
+                  <img src={imageString} alt="" />
                 </div>
               ) : (
-                <img
-                  className="nsw-content-block__image"
-                  src={
-                    typeof image === 'string'
-                      ? image
-                      : `data:${image['content-type']};base64,${image.data}`
-                  }
-                  alt=""
-                />
+                <img src={imageString} alt="" />
               )}
             </div>
           )
