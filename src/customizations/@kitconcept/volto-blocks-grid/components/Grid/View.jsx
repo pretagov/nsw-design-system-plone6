@@ -21,6 +21,7 @@ const ViewGrid = ({ data, path }) => {
               type={column['@type']}
               data={column}
               path={path}
+              columns={data?.columns.length}
             />
           </div>
         ))}

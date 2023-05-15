@@ -31,6 +31,13 @@ export function DefaultImage({ className }) {
   );
 }
 
+const columnsImageSizeMapping = {
+  1: 'great',
+  2: 'teaser',
+  3: 'preview',
+  4: 'preview',
+};
+
 // TODO: Support adding alt text to images
 export function Card({
   title,
@@ -45,9 +52,17 @@ export function Card({
   colour,
   shouldHighlight,
   isEditMode,
+  columns,
 }) {
   const linkTitle = title || href;
   const cleanDate = date === 'None' ? null : date;
+
+  const imageString =
+    typeof image === 'string'
+      ? columns
+        ? `${image}/${columnsImageSizeMapping[columns]}`
+        : image
+      : `data:${image['content-type']};base64,${image.data}`;
 
   return (
     <div
@@ -64,18 +79,7 @@ export function Card({
           image
         ) : (
           <div className="nsw-card__image">
-            {image ? (
-              <img
-                src={
-                  typeof image === 'string'
-                    ? image
-                    : `data:${image['content-type']};base64,${image.data}`
-                }
-                alt=""
-              />
-            ) : (
-              <DefaultImage />
-            )}
+            {image ? <img src={imageString} alt="" /> : <DefaultImage />}
           </div>
         )
       ) : null}
