@@ -20,8 +20,10 @@ export const Body = ({ data, href }) => {
 
   function withImageScale(url, size) {
     // Resort to full width if not set
-    const sizeToUse = size ? size : '90';
-    return columnsImageSizeMapping?.[sizeToUse];
+    const sizeToUse = size ? size : 'fullWidth';
+    // Fallback for missing mapping
+    const scaleSize = columnsImageSizeMapping?.[sizeToUse] || 'great';
+    return `${url}/${scaleSize}`;
   }
 
   const baseImageString = isInternalURL(data.url)
@@ -38,8 +40,6 @@ export const Body = ({ data, href }) => {
     : data.url;
 
   const imageString = withImageScale(baseImageString, data.size);
-
-      debugger;
 
   return (
     <figure

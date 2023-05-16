@@ -75,6 +75,7 @@ export function applyBlocks(config) {
 
   // TODO: Write a more generic way of altering block definitions of scale mapping for built-in blocks
   config.blocks.blocksConfig['image'].columnsImageSizeMapping = {
+    fullWidth: 'great',
     '90': 'great',
     '80': 'larger',
     '70': 'larger',
