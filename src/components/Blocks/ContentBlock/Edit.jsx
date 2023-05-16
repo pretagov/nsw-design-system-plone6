@@ -67,6 +67,7 @@ function ContentBlockEditDisplay({ data, id, onChangeBlock, ...props }) {
   return (
     <>
       <ContentBlock
+        data={data}
         {...data}
         title={
           <TextLineEdit

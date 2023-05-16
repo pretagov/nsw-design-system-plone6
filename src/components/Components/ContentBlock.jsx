@@ -1,4 +1,5 @@
 import { UniversalLink } from '@plone/volto/components';
+import config from '@plone/volto/registry';
 import PropTypes from 'prop-types';
 import { isValidElement } from 'react';
 
@@ -38,13 +39,6 @@ ContentBlock.propTypes = {
   columns: PropTypes.number,
 };
 
-const columnsImageSizeMapping = {
-  1: 'great',
-  2: 'teaser',
-  3: 'preview',
-  4: 'preview',
-};
-
 // TODO: Support adding alt text to images
 export function ContentBlock({
   title,
@@ -56,15 +50,18 @@ export function ContentBlock({
   imagePosition,
   showViewMoreLink,
   isEditMode,
+  data,
   columns,
 }) {
+  const columnsImageSizeMapping =
+    config.blocks.blocksConfig[data['@type']].columnsImageSizeMapping;
+
   const imageString =
     typeof image === 'string'
       ? columns
         ? `${image}/${columnsImageSizeMapping[columns]}`
         : image
       : `data:${image['content-type']};base64,${image.data}`;
-
 
   return (
     <div className="nsw-content-block__content">

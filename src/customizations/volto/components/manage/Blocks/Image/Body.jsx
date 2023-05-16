@@ -4,6 +4,7 @@
  */
 
 import { UniversalLink } from '@plone/volto/components';
+import config from '@plone/volto/registry';
 import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
@@ -14,6 +15,32 @@ import PropTypes from 'prop-types';
  * @extends Component
  */
 export const Body = ({ data, href }) => {
+  const columnsImageSizeMapping =
+    config.blocks.blocksConfig[data['@type']].columnsImageSizeMapping;
+
+  function withImageScale(url, size) {
+    // Resort to full width if not set
+    const sizeToUse = size ? size : '90';
+    return columnsImageSizeMapping?.[sizeToUse];
+  }
+
+  const baseImageString = isInternalURL(data.url)
+    ? // Backwards compat in the case that the block is storing the full server URL
+      (() => {
+        if (data.size === 'l')
+          return `${flattenToAppURL(data.url)}/@@images/image`;
+        if (data.size === 'm')
+          return `${flattenToAppURL(data.url)}/@@images/image/preview`;
+        if (data.size === 's')
+          return `${flattenToAppURL(data.url)}/@@images/image/mini`;
+        return `${flattenToAppURL(data.url)}/@@images/image`;
+      })()
+    : data.url;
+
+  const imageString = withImageScale(baseImageString, data.size);
+
+      debugger;
+
   return (
     <figure
       className={cx('nsw-media', {
@@ -30,34 +57,24 @@ export const Body = ({ data, href }) => {
         <>
           {(() => {
             const image = (
-              <img
-                className={cx({
-                  'full-width': data.align === 'full',
-                  large: data.size === 'l',
-                  medium: data.size === 'm',
-                  small: data.size === 's',
-                })}
-                src={
-                  isInternalURL(data.url)
-                    ? // Backwards compat in the case that the block is storing the full server URL
-                      (() => {
-                        if (data.size === 'l')
-                          return `${flattenToAppURL(data.url)}/@@images/image`;
-                        if (data.size === 'm')
-                          return `${flattenToAppURL(
-                            data.url,
-                          )}/@@images/image/preview`;
-                        if (data.size === 's')
-                          return `${flattenToAppURL(
-                            data.url,
-                          )}/@@images/image/mini`;
-                        return `${flattenToAppURL(data.url)}/@@images/image`;
-                      })()
-                    : data.url
-                }
-                alt={data.alt || ''}
-                loading="lazy"
-              />
+              <picture>
+                {/* Up until the `medium` breakpoint, the image is full width so needs */}
+                <source
+                  srcSet={`${baseImageString}/large`}
+                  media="(max-width: 768)" // Can't use media queries here. 768 is $nsw-breakpoints.md in SCSS
+                />
+                <img
+                  className={cx({
+                    'full-width': data.align === 'full',
+                    large: data.size === 'l',
+                    medium: data.size === 'm',
+                    small: data.size === 's',
+                  })}
+                  src={imageString}
+                  alt={data.alt || ''}
+                  loading="lazy"
+                />
+              </picture>
             );
             if (href) {
               return (

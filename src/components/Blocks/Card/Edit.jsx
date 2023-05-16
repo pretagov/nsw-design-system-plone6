@@ -113,6 +113,7 @@ function CardEditDisplay({ data, id, onChangeBlock, selected, ...props }) {
     <div>
       <Card
         {...props}
+        data={data}
         {...data}
         title={
           <TextLineEdit

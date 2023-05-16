@@ -1,4 +1,5 @@
 import { FormattedDate, Icon, UniversalLink } from '@plone/volto/components';
+import config from '@plone/volto/registry';
 import cx from 'classnames';
 import { isValidElement } from 'react';
 
@@ -31,13 +32,6 @@ export function DefaultImage({ className }) {
   );
 }
 
-const columnsImageSizeMapping = {
-  1: 'great',
-  2: 'teaser',
-  3: 'preview',
-  4: 'preview',
-};
-
 // TODO: Support adding alt text to images
 export function Card({
   title,
@@ -52,10 +46,14 @@ export function Card({
   colour,
   shouldHighlight,
   isEditMode,
+  data, // Might  be extra data we want about the block
   columns,
 }) {
   const linkTitle = title || href;
   const cleanDate = date === 'None' ? null : date;
+
+  const columnsImageSizeMapping =
+    config.blocks.blocksConfig[data['@type']].columnsImageSizeMapping;
 
   const imageString =
     typeof image === 'string'

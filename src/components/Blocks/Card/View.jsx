@@ -18,6 +18,7 @@ export function CardView({ data, isEditMode, ...props }) {
   return (
     <Card
       {...props}
+      data={data}
       {...data}
       description={description}
       href={href}

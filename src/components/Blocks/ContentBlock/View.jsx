@@ -10,6 +10,7 @@ export function ContentBlockView({ data, ...props }) {
     : data.description;
   return (
     <ContentBlock
+      data={data}
       {...data}
       description={description}
       viewMoreUrl={getViewMore(data)}
