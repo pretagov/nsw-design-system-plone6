@@ -7,7 +7,7 @@ import { Message } from 'semantic-ui-react';
 const Body = ({ data, isEditMode, isSelectedInEditMode }) => {
   let placeholder = data.preview_image
     ? isInternalURL(data.preview_image)
-      ? `${flattenToAppURL(data.preview_image)}/@@images/image`
+      ? `${flattenToAppURL(data.preview_image)}/@@images/image/large`
       : data.preview_image
     : null;
 
