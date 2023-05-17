@@ -55,7 +55,7 @@ function Validation({ messages }) {
   );
 }
 
-function CardEditDisplay({ data, id, onChangeBlock, selected }) {
+function CardEditDisplay({ data, id, onChangeBlock, selected, ...props }) {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const contentCreationAction = useSelector(
@@ -112,6 +112,8 @@ function CardEditDisplay({ data, id, onChangeBlock, selected }) {
   return (
     <div>
       <Card
+        {...props}
+        data={data}
         {...data}
         title={
           <TextLineEdit
@@ -156,6 +158,7 @@ function CardEditDisplay({ data, id, onChangeBlock, selected }) {
               className="nsw-card__image"
               onChange={imageUpload}
               blockSelected={selected}
+              columns={props.columns}
             />
           ) : null
         }

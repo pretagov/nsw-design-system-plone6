@@ -9,11 +9,19 @@ const messages = defineMessages({
   },
 });
 
+const columnsImageSizeMapping = {
+  1: 'great',
+  2: 'teaser',
+  3: 'preview',
+  4: 'preview',
+};
+
 export function ImagePickerWidget({
   image,
   className,
   onChange,
   blockSelected,
+  columns,
 }) {
   const intl = useIntl();
 
@@ -25,6 +33,10 @@ export function ImagePickerWidget({
     }
   }
 
+  const imageString = columns
+    ? `${image}/${columnsImageSizeMapping[columns]}`
+    : image;
+
   return (
     <>
       {/* TODO: Card edit block image field styling is all inline */}
@@ -34,7 +46,9 @@ export function ImagePickerWidget({
             {intl.formatMessage(messages.addImage)}
           </span>
           {image ? (
-            <img className={className} src={image} alt="" />
+            <div className={className}>
+              <img src={imageString} alt="" />
+            </div>
           ) : (
             <DefaultImage />
           )}

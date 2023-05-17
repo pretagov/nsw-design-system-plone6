@@ -1,4 +1,5 @@
 import { FormattedDate, Icon, UniversalLink } from '@plone/volto/components';
+import config from '@plone/volto/registry';
 import cx from 'classnames';
 import { isValidElement } from 'react';
 
@@ -45,9 +46,24 @@ export function Card({
   colour,
   shouldHighlight,
   isEditMode,
+  data, // Might  be extra data we want about the block
+  columns,
 }) {
   const linkTitle = title || href;
   const cleanDate = date === 'None' ? null : date;
+
+  const columnsImageSizeMapping =
+    config.blocks.blocksConfig[data['@type']]?.columnsImageSizeMapping;
+
+  let imageString = undefined;
+  if (image) {
+    imageString =
+      typeof image === 'string'
+        ? columns && columnsImageSizeMapping
+          ? `${image}/${columnsImageSizeMapping[columns]}`
+          : image
+        : `data:${image['content-type']};base64,${image.data}`;
+  }
 
   return (
     <div
@@ -64,18 +80,7 @@ export function Card({
           image
         ) : (
           <div className="nsw-card__image">
-            {image ? (
-              <img
-                src={
-                  typeof image === 'string'
-                    ? image
-                    : `data:${image['content-type']};base64,${image.data}`
-                }
-                alt=""
-              />
-            ) : (
-              <DefaultImage />
-            )}
+            {image ? <img src={imageString} alt="" /> : <DefaultImage />}
           </div>
         )
       ) : null}

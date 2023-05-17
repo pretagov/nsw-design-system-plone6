@@ -31,6 +31,12 @@ export const nswBlocks = [
     blockSchema: Components.singleCardSchema,
     restricted: true,
     mostUsed: true,
+    columnsImageSizeMapping: {
+      1: 'great',
+      2: 'teaser',
+      3: 'preview',
+      4: 'preview',
+    },
     security: {
       addPermission: [],
       view: [],
@@ -46,6 +52,12 @@ export const nswBlocks = [
     blockSchema: Components.contentBlockSchema,
     restricted: true,
     mostUsed: false,
+    columnsImageSizeMapping: {
+      1: 'great',
+      2: 'teaser',
+      3: 'preview',
+      4: 'preview',
+    },
     security: {
       addPermission: [],
       view: [],

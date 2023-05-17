@@ -450,6 +450,7 @@ class EditGrid extends Component {
                                         }}
                                         data={this.props.data.columns[index]}
                                         blocksConfig={blocksConfig}
+                                        columns={data?.columns.length}
                                       />
                                     ) : (
                                       <div className="uber-grid-default-item">

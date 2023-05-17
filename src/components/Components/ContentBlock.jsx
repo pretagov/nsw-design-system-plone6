@@ -1,4 +1,5 @@
 import { UniversalLink } from '@plone/volto/components';
+import config from '@plone/volto/registry';
 import PropTypes from 'prop-types';
 import { isValidElement } from 'react';
 
@@ -35,6 +36,7 @@ ContentBlock.propTypes = {
   imageIsIcon: PropTypes.bool,
   showViewMoreLink: PropTypes.bool,
   isEditMode: PropTypes.bool,
+  columns: PropTypes.number,
 };
 
 // TODO: Support adding alt text to images
@@ -48,7 +50,22 @@ export function ContentBlock({
   imagePosition,
   showViewMoreLink,
   isEditMode,
+  data,
+  columns,
 }) {
+  const columnsImageSizeMapping =
+    config.blocks.blocksConfig[data['@type']]?.columnsImageSizeMapping;
+
+  let imageString = undefined;
+  if (image) {
+    imageString =
+      typeof image === 'string'
+        ? columns && columnsImageSizeMapping
+          ? `${image}/${columnsImageSizeMapping[columns]}`
+          : image
+        : `data:${image['content-type']};base64,${image.data}`;
+  }
+
   return (
     <div className="nsw-content-block__content">
       {imagePosition !== 'hidden' ? (
@@ -59,25 +76,10 @@ export function ContentBlock({
             <div className="nsw-content-block__image">
               {imageIsIcon ? (
                 <div className="nsw-content-block__icon">
-                  <img
-                    src={
-                      typeof image === 'string'
-                        ? image
-                        : `data:${image['content-type']};base64,${image.data}`
-                    }
-                    alt=""
-                  />
+                  <img src={imageString} alt="" />
                 </div>
               ) : (
-                <img
-                  className="nsw-content-block__image"
-                  src={
-                    typeof image === 'string'
-                      ? image
-                      : `data:${image['content-type']};base64,${image.data}`
-                  }
-                  alt=""
-                />
+                <img src={imageString} alt="" />
               )}
             </div>
           )
