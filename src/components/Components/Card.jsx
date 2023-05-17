@@ -53,14 +53,17 @@ export function Card({
   const cleanDate = date === 'None' ? null : date;
 
   const columnsImageSizeMapping =
-    config.blocks.blocksConfig[data['@type']].columnsImageSizeMapping;
+    config.blocks.blocksConfig[data['@type']]?.columnsImageSizeMapping;
 
-  const imageString =
-    typeof image === 'string'
-      ? columns
-        ? `${image}/${columnsImageSizeMapping[columns]}`
-        : image
-      : `data:${image['content-type']};base64,${image.data}`;
+  let imageString = undefined;
+  if (image) {
+    imageString =
+      typeof image === 'string'
+        ? columns && columnsImageSizeMapping
+          ? `${image}/${columnsImageSizeMapping[columns]}`
+          : image
+        : `data:${image['content-type']};base64,${image.data}`;
+  }
 
   return (
     <div
