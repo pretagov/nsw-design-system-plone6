@@ -32,6 +32,7 @@ export function CardListing({ items, isEditMode, ...data }) {
           >
             <Card
               {...data}
+              data={item}
               {...item}
               description={!data.showDescription ? null : item.description}
               image={image}

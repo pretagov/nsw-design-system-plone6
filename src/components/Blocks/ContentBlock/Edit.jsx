@@ -67,6 +67,7 @@ function ContentBlockEditDisplay({ data, id, onChangeBlock, ...props }) {
   return (
     <>
       <ContentBlock
+        data={data}
         {...data}
         title={
           <TextLineEdit
@@ -110,6 +111,7 @@ function ContentBlockEditDisplay({ data, id, onChangeBlock, ...props }) {
               className="nsw-content-block__image"
               onChange={imageUpload}
               blockSelected={props.selected}
+              columns={props.columns}
             />
           ) : null
         }

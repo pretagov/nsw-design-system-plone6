@@ -73,6 +73,18 @@ export function applyBlocks(config) {
     };
   }
 
+  // TODO: Write a more generic way of altering block definitions of scale mapping for built-in blocks
+  config.blocks.blocksConfig['image'].columnsImageSizeMapping = {
+    fullWidth: 'great',
+    '90': 'great',
+    '80': 'larger',
+    '70': 'larger',
+    '60': 'large',
+    '50': 'teaser',
+    '40': 'teaser',
+    '30': 'preview',
+  };
+
   removeFieldsFromBlock(config, 'accordion', ['right_arrows', 'non_exclusive']);
   removeVariationsFromBlock(config, 'toc', ['horizontalMenu']);
   removeUnwantedBlocks(config);
