@@ -54,11 +54,11 @@ const FieldRenderWrapper = ({
     subblock.field_type === 'static_text'
       ? subblock.value
       : formData[name]?.value;
-  const { show_when, target_value } = subblock;
+  const { show_when_when, show_when_is, show_when_to } = subblock;
 
   const targetField = React.useMemo(() => {
     return blockData.subblocks.find(
-      (block) => block.id === subblock.target_field,
+      (block) => block.id === subblock.show_when_when,
     );
   }, [blockData.subblocks, subblock]);
   const targetFieldName = React.useMemo(() => {
@@ -67,19 +67,18 @@ const FieldRenderWrapper = ({
     }
     return getFieldName(targetField.label, targetField.id);
   }, [targetField]);
-  const shouldShowValidator = showWhenValidator[show_when];
+  const shouldShowValidator = showWhenValidator[show_when_is];
   const shouldShowTargetValue = formData[targetFieldName]?.value;
 
   // Only checking for false here to preserve backwards compatibility with blocks that haven't been updated and so have a value of 'undefined' or 'null'
   const shouldShow = shouldShowValidator
     ? shouldShowValidator({
         value: shouldShowTargetValue,
-        target_value: target_value,
+        target_value: show_when_to,
       }) !== false
     : true;
-  // const hasDynamicVisability = shouldShowValidator && targetField && target_value;
   const hasDynamicVisibility =
-    shouldShowValidator && targetField && target_value;
+    shouldShowValidator && targetField && show_when_to;
 
   let description = subblock?.description ?? '';
 
@@ -88,14 +87,13 @@ const FieldRenderWrapper = ({
     return null;
   }
 
-  // if (shouldShowValidator && !__CLIENT__) {
   if (hasDynamicVisibility) {
     if (!isClient) {
-      const validatorLabel = fieldSchemaProperties.show_when.choices.find(
-        (choice) => choice[0] === show_when,
+      const validatorLabel = fieldSchemaProperties.show_when_is.choices.find(
+        (choice) => choice[0] === show_when_is,
       )[1];
       description = `${description}
-Only required if '${targetField.label}' ${validatorLabel} '${target_value}'.`;
+Only required if '${targetField.label}' is ${validatorLabel} to '${show_when_to}'.`;
     }
 
     return (
