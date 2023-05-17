@@ -97,7 +97,7 @@ Only required if '${targetField.label}' is ${validatorLabel} to '${show_when_to}
     }
 
     return (
-      <div class="nsw-p6-linked-field">
+      <div className="nsw-p6-linked-field">
         <Field
           {...subblock}
           name={name}
