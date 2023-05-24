@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
+import { validations as validationObjects } from 'volto-form-block/helpers/validators';
 
 import WysiwygWidget from '@plone/volto/components/manage/Widgets/WysiwygWidget';
 
@@ -14,6 +15,7 @@ import SelectWidget from './Widget/SelectWidget';
 import TextareaWidget from './Widget/TextareaWidget';
 import TextWidget from './Widget/TextWidget';
 
+import { pick } from 'lodash';
 import config from '@plone/volto/registry';
 import parse from 'html-react-parser';
 
@@ -50,11 +52,25 @@ const Field = (props) => {
     formHasErrors = false,
     id,
     widget,
+    validations,
   } = props;
   const intl = useIntl();
 
   const isInvalid = () => {
-    return !isOnEdit && !valid;
+    let isValid = !isOnEdit && !valid;
+    if (validations && validations.length > 0) {
+      const validatorObject = validationObjects[validations[0].validation_type];
+      const validator = validatorObject?.validator;
+      if (validator) {
+        const validatorProperties = Object.keys(validatorObject.properties)
+        isValid = validator({
+          value,
+          ...pick(validations[0], validatorProperties),
+        });
+      }
+    }
+
+    return isValid;
   };
 
   if (widget) {
