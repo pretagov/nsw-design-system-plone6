@@ -98,7 +98,13 @@ Only required if '${targetField.label}' is ${validatorLabel} to '${show_when_to}
     }
 
     return (
-      <div className="nsw-p6-linked-field">
+      <div
+        className={
+          blockData.subblocks[index - 1]?.field_id === targetField?.field_id
+            ? 'nsw-p6-linked-field'
+            : null
+        }
+      >
         <Field
           {...subblock}
           name={name}
