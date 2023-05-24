@@ -57,20 +57,20 @@ const Field = (props) => {
   const intl = useIntl();
 
   const isInvalid = () => {
-    let isValid = !isOnEdit && !valid;
+    let isInvalid = !isOnEdit && !valid;
     if (validations && validations.length > 0) {
       const validatorObject = validationObjects[validations[0].validation_type];
       const validator = validatorObject?.validator;
       if (validator) {
         const validatorProperties = Object.keys(validatorObject.properties)
-        isValid = validator({
+        isInvalid = !validator({
           value,
           ...pick(validations[0], validatorProperties),
         });
       }
     }
 
-    return isValid;
+    return isInvalid;
   };
 
   if (widget) {
