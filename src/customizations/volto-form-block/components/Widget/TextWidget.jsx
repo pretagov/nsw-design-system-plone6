@@ -39,7 +39,7 @@ function TextWidget(props) {
 
   // Never fails `isInvalid` if set as required
   const isInvalid =
-    error?.length > 0 && (invalid === true || invalid === 'true');
+    error?.length > 0 || (invalid === true || invalid === 'true');
   const inputId = `field-${id}`;
 
   return (
