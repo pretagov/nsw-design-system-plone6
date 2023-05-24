@@ -57,17 +57,18 @@ const FieldRenderWrapper = ({
   const { show_when_when, show_when_is, show_when_to } = subblock;
 
   const targetField = React.useMemo(() => {
-    return blockData.subblocks.find(
-      (block) => block.id === subblock.show_when_when,
-    );
-  }, [blockData.subblocks, subblock]);
+    return blockData.subblocks.find((block) => block.id === show_when_when);
+  }, [blockData.subblocks, show_when_when]);
   const targetFieldName = React.useMemo(() => {
     if (!targetField) {
       return;
     }
     return getFieldName(targetField.label, targetField.id);
   }, [targetField]);
-  const shouldShowValidator = showWhenValidator[show_when_is];
+  const shouldShowValidator =
+    show_when_when === 'always'
+      ? showWhenValidator['always']
+      : showWhenValidator[show_when_is];
   const shouldShowTargetValue = formData[targetFieldName]?.value;
 
   // Only checking for false here to preserve backwards compatibility with blocks that haven't been updated and so have a value of 'undefined' or 'null'
