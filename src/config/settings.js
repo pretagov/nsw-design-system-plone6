@@ -5,7 +5,6 @@ export const updateSettingsConfig = (config) => {
   config.settings.fullWidthBlockTypes = [
     'hero',
     'nsw_section',
-    'nsw_inPageAlert',
     'nsw_announcementBar',
     'form',
     ...(config.settings.fullWidthBlockTypes || []),
