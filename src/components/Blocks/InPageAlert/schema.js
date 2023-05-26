@@ -50,11 +50,6 @@ export const inPageAlertSchema = ({ intl }) => {
         type: 'boolean',
         default: false,
       },
-      includeMargin: {
-        title: intl.formatMessage(messages.includeMargin),
-        type: 'boolean',
-        default: true,
-      },
       alertType: {
         title: intl.formatMessage(messages.alertType),
         type: 'string',
