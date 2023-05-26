@@ -48,8 +48,8 @@ const Field = (props) => {
     valid,
     disabled = false,
     formHasErrors = false,
-    id,
     widget,
+    shouldShow = true,
   } = props;
   const intl = useIntl();
 
@@ -93,6 +93,7 @@ const Field = (props) => {
           isDisabled={disabled}
           invalid={isInvalid().toString()}
           {...(isInvalid() ? { className: 'is-invalid' } : {})}
+          shouldShow={shouldShow}
         />
       )}
       {field_type === 'textarea' && (
