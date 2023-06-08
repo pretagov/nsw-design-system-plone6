@@ -1,0 +1,9 @@
+{
+  "volto-form-block": {
+    "url": "https://github.com/pretagov/volto-form-block.git",
+    "package": "volto-form-block",
+    "path": "src",
+    "branch": "deploy",
+    "develop": true
+  }
+}
