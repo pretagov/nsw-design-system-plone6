@@ -14,6 +14,7 @@ export const Hero = ({
   linkUrl = null,
   linksTitle = '',
   linksList = [],
+  linkListStyle,
   width = 'default',
   contentChildren,
   boxChildren,
@@ -50,7 +51,7 @@ export const Hero = ({
                 {linksTitle ? (
                   <div className="nsw-hero-banner__sub-title">{linksTitle}</div>
                 ) : null}
-                <ul>
+                <ul className={linkListStyle ? linkListStyle : null}>
                   {linksList.map((linkItem) => {
                     return (
                       <li key={linkItem.title}>

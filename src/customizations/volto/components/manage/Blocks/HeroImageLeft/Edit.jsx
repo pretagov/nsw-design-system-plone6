@@ -607,7 +607,8 @@ class EditComponent extends Component {
             </>
           }
           boxChildren={
-            variation && variation.id === 'heroWithLinks' ? (
+            variation &&
+            ['heroWithLinks', 'heroWithLinkList'].includes(variation.id) ? (
               <div className="nsw-hero-banner__links">
                 <div className="nsw-hero-banner__list">
                   {this.props.data.linksTitle ? (
