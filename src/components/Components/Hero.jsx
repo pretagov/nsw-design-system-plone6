@@ -76,9 +76,13 @@ export const Hero = ({
           </div>
         ) : null}
         <div className="nsw-hero-banner__box">
-          {imageUrl && (
-            <img src={imageUrl} alt="" className="nsw-hero-banner__image" />
-          )}
+          {imageUrl ? (
+            isValidElement(imageUrl) ? (
+              imageUrl
+            ) : (
+              <img src={imageUrl} alt="" className="nsw-hero-banner__image" />
+            )
+          ) : null}
           {boxChildren}
         </div>
       </div>

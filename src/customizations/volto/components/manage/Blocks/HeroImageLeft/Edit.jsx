@@ -521,6 +521,39 @@ class EditComponent extends Component {
                 this.props.data.linkTitle
               ),
           }}
+          imageUrl={
+            !this.props.data.url ? (
+              <div className="image-add" style={{ width: '100%' }}>
+                <Message style={{ height: '100%', minHeight: '100px' }}>
+                  {this.state.uploading && (
+                    <Dimmer active>
+                      <Loader indeterminate>
+                        {this.props.intl.formatMessage(messages.uploading)}
+                      </Loader>
+                    </Dimmer>
+                  )}
+                  <center>
+                    <h4>{this.props.intl.formatMessage(messages.image)}</h4>
+                    {this.props.editable && (
+                      <>
+                        <p>{placeholder}</p>
+                        <p>
+                          <label className="nsw-button nsw-button--dark">
+                            {this.props.intl.formatMessage(messages.browse)}
+                            <input
+                              type="file"
+                              onChange={this.onUploadImage}
+                              style={{ display: 'none' }}
+                            />
+                          </label>
+                        </p>
+                      </>
+                    )}
+                  </center>
+                </Message>
+              </div>
+            ) : undefined
+          }
         />
 
         <Hero
