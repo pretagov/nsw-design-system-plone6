@@ -521,6 +521,98 @@ class EditComponent extends Component {
                 this.props.data.linkTitle
               ),
           }}
+          contentChildren={
+            variation?.id === 'heroWithBlocks' ? (
+              <div className="nsw-m-top-md">
+                {this.props.data.block &&
+                blockHasValue(
+                  this.props.data?.block.blocks[this.childBlockId],
+                ) ? (
+                  // We need the div to set the ref on a custom component
+                  <div ref={this.blockEditorRef}>
+                    <BlocksForm
+                      key={this.childBlockId}
+                      title={this.props.data.placeholder}
+                      manage={this.props.manage}
+                      allowedBlocks={this.allowedBlocks}
+                      metadata={{
+                        ...this.ownerBlockMetadata,
+                        disableNewBlocks: true,
+                      }}
+                      properties={this.childBlockdata}
+                      selectedBlock={
+                        this.props.selected ? this.state.selectedBlock : null
+                      }
+                      onSelectBlock={(id) => {
+                        this.setState({ selectedBlock: id });
+                      }}
+                      disableNewBlocks={true}
+                      onChangeFormData={(newFormData) => {
+                        this.props.onChangeBlock(this.ownerBlockID, {
+                          ...this.props.data,
+                          block: {
+                            ...this.props.data.block,
+                            ...newFormData,
+                          },
+                        });
+                      }}
+                      onChangeField={(id, value) => {
+                        if (['blocks', 'blocks_layout'].indexOf(id) > -1) {
+                          this.setState({
+                            blockState: {
+                              ...this.state.blockState,
+                              [id]: value,
+                            },
+                          });
+                          this.props.onChangeBlock(this.ownerBlockID, {
+                            ...this.props.data,
+                            data: {
+                              blocks: {
+                                [this.childBlockId]: {
+                                  ...this.state.blockState,
+                                },
+                              },
+                            },
+                          });
+                        } else {
+                          this.props.onChangeField(id, value);
+                        }
+                      }}
+                      pathname={this.props.pathname}
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <NewBlockAddButton
+                      inverted={true}
+                      block={this.childBlockId}
+                      onChangeBlock={(block, newValues) => {
+                        debugger;
+                        const newBlock = {
+                          ...this.props.data.block.blocks[block],
+                          ...newValues,
+                        };
+                        const childBlockdata = {
+                          ...this.props.data.block,
+                          blocks: {
+                            ...this.props.data.block.blocks,
+                            [block]: newBlock,
+                          },
+                        };
+                        this.props.onChangeBlock(this.ownerBlockID, {
+                          ...this.props.data,
+                          block: childBlockdata,
+                        });
+                        // TODO: This hidden state is such a mess :(
+                        this.childBlockdata = childBlockdata;
+                      }}
+                      allowedBlocks={this.allowedBlocks}
+                    />
+                  </>
+                )}
+              </div>
+            ) : null
+          }
           imageUrl={
             !this.props.data.url ? (
               <div className="image-add" style={{ width: '100%' }}>
