@@ -5,6 +5,7 @@ import {
   HeroWithBlocks,
   HeroWithDropdownQuickNavigation,
   HeroWithLinks,
+  HeroWithLinkList,
 } from 'nsw-design-system-plone6/components/Blocks/Hero';
 import { CardListing } from 'nsw-design-system-plone6/components/Blocks/Listing/CardListing';
 import { defineMessages } from 'react-intl';
@@ -57,8 +58,54 @@ const blockVariations = {
     },
     {
       id: 'heroWithLinks',
-      title: 'With links',
+      title: 'Text links',
       template: HeroWithLinks,
+      schemaEnhancer: ({ schema, formData, intl }) => {
+        schema.properties.linksTitle = {
+          title: intl.formatMessage(messages.linksTitle),
+          type: 'string',
+        };
+        schema.properties.links = {
+          title: intl.formatMessage(messages.links),
+          widget: 'object_list',
+          schema: {
+            title: intl.formatMessage(messages.link),
+            fieldsets: [
+              {
+                id: 'default',
+                title: 'Default',
+                fields: ['title', 'url'],
+              },
+            ],
+            properties: {
+              title: {
+                title: intl.formatMessage(messages.title),
+              },
+              url: {
+                title: intl.formatMessage(messages.link),
+                widget: 'object_browser',
+                mode: 'link',
+              },
+            },
+          },
+        };
+
+        const defaultFieldsetIndex = schema.fieldsets.findIndex(
+          (fieldset) => fieldset.id === 'default',
+        );
+
+        schema.fieldsets[defaultFieldsetIndex].fields = [
+          ...schema.fieldsets[defaultFieldsetIndex].fields,
+          'linksTitle',
+          'links',
+        ];
+        return schema;
+      },
+    },
+    {
+      id: 'heroWithLinkList',
+      title: 'Link list',
+      template: HeroWithLinkList,
       schemaEnhancer: ({ schema, formData, intl }) => {
         schema.properties.linksTitle = {
           title: intl.formatMessage(messages.linksTitle),

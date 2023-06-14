@@ -1,15 +1,23 @@
-import { RenderBlocks } from '@plone/volto/components';
 import { flattenToAppURL } from '@plone/volto/helpers';
 import { Hero } from 'nsw-design-system-plone6/components/Components/Hero';
 
-export const HeroWithBlocks = ({ data, ...props }) => {
-  const metadata = props.metadata || props.properties;
+export const HeroWithLinkList = ({ data }) => {
   const imageUrl = data.url
     ? `${flattenToAppURL(data?.url)}/@@images/image`
     : null;
   const linkUrl = data.linkHref
     ? `${flattenToAppURL(data.linkHref[0]?.['@id'])}`
     : null;
+
+  const linksList = data.links?.reduce((list, item) => {
+    if (item?.url && item.url[0]) {
+      list.push({ title: item.title, link: item.url[0] });
+    }
+    if (item?.link && item.link[0]) {
+      list.push({ title: item.title, link: item.link[0] });
+    }
+    return list;
+  }, []);
 
   return (
     <>
@@ -19,14 +27,10 @@ export const HeroWithBlocks = ({ data, ...props }) => {
         imageUrl={imageUrl}
         linkTitle={data.linkTitle}
         linkUrl={linkUrl}
+        linksTitle={data.linksTitle || ''}
+        linksList={linksList}
         width={data.heroWidth}
-        contentChildren={
-          props?.contentChildren ? (
-            props?.contentChildren
-          ) : (
-            <RenderBlocks {...props} metadata={metadata} content={data.block} />
-          )
-        }
+        linkListStyle="nsw-link-list"
       />
     </>
   );
