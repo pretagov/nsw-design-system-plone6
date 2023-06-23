@@ -50,8 +50,8 @@ const Field = (props) => {
     valid,
     disabled = false,
     formHasErrors = false,
-    id,
     widget,
+    shouldShow = true,
     validations,
   } = props;
   const intl = useIntl();
@@ -59,15 +59,17 @@ const Field = (props) => {
   const isInvalid = () => {
     let isInvalid = !isOnEdit && !valid;
     if (validations && validations.length > 0) {
-      const validatorObject = validationObjects[validations[0].validation_type];
-      const validator = validatorObject?.validator;
-      if (validator) {
-        const validatorProperties = Object.keys(validatorObject.properties)
-        isInvalid = !validator({
-          value,
-          ...pick(validations[0], validatorProperties),
-        });
-      }
+      validations.forEach((validation) => {
+        const validatorObject = validationObjects[validation.validation_type];
+        const validator = validatorObject?.validator;
+        if (validator) {
+          const validatorProperties = Object.keys(validatorObject.properties)
+          isInvalid = !validator({
+            value,
+            ...pick(validation, validatorProperties),
+          });
+        }
+      })
     }
 
     return isInvalid;
@@ -109,6 +111,7 @@ const Field = (props) => {
           isDisabled={disabled}
           invalid={isInvalid().toString()}
           {...(isInvalid() ? { className: 'is-invalid' } : {})}
+          shouldShow={shouldShow}
         />
       )}
       {field_type === 'textarea' && (
