@@ -73,7 +73,6 @@ const SearchStartButton = ({ searchInputElement }) => {
           </span>
         </button>
       ) : (
-        // Below styling is only for buttons in the NSW Design System code unfortunately.
         <UniversalLink href="/search">
           <Icon
             name={SearchSVG}
