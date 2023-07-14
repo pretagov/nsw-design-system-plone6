@@ -23,7 +23,7 @@
     "volto-siteinfo"
   ],
   "dependencies": {
-    "@eeacms/volto-accordion-block": "6.0.0",
+    "@eeacms/volto-accordion-block": "9.1.0",
     "@fontsource/public-sans": "4.5.12",
     "@kitconcept/volto-blocks-grid": "5.2.0",
     "@material-design-icons/svg": "0.14.6",
