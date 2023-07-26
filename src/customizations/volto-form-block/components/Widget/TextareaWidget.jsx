@@ -86,7 +86,7 @@ const TextareaWidget = (props) => {
           placeholder={placeholder}
           disabled={isDisabled}
           onChange={({ target }) =>
-            onhandleChange(id, target.value === '' ? undefined : target.value)
+            onhandleChange(id, target.value === '' ? null : target.value)
           }
           {...attributes}
         ></textarea>
