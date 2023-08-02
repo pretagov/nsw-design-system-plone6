@@ -144,7 +144,7 @@ class Api {
                 url: request.xhr.responseURL,
               });
             }
-            if (err?.status[0] === 3) {
+            if (err?.status?.[0] === 3) {
               return reject({
                 code: err.status,
                 url: err.response.headers.location,
