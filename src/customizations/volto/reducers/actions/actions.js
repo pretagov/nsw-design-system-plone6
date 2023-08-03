@@ -7,19 +7,8 @@ import { GET_CONTENT, LIST_ACTIONS } from '@plone/volto/constants/ActionTypes';
 import {
   flattenToAppURL,
   getBaseUrl,
+  hasApiExpander,
 } from '@plone/volto/helpers';
-
-import { flatten } from 'lodash';
-import { matchPath } from 'react-router';
-import config from '@plone/volto/registry';
-const hasApiExpander = (expander, path = '', type = 'GET_CONTENT',crashMe) => {
-  const expanders = config.settings.apiExpanders
-  const actualPath = undefined
-  const filtered = expanders.filter((expand) => matchPath(actualPath, expand.match) && expand[type])
-  const mapped = filtered.map((expand) => expand[type])
-  const final = flatten(mapped)
-  return final.includes(expander);
-};
 
 const initialState = {
   error: null,
@@ -56,25 +45,11 @@ export default function actions(state = initialState, action = {}) {
       hasExpander = hasApiExpander(
         'actions',
         getBaseUrl(flattenToAppURL(action.result['@id'])),
-        'GET_CONTENT',
-        action
       );
       if (hasExpander) {
-        console.log("ACTION RESULT")
-        console.log(action.result)
-        console.log(action.result['@components'])
-        try {
-          const value = action.result['@components']
-        } catch {
-          debugger;
+        if (!action.result['@id'] || !action.result['@components']?.actions) {
+          return state;
         }
-
-        // return flatten(
-        //   config.settings.apiExpanders
-        //     .filter((expand) => matchPath(path, expand.match) && expand[type])
-        //     .map((expand) => expand[type]),
-        // ).includes(expander);
-
         return {
           ...state,
           error: null,

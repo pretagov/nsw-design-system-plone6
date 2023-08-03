@@ -61,6 +61,9 @@ export default function navigation(state = initialState, action = {}) {
         getBaseUrl(flattenToAppURL(action.result['@id'])),
       );
       if (hasExpander) {
+        if (!action.result['@id'] || !action.result['@components']?.navigation) {
+          return state;
+        }
         return {
           ...state,
           error: null,

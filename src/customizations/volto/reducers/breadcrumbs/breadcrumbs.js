@@ -46,10 +46,12 @@ export default function breadcrumbs(state = initialState, action = {}) {
         getBaseUrl(flattenToAppURL(action.result['@id'])),
       );
       if (hasExpander) {
-        const stillHasExpander = hasApiExpander(
-          'breadcrumbs',
-          getBaseUrl(flattenToAppURL(action.result['@id'])),
-        );
+        if (
+          !action.result['@id'] ||
+          !action.result['@components']?.breadcrumbs
+        ) {
+          return state;
+        }
         return {
           ...state,
           error: null,
