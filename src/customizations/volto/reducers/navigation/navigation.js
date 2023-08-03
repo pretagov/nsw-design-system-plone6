@@ -61,7 +61,13 @@ export default function navigation(state = initialState, action = {}) {
         getBaseUrl(flattenToAppURL(action.result['@id'])),
       );
       if (hasExpander) {
-        if (!action.result['@id'] || !action.result['@components']?.navigation) {
+        if (
+          !action.result['@id'] ||
+          !action.result['@components']?.navigation
+        ) {
+          if (__SERVER__) {
+            console.error("++api++ expander exception - navigation", action)
+          }
           return state;
         }
         return {

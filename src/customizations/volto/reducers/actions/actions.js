@@ -48,6 +48,9 @@ export default function actions(state = initialState, action = {}) {
       );
       if (hasExpander) {
         if (!action.result['@id'] || !action.result['@components']?.actions) {
+          if (__SERVER__) {
+            console.error("++api++ expander exception - actions", 'action', action, 'state', state)
+          }
           return state;
         }
         return {

@@ -50,6 +50,9 @@ export default function breadcrumbs(state = initialState, action = {}) {
           !action.result['@id'] ||
           !action.result['@components']?.breadcrumbs
         ) {
+          if (__SERVER__) {
+            console.error("++api++ expander exception - breadcrumbs", action)
+          }
           return state;
         }
         return {
