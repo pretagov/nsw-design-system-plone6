@@ -30,7 +30,7 @@
     "@mdi/svg": "7.2.96",
     "html-react-parser": "3.0.16",
     "material-icons": "1.13.6",
-    "nsw-design-system": "3.5.1",
+    "nsw-design-system": "3.9.1",
     "react-color": "2.19.3",
     "volto-form-block": "file:./src/addons/volto-form-block",
     "volto-google-analytics": "2.0.0",
