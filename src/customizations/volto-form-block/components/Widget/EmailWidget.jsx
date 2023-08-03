@@ -75,10 +75,10 @@ function EmailWidget(props) {
           value={value}
           onClick={() => onClick()}
           onBlur={({ target }) =>
-            onBlur(id, target.value === '' ? undefined : target.value)
+            onBlur(id, target.value === '' ? null : target.value)
           }
           onChange={({ target }) => {
-            return onChange(id, target.value === '' ? undefined : target.value);
+            return onChange(id, target.value === '' ? null : target.value);
           }}
         />
       </div>
