@@ -41,9 +41,6 @@ export default function types(state = initialState, action = {}) {
       );
       if (hasExpander) {
         if (!action.result['@id'] || !action.result['@components']?.types) {
-          if (__SERVER__) {
-            console.error("++api++ expander exception - types", action)
-          }
           return state;
         }
         return {

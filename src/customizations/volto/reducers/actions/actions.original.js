@@ -60,21 +60,6 @@ export default function actions(state = initialState, action = {}) {
         action
       );
       if (hasExpander) {
-        console.log("ACTION RESULT")
-        console.log(action.result)
-        console.log(action.result['@components'])
-        try {
-          const value = action.result['@components']
-        } catch {
-          debugger;
-        }
-
-        // return flatten(
-        //   config.settings.apiExpanders
-        //     .filter((expand) => matchPath(path, expand.match) && expand[type])
-        //     .map((expand) => expand[type]),
-        // ).includes(expander);
-
         return {
           ...state,
           error: null,
