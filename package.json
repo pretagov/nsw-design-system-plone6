@@ -20,7 +20,8 @@
     "volto-form-block",
     "volto-google-analytics",
     "volto-subfooter",
-    "volto-siteinfo"
+    "volto-siteinfo",
+    "@plone-collective/volto-blocks-footer"
   ],
   "dependencies": {
     "@eeacms/volto-accordion-block": "6.0.0",

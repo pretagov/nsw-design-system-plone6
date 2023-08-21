@@ -5,5 +5,11 @@
     "path": "src",
     "branch": "deploy",
     "develop": true
+  },
+  "volto-blocks-footer": {
+    "url": "https://github.com/pretagov/volto-blocks-footer.git",
+    "package": "@plone-collective/volto-blocks-footer",
+    "path": "src",
+    "develop": true
   }
 }

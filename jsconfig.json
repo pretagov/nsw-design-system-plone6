@@ -1,8 +1,14 @@
 {
     "compilerOptions": {
         "paths": {
+            "nsw-design-system-plone6": [
+                "addons/nsw-design-system-plone6/src"
+            ],
             "volto-form-block": [
                 "addons/volto-form-block/src"
+            ],
+            "volto-blocks-footer": [
+                "addons/volto-blocks-footer/src"
             ]
         },
         "baseUrl": "src"

@@ -5,6 +5,7 @@ import { defineMessages, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getSubFooter } from 'volto-subfooter';
+import config from '@plone/volto/registry';
 
 // TODO: Would dynamically importing these reduce bundle size?
 import FacebookSVG from '@mdi/svg/svg/facebook.svg';
@@ -56,6 +57,8 @@ function Footer() {
   const dispatch = useDispatch();
   const subFooter = useSelector((state) => state.subFooter?.result);
   const siteSettings = useSelector((state) => state.nswSiteSettings.data);
+  const FooterDisplay = config.getComponent('VoltoBlocksFooterDisplay')
+    .component;
 
   useEffect(() => {
     dispatch(getSubFooter());
@@ -81,6 +84,7 @@ function Footer() {
 
   return (
     <>
+      {FooterDisplay ? <FooterDisplay /> : null}
       <footer id="site-footer" className="nsw-footer">
         {upperFooterLinks && upperFooterLinks.length > 0 ? (
           <div className="nsw-footer__upper">
