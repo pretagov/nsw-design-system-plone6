@@ -21,10 +21,12 @@
     "volto-google-analytics",
     "volto-subfooter",
     "volto-siteinfo",
+    "@eeacms/volto-columns-block",
     "@plone-collective/volto-blocks-footer"
   ],
   "dependencies": {
     "@eeacms/volto-accordion-block": "6.0.0",
+    "@eeacms/volto-columns-block": "6.3.2",
     "@fontsource/public-sans": "4.5.12",
     "@kitconcept/volto-blocks-grid": "5.2.0",
     "@material-design-icons/svg": "0.14.6",

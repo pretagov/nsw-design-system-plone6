@@ -7,6 +7,7 @@ export const updateSettingsConfig = (config) => {
     'nsw_section',
     'nsw_announcementBar',
     'form',
+    'columnsBlock',
     ...(config.settings.fullWidthBlockTypes || []),
   ];
 
