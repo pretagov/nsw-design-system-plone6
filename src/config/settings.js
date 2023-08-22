@@ -2,6 +2,10 @@ export const updateSettingsConfig = (config) => {
   config.settings.navDepth = 2;
   config.experimental.addBlockButton.enabled = true;
 
+  config.settings.fullWidthContentBlocks = [
+    ...(config.settings.fullWidthContentBlocks || []),
+    'form',
+  ];
   config.settings.fullWidthBlockTypes = [
     'hero',
     'nsw_section',

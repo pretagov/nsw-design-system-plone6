@@ -320,7 +320,6 @@ class ColumnsBlockEdit extends React.Component {
         delete schema.properties[property];
       }
 
-      // Array.reduce();
       schema.fieldsets = schema.fieldsets.reduce((fieldsets, fieldset) => {
         fieldset.fields = fieldset?.fields.filter(
           (field) => field !== property,
@@ -367,7 +366,9 @@ class ColumnsBlockEdit extends React.Component {
       available_colors,
     } = config.blocks.blocksConfig[COLUMNSBLOCK];
     // const ColumnSchema = makeStyleSchema({ available_colors }, this.props.intl);
-    const ColumnSchema = this.asPretaGovColumnSchema(makeStyleSchema({ available_colors }, this.props.intl));
+    const ColumnSchema = this.asPretaGovColumnSchema(
+      makeStyleSchema({ available_colors }, this.props.intl),
+    );
     const isInitialized = data?.data && Object.keys(data?.data).length > 0;
 
     return (
