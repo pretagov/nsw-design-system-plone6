@@ -36,6 +36,8 @@ import upSVG from '@plone/volto/icons/up.svg';
 import eraserSVG from '@eeacms/volto-columns-block/ColumnsBlock/icons/eraser.svg';
 import '@eeacms/volto-columns-block/less/columns.less';
 
+import { withSectionSchema } from 'nsw-design-system-plone6/config/blocks/schemaEnhancers';
+
 const messages = defineMessages({
   labelColumn: {
     id: 'Column',
@@ -307,6 +309,37 @@ class ColumnsBlockEdit extends React.Component {
     }
   }
 
+  asPretaGovColumnSchema(schema) {
+    const unusedProperties = [
+      'backgroundColor',
+      'grid_vertical_align',
+      'padding',
+    ];
+    unusedProperties.forEach((property) => {
+      if (schema.properties[property]) {
+        delete schema.properties[property];
+      }
+
+      // Array.reduce();
+      schema.fieldsets = schema.fieldsets.reduce((fieldsets, fieldset) => {
+        fieldset.fields = fieldset?.fields.filter(
+          (field) => field !== property,
+        );
+        // Default is needed by the Volto form renderer
+        if (fieldset?.fields?.length === 0 && fieldset.id !== 'default') {
+          return fieldsets;
+        }
+        fieldsets.push(fieldset);
+        return fieldsets;
+      }, []);
+    });
+    return withSectionSchema({
+      schema,
+      intl: this.props.intl,
+      formData: this.props.formData,
+    });
+  }
+
   render() {
     const {
       block,
@@ -333,7 +366,8 @@ class ColumnsBlockEdit extends React.Component {
       variants,
       available_colors,
     } = config.blocks.blocksConfig[COLUMNSBLOCK];
-    const ColumnSchema = makeStyleSchema({ available_colors }, this.props.intl);
+    // const ColumnSchema = makeStyleSchema({ available_colors }, this.props.intl);
+    const ColumnSchema = this.asPretaGovColumnSchema(makeStyleSchema({ available_colors }, this.props.intl));
     const isInitialized = data?.data && Object.keys(data?.data).length > 0;
 
     return (
