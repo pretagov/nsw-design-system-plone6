@@ -9,6 +9,10 @@ import { getColumns } from '@eeacms/volto-columns-block/ColumnsBlock/utils';
 import { getStyle } from '@eeacms/volto-columns-block/Styles';
 
 const getSide = (side, v) => {
+  // TODO: Add UI to actually set this
+  if (typeof v?.[side] === 'string') {
+    return `${v?.[side] ? `nsw-p-${side}-${v[side]}` : '0'}`;
+  }
   return `${v?.[side] ? `${v[side]}${v.unit ? v.unit : 'px'}` : '0'}`;
 };
 
@@ -51,23 +55,14 @@ const ColumnsBlockView = (props) => {
                 )}
                 {...getStyle(column.settings || {})}
               >
-                <span
-                  style={
-                    column.settings?.padding
-                      ? {
-                          padding: getSides(column.settings?.padding),
-                          verticalAlign: column.settings?.grid_vertical_align,
-                        }
-                      : {}
-                  }
-                >
+                <div className={getSides(column.settings?.padding)}>
                   <RenderBlocks
                     {...props}
                     location={location}
                     metadata={metadata}
                     content={column}
                   />
-                </span>
+                </div>
               </div>
             );
           })}
