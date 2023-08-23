@@ -261,7 +261,7 @@ class ColumnsBlockEdit extends React.Component {
     schema.properties.gridCols.choices = available_variants.map(
       ({ defaultData, title }) => [defaultData?.gridCols, title],
     );
-    return schema;
+    return this.asPretaGovColumnSchema(schema);
   };
 
   componentDidUpdate(prevProps) {
