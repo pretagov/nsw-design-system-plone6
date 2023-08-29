@@ -39,6 +39,10 @@ export function blockNeedsSection(blockData) {
 }
 
 export function blocksNeedSections(blocksData) {
+  if (typeof blocksData !== 'object') {
+    return false;
+  }
+  // Need to check `blocksData` is actually an object here
   return Object.values(blocksData).some(
     (blockData) =>
       blockNeedsSection(blockData) ||
