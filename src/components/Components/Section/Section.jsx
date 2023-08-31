@@ -67,7 +67,11 @@ export function BlocksAsSection({ blocksLayout, blocksData, content }) {
   const intl = useIntl();
   const location = useLocation();
 
-  const blockWithSectionData = Array.isArray(blocksLayout)
+  if (!blocksData) {
+    return null;
+  }
+
+  let blockWithSectionData = Array.isArray(blocksLayout)
     ? blocksLayout?.reduce((foundValue, blockId) => {
         if (foundValue) {
           return foundValue;
@@ -80,7 +84,10 @@ export function BlocksAsSection({ blocksLayout, blocksData, content }) {
     : undefined;
 
   if (!blockWithSectionData) {
-    return null;
+    if (!blocksLayout[0]) {
+      return null;
+    }
+    blockWithSectionData = blocksData[blocksLayout[0]];
   }
   const sectionColour = getSectionColour(blockWithSectionData);
 
