@@ -1,18 +1,7 @@
-import {
-  Helmet,
-  getBaseUrl,
-  getBlocksFieldname,
-  getBlocksLayoutFieldname,
-  hasBlocksData,
-} from '@plone/volto/helpers';
+import { getBaseUrl } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
 import cx from 'classnames';
-import {
-  blockNeedsSection,
-  blocksNeedSections,
-  getSectionColour,
-  sectionFields,
-} from 'nsw-design-system-plone6/components/Blocks/Section/utils';
+import { getSectionColour } from 'nsw-design-system-plone6/components/Blocks/Section/utils';
 import { useLocation } from 'react-router-dom';
 
 import { defineMessages, useIntl } from 'react-intl';
