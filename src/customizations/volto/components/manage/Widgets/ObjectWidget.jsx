@@ -3,11 +3,14 @@
  *
  */
 
-import React from 'react';
 import PropTypes from 'prop-types';
-import { Tab } from 'semantic-ui-react';
+import React from 'react';
+import { Accordion, Segment, Tab } from 'semantic-ui-react';
 
+import { Icon } from '@plone/volto/components';
 import Field from '@plone/volto/components/manage/Form/Field';
+import downSVG from '@plone/volto/icons/down-key.svg';
+import upSVG from '@plone/volto/icons/up-key.svg';
 
 /**
  * Renders a field set. Passes some of the values in the schema to the Field
@@ -55,15 +58,7 @@ const FieldSet = ({
   });
 };
 
-/**
- *
- * A JSON data editor widget based on a schema. If you want to represent complex
- * data using a single field, this is the widget to use.
- *
- * If there are multiple field sets, it renders a Tab component with multiple
- * tab panes. Each tab has the title of the fieldset it renders.
- */
-const ObjectWidget = ({
+function ObjectWidgetBody({
   block,
   schema,
   value, // not checked to not contain unknown fields
@@ -71,7 +66,7 @@ const ObjectWidget = ({
   errors = {},
   id,
   ...props
-}) => {
+}) {
   const createTab = React.useCallback(
     (fieldset, index) => {
       return {
@@ -94,7 +89,6 @@ const ObjectWidget = ({
     },
     [block, errors, id, onChange, schema, value],
   );
-
   return schema.fieldsets.length === 1 ? (
     <>
       <FieldSet
@@ -110,6 +104,47 @@ const ObjectWidget = ({
     </>
   ) : (
     <Tab panes={schema.fieldsets.map(createTab)} /> // lazy loading
+  );
+}
+
+/**
+ *
+ * A JSON data editor widget based on a schema. If you want to represent complex
+ * data using a single field, this is the widget to use.
+ *
+ * If there are multiple field sets, it renders a Tab component with multiple
+ * tab panes. Each tab has the title of the fieldset it renders.
+ */
+const ObjectWidget = (props) => {
+  const collapsible = props.collapsible;
+  const [activeIndex, setActiveIndex] = React.useState(-1);
+  function handleClick(e, titleProps) {
+    const { index } = titleProps;
+    const newIndex = activeIndex === index ? -1 : index;
+    setActiveIndex(newIndex);
+  }
+  return collapsible ? (
+    <Segment>
+      <Accordion fluid styled>
+        <Accordion.Title
+          active={activeIndex === 0}
+          index={0}
+          onClick={handleClick}
+        >
+          My title
+          {activeIndex === 0 ? (
+            <Icon name={upSVG} size="20px" />
+          ) : (
+            <Icon name={downSVG} size="20px" />
+          )}
+        </Accordion.Title>
+        <Accordion.Content active={activeIndex === 0}>
+          <ObjectWidgetBody {...props} />
+        </Accordion.Content>
+      </Accordion>
+    </Segment>
+  ) : (
+    <ObjectWidgetBody {...props} />
   );
 };
 
