@@ -42,7 +42,6 @@ const Field = (props) => {
     field_type,
     required,
     input_values,
-    value,
     onChange,
     isOnEdit,
     valid,
@@ -50,6 +49,7 @@ const Field = (props) => {
     formHasErrors = false,
     widget,
     shouldShow = true,
+    internal_value,
   } = props;
   const intl = useIntl();
 
@@ -62,8 +62,18 @@ const Field = (props) => {
     const valueList =
       field_type === 'yes_no'
         ? [
-            { value: true, label: 'Yes' },
-            { value: false, label: 'No' },
+            {
+              value: true,
+              label: Object.hasOwn(internal_value, 'yes')
+                ? internal_value.yes
+                : 'Yes',
+            },
+            {
+              value: false,
+              label: Object.hasOwn(internal_value, 'no')
+                ? internal_value.no
+                : 'No',
+            },
           ]
         : [...(input_values?.map((v) => ({ value: v, label: v })) ?? [])];
 

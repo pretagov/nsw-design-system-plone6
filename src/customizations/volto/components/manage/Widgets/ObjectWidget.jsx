@@ -131,7 +131,7 @@ const ObjectWidget = (props) => {
           index={0}
           onClick={handleClick}
         >
-          My title
+          Internal value mapping
           {activeIndex === 0 ? (
             <Icon name={upSVG} size="20px" />
           ) : (
