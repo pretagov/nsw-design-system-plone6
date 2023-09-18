@@ -13,12 +13,12 @@ const applyConfig = (config) => {
   config.blocks.blocksConfig.columnsBlock.gridSizes = {
     full: '',
     halfWidth: 'nsw-col-sm-6',
-    twoThirds: 'nsw-col-sm-8',
     oneThird: 'nsw-col-sm-4',
-    halfWidthBig: 'nsw-col-sm-6',
-    oneThirdSmall: 'nsw-col-sm-4',
+    twoThirds: 'nsw-col-sm-8',
     oneQuarter: 'nsw-col-sm-3',
     threeQuarters: 'nsw-col-sm-9',
+    oneSixth: 'nsw-col-sm-2',
+    fiveSixths: 'nsw-col-sm-10',
   };
   config.blocks.blocksConfig.columnsBlock.available_colors = [
     '0a2f3c'
@@ -61,15 +61,6 @@ const applyConfig = (config) => {
       title: '33 / 33 / 33',
     },
     {
-      icon: iconE,
-      defaultData: {
-        gridSize: 12,
-        gridCols: ['oneThirdSmall', 'halfWidthBig', 'oneThirdSmall'],
-      },
-      common: true,
-      title: '25 / 50 / 25',
-    },
-    {
       icon: iconF,
       defaultData: {
         gridSize: 12,
@@ -77,6 +68,15 @@ const applyConfig = (config) => {
       },
       common: true,
       title: '25 / 25 / 25 / 25',
+    },
+    {
+      icon: iconF,
+      defaultData: {
+        gridSize: 12,
+        gridCols: ['oneSixth', 'oneThird', 'oneThird', 'oneSixth'],
+      },
+      common: true,
+      title: '20 / 30 / 30 / 20',
     },
     {
       icon: iconG,
