@@ -41,6 +41,7 @@ const Field = (props) => {
     name,
     field_type,
     required,
+    value,
     input_values,
     onChange,
     isOnEdit,
