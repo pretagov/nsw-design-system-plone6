@@ -399,7 +399,7 @@ class ColumnsBlockEdit extends React.Component {
             }}
           />
         ) : (
-          <div className="nsw-grid">
+          <>
             <div
               className="columns-header"
               onClick={() => {
@@ -420,6 +420,7 @@ class ColumnsBlockEdit extends React.Component {
             </div>
             <div
               className={cx(
+                'nsw-grid',
                 this.props.data.reverseWrap
                   ? 'column-grid reverse-wrap'
                   : 'column-grid',
@@ -428,7 +429,7 @@ class ColumnsBlockEdit extends React.Component {
               {columnList.map(([colId, column], index) => (
                 <div
                   className={cx(
-                    'block-column',
+                    'nsw-col',
                     data?.data?.blocks?.[colId]?.settings?.column_class,
                     gridSizes[gridCols[index]],
                   )}
@@ -525,7 +526,7 @@ class ColumnsBlockEdit extends React.Component {
                 </div>
               ))}
             </div>
-          </div>
+          </>
         )}
 
         {selected && selectedColData ? (
