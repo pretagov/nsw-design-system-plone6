@@ -84,10 +84,11 @@ function Footer() {
 
   return (
     <>
-      {FooterDisplay ? <FooterDisplay /> : null}
+      
       <footer id="site-footer" className="nsw-footer">
-        {upperFooterLinks && upperFooterLinks.length > 0 ? (
+        {(upperFooterLinks && upperFooterLinks.length > 0) || FooterDisplay ? (
           <div className="nsw-footer__upper">
+            {FooterDisplay ? <FooterDisplay /> : null}
             <div className="nsw-container">
               {upperFooterLinks.map((linkGroup) => {
                 const headingItem = linkGroup.items[0];
