@@ -1,11 +1,11 @@
 import { Icon } from '@plone/volto/components';
 import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
+import config from '@plone/volto/registry';
 import React, { useEffect } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getSubFooter } from 'volto-subfooter';
-import config from '@plone/volto/registry';
 
 // TODO: Would dynamically importing these reduce bundle size?
 import FacebookSVG from '@mdi/svg/svg/facebook.svg';
@@ -84,7 +84,6 @@ function Footer() {
 
   return (
     <>
-      
       <footer id="site-footer" className="nsw-footer">
         {(upperFooterLinks && upperFooterLinks.length > 0) || FooterDisplay ? (
           <div className="nsw-footer__upper">
@@ -155,8 +154,12 @@ function Footer() {
         ) : null}
         <div className="nsw-footer__lower">
           <div className="nsw-container">
-            <p>{acknowledgementOfCountry}</p>
-            <hr />
+            {siteSettings?.show_acknowledgement_of_country === false ? null : (
+              <>
+                <p>{acknowledgementOfCountry}</p>
+                <hr />
+              </>
+            )}
             <div className="nsw-footer__links">
               {lowerFooterLinks && lowerFooterLinks.items ? (
                 <ul>
