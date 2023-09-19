@@ -1,6 +1,8 @@
 import { Icon } from '@plone/volto/components';
 import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
+import cx from 'classnames';
+import { getTextColourUtilityForPaletteName } from 'nsw-design-system-plone6/helpers';
 import React, { useEffect } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -82,11 +84,21 @@ function Footer() {
     siteSettings?.acknowledgement_of_country ||
     intl.formatMessage(messages.acknowledgementOfCountry);
 
+  const upperFooterColour = siteSettings?.nsw_independent_upper_footer_colour;
+  const upperFooterTextColour = getTextColourUtilityForPaletteName(
+    upperFooterColour,
+  );
+
   return (
     <>
       <footer id="site-footer" className="nsw-footer">
         {(upperFooterLinks && upperFooterLinks.length > 0) || FooterDisplay ? (
-          <div className="nsw-footer__upper">
+          <div
+            className={cx('nsw-footer__upper', {
+              [upperFooterTextColour]: true,
+              [`nsw-bg--${upperFooterColour}`]: true,
+            })}
+          >
             {FooterDisplay ? <FooterDisplay /> : null}
             <div className="nsw-container">
               {upperFooterLinks.map((linkGroup) => {
