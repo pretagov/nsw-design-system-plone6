@@ -65,15 +65,17 @@ const Field = (props) => {
         ? [
             {
               value: true,
-              label: Object.hasOwn(internal_value, 'yes')
-                ? internal_value.yes
-                : 'Yes',
+              label:
+                internal_value && Object.hasOwn(internal_value, 'yes')
+                  ? internal_value.yes
+                  : 'Yes',
             },
             {
               value: false,
-              label: Object.hasOwn(internal_value, 'no')
-                ? internal_value.no
-                : 'No',
+              label:
+                internal_value && Object.hasOwn(internal_value, 'no')
+                  ? internal_value.no
+                  : 'No',
             },
           ]
         : [...(input_values?.map((v) => ({ value: v, label: v })) ?? [])];
