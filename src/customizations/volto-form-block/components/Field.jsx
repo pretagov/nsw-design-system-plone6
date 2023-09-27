@@ -50,7 +50,7 @@ const Field = (props) => {
     formHasErrors = false,
     widget,
     shouldShow = true,
-    internal_value,
+    display_values,
   } = props;
   const intl = useIntl();
 
@@ -66,15 +66,15 @@ const Field = (props) => {
             {
               value: true,
               label:
-                internal_value && Object.hasOwn(internal_value, 'yes')
-                  ? internal_value.yes
+                display_values && Object.hasOwn(display_values, 'yes')
+                  ? display_values.yes
                   : 'Yes',
             },
             {
               value: false,
               label:
-                internal_value && Object.hasOwn(internal_value, 'no')
-                  ? internal_value.no
+                display_values && Object.hasOwn(display_values, 'no')
+                  ? display_values.no
                   : 'No',
             },
           ]
