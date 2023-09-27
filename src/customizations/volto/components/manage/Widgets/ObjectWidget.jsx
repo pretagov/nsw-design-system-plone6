@@ -123,8 +123,9 @@ const ObjectWidget = (props) => {
     const newIndex = activeIndex === index ? -1 : index;
     setActiveIndex(newIndex);
   }
+
   return collapsible ? (
-    <Segment>
+    <Segment attached>
       <Accordion fluid styled>
         <Accordion.Title
           active={activeIndex === 0}
