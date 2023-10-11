@@ -42,7 +42,6 @@ const Field = (props) => {
     field_type,
     required,
     input_values,
-    value,
     onChange,
     isOnEdit,
     valid,
@@ -51,6 +50,11 @@ const Field = (props) => {
     widget,
     shouldShow = true,
   } = props;
+  let { value } = props;
+  // debugger;
+  if (props.default_value && (value === null || value === undefined)) {
+    value = props.default_value;
+  }
   const intl = useIntl();
 
   const isInvalid = () => {
@@ -67,17 +71,22 @@ const Field = (props) => {
           ]
         : [...(input_values?.map((v) => ({ value: v, label: v })) ?? [])];
 
+        
     return (
       <Widget
         {...props}
         id={name}
         title={label}
+        value={value}
         valueList={valueList}
         invalid={isInvalid().toString()}
         {...(isInvalid() ? { className: 'is-invalid' } : {})}
       />
     );
   }
+
+
+  debugger;
 
   return (
     <>

@@ -42,6 +42,9 @@ function TextWidget(props) {
     error?.length > 0 && (invalid === true || invalid === 'true');
   const inputId = `field-${id}`;
 
+  // console.log(error);
+  // debugger;
+
   return (
     <FormFieldWrapper {...props} className="text" wrapped={false}>
       <div className="nsw-form__group">
@@ -77,6 +80,19 @@ function TextWidget(props) {
             return onChange(id, target.value === '' ? null : target.value);
           }}
         />
+        <span
+          class="nsw-form__helper nsw-form__helper--error"
+          id="form-text-3-error-text"
+        >
+          <span
+            class="material-icons nsw-material-icons"
+            focusable="false"
+            aria-hidden="true"
+          >
+            cancel
+          </span>
+          This field is required
+        </span>
       </div>
     </FormFieldWrapper>
   );
