@@ -36,7 +36,10 @@ import upSVG from '@plone/volto/icons/up.svg';
 import eraserSVG from '@eeacms/volto-columns-block/ColumnsBlock/icons/eraser.svg';
 import '@eeacms/volto-columns-block/less/columns.less';
 
+// Custom imports
 import { withSectionSchema } from 'nsw-design-system-plone6/config/blocks/schemaEnhancers';
+import { blockHasValue } from '@plone/volto/helpers';
+import { omit } from 'lodash';
 
 const messages = defineMessages({
   labelColumn: {
@@ -468,6 +471,36 @@ class ColumnsBlockEdit extends React.Component {
                       );
                     }}
                     onChangeFormData={(newFormData) => {
+                      // Delete operations return ['ID_OF_NEW_EMPTY_BLOCK', EMPTY_BLOCK_DATA]
+                      //   We don't really have any other way of checking the actual operation here
+                      //   as it's all hidden by `BlockDataForm`, so we check for a brand new empty block
+                      //   that isn't in the current layout to assume a delete has occured.
+                      const blockBeingDeleted =
+                        newFormData?.[1]?.blocks?.[newFormData?.[0]];
+                      if (
+                        blockBeingDeleted &&
+                        !column.blocks_layout?.[newFormData?.[0]] &&
+                        !blockHasValue(blockBeingDeleted)
+                      ) {
+                        const newData = {
+                          ...data,
+                          data: {
+                            ...coldata,
+                            blocks: omit({ ...coldata.blocks }, [colId]),
+                            blocks_layout: {
+                              ...coldata.blocks_layout,
+                              items: without(
+                                [...coldata.blocks_layout?.items],
+                                colId,
+                              ),
+                            },
+                          },
+                        };
+
+                        onChangeBlock(block, newData);
+                        return;
+                      }
+
                       onChangeBlock(block, {
                         ...data,
                         data: {
