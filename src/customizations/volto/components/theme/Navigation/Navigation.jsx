@@ -168,12 +168,13 @@ const Navigation = () => {
   }, [mainNavRef]);
 
   useEffect(() => {
-    if (
-      navigationController.current &&
-      navigationController.current.openSubNavElements.length > 0
-    ) {
-      navigationController.current.closeSubNav();
-      navigationController.current.mobileHideMainNav({ propertyName: '' });
+    if (navigationController.current) {
+      if (navigationController.current.openSubNavElements.length > 0) {
+        navigationController.current.toggleSubNavDesktop();
+      }
+      navigationController.current.mobileHideMainNav({
+        propertyName: 'transform',
+      });
     }
   }, [location]);
   useEffect(() => {
