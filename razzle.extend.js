@@ -23,10 +23,17 @@ const modifyWebpackConfig = (config, { target, dev }, webpack) => {
         loader: 'svgo-loader',
         options: {
           plugins: [
-            { removeTitle: true },
-            { convertPathData: false },
-            { removeUselessStrokeAndFill: true },
-            { removeViewBox: false },
+            {
+              name: 'preset-default',
+              params: {
+                overrides: {
+                  //removeTitle: true,
+                  convertPathData: false,
+                  //removeUselessStrokeAndFill: true,
+                  removeViewBox: false,
+                },
+              },
+            },
           ],
         },
       },
@@ -42,10 +49,17 @@ const modifyWebpackConfig = (config, { target, dev }, webpack) => {
         loader: 'svgo-loader',
         options: {
           plugins: [
-            { removeTitle: true },
-            { convertPathData: false },
-            { removeUselessStrokeAndFill: true },
-            { removeViewBox: false },
+            {
+              name: 'preset-default',
+              params: {
+                overrides: {
+                  //removeTitle: true,
+                  convertPathData: false,
+                  //removeUselessStrokeAndFill: true,
+                  removeViewBox: false,
+                },
+              },
+            },
           ],
         },
       },
@@ -61,10 +75,17 @@ const modifyWebpackConfig = (config, { target, dev }, webpack) => {
         loader: 'svgo-loader',
         options: {
           plugins: [
-            { removeTitle: true },
-            { convertPathData: false },
-            { removeUselessStrokeAndFill: false },
-            { removeViewBox: false },
+            {
+              name: 'preset-default',
+              params: {
+                overrides: {
+                  //removeTitle: true,
+                  convertPathData: false,
+                  //removeUselessStrokeAndFill: true,
+                  removeViewBox: false,
+                },
+              },
+            },
           ],
         },
       },
