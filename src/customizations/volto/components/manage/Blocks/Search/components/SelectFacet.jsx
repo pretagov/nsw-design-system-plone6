@@ -3,12 +3,9 @@ import {
   selectFacetStateToValue,
   selectFacetValueToQuery,
 } from '@plone/volto/components/manage/Blocks/Search/components/base';
-import React from 'react';
 
 const SelectFacet = (props) => {
-  const { facet, choices, isMulti, onChange, value, isEditMode } = props;
-  const selectedValue =
-    Array.isArray(value) && value.length === 0 ? null : value;
+  const { facet, choices, onChange, isEditMode } = props;
 
   const { title: facetLabel, '@id': facetId } = facet;
   const selectHtmlId = `filters-${facetId}`;

@@ -1,5 +1,4 @@
 import cx from 'classnames';
-import React from 'react';
 
 // TODO: Allow choosing the heading level of the title.
 const Section = ({

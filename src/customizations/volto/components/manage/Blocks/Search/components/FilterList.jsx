@@ -1,4 +1,3 @@
-import React from 'react';
 /**
  * A list of active filtered values and controls to clear those filters.
  *
@@ -50,6 +49,7 @@ const FilterList = (props) => {
                   facets[facet].map((value) => {
                     return (
                       <button
+                        key={value}
                         onClick={() => {
                           removeFilter({ facet: facet, value: value });
                         }}

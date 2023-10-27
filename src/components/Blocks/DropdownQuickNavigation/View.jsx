@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-onchange */
 import { ConditionalLink } from '@plone/volto/components';
-import React, { useState } from 'react';
+import * as React from 'react';
 import './DropdownQuickNavigation.css';
 
 function QuickNavDropdown({
@@ -43,11 +43,11 @@ function QuickNavDropdown({
 }
 
 export function DropdownQuickNavigationView({ data, isEditMode = false }) {
-  const [firstDropdownValue, setFirstDropdownValue] = useState(
+  const [firstDropdownValue, setFirstDropdownValue] = React.useState(
     data.links?.[0]?.dropdownValueFirst ?? '',
   );
-  const [goToLink, setGoToLink] = useState(
-    data.links?.[0]?.link?.[0]['@id'] ?? '',
+  const [goToLink, setGoToLink] = React.useState(
+    data.links?.[0]?.url?.[0]['@id'] ?? '',
   );
 
   const firstDropdownOptions = React.useMemo(() => {
@@ -111,7 +111,7 @@ export function DropdownQuickNavigationView({ data, isEditMode = false }) {
           label={data.dropdownTitleSecond}
           options={secondDropdownOptions}
           optionValues={secondDropdownOptions.map((option) => {
-            return option.link[0]['@id'];
+            return option.url[0]['@id'];
           })}
           valueField="dropdownValueSecond"
           onChange={(event) => {

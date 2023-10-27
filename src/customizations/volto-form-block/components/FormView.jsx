@@ -6,6 +6,142 @@ import { Button, Dimmer, Loader, Message } from 'semantic-ui-react';
 import { getFieldName } from 'volto-form-block/components/utils';
 import Field from './Field';
 
+import { showWhenValidator } from 'volto-form-block/helpers/show_when';
+
+function useIsClient() {
+  const [isClient, setClient] = React.useState(false);
+
+  React.useEffect(() => {
+    setClient(true);
+  }, []);
+
+  return isClient;
+}
+
+const FieldRenderWrapper = ({
+  subblock,
+  formData,
+  index,
+  blockData,
+  onChangeFormData,
+  formErrors,
+  isValidField,
+  FieldSchema,
+}) => {
+  const isClient = useIsClient();
+  let name = React.useMemo(() => {
+    return getFieldName(subblock.label, subblock.id);
+  }, [subblock]);
+
+  var fields_to_send = [];
+  var fieldSchemaProperties = FieldSchema(subblock)?.properties;
+  for (var key in fieldSchemaProperties) {
+    if (fieldSchemaProperties[key].send_to_backend) {
+      fields_to_send.push(key);
+    }
+  }
+
+  var fields_to_send_with_value = Object.assign(
+    {},
+    ...fields_to_send.map((field) => {
+      return {
+        [field]: subblock[field],
+      };
+    }),
+  );
+
+  const value =
+    subblock.field_type === 'static_text'
+      ? subblock.value
+      : formData[name]?.value;
+  const { show_when_when, show_when_is, show_when_to } = subblock;
+
+  const targetField = React.useMemo(() => {
+    return blockData.subblocks.find((block) => block.id === show_when_when);
+  }, [blockData.subblocks, show_when_when]);
+  const targetFieldName = React.useMemo(() => {
+    if (!targetField) {
+      return;
+    }
+    return getFieldName(targetField.label, targetField.id);
+  }, [targetField]);
+  const shouldShowValidator =
+    show_when_when === 'always'
+      ? showWhenValidator['always']
+      : showWhenValidator[show_when_is];
+  const shouldShowTargetValue = formData[targetFieldName]?.value;
+
+  // Only checking for false here to preserve backwards compatibility with blocks that haven't been updated and so have a value of 'undefined' or 'null'
+  const shouldShow = shouldShowValidator
+    ? shouldShowValidator({
+        value: shouldShowTargetValue,
+        target_value: show_when_to,
+      }) !== false
+    : true;
+  const hasDynamicVisibility =
+    shouldShowValidator && targetField && show_when_to;
+
+  let description = subblock?.description ?? '';
+
+  // Hide the field on the client
+  if (!shouldShow && isClient) {
+    return null;
+  }
+
+  if (hasDynamicVisibility) {
+    if (!isClient) {
+      const validatorLabel = fieldSchemaProperties.show_when_is.choices.find(
+        (choice) => choice[0] === show_when_is,
+      )[1];
+      description = `${description}
+Only required if '${targetField.label}' is ${validatorLabel} to '${show_when_to}'.`;
+    }
+
+    return (
+      <div
+        className={
+          blockData.subblocks[index - 1]?.field_id === targetField?.field_id
+            ? 'nsw-p6-linked-field'
+            : null
+        }
+      >
+        <Field
+          {...subblock}
+          name={name}
+          onChange={(field, value) =>
+            onChangeFormData(
+              subblock.id,
+              field,
+              value,
+              fields_to_send_with_value,
+            )
+          }
+          value={value}
+          description={description}
+          valid={isValidField(name)}
+          formHasErrors={formErrors?.length > 0}
+          shouldShow={shouldShow}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <Field
+      {...subblock}
+      name={name}
+      onChange={(field, value) =>
+        onChangeFormData(subblock.id, field, value, fields_to_send_with_value)
+      }
+      value={value}
+      description={description}
+      valid={isValidField(name)}
+      formHasErrors={formErrors?.length > 0}
+      shouldShow={shouldShow}
+    />
+  );
+};
+
 const messages = defineMessages({
   default_submit_label: {
     id: 'form_default_submit_label',
@@ -42,19 +178,11 @@ const FormView = ({
   id,
 }) => {
   const intl = useIntl();
+  const FieldSchema = config.blocks.blocksConfig.form.fieldSchema;
 
   const isValidField = (field) => {
     return formErrors?.indexOf(field) < 0;
   };
-
-  var FieldSchema = config.blocks.blocksConfig.form.fieldSchema;
-  var fieldSchemaProperties = FieldSchema()?.properties;
-  var fields_to_send = [];
-  for (var key in fieldSchemaProperties) {
-    if (fieldSchemaProperties[key].send_to_backend) {
-      fields_to_send.push(key);
-    }
-  }
 
   return (
     <>
@@ -95,7 +223,7 @@ const FormView = ({
                     field.name?.toLowerCase()?.replace(' ', ''))
                 }
                 value={field.value}
-                onChange={() => {}}
+                nChange={() => {}}
                 disabled
                 valid
                 formHasErrors={formErrors?.length > 0}
@@ -103,36 +231,16 @@ const FormView = ({
             );
           })}
           {data.subblocks?.map((subblock, index) => {
-            let name = getFieldName(subblock.label, subblock.id);
-            var fields_to_send_with_value = Object.assign(
-              {},
-              ...fields_to_send.map((field) => {
-                return {
-                  [field]: subblock[field],
-                };
-              }),
-            );
-
             return (
-              <Field
+              <FieldRenderWrapper
                 key={'row' + index}
-                {...subblock}
-                name={name}
-                onChange={(field, value) =>
-                  onChangeFormData(
-                    subblock.id,
-                    field,
-                    value,
-                    fields_to_send_with_value,
-                  )
-                }
-                value={
-                  subblock.field_type === 'static_text'
-                    ? subblock.value
-                    : formData[name]?.value
-                }
-                valid={isValidField(name)}
-                formHasErrors={formErrors?.length > 0}
+                subblock={subblock}
+                index={index}
+                formData={formData}
+                blockData={data}
+                onChangeFormData={onChangeFormData}
+                isValidField={isValidField}
+                FieldSchema={FieldSchema}
               />
             );
           })}

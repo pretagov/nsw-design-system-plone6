@@ -1,8 +1,7 @@
 import { ConditionalLink } from '@plone/volto/components';
 import { flattenToAppURL } from '@plone/volto/helpers';
-import React from 'react';
 
-const ListItemsTemplate = ({ items, isEditMode, imagePosition }) => {
+const ListItemsImageGalleryTemplate = ({ items, isEditMode, imagePosition }) => {
   return (
     <div className="nsw-list-items">
       {items.map((item) => {
@@ -15,7 +14,7 @@ const ListItemsTemplate = ({ items, isEditMode, imagePosition }) => {
                   {/* <div className="nsw-list-item__label">Stories</div> */}
                   <div className="nsw-list-item__title">
                     <ConditionalLink item={item} condition={!isEditMode}>
-                      {item.title ? item.title : item.id}
+                      {item.title ? item.title : item['@id']}
                     </ConditionalLink>
                   </div>
                   <div className="nsw-list-item__copy">{item.description}</div>
@@ -84,4 +83,4 @@ const ListItemsTemplate = ({ items, isEditMode, imagePosition }) => {
   );
 };
 
-export default ListItemsTemplate;
+export default ListItemsImageGalleryTemplate;

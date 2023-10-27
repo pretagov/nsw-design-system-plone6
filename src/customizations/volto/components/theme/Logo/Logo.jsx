@@ -16,7 +16,7 @@ const Logo = () => {
   return (
     <UniversalLink href={settings.isMultilingual ? `/${lang}` : '/'}>
       {logoUrl && !logoUrl.includes('++resource++plone-logo.svg') ? (
-        <img class="nsw-header__logo" src={logoUrl} alt="" />
+        <img className="nsw-header__logo" src={logoUrl} alt="" />
       ) : (
         <>
           <svg
@@ -47,9 +47,9 @@ const Logo = () => {
               fill="#D7153A"
             ></path>
           </svg>
-          <span className="sr-only">{siteTitle}</span>
         </>
       )}
+      <span className="sr-only">{siteTitle}</span>
     </UniversalLink>
   );
 };

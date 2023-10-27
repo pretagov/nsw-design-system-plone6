@@ -12,7 +12,8 @@ export function CardListing({ items, isEditMode, ...data }) {
   return (
     <div className="nsw-grid">
       {items.map((item) => {
-        let href = item.link?.[0]?.['@id'] || item['@id'] || '';
+        let href =
+          item.url?.[0]?.['@id'] || item.url?.[0]?.['@id'] || item['@id'] || '';
         if (isInternalURL(href)) {
           href = flattenToAppURL(href);
         }
@@ -31,7 +32,9 @@ export function CardListing({ items, isEditMode, ...data }) {
           >
             <Card
               {...data}
+              data={item}
               {...item}
+              description={!data.showDescription ? null : item.description}
               image={image}
               href={href}
               urlDisplay={data.showUrl ? href : null}

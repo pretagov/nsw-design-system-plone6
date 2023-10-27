@@ -1,3 +1,14 @@
+// Theme extension variables. See https://6.docs.plone.org/volto/addons/theme.html
+@use 'nsw-design-system/src/main';
+@use 'addonsThemeCustomizationsVariables';
+
+@use 'edit';
+@use 'view';
+
+// Theme extension custom SCSS. See https://6.docs.plone.org/volto/addons/theme.html
+@use 'addonsThemeCustomizationsMain';
+
+// Code below is a reset for the public UI to ensure it looks correct
 html {
   font-size: 100% !important;
 }

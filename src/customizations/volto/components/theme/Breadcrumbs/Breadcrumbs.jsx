@@ -26,9 +26,7 @@ const Breadcrumbs = () => {
   const breadcrumbStartDepth = useSelector(
     (state) => state.nswSiteSettings?.data?.breadcrumb_start_depth,
   );
-  const siteDepth = useSelector(
-    (state) => state.nswSiteSettings?.data?.site_depth,
-  );
+  const siteDepth = items.length + 1;
 
   useEffect(() => {
     if (!hasApiExpander('breadcrumbs', getBaseUrl(pathname))) {
@@ -45,7 +43,7 @@ const Breadcrumbs = () => {
   }
 
   return (
-    <div className="nsw-container nsw-p-bottom-xs">
+    <div className="nsw-container">
       <nav
         aria-label={intl.formatMessage(messages.breadcrumbs)}
         className="nsw-breadcrumbs"

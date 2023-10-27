@@ -2,7 +2,7 @@ const makeLoaderFinder = require('razzle-dev-utils/makeLoaderFinder');
 const fileLoaderFinder = makeLoaderFinder('file-loader');
 
 const plugins = (defaultPlugins) => {
-  return defaultPlugins;
+  return [...defaultPlugins];
 };
 const modifyWebpackConfig = (config, { target, dev }, webpack) => {
   const fileLoader = config.module.rules.find(fileLoaderFinder);

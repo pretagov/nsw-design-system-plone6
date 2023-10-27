@@ -1,9 +1,12 @@
+// Not implemented: NoResults component is not implemented (https://github.com/plone/volto/pull/3602)
+
 import { Pagination } from '@plone/volto/components';
 import withQuerystringResults from '@plone/volto/components/manage/Blocks/Listing/withQuerystringResults';
 import config from '@plone/volto/registry';
 import { createRef } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Dimmer, Loader } from 'semantic-ui-react';
+import cx from 'classnames';
 
 const NoResults = ({ hasLoaded, customMessage }) => {
   if (customMessage && customMessage !== '<p></p>') {
@@ -58,44 +61,59 @@ const ListingBody = withQuerystringResults((props) => {
   }
 
   const listingRef = createRef();
+  const HeadlineTag = data.headlineTag || 'h2';
+
   const customMessage = data.noResultsMessage?.data;
 
-  return listingItems?.length > 0 ? (
-    <div ref={listingRef}>
-      <ListingBodyTemplate
-        items={listingItems}
-        isEditMode={isEditMode}
-        {...data}
-        {...variation}
-      />
-      {totalPages > 1 && (
-        <div className="pagination-wrapper">
-          <Pagination
-            current={currentPage}
-            total={totalPages}
-            onChangePage={(e, { activePage }) => {
-              !isEditMode &&
-                listingRef.current.scrollIntoView({ behavior: 'smooth' });
-              onPaginationChange(e, { activePage });
-            }}
+  return (
+    <>
+      {data.headline && (
+        <HeadlineTag
+          className={cx('headline', {
+            emptyListing: !listingItems?.length > 0,
+          })}
+        >
+          {data.headline}
+        </HeadlineTag>
+      )}
+      {listingItems?.length > 0 ? (
+        <div ref={listingRef}>
+          <ListingBodyTemplate
+            items={listingItems}
+            isEditMode={isEditMode}
+            {...data}
+            {...variation}
           />
+          {totalPages > 1 && (
+            <div className="pagination-wrapper">
+              <Pagination
+                current={currentPage}
+                total={totalPages}
+                onChangePage={(e, { activePage }) => {
+                  !isEditMode &&
+                    listingRef.current.scrollIntoView({ behavior: 'smooth' });
+                  onPaginationChange(e, { activePage });
+                }}
+              />
+            </div>
+          )}
+        </div>
+      ) : isEditMode ? (
+        <div className="listing message" ref={listingRef}>
+          {isFolderContentsListing && (
+            <FormattedMessage
+              id="No items found in this container."
+              defaultMessage="No items found in this container."
+            />
+          )}
+          <NoResults hasLoaded={hasLoaded} customMessage={customMessage} />
+        </div>
+      ) : (
+        <div>
+          <NoResults hasLoaded={hasLoaded} customMessage={customMessage} />
         </div>
       )}
-    </div>
-  ) : isEditMode ? (
-    <div className="listing message" ref={listingRef}>
-      {isFolderContentsListing && (
-        <FormattedMessage
-          id="No items found in this container."
-          defaultMessage="No items found in this container."
-        />
-      )}
-      <NoResults hasLoaded={hasLoaded} customMessage={customMessage} />
-    </div>
-  ) : (
-    <div>
-      <NoResults hasLoaded={hasLoaded} customMessage={customMessage} />
-    </div>
+    </>
   );
 });
 

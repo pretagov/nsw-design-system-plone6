@@ -1,13 +1,8 @@
 import { BlockDataForm, SidebarPortal } from '@plone/volto/components';
-import React from 'react';
-import { useIntl } from 'react-intl';
 import { linkListSchema } from './schema';
 import { LinkListView as View } from './View';
 
-function LinkListEditDisplay({ data, id, isEditMode, onSelectBlock }) {
-  const intl = useIntl();
-  const { title, description } = data;
-
+function LinkListEditDisplay({ data, isEditMode }) {
   return (
     <>
       {!data.links || data.links.length === 0 ? <h2>Empty link list</h2> : null}

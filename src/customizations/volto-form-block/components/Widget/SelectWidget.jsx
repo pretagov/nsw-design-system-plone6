@@ -165,7 +165,7 @@ function SelectWidget(props) {
               id,
               selectedOption && selectedOption.value !== 'no-value'
                 ? selectedOption.value
-                : undefined,
+                : null,
             );
           }}
         >

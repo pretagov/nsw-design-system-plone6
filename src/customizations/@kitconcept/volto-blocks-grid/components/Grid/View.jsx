@@ -1,7 +1,6 @@
 import { BlockRenderer } from '@kitconcept/volto-blocks-grid/components';
 import { withBlockExtensions } from '@plone/volto/helpers';
 import cx from 'classnames';
-import React from 'react';
 
 const ViewGrid = ({ data, path }) => {
   return (
@@ -22,6 +21,7 @@ const ViewGrid = ({ data, path }) => {
               type={column['@type']}
               data={column}
               path={path}
+              columns={data?.columns.length}
             />
           </div>
         ))}

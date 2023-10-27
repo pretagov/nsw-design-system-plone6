@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "paths": {
+            "volto-form-block": [
+                "addons/volto-form-block/src"
+            ]
+        },
+        "baseUrl": "src"
+    },
+    "exclude": [
+        "node_modules",
+        "omelette",
+        "build",
+        "**/node_modules",
+        "dist"
+    ]
+}

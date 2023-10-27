@@ -1,0 +1,3 @@
+[submodule "src/addons/volto-form-block"]
+	path = src/addons/volto-form-block
+	url = git@github.com:pretagov/volto-form-block.git

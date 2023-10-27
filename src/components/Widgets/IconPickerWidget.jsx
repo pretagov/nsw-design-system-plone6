@@ -1,6 +1,4 @@
 import { FormFieldWrapper } from '@plone/volto/components';
-import { map } from 'lodash';
-import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { Dropdown } from 'semantic-ui-react';
 
@@ -16,25 +14,21 @@ const iconOptions = [
     key: 'Info',
     text: 'Info',
     value: 'info',
-    // image: { avatar: true, src: '/images/avatar/small/jenny.jpg' },
   },
   {
     key: 'Warning',
     text: 'Warning',
     value: 'error',
-    // image: { avatar: true, src: '/images/avatar/small/elliot.jpg' },
   },
   {
     key: 'Error',
     text: 'Error',
     value: 'cancel',
-    // image: { avatar: true, src: '/images/avatar/small/stevie.jpg' },
   },
   {
     key: 'Success',
     text: 'Success',
     value: 'check_circle',
-    // image: { avatar: true, src: '/images/avatar/small/christian.jpg' },
   },
 ];
 

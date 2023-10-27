@@ -1,12 +1,11 @@
 import { flattenToAppURL } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
-import React from 'react';
-import Hero from '../../../../../../components/Components/Hero';
+import Hero from 'nsw-design-system-plone6/components/Components/Hero';
 
 const View = ({ data, ...props }) => {
-  const imageUrl = data.url
-    ? `${flattenToAppURL(data?.url)}/@@images/image`
-    : null;
+  const imageUrl =
+    props.imageUrl ??
+    (data.url ? `${flattenToAppURL(data?.url)}/@@images/image/great` : null);
   const linkUrl = data.linkHref
     ? `${flattenToAppURL(data.linkHref[0]?.['@id'])}`
     : null;

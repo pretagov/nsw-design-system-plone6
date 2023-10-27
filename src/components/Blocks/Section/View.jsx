@@ -1,5 +1,4 @@
 import { RenderBlocks } from '@plone/volto/components';
-import React from 'react';
 import { Section } from '../../Components/Section';
 import { getSectionColour } from './utils';
 

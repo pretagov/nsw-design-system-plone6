@@ -7,16 +7,7 @@ import {
 } from '@plone/volto/components/manage/Blocks/Search/components';
 import config from '@plone/volto/registry';
 import cx from 'classnames';
-import React from 'react';
 import { flushSync } from 'react-dom';
-import { defineMessages, useIntl } from 'react-intl';
-
-const messages = defineMessages({
-  searchButtonText: {
-    id: 'Search',
-    defaultMessage: 'Search',
-  },
-});
 
 const FacetWrapper = ({ children }) => (
   <div className="nsw-filters__item">{children}</div>
@@ -35,16 +26,15 @@ const RightColumnFacets = (props) => {
     sortOrder,
     onTriggerSearch,
     searchedText, // search text for previous search
-    searchText, // search text currently being entered (controlled input)
     isEditMode,
     querystring = {},
+    // searchText, // search text currently being entered (controlled input)
     // searchData,
     // mode = 'view',
     // variation,
   } = props;
   const { showSearchButton } = data;
   const isLive = !showSearchButton;
-  const intl = useIntl();
   const batchSize = data.query?.b_size || config.settings.defaultPageSize;
 
   return (
@@ -72,6 +62,7 @@ const RightColumnFacets = (props) => {
             {data.showSortOn && (
               <SortOn
                 querystring={querystring}
+                searchedText={searchedText}
                 data={data}
                 isEditMode={isEditMode}
                 sortOn={sortOn}

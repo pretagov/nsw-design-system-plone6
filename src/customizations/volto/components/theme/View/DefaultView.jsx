@@ -1,3 +1,10 @@
+/**
+ * Document view component.
+ * @module components/theme/View/DefaultView
+ *
+ * Container lookup from component registry is not included (https://github.com/plone/volto/pull/4032)
+ */
+
 import {
   getBaseUrl,
   getBlocksFieldname,
@@ -155,72 +162,25 @@ const BlocksLayout = ({ content, location }) => {
     (state) => state.nswSiteSettings?.data?.breadcrumb_start_depth,
   );
   const siteDepth = useSelector(
-    (state) => state.nswSiteSettings?.data?.site_depth,
+    (state) => state.breadcrumbs?.items?.length + 1,
   );
   const breadcrumbsHidden =
     location.pathname === '/' || siteDepth < breadcrumbStartDepth;
-  const hideTopPadding =
-    config.settings.fullWidthBlockTypes.includes(
+  const needExtraTopPadding =
+    !config.settings.fullWidthBlockTypes.includes(
       blocksData[blocksInLayout[0]]?.['@type'],
-    ) === breadcrumbsHidden;
+    ) && breadcrumbsHidden;
 
   return (
     <div id="page-document">
-      <div className="nsw-layout">
-        <div
-          className="nsw-layout__main"
-          style={{
-            // XOR operation, not sure of a nicer way of doing it in JS
-            paddingBlockStart: hideTopPadding ? 0 : null,
-            paddingBlockEnd: config.settings.fullWidthBlockTypes.includes(
-              blocksData[blocksInLayout.length]?.['@type'],
-            )
-              ? '0'
-              : null,
-          }}
-        >
-          {groupedBlocksLayout.map((blockIdOrGroup, index) => {
-            if (blockIdOrGroup instanceof Array) {
-              const blockGroup = blockIdOrGroup; // Rename it just to make the code more readable
-              if (blocksNeedSections) {
-                const blockWithSectionData = blocksData?.[blockGroup[0]];
-                const sectionColour = getSectionColour(blockWithSectionData);
-                if (_blockNeedsSection(blockWithSectionData)) {
-                  return (
-                    <Section
-                      key={index}
-                      padding={blockWithSectionData.sectionspacing}
-                      isBox={blockWithSectionData.sectionType === 'box'}
-                      colour={sectionColour}
-                      shouldInvert={blockWithSectionData.sectioninvert}
-                    >
-                      {blockGroup.map((blockId) => {
-                        // Copy pasted from below. Should really make this a function!
-                        const blockData = blocksData?.[blockId];
-                        const blockType = blockData?.['@type'];
-                        const Block =
-                          config.blocks.blocksConfig[blockType]?.['view'] ||
-                          null;
-                        return Block !== null ? (
-                          <Block
-                            key={blockId}
-                            id={blockId}
-                            properties={content}
-                            data={blocksData[blockId]}
-                            path={getBaseUrl(location?.pathname || '')}
-                          />
-                        ) : (
-                          <div key={blockId}>
-                            {intl.formatMessage(messages.unknownBlock, {
-                              block: blockType,
-                            })}
-                          </div>
-                        );
-                      })}
-                    </Section>
-                  );
-                }
-
+      <div className={cx({ 'nsw-p-top-md': needExtraTopPadding })}>
+        {groupedBlocksLayout.map((blockIdOrGroup, index) => {
+          if (blockIdOrGroup instanceof Array) {
+            const blockGroup = blockIdOrGroup; // Rename it just to make the code more readable
+            if (blocksNeedSections) {
+              const blockWithSectionData = blocksData?.[blockGroup[0]];
+              const sectionColour = getSectionColour(blockWithSectionData);
+              if (_blockNeedsSection(blockWithSectionData)) {
                 return (
                   <Section
                     key={index}
@@ -254,12 +214,14 @@ const BlocksLayout = ({ content, location }) => {
                   </Section>
                 );
               }
+
               return (
-                <div
-                  key={`blockgroup-${index}`}
-                  className={cx('nsw-container', {
-                    'nsw-p-bottom-md': index + 1 === groupedBlocksLayout.length,
-                  })}
+                <Section
+                  key={index}
+                  padding={blockWithSectionData.sectionspacing}
+                  isBox={blockWithSectionData.sectionType === 'box'}
+                  colour={sectionColour}
+                  shouldInvert={blockWithSectionData.sectioninvert}
                 >
                   {blockGroup.map((blockId) => {
                     // Copy pasted from below. Should really make this a function!
@@ -283,50 +245,80 @@ const BlocksLayout = ({ content, location }) => {
                       </div>
                     );
                   })}
-                </div>
+                </Section>
               );
             }
-            const blockId = blockIdOrGroup; // Rename it just to make the code more readable
-            const blockData = blocksData?.[blockId];
-            const blockType = blockData?.['@type'];
-            const Block =
-              config.blocks.blocksConfig[blockType]?.['view'] || null;
-            if (Block === null) {
-              return (
-                <div key={blockId}>
-                  {intl.formatMessage(messages.unknownBlock, {
-                    block: blockType,
-                  })}
-                </div>
-              );
-            }
-            return config.settings.fullWidthBlockTypes.includes(blockType) ? (
+            return (
+              <div
+                key={`blockgroup-${index}`}
+                className={cx('nsw-container', {
+                  'nsw-p-bottom-md': index + 1 === groupedBlocksLayout.length,
+                })}
+              >
+                {blockGroup.map((blockId) => {
+                  // Copy pasted from below. Should really make this a function!
+                  const blockData = blocksData?.[blockId];
+                  const blockType = blockData?.['@type'];
+                  const Block =
+                    config.blocks.blocksConfig[blockType]?.['view'] || null;
+                  return Block !== null ? (
+                    <Block
+                      key={blockId}
+                      id={blockId}
+                      properties={content}
+                      data={blocksData[blockId]}
+                      path={getBaseUrl(location?.pathname || '')}
+                    />
+                  ) : (
+                    <div key={blockId}>
+                      {intl.formatMessage(messages.unknownBlock, {
+                        block: blockType,
+                      })}
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          }
+          const blockId = blockIdOrGroup; // Rename it just to make the code more readable
+          const blockData = blocksData?.[blockId];
+          const blockType = blockData?.['@type'];
+          const Block = config.blocks.blocksConfig[blockType]?.['view'] || null;
+          if (Block === null) {
+            return (
+              <div key={blockId}>
+                {intl.formatMessage(messages.unknownBlock, {
+                  block: blockType,
+                })}
+              </div>
+            );
+          }
+          return config.settings.fullWidthBlockTypes.includes(blockType) ? (
+            <Block
+              key={blockId}
+              id={blockId}
+              properties={content}
+              data={blocksData[blockId]}
+              path={getBaseUrl(location?.pathname || '')}
+            />
+          ) : (
+            <div
+              key={blockId}
+              className={cx('nsw-container', {
+                'nsw-p-bottom-md':
+                  index + 1 === groupedBlocksLayout.length &&
+                  blockType !== 'nsw_section',
+              })}
+            >
               <Block
-                key={blockId}
                 id={blockId}
                 properties={content}
                 data={blocksData[blockId]}
                 path={getBaseUrl(location?.pathname || '')}
               />
-            ) : (
-              <div
-                key={blockId}
-                className={cx('nsw-container', {
-                  'nsw-p-bottom-md':
-                    index + 1 === groupedBlocksLayout.length &&
-                    blockType !== 'nsw_section',
-                })}
-              >
-                <Block
-                  id={blockId}
-                  properties={content}
-                  data={blocksData[blockId]}
-                  path={getBaseUrl(location?.pathname || '')}
-                />
-              </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -339,7 +331,7 @@ const PloneClassicLayout = ({ content }) => {
         <div className="nsw-layout__main">
           <h1 className="documentFirstHeading">{content.title}</h1>
           {content.description && (
-            <p className="documentDescription">{content.description}</p>
+            <p className="nsw-summary">{content.description}</p>
           )}
           {content.image && (
             <Image

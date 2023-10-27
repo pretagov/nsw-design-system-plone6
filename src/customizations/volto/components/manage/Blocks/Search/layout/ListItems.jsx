@@ -1,7 +1,6 @@
 import { ConditionalLink } from '@plone/volto/components';
-import React from 'react';
 
-const ListItemsTemplate = ({ items, isEditMode }) => {
+const ListItemsSearchTemplate = ({ items, isEditMode }) => {
   return (
     <div className="nsw-list-items">
       {items.map((item) => (
@@ -11,7 +10,7 @@ const ListItemsTemplate = ({ items, isEditMode }) => {
             {/* <div className="nsw-list-item__label">Stories</div> */}
             <div className="nsw-list-item__title">
               <ConditionalLink item={item} condition={!isEditMode}>
-                {item.title ? item.title : item.id}
+                {item.title ? item.title : item['@id']}
               </ConditionalLink>
             </div>
             <div className="nsw-list-item__copy">{item.description}</div>
@@ -35,4 +34,4 @@ const ListItemsTemplate = ({ items, isEditMode }) => {
   );
 };
 
-export default ListItemsTemplate;
+export default ListItemsSearchTemplate;

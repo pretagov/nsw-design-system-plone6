@@ -1,13 +1,19 @@
 /**
  * Navigation reducer.
  * @module reducers/navigation/navigation
- * Adjusted from the built-in navigation to include description
  */
 
-import { flattenToAppURL } from '@plone/volto/helpers';
 import { map } from 'lodash';
+import {
+  flattenToAppURL,
+  getBaseUrl,
+  hasApiExpander,
+} from '@plone/volto/helpers';
 
-import { GET_NAVIGATION } from '@plone/volto/constants/ActionTypes';
+import {
+  GET_CONTENT,
+  GET_NAVIGATION,
+} from '@plone/volto/constants/ActionTypes';
 
 const initialState = {
   error: null,
@@ -40,6 +46,7 @@ function getRecursiveItems(items) {
  * @returns {Object} New state.
  */
 export default function navigation(state = initialState, action = {}) {
+  let hasExpander;
   switch (action.type) {
     case `${GET_NAVIGATION}_PENDING`:
       return {
@@ -48,14 +55,44 @@ export default function navigation(state = initialState, action = {}) {
         loaded: false,
         loading: true,
       };
+    case `${GET_CONTENT}_SUCCESS`:
+      hasExpander = hasApiExpander(
+        'navigation',
+        getBaseUrl(flattenToAppURL(action.result['@id'])),
+      );
+      if (hasExpander) {
+        if (
+          !action.result['@id'] ||
+          !action.result['@components']?.navigation
+        ) {
+          return state;
+        }
+        return {
+          ...state,
+          error: null,
+          items: getRecursiveItems(
+            action.result['@components'].navigation.items,
+          ),
+          loaded: true,
+          loading: false,
+        };
+      }
+      return state;
     case `${GET_NAVIGATION}_SUCCESS`:
-      return {
-        ...state,
-        error: null,
-        items: getRecursiveItems(action.result.items),
-        loaded: true,
-        loading: false,
-      };
+      hasExpander = hasApiExpander(
+        'navigation',
+        getBaseUrl(flattenToAppURL(action.result['@id'])),
+      );
+      if (!hasExpander) {
+        return {
+          ...state,
+          error: null,
+          items: getRecursiveItems(action.result.items),
+          loaded: true,
+          loading: false,
+        };
+      }
+      return state;
     case `${GET_NAVIGATION}_FAIL`:
       return {
         ...state,

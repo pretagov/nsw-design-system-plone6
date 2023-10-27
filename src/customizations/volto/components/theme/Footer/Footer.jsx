@@ -1,10 +1,5 @@
-import { getNavigation } from '@plone/volto/actions';
 import { Icon } from '@plone/volto/components';
-import {
-  flattenToAppURL,
-  getBaseUrl,
-  isInternalURL,
-} from '@plone/volto/helpers';
+import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
 import React, { useEffect } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,9 +22,9 @@ const messages = defineMessages({
     defaultMessage:
       'We pay respect to the Traditional Custodians and First Peoples of NSW, and acknowledge their continued connection to their country and culture.',
   },
-  builtBy: {
-    id: 'Built by',
-    defaultMessage: 'Built by ',
+  builtWith: {
+    id: 'Built with',
+    defaultMessage: 'Built with ',
   },
 });
 
@@ -59,15 +54,10 @@ const socialFieldIconMapping = {
 function Footer() {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const { subFooter, siteSettings } = useSelector((state) => ({
-    navItems: state.navigation.items,
-    siteActions: state.actions.actions.site_actions,
-    subFooter: state.reduxAsyncConnect.subfooter,
-    siteSettings: state.nswSiteSettings.data,
-  }));
+  const subFooter = useSelector((state) => state.subFooter?.result);
+  const siteSettings = useSelector((state) => state.nswSiteSettings.data);
 
   useEffect(() => {
-    dispatch(getNavigation(getBaseUrl(''), 2));
     dispatch(getSubFooter());
   }, [dispatch]);
 
@@ -86,7 +76,7 @@ function Footer() {
       siteSettings && siteSettings[fieldname] && !!siteSettings[fieldname],
   );
   const acknowledgementOfCountry =
-    siteSettings?.acknowledgement_of_country ??
+    siteSettings?.acknowledgement_of_country ||
     intl.formatMessage(messages.acknowledgementOfCountry);
 
   return (
@@ -217,9 +207,9 @@ function Footer() {
                 )} © ${new Date().getFullYear()}`}
               </div>
               <div className="nsw-footer__built">
-                {intl.formatMessage(messages.builtBy)}
-                <a href="https://www.pretagov.com.au" rel="external noreferrer">
-                  PretaGov
+                {intl.formatMessage(messages.builtWith)}
+                <a href="https://digitalnsw.pretagov.com.au" rel="external">
+                  Plone 6 NSW DS
                 </a>
               </div>
             </div>

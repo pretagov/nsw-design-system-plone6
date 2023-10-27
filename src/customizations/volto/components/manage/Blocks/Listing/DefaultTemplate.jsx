@@ -1,17 +1,9 @@
 import { ConditionalLink, FormattedDate } from '@plone/volto/components';
 import { flattenToAppURL } from '@plone/volto/helpers';
-import config from '@plone/volto/registry';
 import cx from 'classnames';
-import { useCookies } from 'react-cookie';
 
 // TODO: Customisable datetime format
 const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
-  const [cookies] = useCookies();
-  const currentLanguage =
-    cookies['I18N_LANGUAGE'] || config.settings.defaultLanguage;
-  const dateTimeFormat = new Intl.DateTimeFormat(currentLanguage, {
-    style: 'long',
-  });
   return (
     <div className="nsw-list-items">
       {items.map((item) => {
@@ -36,11 +28,11 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
               {/* <div className="nsw-list-item__label">Stories</div> */}
               <div className="nsw-list-item__title">
                 <ConditionalLink item={item} condition={!isEditMode}>
-                  {item.title ? item.title : item.id}
+                  {item.title ? item.title : item['@id']}
                 </ConditionalLink>
               </div>
               {data.showUrl || data.showDate ? (
-                <div class="nsw-list-item__info">
+                <div className="nsw-list-item__info">
                   {data.showUrl ? item.getURL : null}
                   {data.showDate && date ? (
                     <FormattedDate date={date} locale="en-au" />
@@ -48,8 +40,11 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
                 </div>
               ) : null}
 
-              {!data.showDescription ? null : (
-                <div className="nsw-list-item__copy">{item.description}</div>
+              {!data.showDescription && item.description ? null : (
+                <div
+                  className="nsw-list-item__copy"
+                  dangerouslySetInnerHTML={{ __html: item.description }}
+                />
               )}
               {data.showTags && item.Subject?.length > 0 ? (
                 <div className="nsw-list-item__tags">
@@ -66,7 +61,7 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
               ) : null}
             </div>
             {data.imagePosition !== 'hidden' && image ? (
-              <div class="nsw-list-item__image">
+              <div className="nsw-list-item__image">
                 <img src={image} alt="" />
               </div>
             ) : null}

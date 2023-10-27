@@ -1,6 +1,6 @@
-import React from 'react';
+import { UniversalLink } from '@plone/volto/components';
+import { isValidElement } from 'react'
 import cx from 'classnames';
-import './Hero.less';
 
 const widthClassnameMapping = {
   wide: 'nsw-hero-banner--wide',
@@ -15,61 +15,79 @@ export const Hero = ({
   linkUrl = null,
   linksTitle = '',
   linksList = [],
+  linkListStyle,
   width = 'default',
   contentChildren,
   boxChildren,
-}) => {
-  return (
-    // TODO: There's a hidden `nsw-hero-banner--wide` class that makes the text longer, but it causes overflow
-    <div
-      className={cx('nsw-hero-banner nsw-hero-banner--dark', {
-        [widthClassnameMapping[width]]: width !== 'default',
-      })}
-    >
-      <div className="nsw-hero-banner__container">
-        <div className="nsw-hero-banner__wrapper">
-          <div className="nsw-hero-banner__content">
-            {title ? <h1>{title}</h1> : null}
-            {description ? <p className="nsw-intro">{description}</p> : null}
-            {linkUrl && linkTitle ? (
-              <div className="nsw-hero-banner__button">
-                <a href={linkUrl} className="nsw-button nsw-button--white">
-                  {linkTitle}
-                </a>
-              </div>
-            ) : null}
-            {contentChildren ? (
-              <div className="nsw-m-top-md">{contentChildren}</div>
-            ) : null}
-          </div>
-          {linksList && linksList.length > 0 ? (
-            <div class="nsw-hero-banner__links">
-              <div class="nsw-hero-banner__list">
-                {linksTitle ? (
-                  <div class="nsw-hero-banner__sub-title">{linksTitle}</div>
-                ) : null}
-                <ul>
-                  {linksList.map((linkItem) => {
-                    return (
-                      <li key={linkItem.title}>
-                        <a href={linkItem.link}>{linkItem.title}</a>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            </div>
+}) => (
+  // TODO: There's a hidden `nsw-hero-banner--wide` class that makes the text longer, but it causes overflow
+  <div
+    className={cx('nsw-hero-banner nsw-hero-banner--dark', {
+      [widthClassnameMapping[width]]: width !== 'default',
+    })}
+  >
+    <div className="nsw-hero-banner__container">
+      <div className="nsw-hero-banner__wrapper">
+        <div className="nsw-hero-banner__content">
+          {title ? isValidElement(title) ? title : <h1>{title}</h1> : null}
+          {description ? (
+            isValidElement(description) ? (
+              description
+            ) : (
+              <p className="nsw-intro">{description}</p>
+            )
           ) : null}
-          <div className="nsw-hero-banner__box">
-            {imageUrl && (
-              <img src={imageUrl} alt="" className="nsw-hero-banner__image" />
-            )}
-            {boxChildren}
+          {linkUrl && linkTitle ? (
+            isValidElement(linkTitle) ? (
+              linkTitle
+            ) : (
+              <div className="nsw-hero-banner__button">
+                <UniversalLink
+                  href={linkUrl}
+                  className="nsw-button nsw-button--white"
+                >
+                  {linkTitle}
+                </UniversalLink>
+              </div>
+            )
+          ) : null}
+          {contentChildren ? (
+            <div className="nsw-m-top-md">{contentChildren}</div>
+          ) : null}
+        </div>
+        {linksList && linksList.length > 0 ? (
+          <div className="nsw-hero-banner__links">
+            <div className="nsw-hero-banner__list">
+              {linksTitle ? (
+                <div className="nsw-hero-banner__sub-title">{linksTitle}</div>
+              ) : null}
+              <ul className={linkListStyle ? linkListStyle : null}>
+                {linksList.map((linkItem) => {
+                  return (
+                    <li key={linkItem.title}>
+                      <UniversalLink item={linkItem.link}>
+                        {linkItem.title}
+                      </UniversalLink>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           </div>
+        ) : null}
+        <div className="nsw-hero-banner__box">
+          {imageUrl ? (
+            isValidElement(imageUrl) ? (
+              imageUrl
+            ) : (
+              <img src={imageUrl} alt="" className="nsw-hero-banner__image" />
+            )
+          ) : null}
+          {boxChildren}
         </div>
       </div>
     </div>
-  );
-};
+  </div>
+);
 
 export default Hero;

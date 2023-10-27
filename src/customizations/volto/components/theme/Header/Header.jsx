@@ -8,7 +8,7 @@ import {
   UniversalLink,
 } from '@plone/volto/components';
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useGoogleAnalytics } from 'volto-google-analytics';
@@ -17,6 +17,17 @@ import { Masthead } from './Masthead';
 
 import MenuSVG from '@material-design-icons/svg/filled/menu.svg';
 import SearchSVG from '@material-design-icons/svg/filled/search.svg';
+
+// TODO: Extract to a 'hooks' folder
+function useIsClient() {
+  const [isClient, setClient] = useState(false);
+
+  useEffect(() => {
+    setClient(true);
+  }, []);
+
+  return isClient;
+}
 
 const MenuOpenButton = () => (
   <div className="nsw-header__menu">
@@ -40,9 +51,10 @@ const MenuOpenButton = () => (
 );
 
 const SearchStartButton = ({ searchInputElement }) => {
+  const isClient = useIsClient();
   return (
     <div className="nsw-header__search">
-      {__CLIENT__ ? (
+      {isClient ? (
         <button
           type="button"
           className="js-open-search"
@@ -61,28 +73,7 @@ const SearchStartButton = ({ searchInputElement }) => {
           </span>
         </button>
       ) : (
-        // Below styling is only for buttons in the NSW Design System code unfortunately.
-        <UniversalLink
-          href="/search"
-          style={{
-            fontSize: 'var(--nsw-font-size-xxs-mobile)',
-            lineHeight: 'var(--nsw-line-height-xxs-mobile)',
-            fontWeight: 'var(--nsw-font-bold)',
-            borderRadius: 'var(--nsw-border-radius)',
-            textAlign: 'center',
-            color: 'var(--nsw-brand-dark)',
-            width: '3rem',
-            height: '3rem',
-            background: '0 0',
-            border: '0',
-            padding: '0',
-            position: 'relative',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
+        <UniversalLink href="/search">
           <Icon
             name={SearchSVG}
             className="material-icons nsw-material-icons"

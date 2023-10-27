@@ -1,10 +1,13 @@
-import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 
 const messages = defineMessages({
-  noSelection: {
-    id: 'No selection',
-    defaultMessage: 'No selection',
+  unsorted: {
+    id: 'Unsorted',
+    defaultMessage: 'Unsorted',
+  },
+  relevance: {
+    id: 'Relevance',
+    defaultMessage: 'Relevance',
   },
   sortBy: {
     id: 'Sort by',
@@ -18,24 +21,36 @@ const SortOn = (props) => {
     sortOn = null,
     isEditMode,
     querystring = {},
+    searchedText,
     setSortOn,
   } = props;
-  const { sortable_indexes } = querystring;
-
   const intl = useIntl();
+
+  const { sortOnOptions = [] } = data;
+  // We don't want to show sorting options if there is only 1 way to sort
+  if (!sortOnOptions || sortOnOptions.length < 1) {
+    return null;
+  }
+
+  const { sortable_indexes } = querystring;
 
   const activeSortOn = sortOn || data?.query?.sort_on || '';
 
-  const { sortOnOptions = [] } = data;
-  const value = activeSortOn || intl.formatMessage(messages.noSelection);
-  const label =
-    activeSortOn && sortable_indexes
-      ? sortable_indexes[activeSortOn]?.title
-      : activeSortOn || intl.formatMessage(messages.noSelection);
+  const noValueLabel = searchedText
+    ? intl.formatMessage(messages.relevance)
+    : intl.formatMessage(messages.unsorted);
+
+  const options = [
+    { value: '', label: noValueLabel },
+    ...sortOnOptions.map((k) => ({
+      value: k,
+      label: k === '' ? noValueLabel : sortable_indexes[k]?.title || k,
+    })),
+  ];
 
   return (
     <div className="nsw-results-bar__sorting">
-      <label className="nsw-form__label" for="results-sort">
+      <label className="nsw-form__label" htmlFor="results-sort">
         {data.sortOnLabel || intl.formatMessage(messages.sortBy)}
       </label>
       {/* eslint-disable-next-line jsx-a11y/no-onchange */}
@@ -44,15 +59,14 @@ const SortOn = (props) => {
         className="nsw-form__select"
         id="results-sort"
         name="results-sort"
-        value={value}
+        value={activeSortOn}
         onChange={({ target }) => {
           !isEditMode && setSortOn(target.value);
         }}
       >
-        {sortOnOptions.map((sortKey) => {
-          const label = sortable_indexes[sortKey]?.title || sortKey;
+        {options.map(({ value, label }) => {
           return (
-            <option key={sortKey} value={sortKey}>
+            <option key={value} value={value}>
               {label}
             </option>
           );

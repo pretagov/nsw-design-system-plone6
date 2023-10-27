@@ -4,7 +4,6 @@
  */
 
 import PropTypes from 'prop-types';
-import React from 'react';
 import AnchorLink from 'react-anchor-link-smooth-scroll';
 import { defineMessages, injectIntl } from 'react-intl';
 

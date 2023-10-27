@@ -1,4 +1,3 @@
-import ContentBlockEdit from './Edit';
-import ContentBlockView from './View';
-
-export { ContentBlockEdit, ContentBlockView };
+export * from './Edit';
+export * from './View';
+export * from './schema';
