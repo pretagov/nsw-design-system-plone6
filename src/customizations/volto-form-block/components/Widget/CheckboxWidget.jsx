@@ -73,6 +73,21 @@ const CheckboxWidget = (props) => {
             </>
           ) : null}
         </label>
+        {isInvalid ? (
+          <span
+            class="nsw-form__helper nsw-form__helper--error"
+            id={`${checkboxId}-error-text`}
+          >
+            <span
+              class="material-icons nsw-material-icons"
+              focusable="false"
+              aria-hidden="true"
+            >
+              cancel
+            </span>
+            This field is required
+          </span>
+        ) : null}
       </div>
     </FormFieldWrapper>
   );
