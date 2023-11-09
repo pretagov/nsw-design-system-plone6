@@ -225,7 +225,7 @@ const FormView = ({
                 value={field.value}
                 onChange={() => {}}
                 disabled
-                valid
+                valid={isValidField}
                 formHasErrors={formErrors?.length > 0}
               />
             );
