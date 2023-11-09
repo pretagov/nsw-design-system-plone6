@@ -37,10 +37,10 @@ const CheckboxWidget = (props) => {
   } = props;
 
   let attributes = {};
-  if (required) {
-    attributes.required = true;
-    attributes['aria-required'] = 'true';
-  }
+  // if (required) {
+  //   attributes.required = true;
+  //   attributes['aria-required'] = 'true';
+  // }
 
   const isInvalid = invalid === true || invalid === 'true';
   if (isInvalid) {
