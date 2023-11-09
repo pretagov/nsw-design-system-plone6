@@ -223,7 +223,7 @@ const FormView = ({
                     field.name?.toLowerCase()?.replace(' ', ''))
                 }
                 value={field.value}
-                nChange={() => {}}
+                onChange={() => {}}
                 disabled
                 valid
                 formHasErrors={formErrors?.length > 0}
