@@ -8,6 +8,33 @@ import Field from './Field';
 
 import { showWhenValidator } from 'volto-form-block/helpers/show_when';
 
+const messages = defineMessages({
+  default_submit_label: {
+    id: 'form_default_submit_label',
+    defaultMessage: 'Submit',
+  },
+  error: {
+    id: 'There is a problem submitting your form',
+    defaultMessage: 'There is a problem submitting your form',
+  },
+  success: {
+    id: 'form_submit_success',
+    defaultMessage: 'Sent!',
+  },
+  empty_values: {
+    id: 'form_empty_values_validation',
+    defaultMessage: 'Fill in the required fields',
+  },
+  reset: {
+    id: 'form_reset',
+    defaultMessage: 'Clear',
+  },
+  field_is_required: {
+    id: 'field_is_required',
+    defaultMessage: '{fieldLabel} is required',
+  },
+});
+
 function useIsClient() {
   const [isClient, setClient] = React.useState(false);
 
@@ -16,6 +43,57 @@ function useIsClient() {
   }, []);
 
   return isClient;
+}
+
+function ErrorMessageBox({ formId, formErrors = [], fields }) {
+  const intl = useIntl();
+  const allFieldData = React.useMemo(() => {
+    return fields.reduce((errorData, currentField) => {
+      const fieldName = getFieldName(currentField.label, currentField.id);
+      if (formErrors.includes(fieldName)) {
+        errorData[fieldName] = currentField;
+      }
+      return errorData;
+    }, {});
+  }, [fields, formErrors]);
+
+  if (formErrors.length < 1) {
+    return null;
+  }
+
+  return (
+    <div
+      class="nsw-in-page-alert nsw-in-page-alert--error"
+      id={`${formId}-errors`}
+    >
+      <span
+        class="material-icons nsw-material-icons nsw-in-page-alert__icon"
+        focusable="false"
+        aria-hidden="true"
+      >
+        cancel
+      </span>
+      <div class="nsw-in-page-alert__content">
+        <p class="nsw-h5">{intl.formatMessage(messages.error)}</p>
+        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+        <ul role="list">
+          {formErrors.map((fieldName) => {
+            const { label, id } = allFieldData[fieldName];
+            const name = getFieldName(label, id);
+            return (
+              <li>
+                <a href={`#field-${name}`}>
+                  {intl.formatMessage(messages.field_is_required, {
+                    fieldLabel: label,
+                  })}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
+  );
 }
 
 const FieldRenderWrapper = ({
@@ -142,29 +220,6 @@ Only required if '${targetField.label}' is ${validatorLabel} to '${show_when_to}
   );
 };
 
-const messages = defineMessages({
-  default_submit_label: {
-    id: 'form_default_submit_label',
-    defaultMessage: 'Submit',
-  },
-  error: {
-    id: 'Error',
-    defaultMessage: 'Error',
-  },
-  success: {
-    id: 'form_submit_success',
-    defaultMessage: 'Sent!',
-  },
-  empty_values: {
-    id: 'form_empty_values_validation',
-    defaultMessage: 'Fill in the required fields',
-  },
-  reset: {
-    id: 'form_reset',
-    defaultMessage: 'Clear',
-  },
-});
-
 const FormView = ({
   formState,
   formErrors,
@@ -211,6 +266,13 @@ const FormView = ({
       ) : (
         // TODO: The original component has a `loading` state. Is this needed here?
         <form id={id} className="nsw-form" onSubmit={onSubmit} method="post">
+          {formErrors.length > 0 && (
+            <ErrorMessageBox
+              formId={id}
+              formErrors={formErrors}
+              fields={data.subblocks}
+            />
+          )}
           {data.static_fields?.map((field) => {
             return (
               <Field
@@ -245,14 +307,6 @@ const FormView = ({
             );
           })}
           {captcha ? captcha.render() : null}
-          {formErrors.length > 0 && (
-            <Message error role="alert">
-              <Message.Header as="h4">
-                {intl.formatMessage(messages.error)}
-              </Message.Header>
-              <p>{intl.formatMessage(messages.empty_values)}</p>
-            </Message>
-          )}
           <div className="nsw-form__group">
             {formState.loading ? (
               <Dimmer active inverted>
