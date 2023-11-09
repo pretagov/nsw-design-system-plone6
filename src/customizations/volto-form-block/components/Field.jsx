@@ -51,8 +51,8 @@ const Field = (props) => {
     shouldShow = true,
   } = props;
   let { value } = props;
-  // debugger;
-  if (props.default_value && (value === null || value === undefined)) {
+  // A value of `null` is a touched field with no value
+  if (props.default_value && value !== null && value === undefined) {
     value = props.default_value;
   }
   const intl = useIntl();
@@ -71,7 +71,6 @@ const Field = (props) => {
           ]
         : [...(input_values?.map((v) => ({ value: v, label: v })) ?? [])];
 
-        
     return (
       <Widget
         {...props}
@@ -84,9 +83,6 @@ const Field = (props) => {
       />
     );
   }
-
-
-  debugger;
 
   return (
     <>
