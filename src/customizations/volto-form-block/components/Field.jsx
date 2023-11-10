@@ -85,7 +85,7 @@ const Field = (props) => {
   }
 
   return (
-    <>
+    <div inert={isOnEdit ? '' : null}>
       {field_type === 'text' && (
         <TextWidget
           id={name}
@@ -266,7 +266,7 @@ const Field = (props) => {
 
         return acc;
       }, []) ?? []}
-    </>
+    </div>
   );
 };
 
