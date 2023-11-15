@@ -59,8 +59,9 @@ function Footer() {
   const dispatch = useDispatch();
   const subFooter = useSelector((state) => state.subFooter?.result);
   const siteSettings = useSelector((state) => state.nswSiteSettings.data);
-  const FooterDisplay = config.getComponent('VoltoBlocksFooterDisplay')
-    .component;
+  const FooterDisplay = config.getComponent({
+    name: 'VoltoBlocksFooterDisplay',
+  }).component;
 
   useEffect(() => {
     dispatch(getSubFooter());
@@ -99,7 +100,7 @@ function Footer() {
               [`nsw-bg--${upperFooterColour}`]: true,
             })}
           >
-            {FooterDisplay ? <FooterDisplay /> : null}
+            {FooterDisplay ? <FooterDisplay slot="footer" /> : null}
             <div className="nsw-container">
               {upperFooterLinks.map((linkGroup) => {
                 const headingItem = linkGroup.items[0];
