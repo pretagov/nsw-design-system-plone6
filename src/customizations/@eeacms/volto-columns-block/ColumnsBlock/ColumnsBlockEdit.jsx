@@ -317,6 +317,7 @@ class ColumnsBlockEdit extends React.Component {
       'backgroundColor',
       'grid_vertical_align',
       'padding',
+      'column_class',
     ];
     unusedProperties.forEach((property) => {
       if (schema.properties[property]) {
