@@ -5,14 +5,14 @@ import { ELEMENT_ID } from 'nsw-design-system-plone6/editor/SmallText/constants'
 import { messages } from 'nsw-design-system-plone6/editor/SmallText/constants';
 import { useIntl } from 'react-intl';
 
-import descriptionSVG from '@plone/volto/icons/description.svg';
+import iconSVG from '@plone/volto/icons/subtext.svg';
 
 function ElementButton({ config, ...props }) {
   const intl = useIntl();
   return (
     <BlockButton
       format={ELEMENT_ID}
-      icon={descriptionSVG}
+      icon={iconSVG}
       title={intl.formatMessage(messages.blockTitle)}
     />
   );
