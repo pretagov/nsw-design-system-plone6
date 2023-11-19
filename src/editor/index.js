@@ -1,7 +1,8 @@
 import { installIntroText } from './IntroText';
 import { installSmallText } from './SmallText';
 
-const allPluginInstallers = [installIntroText, installSmallText];
+// This defines the order they're registered
+const allPluginInstallers = [installSmallText, installIntroText];
 
 export function installEditorPlugins(config) {
   return allPluginInstallers.reduce((config, installer) => {
