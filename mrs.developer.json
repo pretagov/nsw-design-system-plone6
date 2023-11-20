@@ -6,9 +6,9 @@
     "branch": "deploy",
     "develop": true
   },
-  "volto-blocks-footer": {
-    "url": "https://github.com/pretagov/volto-blocks-footer.git",
-    "package": "@plone-collective/volto-blocks-footer",
+  "volto-slots-editor": {
+    "url": "https://github.com/pretagov/volto-slots-editor.git",
+    "package": "@plone-collective/volto-slots-editor",
     "path": "src",
     "develop": true
   }

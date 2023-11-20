@@ -22,7 +22,7 @@
     "volto-subfooter",
     "volto-siteinfo",
     "@eeacms/volto-columns-block",
-    "@plone-collective/volto-blocks-footer"
+    "@plone-collective/volto-slots-editor"
   ],
   "dependencies": {
     "@eeacms/volto-accordion-block": "6.0.0",
