@@ -4,14 +4,11 @@
             "nsw-design-system-plone6": [
                 "addons/nsw-design-system-plone6/src"
             ],
-            "volto-blocks-footer": [
-                "addons/volto-blocks-footer/src"
+            "@plone-collective/volto-slots-editor": [
+                "addons/volto-slots-editor/src"
             ],
             "volto-form-block": [
                 "addons/volto-form-block/src"
-            ],
-            "@plone-collective/volto-slots-editor": [
-                "addons/volto-slots-editor/src"
             ]
         },
         "baseUrl": "src"

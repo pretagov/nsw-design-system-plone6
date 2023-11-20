@@ -1,9 +1,6 @@
 [submodule "src/addons/volto-form-block"]
 	path = src/addons/volto-form-block
 	url = git@github.com:pretagov/volto-form-block.git
-[submodule "src/addons/volto-blocks-footer"]
-	path = src/addons/volto-blocks-footer
-	url = git@github.com:pretagov/volto-blocks-footer.git
 [submodule "src/addons/volto-slots-editor"]
 	path = src/addons/volto-slots-editor
-	url = git@github.com:pretagov/volto-blocks-footer.git
+	url = git@github.com:pretagov/volto-slots-editor.git

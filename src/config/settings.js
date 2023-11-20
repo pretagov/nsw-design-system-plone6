@@ -20,8 +20,8 @@ export const updateSettingsConfig = (config) => {
     process?.env?.['RAZZLE_ENABLE_SELF_REGISTRATION'] === 'true' ||
     (typeof window !== 'undefined' &&
       window.env['RAZZLE_ENABLE_SELF_REGISTRATION'] === 'true');
-  config.settings['volto-blocks-footer'].slots = {
-    ...config.settings['volto-blocks-footer'].slots,
+  config.settings['volto-slots-editor'].slots = {
+    ...config.settings['volto-slots-editor'].slots,
     footer: {
       title: 'Footer',
     },
