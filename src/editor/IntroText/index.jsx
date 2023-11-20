@@ -37,7 +37,6 @@ export function installIntroText(config) {
   // config = installEditor(config);
 
   const { slate } = config.settings;
-  console.log('elements', slate.elements);
   slate.elements[ELEMENT_ID] = Element;
   slate.buttons[ELEMENT_ID] = ElementButton;
   slate.toolbarButtons = [...(slate.toolbarButtons || []), ELEMENT_ID];
