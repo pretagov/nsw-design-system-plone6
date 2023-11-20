@@ -59,8 +59,8 @@ function Footer() {
   const dispatch = useDispatch();
   const subFooter = useSelector((state) => state.subFooter?.result);
   const siteSettings = useSelector((state) => state.nswSiteSettings.data);
-  const FooterDisplay = config.getComponent({
-    name: 'VoltoBlocksFooterDisplay',
+  const SlotDisplay = config.getComponent({
+    name: 'VoltoBlocksSlotDisplay',
   }).component;
 
   useEffect(() => {
@@ -93,14 +93,14 @@ function Footer() {
   return (
     <>
       <footer id="site-footer" className="nsw-footer">
-        {(upperFooterLinks && upperFooterLinks.length > 0) || FooterDisplay ? (
+        {(upperFooterLinks && upperFooterLinks.length > 0) || SlotDisplay ? (
           <div
             className={cx('nsw-footer__upper', {
               [upperFooterTextColour]: true,
               [`nsw-bg--${upperFooterColour}`]: true,
             })}
           >
-            {FooterDisplay ? <FooterDisplay slot="footer" /> : null}
+            {SlotDisplay ? <SlotDisplay slot="footer" /> : null}
             <div className="nsw-container">
               {upperFooterLinks.map((linkGroup) => {
                 const headingItem = linkGroup.items[0];
