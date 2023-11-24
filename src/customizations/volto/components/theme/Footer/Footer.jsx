@@ -89,18 +89,19 @@ function Footer() {
   const upperFooterTextColour = getTextColourUtilityForPaletteName(
     upperFooterColour,
   );
+  const aocFooterColour = siteSettings?.nsw_independent_aoc_colour;
+  const aocTextColour = getTextColourUtilityForPaletteName(aocFooterColour);
 
   return (
     <>
       <footer id="site-footer" className="nsw-footer">
-        {(upperFooterLinks && upperFooterLinks.length > 0) || SlotDisplay ? (
+        {upperFooterLinks && upperFooterLinks.length > 0 ? (
           <div
             className={cx('nsw-footer__upper', {
               [upperFooterTextColour]: true,
               [`nsw-bg--${upperFooterColour}`]: true,
             })}
           >
-            {SlotDisplay ? <SlotDisplay slot="footer" /> : null}
             <div className="nsw-container">
               {upperFooterLinks.map((linkGroup) => {
                 const headingItem = linkGroup.items[0];
@@ -162,6 +163,18 @@ function Footer() {
                   </div>
                 );
               })}
+            </div>
+          </div>
+        ) : null}
+        {SlotDisplay ? (
+          <div
+            className={cx('nsw-ds-footer__aoc', {
+              [aocTextColour]: !!aocTextColour,
+              [`nsw-bg--${aocFooterColour}`]: !!aocFooterColour,
+            })}
+          >
+            <div className="nsw-container">
+              <SlotDisplay slot="aoc" />
             </div>
           </div>
         ) : null}
