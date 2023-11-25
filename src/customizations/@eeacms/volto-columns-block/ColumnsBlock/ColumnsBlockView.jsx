@@ -37,36 +37,34 @@ const ColumnsBlockView = (props) => {
 
   return (
     <div className="columns-view" id={customId}>
-      <div className="nsw-container">
-        <div
-          className={cx(
-            'nsw-grid',
-            props.data.reverseWrap ? 'column-grid reverse-wrap' : 'column-grid',
-          )}
-        >
-          {columnList.map(([id, column], index) => {
-            return (
-              <div
-                key={id}
-                className={cx(
-                  'nsw-col',
-                  gridSizes[gridCols[index]],
-                  column.settings?.column_class,
-                )}
-                {...getStyle(column.settings || {})}
-              >
-                <div className={getSides(column.settings?.padding)}>
-                  <RenderBlocks
-                    {...props}
-                    location={location}
-                    metadata={metadata}
-                    content={column}
-                  />
-                </div>
+      <div
+        className={cx(
+          'nsw-grid',
+          props.data.reverseWrap ? 'column-grid reverse-wrap' : 'column-grid',
+        )}
+      >
+        {columnList.map(([id, column], index) => {
+          return (
+            <div
+              key={id}
+              className={cx(
+                'nsw-col',
+                gridSizes[gridCols[index]],
+                column.settings?.column_class,
+              )}
+              {...getStyle(column.settings || {})}
+            >
+              <div className={getSides(column.settings?.padding)}>
+                <RenderBlocks
+                  {...props}
+                  location={location}
+                  metadata={metadata}
+                  content={column}
+                />
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
