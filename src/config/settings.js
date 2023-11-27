@@ -22,11 +22,12 @@ export const updateSettingsConfig = (config) => {
       window.env['RAZZLE_ENABLE_SELF_REGISTRATION'] === 'true');
   config.settings['volto-slots-editor'].slots = {
     ...config.settings['volto-slots-editor'].slots,
-    footer: {
-      title: 'Footer',
-    },
-    testing: {
-      title: 'Test slot',
+    aoc: {
+      // TODO: i18n
+      title: 'AOC',
+      description: `Appears in between the lower and upper footer.
+When enabled, the built-in AOC will be disabled.
+      `,
     },
   };
 };
