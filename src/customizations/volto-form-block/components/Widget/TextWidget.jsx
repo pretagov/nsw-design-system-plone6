@@ -41,9 +41,6 @@ function TextWidget(props) {
   const isInvalid = invalid === true || invalid === 'true';
   const inputId = `field-${id}`;
 
-  // console.log(error);
-  // debugger;
-
   return (
     <FormFieldWrapper {...props} className="text" wrapped={false}>
       <div className="nsw-form__group">
