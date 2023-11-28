@@ -39,8 +39,7 @@ function DatetimeWidgetComponent(props) {
     }
   }, [focus, node]);
 
-  const isInvalid =
-    error?.length > 0 && (invalid === true || invalid === 'true');
+  const isInvalid = invalid === true || invalid === 'true';
   const inputId = `field-${id}`;
 
   const dayRef = React.useRef();
@@ -96,6 +95,7 @@ function DatetimeWidgetComponent(props) {
                 name={`${inputId}-day`}
                 className="nsw-form__input"
                 onChange={handleInputChange}
+                aria-invalid={isInvalid ? true : null}
               />
             </div>
             <div className="nsw-form__date-input">
@@ -115,6 +115,7 @@ function DatetimeWidgetComponent(props) {
                 name={`${inputId}-month`}
                 className="nsw-form__input"
                 onChange={handleInputChange}
+                aria-invalid={isInvalid ? true : null}
               />
             </div>
             <div className="nsw-form__date-input nsw-form__date-input--large">
@@ -134,9 +135,25 @@ function DatetimeWidgetComponent(props) {
                 name={`${inputId}-year`}
                 className="nsw-form__input"
                 onChange={handleInputChange}
+                aria-invalid={isInvalid ? true : null}
               />
             </div>
           </div>
+          {isInvalid ? (
+            <span
+              class="nsw-form__helper nsw-form__helper--error"
+              id={`${inputId}-error-text`}
+            >
+              <span
+                class="material-icons nsw-material-icons"
+                focusable="false"
+                aria-hidden="true"
+              >
+                cancel
+              </span>
+              This field is required
+            </span>
+          ) : null}
         </fieldset>
         {/* <input
           className="nsw-form__input"
