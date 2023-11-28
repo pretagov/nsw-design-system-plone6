@@ -66,7 +66,7 @@ const RadioWidget = ({
           {valueList.map((opt) => {
             const radioId = id + opt.value;
             return (
-              <React.Fragment key={opt.value}>
+              <React.Fragment key={opt.label}>
                 <input
                   type="radio"
                   className="nsw-form__radio-input"

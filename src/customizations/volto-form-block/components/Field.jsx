@@ -49,6 +49,7 @@ const Field = (props) => {
     formHasErrors = false,
     widget,
     shouldShow = true,
+    display_values,
   } = props;
   let { value } = props;
   // A value of `null` is a touched field with no value
@@ -66,8 +67,20 @@ const Field = (props) => {
     const valueList =
       field_type === 'yes_no'
         ? [
-            { value: true, label: 'Yes' },
-            { value: false, label: 'No' },
+            {
+              value: true,
+              label:
+                display_values && Object.hasOwn(display_values, 'yes')
+                  ? display_values.yes
+                  : 'Yes',
+            },
+            {
+              value: false,
+              label:
+                display_values && Object.hasOwn(display_values, 'no')
+                  ? display_values.no
+                  : 'No',
+            },
           ]
         : [...(input_values?.map((v) => ({ value: v, label: v })) ?? [])];
 
