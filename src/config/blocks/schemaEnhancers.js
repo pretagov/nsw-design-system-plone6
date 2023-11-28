@@ -165,7 +165,7 @@ const alignmentPositionSizeMapping = {
   ],
 };
 
-function withSectionSchema({ schema, formData, intl }) {
+export function withSectionSchema({ schema, formData, intl }) {
   const sectionSchema = SectionSchema({
     intl,
     formData,
@@ -174,7 +174,7 @@ function withSectionSchema({ schema, formData, intl }) {
     ...schema.properties,
     ...sectionSchema.properties,
   };
-  const defaultFieldsetIndex = schema.fieldsets.findIndex(
+  const defaultFieldsetIndex = sectionSchema.fieldsets.findIndex(
     (fieldset) => fieldset.id === 'default',
   );
   const sectionFieldset = {

@@ -54,3 +54,10 @@
     cursor: default !important;
   }
 }
+
+// Columns block editing fixes
+.columns-block {
+  .nsw-col .blocks-form > fieldset {
+    min-inline-size: initial;
+  }
+}
