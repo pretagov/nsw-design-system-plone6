@@ -42,7 +42,9 @@
     "volto-subfooter": "2.0.0"
   },
   "peerDependencies": {
-    "@plone/volto": ">= 16.20.1 < 17.0.0"
+    "@plone/volto": ">= 16.20.1 < 17.0.0",
+    "react": ">= 16.8.0",
+    "react-dom": ">= 16.8.0"
   },
   "devDependencies": {
     "@plone/scripts": ">= 2.2.2",
