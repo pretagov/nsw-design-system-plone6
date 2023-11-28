@@ -42,7 +42,6 @@ const Field = (props) => {
     field_type,
     required,
     input_values,
-    value,
     onChange,
     isOnEdit,
     valid,
@@ -50,7 +49,13 @@ const Field = (props) => {
     formHasErrors = false,
     widget,
     shouldShow = true,
+    display_values,
   } = props;
+  let { value } = props;
+  // A value of `null` is a touched field with no value
+  if (props.default_value && value !== null && value === undefined) {
+    value = props.default_value;
+  }
   const intl = useIntl();
 
   const isInvalid = () => {
@@ -62,8 +67,20 @@ const Field = (props) => {
     const valueList =
       field_type === 'yes_no'
         ? [
-            { value: true, label: 'Yes' },
-            { value: false, label: 'No' },
+            {
+              value: true,
+              label:
+                display_values && Object.hasOwn(display_values, 'yes')
+                  ? display_values.yes
+                  : 'Yes',
+            },
+            {
+              value: false,
+              label:
+                display_values && Object.hasOwn(display_values, 'no')
+                  ? display_values.no
+                  : 'No',
+            },
           ]
         : [...(input_values?.map((v) => ({ value: v, label: v })) ?? [])];
 
@@ -72,6 +89,7 @@ const Field = (props) => {
         {...props}
         id={name}
         title={label}
+        value={value}
         valueList={valueList}
         invalid={isInvalid().toString()}
         {...(isInvalid() ? { className: 'is-invalid' } : {})}
@@ -80,7 +98,7 @@ const Field = (props) => {
   }
 
   return (
-    <>
+    <div inert={isOnEdit ? '' : null}>
       {field_type === 'text' && (
         <TextWidget
           id={name}
@@ -261,7 +279,7 @@ const Field = (props) => {
 
         return acc;
       }, []) ?? []}
-    </>
+    </div>
   );
 };
 

@@ -1,5 +1,5 @@
 import { RenderBlocks } from '@plone/volto/components';
-import { Section } from '../../Components/Section';
+import { Section } from '../../Components/Section/Section';
 import { getSectionColour } from './utils';
 
 // TODO: Support adding alt text to images

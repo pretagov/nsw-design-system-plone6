@@ -1,4 +1,5 @@
 import { FormFieldWrapper } from '@plone/volto/components';
+import { getTextColourUtilityForPaletteName } from 'nsw-design-system-plone6/helpers';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
@@ -9,28 +10,6 @@ const messages = defineMessages({
     defaultMessage: 'Color',
   },
 });
-
-const darkColours = [
-  'grey-01',
-  'green-01',
-  'teal-01',
-  'blue-01',
-  'purple-01',
-  'pink-01',
-  'red-01',
-  'orange-01',
-  'yellow-01',
-  'brown-01',
-  'black',
-  'grey-02',
-  'green-02',
-  'teal-02',
-  'blue-02',
-  'purple-02',
-  'pink-02',
-  'red-02',
-  'orange-02',
-];
 
 // TODO: This widget is HORRIBLY inaccessible. No focus indicator, incorrect click semantics, no indiciation of when a value is changed, etc.
 const ColorPickerWidget = (props) => {
@@ -74,9 +53,7 @@ const ColorPickerWidget = (props) => {
           return (
             <>
               <label
-                className={
-                  darkColours.includes(color.name) ? 'nsw-text--light' : null
-                }
+                className={getTextColourUtilityForPaletteName(color.name)}
                 style={{
                   whiteSpace: 'nowrap',
                   borderRadius: 0,
