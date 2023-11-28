@@ -7,7 +7,7 @@ const ViewGrid = ({ data, path }) => {
     <div className="block __grid">
       {data.headline && <h2 className="headline">{data.headline}</h2>}
       <div className="nsw-grid">
-        {data.columns.map((column) => (
+        {data.columns?.map((column) => (
           <div
             key={column.id}
             className={cx('nsw-col', {

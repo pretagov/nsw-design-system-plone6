@@ -5,5 +5,11 @@
     "path": "src",
     "branch": "deploy",
     "develop": true
+  },
+  "volto-slots-editor": {
+    "url": "https://github.com/pretagov/volto-slots-editor.git",
+    "package": "@plone-collective/volto-slots-editor",
+    "path": "src",
+    "develop": true
   }
 }

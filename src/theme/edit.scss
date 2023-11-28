@@ -48,4 +48,16 @@
     font-size: var(--nsw-font-size-sm-desktop);
     line-height: var(--nsw-line-height-sm-desktop);
   }
+
+  // If a volto-form-block is in edit mode, `inert` is added. Let's set the pointer back to normal  (
+  .block.form .volto-subblocks-wrapper .field:has([inert]) {
+    cursor: default !important;
+  }
+}
+
+// Columns block editing fixes
+.columns-block {
+  .nsw-col .blocks-form > fieldset {
+    min-inline-size: initial;
+  }
 }

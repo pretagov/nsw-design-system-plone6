@@ -41,7 +41,6 @@ const Field = (props) => {
     name,
     field_type,
     required,
-    value,
     input_values,
     onChange,
     isOnEdit,
@@ -52,6 +51,11 @@ const Field = (props) => {
     shouldShow = true,
     display_values,
   } = props;
+  let { value } = props;
+  // A value of `null` is a touched field with no value
+  if (props.default_value && value !== null && value === undefined) {
+    value = props.default_value;
+  }
   const intl = useIntl();
 
   const isInvalid = () => {
@@ -85,6 +89,7 @@ const Field = (props) => {
         {...props}
         id={name}
         title={label}
+        value={value}
         valueList={valueList}
         invalid={isInvalid().toString()}
         {...(isInvalid() ? { className: 'is-invalid' } : {})}
@@ -93,7 +98,7 @@ const Field = (props) => {
   }
 
   return (
-    <>
+    <div inert={isOnEdit ? '' : null}>
       {field_type === 'text' && (
         <TextWidget
           id={name}
@@ -274,7 +279,7 @@ const Field = (props) => {
 
         return acc;
       }, []) ?? []}
-    </>
+    </div>
   );
 };
 

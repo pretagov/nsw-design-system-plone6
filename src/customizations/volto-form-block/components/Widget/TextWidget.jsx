@@ -18,7 +18,7 @@ function TextWidget(props) {
     placeholder,
     invalid,
     required = false,
-    error = [],
+    error = [], // Isn't passed down from `Field.jsx` so doesn't seem to be a valid prop. Exists in volto-form-block so keeping it here
     isDisabled,
     value,
     draggable,
@@ -38,8 +38,7 @@ function TextWidget(props) {
   }, []);
 
   // Never fails `isInvalid` if set as required
-  const isInvalid =
-    error?.length > 0 && (invalid === true || invalid === 'true');
+  const isInvalid = invalid === true || invalid === 'true';
   const inputId = `field-${id}`;
 
   return (
@@ -77,6 +76,21 @@ function TextWidget(props) {
             return onChange(id, target.value === '' ? null : target.value);
           }}
         />
+        {isInvalid ? (
+          <span
+            class="nsw-form__helper nsw-form__helper--error"
+            id={`${inputId}-error-text`}
+          >
+            <span
+              class="material-icons nsw-material-icons"
+              focusable="false"
+              aria-hidden="true"
+            >
+              cancel
+            </span>
+            This field is required
+          </span>
+        ) : null}
       </div>
     </FormFieldWrapper>
   );
