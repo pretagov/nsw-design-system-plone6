@@ -1,5 +1,8 @@
 import { Icon } from '@plone/volto/components';
 import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
+import config from '@plone/volto/registry';
+import cx from 'classnames';
+import { getTextColourUtilityForPaletteName } from 'nsw-design-system-plone6/helpers';
 import React, { useEffect } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -56,6 +59,9 @@ function Footer() {
   const dispatch = useDispatch();
   const subFooter = useSelector((state) => state.subFooter?.result);
   const siteSettings = useSelector((state) => state.nswSiteSettings.data);
+  const SlotDisplay = config.getComponent({
+    name: 'VoltoBlocksSlotDisplay',
+  }).component;
 
   useEffect(() => {
     dispatch(getSubFooter());
@@ -79,11 +85,22 @@ function Footer() {
     siteSettings?.acknowledgement_of_country ||
     intl.formatMessage(messages.acknowledgementOfCountry);
 
+  const upperFooterColour = siteSettings?.nsw_independent_upper_footer_colour;
+  const upperFooterTextColour = getTextColourUtilityForPaletteName(
+    upperFooterColour,
+  );
+
   return (
     <>
       <footer id="site-footer" className="nsw-footer">
-        {upperFooterLinks && upperFooterLinks.length > 0 ? (
-          <div className="nsw-footer__upper">
+        {(upperFooterLinks && upperFooterLinks.length > 0) || SlotDisplay ? (
+          <div
+            className={cx('nsw-footer__upper', {
+              [upperFooterTextColour]: true,
+              [`nsw-bg--${upperFooterColour}`]: true,
+            })}
+          >
+            {SlotDisplay ? <SlotDisplay slot="footer" /> : null}
             <div className="nsw-container">
               {upperFooterLinks.map((linkGroup) => {
                 const headingItem = linkGroup.items[0];
@@ -150,8 +167,12 @@ function Footer() {
         ) : null}
         <div className="nsw-footer__lower">
           <div className="nsw-container">
-            <p>{acknowledgementOfCountry}</p>
-            <hr />
+            {siteSettings?.show_acknowledgement_of_country === false ? null : (
+              <>
+                <p>{acknowledgementOfCountry}</p>
+                <hr />
+              </>
+            )}
             <div className="nsw-footer__links">
               {lowerFooterLinks && lowerFooterLinks.items ? (
                 <ul>
