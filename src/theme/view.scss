@@ -56,3 +56,10 @@ mark {
     margin-block: 0;
   }
 }
+
+.nsw-ds-footer__aoc {
+  @extend .nsw-footer__lower;
+  @extend .nsw-p-y-sm;
+
+  background-color: unset;
+}

@@ -1,9 +1,10 @@
+import { useVoltoSlotsEditor } from '@plone-collective/volto-slots-editor';
 import { Icon } from '@plone/volto/components';
 import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
 import cx from 'classnames';
 import { getTextColourUtilityForPaletteName } from 'nsw-design-system-plone6/helpers';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -59,7 +60,8 @@ function Footer() {
   const dispatch = useDispatch();
   const subFooter = useSelector((state) => state.subFooter?.result);
   const siteSettings = useSelector((state) => state.nswSiteSettings.data);
-  const SlotDisplay = config.getComponent({
+  const aocSlotData = useVoltoSlotsEditor('aoc');
+  const AocSlotDisplay = config.getComponent({
     name: 'VoltoBlocksSlotDisplay',
   }).component;
 
@@ -89,18 +91,19 @@ function Footer() {
   const upperFooterTextColour = getTextColourUtilityForPaletteName(
     upperFooterColour,
   );
+  const aocFooterColour = siteSettings?.nsw_independent_aoc_colour;
+  const aocTextColour = getTextColourUtilityForPaletteName(aocFooterColour);
 
   return (
     <>
       <footer id="site-footer" className="nsw-footer">
-        {(upperFooterLinks && upperFooterLinks.length > 0) || SlotDisplay ? (
+        {upperFooterLinks && upperFooterLinks.length > 0 ? (
           <div
             className={cx('nsw-footer__upper', {
               [upperFooterTextColour]: true,
               [`nsw-bg--${upperFooterColour}`]: true,
             })}
           >
-            {SlotDisplay ? <SlotDisplay slot="footer" /> : null}
             <div className="nsw-container">
               {upperFooterLinks.map((linkGroup) => {
                 const headingItem = linkGroup.items[0];
@@ -165,9 +168,22 @@ function Footer() {
             </div>
           </div>
         ) : null}
+        {AocSlotDisplay && aocSlotData ? (
+          <div
+            className={cx('nsw-ds-footer__aoc', {
+              [aocTextColour]: !!aocTextColour,
+              [`nsw-bg--${aocFooterColour}`]: !!aocFooterColour,
+            })}
+          >
+            <div className="nsw-container">
+              <AocSlotDisplay slot="aoc" />
+            </div>
+          </div>
+        ) : null}
         <div className="nsw-footer__lower">
           <div className="nsw-container">
-            {siteSettings?.show_acknowledgement_of_country === false ? null : (
+            {aocSlotData ||
+            siteSettings?.show_acknowledgement_of_country === false ? null : (
               <>
                 <p>{acknowledgementOfCountry}</p>
                 <hr />
