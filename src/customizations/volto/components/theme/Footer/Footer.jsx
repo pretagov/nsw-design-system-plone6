@@ -168,7 +168,7 @@ function Footer() {
             </div>
           </div>
         ) : null}
-        {AocSlotDisplay && aocSlotData ? (
+        {AocSlotDisplay && aocSlotData?.enabled === true ? (
           <div
             className={cx('nsw-ds-footer__aoc', {
               [aocTextColour]: !!aocTextColour,
@@ -182,7 +182,7 @@ function Footer() {
         ) : null}
         <div className="nsw-footer__lower">
           <div className="nsw-container">
-            {aocSlotData ||
+            {aocSlotData?.enabled === true ||
             siteSettings?.show_acknowledgement_of_country === false ? null : (
               <>
                 <p>{acknowledgementOfCountry}</p>
