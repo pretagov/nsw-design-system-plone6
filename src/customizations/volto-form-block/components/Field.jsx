@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 
+import { MaybeWrap } from '@plone/volto/components';
 import WysiwygWidget from '@plone/volto/components/manage/Widgets/WysiwygWidget';
 
 import CheckboxListWidget from './Widget/CheckboxListWidget';
@@ -98,7 +99,7 @@ const Field = (props) => {
   }
 
   return (
-    <div inert={isOnEdit ? '' : null}>
+    <MaybeWrap condition={isOnEdit} as="div" inert={isOnEdit ? '' : null}>
       {field_type === 'text' && (
         <TextWidget
           id={name}
@@ -279,7 +280,7 @@ const Field = (props) => {
 
         return acc;
       }, []) ?? []}
-    </div>
+    </MaybeWrap>
   );
 };
 
