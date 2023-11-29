@@ -54,7 +54,7 @@ const Field = (props) => {
   } = props;
   let { value } = props;
   // A value of `null` is a touched field with no value
-  if (props.default_value && value !== null && value === undefined) {
+  if (typeof props.default_value === "boolean" && value !== null && value === undefined) {
     value = props.default_value;
   }
   const intl = useIntl();
