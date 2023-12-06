@@ -55,7 +55,7 @@ const Field = (props) => {
   let { value } = props;
   // A value of `null` is a touched field with no value
   if (
-    Object.hasOwn(props, 'default_value') &&
+    props.hasOwnProperty('default_value') &&
     value !== null &&
     value === undefined
   ) {
@@ -75,14 +75,18 @@ const Field = (props) => {
             {
               value: true,
               label:
-                display_values && Object.hasOwn(display_values, 'yes')
+                display_values &&
+                typeof display_values === 'object' &&
+                display_values.hasOwnProperty('yes')
                   ? display_values.yes
                   : 'Yes',
             },
             {
               value: false,
               label:
-                display_values && Object.hasOwn(display_values, 'no')
+                display_values &&
+                typeof display_values === 'object' &&
+                display_values.hasOwnProperty('no')
                   ? display_values.no
                   : 'No',
             },
