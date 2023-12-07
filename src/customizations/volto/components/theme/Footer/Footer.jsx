@@ -7,8 +7,10 @@ import { getTextColourUtilityForPaletteName } from 'nsw-design-system-plone6/hel
 import { useEffect } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { getSubFooter } from 'volto-subfooter';
+
+import { DesignSystemVersionInformation } from 'nsw-design-system-plone6/components/DesignSystemVersionInformation';
+import { Link } from 'react-router-dom';
 
 // TODO: Would dynamically importing these reduce bundle size?
 import FacebookSVG from '@mdi/svg/svg/facebook.svg';
@@ -246,7 +248,7 @@ function Footer() {
               <div className="nsw-footer__built">
                 {intl.formatMessage(messages.builtWith)}
                 <a href="https://digitalnsw.pretagov.com.au" rel="external">
-                  Plone 6 NSW DS
+                  <DesignSystemVersionInformation />
                 </a>
               </div>
             </div>
