@@ -13,41 +13,22 @@ export function DesignSystemVersionInformation() {
     );
   }
 
-  const ploneVersion = 'Plone 6';
-
-  if (designSystemVersion && !ploneVersion) {
-    return (
-      <FormattedMessage
-        id="NSW Built with - DDS only"
-        defaultMessage="NSW DDS {ddsVersion}"
-        values={{
-          ddsVersion: designSystemVersion,
-        }}
-      />
-    );
-  } else if (!designSystemVersion && ploneVersion) {
+  if (!designSystemVersion) {
     return (
       <FormattedMessage
         id="NSW Built with - plone only"
-        defaultMessage="NSW DDS {ploneVersion}"
-        values={{
-          ploneVersion: ploneVersion,
-        }}
-      />
-    );
-  } else if (designSystemVersion && ploneVersion) {
-    return (
-      <FormattedMessage
-        id="NSW Built with - DDS and Plone"
-        defaultMessage="NSW DDS {ddsVersion} {ploneVersion}"
-        values={{
-          ddsVersion: designSystemVersion,
-          ploneVersion: ploneVersion,
-        }}
+        defaultMessage="NSW DDS Plone"
       />
     );
   }
+
   return (
-    <FormattedMessage id="NSW Built with - Fallback" defaultMessage="NSW DDS" />
+    <FormattedMessage
+      id="NSW Built with - DDS and Plone"
+      defaultMessage="NSW DDS Plone {ddsVersion}"
+      values={{
+        ddsVersion: designSystemVersion,
+      }}
+    />
   );
 }
