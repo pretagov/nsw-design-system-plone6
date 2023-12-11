@@ -1,6 +1,6 @@
 {
   "name": "nsw-design-system-plone6",
-  "version": "0.5.0",
+  "version": "0.8.4",
   "description": "nsw-design-system-plone6: Volto add-on",
   "main": "src/index.js",
   "license": "MIT",
@@ -20,26 +20,31 @@
     "volto-form-block",
     "volto-google-analytics",
     "volto-subfooter",
-    "volto-siteinfo"
+    "volto-siteinfo",
+    "@eeacms/volto-columns-block",
+    "@plone-collective/volto-slots-editor"
   ],
   "dependencies": {
     "@eeacms/volto-accordion-block": "6.0.0",
+    "@eeacms/volto-columns-block": "6.3.2",
     "@fontsource/public-sans": "4.5.12",
     "@kitconcept/volto-blocks-grid": "5.2.0",
     "@material-design-icons/svg": "0.14.6",
     "@mdi/svg": "7.2.96",
     "html-react-parser": "3.0.16",
     "material-icons": "1.13.6",
-    "nsw-design-system": "3.5.1",
+    "nsw-design-system": "3.11.2",
     "react-color": "2.19.3",
-    "volto-form-block": "3.0.1",
+    "volto-form-block": "file:./src/addons/volto-form-block",
     "volto-google-analytics": "2.0.0",
-    "volto-siteinfo": "1.0.2",
+    "volto-siteinfo": "1.1.0",
     "volto-subblocks": "2.0.0",
     "volto-subfooter": "2.0.0"
   },
   "peerDependencies": {
-    "@plone/volto": ">= 16.20.1 < 17.0.0"
+    "@plone/volto": ">= 16.20.1 < 17.0.0",
+    "react": ">= 16.8.0",
+    "react-dom": ">= 16.8.0"
   },
   "devDependencies": {
     "@plone/scripts": ">= 2.2.2",

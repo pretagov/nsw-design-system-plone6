@@ -5,8 +5,8 @@ const InPageAlertView = ({ data }) => {
     <InPageAlert
       alertType={data.alertType}
       content={data.body?.data}
-      includeMargin={data.includeMargin}
       isCompact={data.isCompact}
+      includeMargin={true}
     />
   );
 };

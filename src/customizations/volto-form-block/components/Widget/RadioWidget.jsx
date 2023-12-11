@@ -50,11 +50,23 @@ const RadioWidget = ({
             {description ? (
               <span className="nsw-form__helper">{description}</span>
             ) : null}
+            {isInvalid ? (
+              <span class="nsw-form__helper nsw-form__helper--error">
+                <span
+                  class="material-icons nsw-material-icons"
+                  focusable="false"
+                  aria-hidden="true"
+                >
+                  cancel
+                </span>
+                This field is required
+              </span>
+            ) : null}
           </legend>
           {valueList.map((opt) => {
             const radioId = id + opt.value;
             return (
-              <React.Fragment key={opt.value}>
+              <React.Fragment key={opt.label}>
                 <input
                   type="radio"
                   className="nsw-form__radio-input"

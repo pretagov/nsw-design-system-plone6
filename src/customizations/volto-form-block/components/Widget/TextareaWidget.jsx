@@ -86,10 +86,25 @@ const TextareaWidget = (props) => {
           placeholder={placeholder}
           disabled={isDisabled}
           onChange={({ target }) =>
-            onhandleChange(id, target.value === '' ? undefined : target.value)
+            onhandleChange(id, target.value === '' ? null : target.value)
           }
           {...attributes}
         ></textarea>
+        {isInvalid ? (
+          <span
+            class="nsw-form__helper nsw-form__helper--error"
+            id={`${inputId}-error-text`}
+          >
+            <span
+              class="material-icons nsw-material-icons"
+              focusable="false"
+              aria-hidden="true"
+            >
+              cancel
+            </span>
+            This field is required
+          </span>
+        ) : null}
         {/* TODO: Handle length validation */}
         {/* {lengthError.length > 0 && (
         <Label key={lengthError} basic color="red" pointing>

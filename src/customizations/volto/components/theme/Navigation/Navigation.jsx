@@ -148,27 +148,33 @@ const Navigation = () => {
   const lang = useSelector((state) => state.intl.locale);
 
   const navigationController = useRef(null);
-  if (__CLIENT__ && !navigationController.current) {
-    loadable(
-      () => import('nsw-design-system/src/components/main-nav/main-nav'),
-      { ssr: false },
-    )
-      .load()
-      .then((navigation) => {
-        if (!navigationController.current) {
-          navigationController.current = new navigation.default();
-          navigationController.current.init();
-        }
-      });
-  }
+  const mainNavRef = useRef(null);
+  useEffect(() => {
+    if (__CLIENT__ && !navigationController.current) {
+      loadable(
+        () => import('nsw-design-system/src/components/main-nav/main-nav'),
+        { ssr: false },
+      )
+        .load()
+        .then((navigation) => {
+          if (!navigationController.current && mainNavRef) {
+            navigationController.current = new navigation.default(
+              mainNavRef.current,
+            );
+            navigationController.current.init();
+          }
+        });
+    }
+  }, [mainNavRef]);
 
   useEffect(() => {
-    if (
-      navigationController.current &&
-      navigationController.current.openSubNavElements.length > 0
-    ) {
-      navigationController.current.closeSubNav();
-      navigationController.current.mobileHideMainNav({ propertyName: '' });
+    if (navigationController.current) {
+      if (navigationController.current.openSubNavElements.length > 0) {
+        navigationController.current.toggleSubNavDesktop();
+      }
+      navigationController.current.mobileHideMainNav({
+        propertyName: 'transform',
+      });
     }
   }, [location]);
   useEffect(() => {
@@ -185,6 +191,7 @@ const Navigation = () => {
         className="nsw-main-nav js-mega-menu"
         id="main-nav"
         aria-label={intl.formatMessage(messages.mobileMenuAccessibleLabel)}
+        ref={mainNavRef}
       >
         <div className="nsw-main-nav__header">
           <div className="nsw-main-nav__title">

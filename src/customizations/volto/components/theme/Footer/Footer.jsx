@@ -1,10 +1,16 @@
+import { useVoltoSlotsEditor } from '@plone-collective/volto-slots-editor';
 import { Icon } from '@plone/volto/components';
 import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
-import React, { useEffect } from 'react';
+import config from '@plone/volto/registry';
+import cx from 'classnames';
+import { getTextColourUtilityForPaletteName } from 'nsw-design-system-plone6/helpers';
+import { useEffect } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { getSubFooter } from 'volto-subfooter';
+
+import { DesignSystemVersionInformation } from 'nsw-design-system-plone6/components/DesignSystemVersionInformation';
+import { Link } from 'react-router-dom';
 
 // TODO: Would dynamically importing these reduce bundle size?
 import FacebookSVG from '@mdi/svg/svg/facebook.svg';
@@ -56,6 +62,10 @@ function Footer() {
   const dispatch = useDispatch();
   const subFooter = useSelector((state) => state.subFooter?.result);
   const siteSettings = useSelector((state) => state.nswSiteSettings.data);
+  const aocSlotData = useVoltoSlotsEditor('aoc');
+  const AocSlotDisplay = config.getComponent({
+    name: 'VoltoBlocksSlotDisplay',
+  }).component;
 
   useEffect(() => {
     dispatch(getSubFooter());
@@ -79,11 +89,23 @@ function Footer() {
     siteSettings?.acknowledgement_of_country ||
     intl.formatMessage(messages.acknowledgementOfCountry);
 
+  const upperFooterColour = siteSettings?.nsw_independent_upper_footer_colour;
+  const upperFooterTextColour = getTextColourUtilityForPaletteName(
+    upperFooterColour,
+  );
+  const aocFooterColour = siteSettings?.nsw_independent_aoc_colour;
+  const aocTextColour = getTextColourUtilityForPaletteName(aocFooterColour);
+
   return (
     <>
       <footer id="site-footer" className="nsw-footer">
         {upperFooterLinks && upperFooterLinks.length > 0 ? (
-          <div className="nsw-footer__upper">
+          <div
+            className={cx('nsw-footer__upper', {
+              [upperFooterTextColour]: true,
+              [`nsw-bg--${upperFooterColour}`]: true,
+            })}
+          >
             <div className="nsw-container">
               {upperFooterLinks.map((linkGroup) => {
                 const headingItem = linkGroup.items[0];
@@ -148,10 +170,27 @@ function Footer() {
             </div>
           </div>
         ) : null}
+        {AocSlotDisplay && aocSlotData?.enabled === true ? (
+          <div
+            className={cx('nsw-ds-footer__aoc', {
+              [aocTextColour]: !!aocTextColour,
+              [`nsw-bg--${aocFooterColour}`]: !!aocFooterColour,
+            })}
+          >
+            <div className="nsw-container">
+              <AocSlotDisplay slot="aoc" />
+            </div>
+          </div>
+        ) : null}
         <div className="nsw-footer__lower">
           <div className="nsw-container">
-            <p>{acknowledgementOfCountry}</p>
-            <hr />
+            {aocSlotData?.enabled === true ||
+            siteSettings?.show_acknowledgement_of_country === false ? null : (
+              <>
+                <p>{acknowledgementOfCountry}</p>
+                <hr />
+              </>
+            )}
             <div className="nsw-footer__links">
               {lowerFooterLinks && lowerFooterLinks.items ? (
                 <ul>
@@ -209,7 +248,7 @@ function Footer() {
               <div className="nsw-footer__built">
                 {intl.formatMessage(messages.builtWith)}
                 <a href="https://digitalnsw.pretagov.com.au" rel="external">
-                  Plone 6 NSW DS
+                  <DesignSystemVersionInformation />
                 </a>
               </div>
             </div>

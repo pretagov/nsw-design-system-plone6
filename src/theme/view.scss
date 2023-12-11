@@ -43,3 +43,23 @@ mark {
     }
   }
 }
+
+.nsw-p6-linked-field {
+  @extend .nsw-callout;
+  margin-block-start: 0.25rem;
+}
+
+// Columns block view hacks
+.columns-block,
+.columns-view {
+  .nsw-media {
+    margin-block: 0;
+  }
+}
+
+.nsw-ds-footer__aoc {
+  @extend .nsw-footer__lower;
+  @extend .nsw-p-y-sm;
+
+  background-color: unset;
+}

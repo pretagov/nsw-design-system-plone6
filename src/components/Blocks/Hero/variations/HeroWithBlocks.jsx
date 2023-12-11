@@ -21,7 +21,11 @@ export const HeroWithBlocks = ({ data, ...props }) => {
         linkUrl={linkUrl}
         width={data.heroWidth}
         contentChildren={
-          <RenderBlocks {...props} metadata={metadata} content={data.block} />
+          props?.contentChildren ? (
+            props?.contentChildren
+          ) : (
+            <RenderBlocks {...props} metadata={metadata} content={data.block} />
+          )
         }
       />
     </>

@@ -4,8 +4,8 @@
  */
 
 import { UniversalLink } from '@plone/volto/components';
-import config from '@plone/volto/registry';
 import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
+import config from '@plone/volto/registry';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -37,7 +37,7 @@ export const Body = ({ data, href }) => {
           return `${flattenToAppURL(data.url)}/@@images/image/mini`;
         return `${flattenToAppURL(data.url)}/@@images/image`;
       })()
-    : data.url;
+    : flattenToAppURL(data.url);
 
   const imageString = withImageScale(baseImageString, data.size);
 

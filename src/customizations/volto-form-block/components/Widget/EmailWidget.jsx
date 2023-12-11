@@ -66,8 +66,8 @@ function EmailWidget(props) {
           name={id}
           minLength={minLength || null}
           maxLength={maxLength || null}
-          required={required ? true : null}
-          aria-required={required ? true : null}
+          // required={required ? true : null}
+          // aria-required={required ? true : null}
           aria-invalid={isInvalid ? true : null}
           disabled={isDisabled ? true : null}
           placeholder={placeholder}
@@ -75,10 +75,10 @@ function EmailWidget(props) {
           value={value}
           onClick={() => onClick()}
           onBlur={({ target }) =>
-            onBlur(id, target.value === '' ? undefined : target.value)
+            onBlur(id, target.value === '' ? null : target.value)
           }
           onChange={({ target }) => {
-            return onChange(id, target.value === '' ? undefined : target.value);
+            return onChange(id, target.value === '' ? null : target.value);
           }}
         />
       </div>

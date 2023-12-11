@@ -3,6 +3,7 @@ import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { validations as validationObjects } from 'volto-form-block/helpers/validators';
 
+import { MaybeWrap } from '@plone/volto/components';
 import WysiwygWidget from '@plone/volto/components/manage/Widgets/WysiwygWidget';
 
 import CheckboxListWidget from './Widget/CheckboxListWidget';
@@ -44,7 +45,6 @@ const Field = (props) => {
     field_type,
     required,
     input_values,
-    value,
     onChange,
     isOnEdit,
     valid,
@@ -52,8 +52,18 @@ const Field = (props) => {
     formHasErrors = false,
     widget,
     shouldShow = true,
+    display_values,
     validations,
   } = props;
+  let { value } = props;
+  // A value of `null` is a touched field with no value
+  if (
+    props.hasOwnProperty('default_value') &&
+    value !== null &&
+    value === undefined
+  ) {
+    value = props.default_value;
+  }
   const intl = useIntl();
 
   const isInvalid = () => {
@@ -80,8 +90,24 @@ const Field = (props) => {
     const valueList =
       field_type === 'yes_no'
         ? [
-            { value: true, label: 'Yes' },
-            { value: false, label: 'No' },
+            {
+              value: true,
+              label:
+                display_values &&
+                typeof display_values === 'object' &&
+                display_values.hasOwnProperty('yes')
+                  ? display_values.yes
+                  : 'Yes',
+            },
+            {
+              value: false,
+              label:
+                display_values &&
+                typeof display_values === 'object' &&
+                display_values.hasOwnProperty('no')
+                  ? display_values.no
+                  : 'No',
+            },
           ]
         : [...(input_values?.map((v) => ({ value: v, label: v })) ?? [])];
 
@@ -90,6 +116,7 @@ const Field = (props) => {
         {...props}
         id={name}
         title={label}
+        value={value}
         valueList={valueList}
         invalid={isInvalid().toString()}
         {...(isInvalid() ? { className: 'is-invalid' } : {})}
@@ -98,7 +125,7 @@ const Field = (props) => {
   }
 
   return (
-    <>
+    <MaybeWrap condition={isOnEdit} as="div" inert={isOnEdit ? '' : null}>
       {field_type === 'text' && (
         <TextWidget
           id={name}
@@ -279,7 +306,7 @@ const Field = (props) => {
 
         return acc;
       }, []) ?? []}
-    </>
+    </MaybeWrap>
   );
 };
 

@@ -14,8 +14,12 @@ import {
 } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
 import cx from 'classnames';
-import { getSectionColour } from 'nsw-design-system-plone6/components/Blocks/Section/utils';
-import { Section } from 'nsw-design-system-plone6/components/Components/Section';
+import {
+  blockNeedsSection,
+  blocksNeedSections,
+  sectionFields,
+} from 'nsw-design-system-plone6/components/Blocks/Section/utils';
+import { BlocksAsSection } from 'nsw-design-system-plone6/components/Components/Section';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
@@ -29,16 +33,6 @@ const messages = defineMessages({
   },
 });
 
-const fullWidthContentBlocks = ['form'];
-
-const sectionFields = [
-  'sectionType',
-  'sectionspacing',
-  'sectionimage',
-  'sectioncolour',
-  'sectioninvert',
-];
-
 const getCoreContentGroupedLayout = (blocksInLayout, blocksData) => {
   if (!blocksInLayout || !blocksInLayout.length) {
     return [];
@@ -46,7 +40,7 @@ const getCoreContentGroupedLayout = (blocksInLayout, blocksData) => {
 
   const coreContentBlockTypes = Object.keys(config.blocks.blocksConfig).filter(
     (blockId) => {
-      if (fullWidthContentBlocks.includes(blockId)) {
+      if (config.settings.fullWidthContentBlocks.includes(blockId)) {
         return true;
       } else if (config.settings.fullWidthBlockTypes.includes(blockId)) {
         return false;
@@ -75,12 +69,9 @@ const getCoreContentGroupedLayout = (blocksInLayout, blocksData) => {
         ? blocksData[previousBlockOrGroup[previousBlockOrGroup.length - 1]]
         : blocksData[previousBlockOrGroup];
 
-    if (_blockNeedsSection(currentBlock)) {
+    if (blockNeedsSection(currentBlock)) {
       // Make sure we have another block
       if (previousBlockOrGroup) {
-        const previousBlockSectionData = Object.fromEntries(
-          sectionFields.map((k) => [k, previousBlock?.[k]]),
-        );
         const currentBlockSectionData = Object.fromEntries(
           sectionFields.map((k) => [k, currentBlock?.[k]]),
         );
@@ -99,7 +90,7 @@ const getCoreContentGroupedLayout = (blocksInLayout, blocksData) => {
 
     // If the previous block is a group and the current block is a core content block,
     // add the current block to the group.
-    if (previousBlock && _blockNeedsSection(previousBlock)) {
+    if (previousBlock && blockNeedsSection(previousBlock)) {
       result.push([currentBlockId]);
     } else if (
       previousBlockOrGroup instanceof Array &&
@@ -122,24 +113,6 @@ const getCoreContentGroupedLayout = (blocksInLayout, blocksData) => {
   }, []);
 };
 
-function _blockNeedsSection(blockData) {
-  // We don't want to double up on sections.
-  if (blockData['@type'] === 'nsw_section') {
-    return false;
-  }
-  if (blockData.sectionType) {
-    return true;
-  }
-  // The value is an empty string if we had a value in the past but set it back to no section
-  if (blockData.sectionType === '') {
-    return false;
-  }
-  if (Object.keys(blockData).some((r) => sectionFields.includes(r))) {
-    return true;
-  }
-  return false;
-}
-
 const BlocksLayout = ({ content, location }) => {
   const intl = useIntl();
   const blocksFieldname = getBlocksFieldname(content);
@@ -149,12 +122,6 @@ const BlocksLayout = ({ content, location }) => {
   const groupedBlocksLayout = getCoreContentGroupedLayout(
     blocksInLayout,
     blocksData,
-  );
-
-  const blocksNeedSections = Object.values(blocksData).some(
-    (blockData) =>
-      _blockNeedsSection(blockData) ||
-      config.settings.fullWidthBlockTypes.includes(blockData['@type']),
   );
 
   // Below block of code is all needed for `hideTopPadding?`
@@ -177,75 +144,14 @@ const BlocksLayout = ({ content, location }) => {
         {groupedBlocksLayout.map((blockIdOrGroup, index) => {
           if (blockIdOrGroup instanceof Array) {
             const blockGroup = blockIdOrGroup; // Rename it just to make the code more readable
-            if (blocksNeedSections) {
-              const blockWithSectionData = blocksData?.[blockGroup[0]];
-              const sectionColour = getSectionColour(blockWithSectionData);
-              if (_blockNeedsSection(blockWithSectionData)) {
-                return (
-                  <Section
-                    key={index}
-                    padding={blockWithSectionData.sectionspacing}
-                    isBox={blockWithSectionData.sectionType === 'box'}
-                    colour={sectionColour}
-                    shouldInvert={blockWithSectionData.sectioninvert}
-                  >
-                    {blockGroup.map((blockId) => {
-                      // Copy pasted from below. Should really make this a function!
-                      const blockData = blocksData?.[blockId];
-                      const blockType = blockData?.['@type'];
-                      const Block =
-                        config.blocks.blocksConfig[blockType]?.['view'] || null;
-                      return Block !== null ? (
-                        <Block
-                          key={blockId}
-                          id={blockId}
-                          properties={content}
-                          data={blocksData[blockId]}
-                          path={getBaseUrl(location?.pathname || '')}
-                        />
-                      ) : (
-                        <div key={blockId}>
-                          {intl.formatMessage(messages.unknownBlock, {
-                            block: blockType,
-                          })}
-                        </div>
-                      );
-                    })}
-                  </Section>
-                );
-              }
-
+            if (blocksNeedSections(blocksData)) {
               return (
-                <Section
+                <BlocksAsSection
                   key={index}
-                  padding={blockWithSectionData.sectionspacing}
-                  isBox={blockWithSectionData.sectionType === 'box'}
-                  colour={sectionColour}
-                  shouldInvert={blockWithSectionData.sectioninvert}
-                >
-                  {blockGroup.map((blockId) => {
-                    // Copy pasted from below. Should really make this a function!
-                    const blockData = blocksData?.[blockId];
-                    const blockType = blockData?.['@type'];
-                    const Block =
-                      config.blocks.blocksConfig[blockType]?.['view'] || null;
-                    return Block !== null ? (
-                      <Block
-                        key={blockId}
-                        id={blockId}
-                        properties={content}
-                        data={blocksData[blockId]}
-                        path={getBaseUrl(location?.pathname || '')}
-                      />
-                    ) : (
-                      <div key={blockId}>
-                        {intl.formatMessage(messages.unknownBlock, {
-                          block: blockType,
-                        })}
-                      </div>
-                    );
-                  })}
-                </Section>
+                  blocksLayout={blockGroup}
+                  blocksData={blocksData}
+                  content={content}
+                />
               );
             }
             return (
