@@ -68,19 +68,20 @@ const Field = (props) => {
 
   const isInvalid = () => {
     let isInvalid = !isOnEdit && !valid;
-    if (validations && validations.length > 0) {
-      validations.forEach((validation) => {
-        const validatorObject = validationObjects[validation.validation_type];
-        const validator = validatorObject?.validator;
-        if (validator) {
-          const validatorProperties = Object.keys(validatorObject.properties)
-          isInvalid = !validator({
-            value,
-            ...pick(validation, validatorProperties),
-          });
-        }
-      })
-    }
+    // TODO: Re-enable frontend-validations
+    // if (validations && validations.length > 0) {
+    //   validations.forEach((validation) => {
+    //     const validatorObject = validationObjects[validation.validation_type];
+    //     const validator = validatorObject?.validator;
+    //     if (validator) {
+    //       const validatorProperties = Object.keys(validatorObject.properties)
+    //       isInvalid = !validator({
+    //         value,
+    //         ...pick(validation, validatorProperties),
+    //       });
+    //     }
+    //   })
+    // }
 
     return isInvalid;
   };
