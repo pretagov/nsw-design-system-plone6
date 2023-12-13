@@ -35,16 +35,17 @@
     "material-icons": "1.13.6",
     "nsw-design-system": "3.11.2",
     "react-color": "2.19.3",
-    "volto-form-block": "file:./src/addons/volto-form-block",
     "volto-google-analytics": "2.0.0",
     "volto-siteinfo": "1.1.0",
     "volto-subblocks": "2.0.0",
     "volto-subfooter": "2.0.0"
   },
   "peerDependencies": {
+    "@plone-collective/volto-slots-editor": "*",
     "@plone/volto": ">= 16.20.1 < 17.0.0",
     "react": ">= 16.8.0",
-    "react-dom": ">= 16.8.0"
+    "react-dom": ">= 16.8.0",
+    "volto-form-block": ">=3.0.0"
   },
   "devDependencies": {
     "@plone/scripts": ">= 2.2.2",
