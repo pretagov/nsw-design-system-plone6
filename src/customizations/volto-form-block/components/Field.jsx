@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { validations as validationObjects } from 'volto-form-block/helpers/validators';
 
 import { MaybeWrap } from '@plone/volto/components';
 import WysiwygWidget from '@plone/volto/components/manage/Widgets/WysiwygWidget';
@@ -16,7 +15,6 @@ import SelectWidget from './Widget/SelectWidget';
 import TextareaWidget from './Widget/TextareaWidget';
 import TextWidget from './Widget/TextWidget';
 
-import { pick } from 'lodash';
 import config from '@plone/volto/registry';
 import parse from 'html-react-parser';
 
@@ -53,7 +51,7 @@ const Field = (props) => {
     widget,
     shouldShow = true,
     display_values,
-    validations,
+    errors,
   } = props;
   let { value } = props;
   // A value of `null` is a touched field with no value
@@ -134,6 +132,7 @@ const Field = (props) => {
           title={label}
           description={description}
           required={required}
+          errors={errors}
           onChange={onChange}
           value={value}
           isDisabled={disabled}
@@ -149,6 +148,7 @@ const Field = (props) => {
           title={label}
           description={description}
           required={required}
+          errors={errors}
           onChange={onChange}
           value={value}
           rows={10}
@@ -167,6 +167,7 @@ const Field = (props) => {
           getVocabularyTokenTitle={() => {}}
           choices={[...(input_values?.map((v) => [v, v]) ?? [])]}
           value={value}
+          errors={errors}
           onChange={onChange}
           placeholder={intl.formatMessage(messages.select_a_value)}
           aria-label={intl.formatMessage(messages.select_a_value)}
@@ -184,6 +185,7 @@ const Field = (props) => {
           description={description}
           required={required}
           onChange={onChange}
+          errors={errors}
           valueList={[
             ...(input_values?.map((v) => ({ value: v, label: v })) ?? []),
           ]}
@@ -201,6 +203,7 @@ const Field = (props) => {
           description={description}
           required={required}
           onChange={onChange}
+          errors={errors}
           valueList={[
             ...(input_values?.map((v) => ({ value: v, label: v })) ?? []),
           ]}
@@ -217,6 +220,7 @@ const Field = (props) => {
           title={label}
           description={description}
           required={required}
+          errors={errors}
           onChange={onChange}
           value={!!value}
           isDisabled={disabled}
@@ -233,6 +237,7 @@ const Field = (props) => {
           dateOnly={true}
           noPastDates={false}
           resettable={false}
+          errors={errors}
           onChange={onChange}
           value={value}
           isDisabled={disabled}
@@ -249,6 +254,7 @@ const Field = (props) => {
           description={description}
           type="file"
           required={required}
+          errors={errors}
           invalid={isInvalid().toString()}
           isDisabled={disabled}
           onChange={onChange}
@@ -262,6 +268,7 @@ const Field = (props) => {
           name={name}
           title={label}
           description={description}
+          errors={errors}
           required={required}
           onChange={onChange}
           value={value}
@@ -277,6 +284,7 @@ const Field = (props) => {
             id={name}
             name={name}
             title={label}
+            errors={errors}
             description={description}
             onChange={onChange}
             value={value}
@@ -300,6 +308,7 @@ const Field = (props) => {
               value={value}
               isDisabled={disabled}
               formHasErrors={formHasErrors}
+              errors={errors}
               invalid={isInvalid().toString()}
               {...(isInvalid() ? { className: 'is-invalid' } : {})}
             />,
