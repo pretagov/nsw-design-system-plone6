@@ -15,7 +15,7 @@ const View = ({ data, ...props }) => {
     return item.id === data.variation;
   });
 
-  if (variation.id === 'default') {
+  if (!variation || variation.id === 'default') {
     return (
       <Hero
         title={data.title}
