@@ -144,7 +144,7 @@ function SelectWidget(props) {
           value={
             normalizedValue
               ? normalizedValue['value']
-              : required
+              : required && options[0]
               ? options[0].value
               : 'no-value'
           }
