@@ -124,7 +124,11 @@ const Field = (props) => {
   }
 
   return (
-    <MaybeWrap condition={isOnEdit} as="div" inert={isOnEdit ? '' : null}>
+    <MaybeWrap
+      condition={isOnEdit}
+      as="div"
+      inert={isOnEdit && field_type !== 'static_text' ? '' : null}
+    >
       {field_type === 'text' && (
         <TextWidget
           id={name}
