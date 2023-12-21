@@ -15,15 +15,8 @@ const RadioWidget = ({
   invalid,
 }) => {
   let attributes = {};
-  if (required) {
-    attributes.required = true;
-    attributes['aria-required'] = true;
-  }
 
   const isInvalid = invalid === true || invalid === 'true';
-  if (isInvalid) {
-    attributes['aria-invalid'] = true;
-  }
 
   return (
     <FormFieldWrapper

@@ -23,17 +23,7 @@ const CheckboxListWidget = ({
     onChange(id, [...newValue]);
   };
 
-  let attributes = {};
-  // Causes all of the checkboxes to be checked.
-  // if (required) {
-  //   attributes.required = true;
-  //   attributes['aria-required'] = true;
-  // }
-
   const isInvalid = invalid === true || invalid === 'true';
-  if (isInvalid) {
-    attributes['aria-invalid'] = true;
-  }
 
   return (
     <FormFieldWrapper
@@ -85,7 +75,6 @@ const CheckboxListWidget = ({
                   onChange={({ target }) => {
                     return updateValueList(opt.value, target.checked);
                   }}
-                  {...attributes}
                 />
                 <label
                   className="nsw-form__checkbox-label"

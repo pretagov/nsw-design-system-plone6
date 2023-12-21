@@ -52,15 +52,8 @@ const TextareaWidget = (props) => {
   };
 
   let attributes = {};
-  if (required) {
-    attributes.required = true;
-    attributes['aria-required'] = true;
-  }
 
   const isInvalid = invalid === true || invalid === 'true';
-  if (lengthError?.length > 0 || isInvalid) {
-    attributes['aria-invalid'] = true;
-  }
 
   const inputId = `field-${id}`;
 
@@ -105,12 +98,6 @@ const TextareaWidget = (props) => {
             This field is required
           </span>
         ) : null}
-        {/* TODO: Handle length validation */}
-        {/* {lengthError.length > 0 && (
-        <Label key={lengthError} basic color="red" pointing>
-          {lengthError}
-        </Label>
-      )} */}
       </div>
     </FormFieldWrapper>
   );

@@ -118,17 +118,7 @@ function SelectWidget(props) {
           : []),
       ];
 
-  let attributes = {};
-  if (required) {
-    attributes.required = true;
-    attributes['aria-required'] = true;
-  }
-
   const isInvalid = invalid === true || invalid === 'true';
-  if (isInvalid) {
-    attributes['aria-invalid'] = true;
-  }
-
   const inputId = `field-${id}`;
 
   return (
@@ -159,7 +149,6 @@ function SelectWidget(props) {
               : 'no-value'
           }
           disabled={shouldDisable}
-          {...attributes}
           onChange={({ target: selectedOption }) => {
             return onChange(
               id,

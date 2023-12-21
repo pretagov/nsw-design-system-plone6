@@ -133,58 +133,13 @@ const FileWidget = (props) => {
   };
 
   let attributes = {};
-  if (required) {
-    attributes.required = true;
-    attributes['aria-required'] = true;
-  }
 
   const isInvalid = invalid === true || invalid === 'true';
-  if (isInvalid) {
-    attributes['aria-invalid'] = true;
-  }
 
   const inputId = `field-${id}`;
 
   return (
     <FormFieldWrapper {...props} wrapped={false}>
-      {/* <div className="nsw-form__group">
-        <label className="nsw-form__label" htmlFor={inputId}>
-          {title}
-        </label>
-        {description ? (
-          <span className="nsw-form__helper" id={`${id}-helper-text`}>
-            {description}
-          </span>
-        ) : null}
-        <input
-          className="nsw-form__file-input"
-          type="file"
-          id={inputId}
-          name={id}
-          required={required ? true : null}
-          aria-required={required ? true : null}
-          aria-invalid={isInvalid ? true : null}
-          ref={node}
-          onChange={({ target }) => {
-            const upload = target.value;
-            let file = {
-              data: null,
-              encoding: null,
-              'content-type': null,
-              filename: null,
-            };
-            for (let i = 0; i < upload.length; i++) {
-              new FileUpload(imgs[i], imgs[i].file);
-            }
-            onChange(id, {
-              data: fields[3],
-              encoding: fields[2],
-              'content-type': fields[1],
-              filename: file.name,
-            });
-          }}
-        />
-      </div> */}
       <Dropzone onDrop={onDrop}>
         {({ getRootProps, getInputProps, isDragActive }) => (
           <div

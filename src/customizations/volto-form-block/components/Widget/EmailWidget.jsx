@@ -66,9 +66,6 @@ function EmailWidget(props) {
           name={id}
           minLength={minLength || null}
           maxLength={maxLength || null}
-          // required={required ? true : null}
-          // aria-required={required ? true : null}
-          aria-invalid={isInvalid ? true : null}
           disabled={isDisabled ? true : null}
           placeholder={placeholder}
           ref={node}

@@ -63,7 +63,6 @@ function TextWidget(props) {
           name={id}
           minLength={minLength || null}
           maxLength={maxLength || null}
-          aria-invalid={isInvalid ? true : null}
           disabled={isDisabled ? true : null}
           placeholder={placeholder}
           ref={node}

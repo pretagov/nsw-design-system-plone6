@@ -36,17 +36,7 @@ const CheckboxWidget = (props) => {
     error = [],
   } = props;
 
-  let attributes = {};
-  // if (required) {
-  //   attributes.required = true;
-  //   attributes['aria-required'] = 'true';
-  // }
-
   const isInvalid = invalid === true || invalid === 'true';
-  if (isInvalid) {
-    attributes['aria-invalid'] = true;
-  }
-
   const checkboxId = `field-${id}`;
 
   return (
@@ -62,7 +52,6 @@ const CheckboxWidget = (props) => {
             onChange(id, target.checked);
           }}
           disabled={isDisabled}
-          {...attributes}
         />
         <label className="nsw-form__checkbox-label" htmlFor={checkboxId}>
           {title}
