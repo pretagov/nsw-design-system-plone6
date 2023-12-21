@@ -61,7 +61,7 @@ function DatetimeWidgetComponent(props) {
   return (
     <FormFieldWrapper {...props} className="text" wrapped={false}>
       <div className="nsw-form__group">
-        <fieldset className="nsw-form__date">
+        <fieldset className="nsw-form__date" id={inputId}>
           <legend>
             <span
               className={cx('nsw-form__label', {

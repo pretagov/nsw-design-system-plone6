@@ -24,6 +24,7 @@ const CheckboxListWidget = ({
   };
 
   const isInvalid = invalid === true || invalid === 'true';
+  const inputId = `field-${id}`;
 
   return (
     <FormFieldWrapper
@@ -36,7 +37,7 @@ const CheckboxListWidget = ({
       wrapped={false}
     >
       <div className="nsw-form__group">
-        <fieldset className="nsw-form__fieldset">
+        <fieldset className="nsw-form__fieldset" id={inputId}>
           <legend>
             <span
               className={cx('nsw-form__legend', {
@@ -63,7 +64,7 @@ const CheckboxListWidget = ({
             ) : null}
           </legend>
           {valueList?.map((opt) => {
-            const checkboxId = `field-${id}-${opt.value}`;
+            const checkboxId = `${inputId}-${opt.value}`;
             return (
               <React.Fragment key={checkboxId}>
                 <input

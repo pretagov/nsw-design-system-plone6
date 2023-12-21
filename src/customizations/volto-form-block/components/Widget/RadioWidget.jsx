@@ -17,6 +17,7 @@ const RadioWidget = ({
   let attributes = {};
 
   const isInvalid = invalid === true || invalid === 'true';
+  const inputId = `field-${id}`;
 
   return (
     <FormFieldWrapper
@@ -29,7 +30,7 @@ const RadioWidget = ({
       wrapped={false}
     >
       <div className="nsw-form__group">
-        <fieldset className="nsw-form__fieldset">
+        <fieldset className="nsw-form__fieldset" id={inputId}>
           <legend>
             <span
               className={cx('nsw-form__legend', {
@@ -57,7 +58,7 @@ const RadioWidget = ({
             ) : null}
           </legend>
           {valueList.map((opt) => {
-            const radioId = id + opt.value;
+            const radioId = `${inputId}-${opt.value}`;
             return (
               <React.Fragment key={opt.label}>
                 <input
