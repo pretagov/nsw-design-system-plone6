@@ -2,6 +2,8 @@ import { FormFieldWrapper } from '@plone/volto/components';
 import cx from 'classnames';
 import React from 'react';
 
+import { ErrorMessage } from 'nsw-design-system-plone6/components/Components/Form/ErrorMessage';
+
 const RadioWidget = ({
   id,
   title,
@@ -45,16 +47,7 @@ const RadioWidget = ({
               <span className="nsw-form__helper">{description}</span>
             ) : null}
             {isInvalid ? (
-              <span class="nsw-form__helper nsw-form__helper--error">
-                <span
-                  class="material-icons nsw-material-icons"
-                  focusable="false"
-                  aria-hidden="true"
-                >
-                  cancel
-                </span>
-                This field is required
-              </span>
+              <ErrorMessage inputId={inputId} message={error[0]} />
             ) : null}
           </legend>
           {valueList.map((opt) => {

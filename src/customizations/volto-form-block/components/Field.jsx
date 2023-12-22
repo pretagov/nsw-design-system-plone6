@@ -114,10 +114,12 @@ const Field = (props) => {
       <Widget
         {...props}
         id={name}
+        name={name}
         title={label}
         value={value}
         valueList={valueList}
         invalid={isInvalid().toString()}
+        error={errors}
         {...(isInvalid() ? { className: 'is-invalid' } : {})}
       />
     );
@@ -136,7 +138,7 @@ const Field = (props) => {
           title={label}
           description={description}
           required={required}
-          errors={errors}
+          error={errors}
           onChange={onChange}
           value={value}
           isDisabled={disabled}
@@ -152,7 +154,7 @@ const Field = (props) => {
           title={label}
           description={description}
           required={required}
-          errors={errors}
+          error={errors}
           onChange={onChange}
           value={value}
           rows={10}
@@ -171,7 +173,7 @@ const Field = (props) => {
           getVocabularyTokenTitle={() => {}}
           choices={[...(input_values?.map((v) => [v, v]) ?? [])]}
           value={value}
-          errors={errors}
+          error={errors}
           onChange={onChange}
           placeholder={intl.formatMessage(messages.select_a_value)}
           aria-label={intl.formatMessage(messages.select_a_value)}
@@ -189,7 +191,7 @@ const Field = (props) => {
           description={description}
           required={required}
           onChange={onChange}
-          errors={errors}
+          error={errors}
           valueList={[
             ...(input_values?.map((v) => ({ value: v, label: v })) ?? []),
           ]}
@@ -207,7 +209,7 @@ const Field = (props) => {
           description={description}
           required={required}
           onChange={onChange}
-          errors={errors}
+          error={errors}
           valueList={[
             ...(input_values?.map((v) => ({ value: v, label: v })) ?? []),
           ]}
@@ -224,7 +226,7 @@ const Field = (props) => {
           title={label}
           description={description}
           required={required}
-          errors={errors}
+          error={errors}
           onChange={onChange}
           value={!!value}
           isDisabled={disabled}
@@ -241,7 +243,7 @@ const Field = (props) => {
           dateOnly={true}
           noPastDates={false}
           resettable={false}
-          errors={errors}
+          error={errors}
           onChange={onChange}
           value={value}
           isDisabled={disabled}
@@ -258,7 +260,7 @@ const Field = (props) => {
           description={description}
           type="file"
           required={required}
-          errors={errors}
+          error={errors}
           invalid={isInvalid().toString()}
           isDisabled={disabled}
           onChange={onChange}
@@ -272,7 +274,7 @@ const Field = (props) => {
           name={name}
           title={label}
           description={description}
-          errors={errors}
+          error={errors}
           required={required}
           onChange={onChange}
           value={value}
@@ -288,7 +290,7 @@ const Field = (props) => {
             id={name}
             name={name}
             title={label}
-            errors={errors}
+            error={errors}
             description={description}
             onChange={onChange}
             value={value}
@@ -312,7 +314,7 @@ const Field = (props) => {
               value={value}
               isDisabled={disabled}
               formHasErrors={formHasErrors}
-              errors={errors}
+              error={errors}
               invalid={isInvalid().toString()}
               {...(isInvalid() ? { className: 'is-invalid' } : {})}
             />,

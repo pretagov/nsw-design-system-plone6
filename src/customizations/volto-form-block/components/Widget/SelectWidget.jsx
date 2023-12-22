@@ -14,6 +14,8 @@ import { defineMessages, useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
+import { ErrorMessage } from 'nsw-design-system-plone6/components/Components/Form/ErrorMessage';
+
 const messages = defineMessages({
   default: {
     id: 'Default',
@@ -76,6 +78,7 @@ function SelectWidget(props) {
     isDisabled,
     invalid,
     title,
+    error = [],
   } = props;
   const intl = useIntl();
   /**
@@ -167,19 +170,7 @@ function SelectWidget(props) {
           })}
         </select>
         {isInvalid ? (
-          <span
-            class="nsw-form__helper nsw-form__helper--error"
-            id={`${inputId}-error-text`}
-          >
-            <span
-              class="material-icons nsw-material-icons"
-              focusable="false"
-              aria-hidden="true"
-            >
-              cancel
-            </span>
-            This field is required
-          </span>
+          <ErrorMessage inputId={inputId} message={error[0]} />
         ) : null}
       </div>
     </FormFieldWrapper>

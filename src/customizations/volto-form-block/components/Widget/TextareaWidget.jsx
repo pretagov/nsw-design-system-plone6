@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
 import { FormFieldWrapper } from '@plone/volto/components';
+import { ErrorMessage } from 'nsw-design-system-plone6/components/Components/Form/ErrorMessage';
 
 /**
  * TextareaWidget, a widget for multiple lines text
@@ -84,19 +85,7 @@ const TextareaWidget = (props) => {
           {...attributes}
         ></textarea>
         {isInvalid ? (
-          <span
-            class="nsw-form__helper nsw-form__helper--error"
-            id={`${inputId}-error-text`}
-          >
-            <span
-              class="material-icons nsw-material-icons"
-              focusable="false"
-              aria-hidden="true"
-            >
-              cancel
-            </span>
-            This field is required
-          </span>
+          <ErrorMessage inputId={inputId} message={error[0]} />
         ) : null}
       </div>
     </FormFieldWrapper>

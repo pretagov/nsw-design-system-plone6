@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { FormFieldWrapper } from '@plone/volto/components';
+import { ErrorMessage } from 'nsw-design-system-plone6/components/Components/Form/ErrorMessage';
 
 /** EmailWidget, a widget for email addresses
  *
@@ -40,8 +41,7 @@ function EmailWidget(props) {
     }
   }, []);
 
-  const isInvalid =
-    error?.length > 0 && (invalid === true || invalid === 'true');
+  const isInvalid = invalid === true || invalid === 'true' || error.length > 0;
   const inputId = `field-${id}`;
 
   return (
@@ -78,6 +78,9 @@ function EmailWidget(props) {
             return onChange(id, target.value === '' ? null : target.value);
           }}
         />
+        {isInvalid ? (
+          <ErrorMessage inputId={inputId} message={error[0]} />
+        ) : null}
       </div>
     </FormFieldWrapper>
   );
