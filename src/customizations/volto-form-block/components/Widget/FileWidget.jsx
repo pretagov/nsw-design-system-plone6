@@ -17,6 +17,8 @@ import React from 'react';
 import { defineMessages, injectIntl, useIntl } from 'react-intl';
 import { Button, Dimmer, Image } from 'semantic-ui-react';
 
+import { ErrorMessage } from 'nsw-design-system-plone6/components/Components/Form/ErrorMessage';
+
 const imageMimetypes = [
   'image/png',
   'image/jpeg',
@@ -84,6 +86,7 @@ const FileWidget = (props) => {
     onChange,
     required,
     invalid,
+    error = [],
   } = props;
   const [fileType, setFileType] = React.useState(false);
   const intl = useIntl();
@@ -134,7 +137,7 @@ const FileWidget = (props) => {
 
   let attributes = {};
 
-  const isInvalid = invalid === true || invalid === 'true';
+  const isInvalid = invalid === true || invalid === 'true' || error.length > 0;
 
   const inputId = `field-${id}`;
 
@@ -193,6 +196,9 @@ const FileWidget = (props) => {
             )}
 
             <div className="">{value && value.filename}</div>
+            {isInvalid ? (
+              <ErrorMessage inputId={inputId} message={error[0]} />
+            ) : null}
             <button type="button" className="nsw-button nsw-button--dark">
               {value
                 ? intl.formatMessage(messages.replaceFile)
