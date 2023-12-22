@@ -51,7 +51,7 @@ const Field = (props) => {
     widget,
     shouldShow = true,
     display_values,
-    errors,
+    errors = {},
   } = props;
   let { value } = props;
   // A value of `null` is a touched field with no value
@@ -83,6 +83,8 @@ const Field = (props) => {
 
     return isInvalid;
   };
+
+  const errorList = Object.values(errors);
 
   if (widget) {
     const Widget = widgetMapping[widget];
@@ -119,7 +121,7 @@ const Field = (props) => {
         value={value}
         valueList={valueList}
         invalid={isInvalid().toString()}
-        error={errors}
+        error={errorList}
         {...(isInvalid() ? { className: 'is-invalid' } : {})}
       />
     );
@@ -138,7 +140,7 @@ const Field = (props) => {
           title={label}
           description={description}
           required={required}
-          error={errors}
+          error={errorList}
           onChange={onChange}
           value={value}
           isDisabled={disabled}
@@ -154,7 +156,7 @@ const Field = (props) => {
           title={label}
           description={description}
           required={required}
-          error={errors}
+          error={errorList}
           onChange={onChange}
           value={value}
           rows={10}
@@ -173,7 +175,7 @@ const Field = (props) => {
           getVocabularyTokenTitle={() => {}}
           choices={[...(input_values?.map((v) => [v, v]) ?? [])]}
           value={value}
-          error={errors}
+          error={errorList}
           onChange={onChange}
           placeholder={intl.formatMessage(messages.select_a_value)}
           aria-label={intl.formatMessage(messages.select_a_value)}
@@ -191,7 +193,7 @@ const Field = (props) => {
           description={description}
           required={required}
           onChange={onChange}
-          error={errors}
+          error={errorList}
           valueList={[
             ...(input_values?.map((v) => ({ value: v, label: v })) ?? []),
           ]}
@@ -209,7 +211,7 @@ const Field = (props) => {
           description={description}
           required={required}
           onChange={onChange}
-          error={errors}
+          error={errorList}
           valueList={[
             ...(input_values?.map((v) => ({ value: v, label: v })) ?? []),
           ]}
@@ -226,7 +228,7 @@ const Field = (props) => {
           title={label}
           description={description}
           required={required}
-          error={errors}
+          error={errorList}
           onChange={onChange}
           value={!!value}
           isDisabled={disabled}
@@ -243,7 +245,7 @@ const Field = (props) => {
           dateOnly={true}
           noPastDates={false}
           resettable={false}
-          error={errors}
+          error={errorList}
           onChange={onChange}
           value={value}
           isDisabled={disabled}
@@ -260,7 +262,7 @@ const Field = (props) => {
           description={description}
           type="file"
           required={required}
-          error={errors}
+          error={errorList}
           invalid={isInvalid().toString()}
           isDisabled={disabled}
           onChange={onChange}
@@ -274,7 +276,7 @@ const Field = (props) => {
           name={name}
           title={label}
           description={description}
-          error={errors}
+          error={errorList}
           required={required}
           onChange={onChange}
           value={value}
@@ -290,7 +292,7 @@ const Field = (props) => {
             id={name}
             name={name}
             title={label}
-            error={errors}
+            error={errorList}
             description={description}
             onChange={onChange}
             value={value}
@@ -314,7 +316,7 @@ const Field = (props) => {
               value={value}
               isDisabled={disabled}
               formHasErrors={formHasErrors}
-              error={errors}
+              error={errorList}
               invalid={isInvalid().toString()}
               {...(isInvalid() ? { className: 'is-invalid' } : {})}
             />,

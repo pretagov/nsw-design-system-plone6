@@ -78,13 +78,15 @@ function ErrorMessageBox({ formId, formErrors = {}, fields }) {
         {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
         <ul role="list">
           {Object.keys(formErrors).map((fieldName) => {
-            const { label, id } = allFieldData[fieldName];
+            const { label, id, validations = [] } = allFieldData[fieldName];
             const name = getFieldName(label, id);
-            const errorMessage = formErrors[name]
-              ? formErrors[name]
+            const validationMessageToShow = formErrors[name] && validations[0];
+            const errorMessage = validationMessageToShow
+              ? `${label}: ${formErrors[name][validationMessageToShow]}`
               : intl.formatMessage(messages.field_is_required, {
                   fieldLabel: label,
                 });
+
             return (
               <li>
                 <a href={`#field-${name}`}>{errorMessage}</a>
