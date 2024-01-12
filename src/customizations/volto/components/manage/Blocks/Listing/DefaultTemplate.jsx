@@ -14,7 +14,7 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
               }/teaser`
             : null;
         const date =
-          item[data.dateField] === 'None' ? null : item[data.dateField];
+          item[data.dateField?.value] === 'None' ? null : item[data.dateField?.value];
         return (
           <div
             key={item['@id']}

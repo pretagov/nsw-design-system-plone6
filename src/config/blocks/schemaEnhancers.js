@@ -1,5 +1,6 @@
 import { composeSchema } from '@plone/volto/helpers';
 import voltoConfig from '@plone/volto/registry';
+import { hasNonValueOperation, hasDateOperation } from '@plone/volto/components/manage/Blocks/Search/utils';
 import {
   cardStylingSchema,
   contentBlockStylingSchema,
@@ -236,13 +237,22 @@ function withListingDisplayControls({ schema, formData, intl }) {
     title: 'Date field',
     type: 'string',
     factory: 'Choice',
-    choices: [
-      ['CreationDate', 'Creation date'],
-      ['EffectiveDate', 'Publication date'],
-      ['ModificationDate', 'Last modified'],
-      ['ExpirationDate', 'Expiration date'],
-    ],
-    default: 'EffectiveDate',
+    widget: 'select_querystring_field',
+    vocabulary: { '@id': 'plone.app.vocabularies.MetadataFields' },
+    filterOptions: (options) => {
+      // Only allows indexes that provide simple, fixed vocabularies.
+      // This should be improved, together with the facets. The querystring
+      // widget implementation should serve as inspiration for those dynamic
+      // types of facets.
+      return Object.assign(
+        {},
+        ...Object.keys(options).map((k) =>
+            hasDateOperation(options[k].operations)
+            ? { [k]: options[k] }
+            : {},
+        ),
+      );
+    },
   };
   const itemDisplayFieldset = {
     id: 'listingDisplayFieldset',
