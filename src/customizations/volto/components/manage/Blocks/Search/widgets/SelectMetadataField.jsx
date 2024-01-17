@@ -10,7 +10,7 @@ import { injectLazyLibs } from '@plone/volto/helpers/Loadable/Loadable';
 import { compose } from 'redux';
 
 import { FormFieldWrapper } from '@plone/volto/components';
-import withQueryString from './../hocs/withQueryString';
+import withQueryString from '@plone/volto/components/manage/Blocks/Search/hocs/withQueryString';
 import { defineMessages } from 'react-intl';
 
 import {
