@@ -80,7 +80,12 @@ function ErrorMessageBox({ formId, formErrors = {}, fields }) {
           {Object.keys(formErrors).map((fieldName) => {
             const { label, id, validations = [] } = allFieldData[fieldName];
             const name = getFieldName(label, id);
-            const validationMessageToShow = formErrors[name] && validations[0];
+            const validationsWithErrors = Object.keys(formErrors[name]);
+            const validationIdToShow = validations.find((validation) =>
+              validationsWithErrors.includes(validation),
+            );
+            const validationMessageToShow =
+              formErrors[name] && validationIdToShow;
             const errorMessage = validationMessageToShow
               ? `${label}: ${formErrors[name][validationMessageToShow]}`
               : intl.formatMessage(messages.field_is_required, {
