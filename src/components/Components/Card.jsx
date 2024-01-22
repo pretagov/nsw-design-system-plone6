@@ -38,6 +38,7 @@ export function Card({
   description,
   href,
   image,
+  label,
   date,
   icon,
   urlDisplay,
@@ -85,13 +86,15 @@ export function Card({
         )
       ) : null}
       <div className="nsw-card__content">
-        {cleanDate || urlDisplay ? (
+        {label ? (
+            <div className="nsw-card__tag">{label}</div>
+        ) : null}
+
+
+        {cleanDate ? (
           <div className="nsw-card__date">
             {cleanDate ? (
               <FormattedDate date={cleanDate} locale="en-au" />
-            ) : null}
-            {urlDisplay ? (
-              <p style={{ marginBlockEnd: '0' }}>{urlDisplay}</p>
             ) : null}
           </div>
         ) : null}
@@ -108,6 +111,15 @@ export function Card({
             </UniversalLink>
           )}
         </div>
+
+        {urlDisplay ? (
+          <div className="nsw-card__date">
+            {urlDisplay ? (
+              <p style={{ marginBlockEnd: '0' }}>{urlDisplay}</p>
+            ) : null}
+          </div>
+        ) : null}
+
         {description ? (
           isValidElement(description) ? (
             <div className="nsw-card__copy">{description}</div>
