@@ -3,15 +3,23 @@
  * @module components/manage/Widgets/SelectWidget
  */
 
-import { map, intersection, filter, toPairs, groupBy } from 'lodash';
+import { map, intersection, filter, toPairs, groupBy, pick } from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectLazyLibs } from '@plone/volto/helpers/Loadable/Loadable';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
 
 import { FormFieldWrapper } from '@plone/volto/components';
 import withQueryString from '@plone/volto/components/manage/Blocks/Search/hocs/withQueryString';
 import { defineMessages } from 'react-intl';
+
+import {
+  getVocabFromHint,
+  getVocabFromField,
+  getVocabFromItems,
+} from '@plone/volto/helpers';
+import { getVocabulary } from '@plone/volto/actions';
 
 import {
   Option,
@@ -51,6 +59,7 @@ class SelectWidget extends Component {
       PropTypes.object,
       PropTypes.string,
       PropTypes.bool,
+      PropTypes.arrayOf(PropTypes.object),
     ]),
     onChange: PropTypes.func.isRequired,
     onBlur: PropTypes.func,
@@ -59,6 +68,12 @@ class SelectWidget extends Component {
     onDelete: PropTypes.func,
     wrapped: PropTypes.bool,
     querystring: PropTypes.object,
+    choices: PropTypes.arrayOf(
+      PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    ),
+    getVocabulary: PropTypes.func.isRequired,
+    vocabLoading: PropTypes.bool,
+    vocabLoaded: PropTypes.bool,
   };
 
   /**
@@ -98,9 +113,30 @@ class SelectWidget extends Component {
    * @returns {undefined}
    */
   componentDidMount() {
-    if (!this.props.choices && this.props.vocabBaseUrl) {
+    if (
+      !this.props.items?.choices?.length &&
+      !this.props.choices?.length &&
+      this.props.vocabBaseUrl
+    ) {
       this.props.getVocabulary({ vocabNameOrURL: this.props.vocabBaseUrl });
     }
+  }
+
+  /**
+   * Component did update
+   * @method componentDidUpdate
+   * @returns {undefined}
+   */
+  componentDidUpdate() {
+      if (
+        !this.props.items?.choices?.length &&
+        !this.props.choices?.length &&
+        this.props.vocabLoading === undefined &&
+        !this.props.vocabLoaded &&
+        this.props.vocabBaseUrl
+      ) {
+        this.props.getVocabulary({ vocabNameOrURL: this.props.vocabBaseUrl });
+      }
   }
 
   /**
@@ -137,14 +173,6 @@ class SelectWidget extends Component {
     return null;
   };
 
-  /* Customized to pass object instead of plain string value */
-  handleChange = (selectedOption) => {
-    this.setState({ selectedOption });
-    this.props.onChange(this.props.id, {
-      value: selectedOption.value,
-      title: selectedOption.label,
-    });
-  };
 
   /**
    * Render method.
@@ -160,11 +188,45 @@ class SelectWidget extends Component {
       placeholder,
       querystring,
       filterOptions = identity,
+      type,
     } = this.props;
     const isDisabled = false;
     const { indexes = [] } = querystring;
+    let filterIndexes = indexes;
+    if (this.props.vocabLoaded) {
+      const vocabOptions = this.props.choices.map(({ value }) => value);
+      filterIndexes = pick(indexes, vocabOptions);
+    }
 
     const Select = this.props.reactSelect.default;
+
+    let options = map(
+      toPairs(
+        groupBy(toPairs(filterOptions(filterIndexes)), (item) => item[1].group),
+      ),
+      (group) => ({
+        label: group[0],
+        options: map(
+          filter(group[1], (item) => item[1].enabled),
+          (field) => ({
+            label: field[1].title,
+            value: field[0],
+          }),
+        ),
+      }),
+    );
+
+    let isMulti = 0;
+    let selectValue = { value: value?.value, label: indexes[value?.value]?.title };
+
+    if (type === "array") {
+      isMulti = 1;
+      if (Array.isArray(value)) {
+        selectValue = value;
+      } else {
+        selectValue = map(value, (item) => ({ label: item.label, value: item.value }));
+      }
+    }
 
     return (
       <FormFieldWrapper {...this.props}>
@@ -177,35 +239,23 @@ class SelectWidget extends Component {
           isDisabled={isDisabled}
           className="react-select-container"
           classNamePrefix="react-select"
-          options={map(
-            toPairs(
-              groupBy(toPairs(filterOptions(indexes)), (item) => item[1].group),
-            ),
-            (group) => ({
-              label: group[0],
-              options: map(
-                filter(group[1], (item) => item[1].enabled),
-                (field) => ({
-                  label: field[1].title,
-                  value: field[0],
-                }),
-              ),
-            }),
-          )}
+          options={options}
           styles={customSelectStyles}
           theme={selectTheme}
           components={{ DropdownIndicator, Option }}
-          value={{ value: value?.value, label: indexes[value?.value]?.title }}
+          value={selectValue}
           onChange={(data) => {
             let dataValue = [];
             if (Array.isArray(data)) {
               for (let obj of data) {
-                dataValue.push(obj.value);
+                dataValue.push(obj);
               }
               return onChange(id, dataValue);
             }
             return onChange(id, data);
           }}
+          isClearable
+          isMulti={isMulti}
         />
       </FormFieldWrapper>
     );
@@ -215,4 +265,37 @@ class SelectWidget extends Component {
 export default compose(
   withQueryString,
   injectLazyLibs(['reactSelect']),
+  connect(
+    (state, props) => {
+
+      const vocabBaseUrl =
+        getVocabFromHint(props) ||
+        getVocabFromField(props) ||
+        getVocabFromItems(props);
+
+      const vocabState =
+        state.vocabularies?.[vocabBaseUrl];
+
+      // If the schema already has the choices in it, then do not try to get the vocab,
+      // even if there is one
+      if (props.items?.choices) {
+        return {
+          choices: props.items.choices,
+          lang: state.intl.locale,
+        };
+      } else if (vocabState) {
+
+
+        return {
+          choices: vocabState.items,
+          vocabBaseUrl,
+          vocabLoading: vocabState.loading,
+          vocabLoaded: vocabState.loaded,
+          lang: state.intl.locale,
+        };
+      }
+      return { vocabBaseUrl, lang: state.intl.locale };
+    },
+    { getVocabulary }
+  ),
 )(SelectWidget);

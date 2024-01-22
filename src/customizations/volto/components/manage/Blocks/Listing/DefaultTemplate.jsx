@@ -15,6 +15,16 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
             : null;
         const date =
           item[data.dateField?.value] === 'None' ? null : item[data.dateField?.value];
+        const label =
+          item[data.labelField?.value] === 'None' ? null : item[data.labelField?.value];
+        const tags = [];
+        data.tagField?.forEach((field) => {
+          let fieldValue = item[field.value];
+          if (!fieldValue || fieldValue === 'None') {
+            return null;
+          }
+          tags.push(...item[field.value]);
+        });
         return (
           <div
             key={item['@id']}
@@ -24,19 +34,28 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
             })}
           >
             <div className="nsw-list-item__content">
-              {/* TODO: Find a way to allow adjustable labels */}
-              {/* <div className="nsw-list-item__label">Stories</div> */}
+
+              {data.showLabel ? (
+                  <div className="nsw-list-item__label">{label}</div>
+              ) : null}
+
+              {data.showDate ? (
+                <div className="nsw-list-item__info">
+                  {data.showDate && date ? (
+                    <FormattedDate date={date} format={{ dateStyle: 'long' }} locale="en-au" />
+                  ) : null}
+                </div>
+              ) : null}
+
               <div className="nsw-list-item__title">
                 <ConditionalLink item={item} condition={!isEditMode}>
                   {item.title ? item.title : item['@id']}
                 </ConditionalLink>
               </div>
-              {data.showUrl || data.showDate ? (
+
+              {data.showUrl ? (
                 <div className="nsw-list-item__info">
                   {data.showUrl ? item.getURL : null}
-                  {data.showDate && date ? (
-                    <FormattedDate date={date} locale="en-au" />
-                  ) : null}
                 </div>
               ) : null}
 
@@ -46,12 +65,13 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
                   dangerouslySetInnerHTML={{ __html: item.description }}
                 />
               )}
-              {data.showTags && item.Subject?.length > 0 ? (
+
+              {data.showTags && tags?.length > 0 ? (
                 <div className="nsw-list-item__tags">
                   <div className="nsw-list nsw-list--8">
-                    {item.Subject.map((tagText) => {
+                    {tags.map((tagText, index) => {
                       return (
-                        <span key={tagText} className="nsw-tag">
+                        <span key={index} className="nsw-tag">
                           {tagText}
                         </span>
                       );

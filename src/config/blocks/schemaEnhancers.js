@@ -1,6 +1,6 @@
 import { composeSchema } from '@plone/volto/helpers';
 import voltoConfig from '@plone/volto/registry';
-import { hasNonValueOperation, hasDateOperation } from '@plone/volto/components/manage/Blocks/Search/utils';
+import { hasNonValueOperation, hasDateOperation, hasKeywordOperation } from './utils';
 import {
   cardStylingSchema,
   contentBlockStylingSchema,
@@ -202,6 +202,11 @@ function withListingDisplayControls({ schema, formData, intl }) {
     ],
     default: 'title',
   };
+
+  schema.properties.showLabel = {
+    title: 'Show label',
+    type: 'boolean',
+  };
   schema.properties.showDescription = {
     title: 'Show description',
     type: 'boolean',
@@ -238,12 +243,7 @@ function withListingDisplayControls({ schema, formData, intl }) {
     type: 'string',
     factory: 'Choice',
     widget: 'select_querystring_field',
-    vocabulary: { '@id': 'plone.app.vocabularies.MetadataFields' },
     filterOptions: (options) => {
-      // Only allows indexes that provide simple, fixed vocabularies.
-      // This should be improved, together with the facets. The querystring
-      // widget implementation should serve as inspiration for those dynamic
-      // types of facets.
       return Object.assign(
         {},
         ...Object.keys(options).map((k) =>
@@ -254,13 +254,57 @@ function withListingDisplayControls({ schema, formData, intl }) {
       );
     },
   };
+  schema.properties.labelField = {
+    title: 'Label field',
+    default: 'Type',
+    type: 'string',
+    factory: 'Choice',
+    widget: 'select_querystring_field',
+    filterOptions: (options) => {
+      return Object.assign(
+        {},
+        ...Object.keys(options).map((k) =>
+          Object.keys(options[k].values || {}).length ||
+          hasNonValueOperation(options[k].operations)
+            ? { [k]: options[k] }
+            : {},
+        ),
+      );
+    },
+  };
+
+  schema.properties.tagField = {
+    title: 'Tag field(s)',
+    //default: [{label: 'Tag', value: 'Subject'}],
+    type: 'array',
+    factory: 'List',
+    widget: 'select_querystring_field',
+    vocabulary: { '@id': 'collective.indexvocabularies.KeywordIndexes' },
+    filterOptions: (options) => {
+      return Object.assign(
+        {},
+        ...Object.keys(options).map((k) =>
+          Object.keys(options[k].values || {}).length ||
+          hasNonValueOperation(options[k].operations) ||
+          hasKeywordOperation(options[k].operations)
+            ? { [k]: options[k] }
+            : {},
+        ),
+      );
+    },
+  };
+
+
   const itemDisplayFieldset = {
     id: 'listingDisplayFieldset',
     title: 'Item Settings',
     fields: [
       'showDescription',
+      'showLabel',
+      ...(formData.showLabel ? ['labelField'] : []),
       'showUrl',
       'showTags',
+      ...(formData.showTags ? ['tagField'] : []),
       'showDate',
       ...(formData.showDate ? ['dateField'] : []),
       ...(formData.variation !== 'cardListing'
