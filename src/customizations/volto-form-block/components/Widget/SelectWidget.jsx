@@ -160,6 +160,12 @@ function SelectWidget(props) {
                 : null,
             );
           }}
+          aria-invalid={isInvalid ? 'true' : null}
+          // The order here matters, as not all Assistive Technology supports multiple describedby
+          aria-describedby={cx({
+            [`${inputId}-helper-text`]: description,
+            [`${inputId}-error-text`]: isInvalid,
+          })}
         >
           {options.map(({ value, label }) => {
             return (

@@ -77,6 +77,12 @@ function EmailWidget(props) {
           onChange={({ target }) => {
             return onChange(id, target.value === '' ? null : target.value);
           }}
+          aria-invalid={isInvalid ? 'true' : null}
+          // The order here matters, as not all Assistive Technology supports multiple describedby
+          aria-describedby={cx({
+            [`${inputId}-helper-text`]: description,
+            [`${inputId}-error-text`]: isInvalid,
+          })}
         />
         {isInvalid ? (
           <ErrorMessage inputId={inputId} message={error[0]} />

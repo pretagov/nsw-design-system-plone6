@@ -16,8 +16,6 @@ const RadioWidget = ({
   fieldSet,
   invalid,
 }) => {
-  let attributes = {};
-
   const isInvalid = invalid === true || invalid === 'true';
   const inputId = `field-${id}`;
 
@@ -32,7 +30,15 @@ const RadioWidget = ({
       wrapped={false}
     >
       <div className="nsw-form__group">
-        <fieldset className="nsw-form__fieldset" id={inputId}>
+        <fieldset
+          className="nsw-form__fieldset"
+          id={inputId}
+          // The order here matters, as not all Assistive Technology supports multiple describedby
+          aria-describedby={cx({
+            [`${inputId}-helper-text`]: description,
+            [`${inputId}-error-text`]: isInvalid,
+          })}
+        >
           <legend>
             <span
               className={cx('nsw-form__legend', {
@@ -62,7 +68,6 @@ const RadioWidget = ({
                   value={opt.value}
                   checked={opt.value === value}
                   onChange={(e) => onChange(id, opt.value)}
-                  {...attributes}
                 />
                 <label className="nsw-form__radio-label" htmlFor={radioId}>
                   {opt.label}

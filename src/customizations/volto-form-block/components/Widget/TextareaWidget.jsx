@@ -7,7 +7,6 @@
 
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
 
 import { FormFieldWrapper } from '@plone/volto/components';
 import { ErrorMessage } from 'nsw-design-system-plone6/components/Components/Form/ErrorMessage';
@@ -28,7 +27,6 @@ const TextareaWidget = (props) => {
   const {
     id,
     title,
-    maxLength,
     value,
     onChange,
     placeholder,
@@ -38,21 +36,6 @@ const TextareaWidget = (props) => {
     description,
     error = [],
   } = props;
-  const [lengthError, setlengthError] = useState('');
-
-  const onhandleChange = (id, value) => {
-    if (maxLength & value?.length) {
-      let remlength = maxLength - value.length;
-      if (remlength < 0) {
-        setlengthError(`You have exceed word limit by ${Math.abs(remlength)}`);
-      } else {
-        setlengthError('');
-      }
-    }
-    onChange(id, value);
-  };
-
-  let attributes = {};
 
   const isInvalid = invalid === true || invalid === 'true';
 
@@ -75,14 +58,18 @@ const TextareaWidget = (props) => {
           className="nsw-form__input"
           name={id}
           id={inputId}
-          aria-describedby={`${inputId}-helper-text`}
           value={value || ''}
           placeholder={placeholder}
           disabled={isDisabled}
           onChange={({ target }) =>
-            onhandleChange(id, target.value === '' ? null : target.value)
+            onChange(id, target.value === '' ? null : target.value)
           }
-          {...attributes}
+          aria-invalid={isInvalid ? 'true' : null}
+          // The order here matters, as not all Assistive Technology supports multiple describedby
+          aria-describedby={cx({
+            [`${inputId}-helper-text`]: description,
+            [`${inputId}-error-text`]: isInvalid,
+          })}
         ></textarea>
         {isInvalid ? (
           <ErrorMessage inputId={inputId} message={error[0]} />
