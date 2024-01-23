@@ -1,5 +1,6 @@
 import { composeSchema } from '@plone/volto/helpers';
 import voltoConfig from '@plone/volto/registry';
+import { hasNonValueOperation, hasDateOperation, hasKeywordOperation } from './utils';
 import {
   cardStylingSchema,
   contentBlockStylingSchema,
@@ -201,6 +202,11 @@ function withListingDisplayControls({ schema, formData, intl }) {
     ],
     default: 'title',
   };
+
+  schema.properties.showLabel = {
+    title: 'Show label',
+    type: 'boolean',
+  };
   schema.properties.showDescription = {
     title: 'Show description',
     type: 'boolean',
@@ -236,21 +242,69 @@ function withListingDisplayControls({ schema, formData, intl }) {
     title: 'Date field',
     type: 'string',
     factory: 'Choice',
-    choices: [
-      ['CreationDate', 'Creation date'],
-      ['EffectiveDate', 'Publication date'],
-      ['ModificationDate', 'Last modified'],
-      ['ExpirationDate', 'Expiration date'],
-    ],
-    default: 'EffectiveDate',
+    widget: 'select_querystring_field',
+    filterOptions: (options) => {
+      return Object.assign(
+        {},
+        ...Object.keys(options).map((k) =>
+            hasDateOperation(options[k].operations)
+            ? { [k]: options[k] }
+            : {},
+        ),
+      );
+    },
   };
+  schema.properties.labelField = {
+    title: 'Label field',
+    default: 'Type',
+    type: 'string',
+    factory: 'Choice',
+    widget: 'select_querystring_field',
+    filterOptions: (options) => {
+      return Object.assign(
+        {},
+        ...Object.keys(options).map((k) =>
+          Object.keys(options[k].values || {}).length ||
+          hasNonValueOperation(options[k].operations)
+            ? { [k]: options[k] }
+            : {},
+        ),
+      );
+    },
+  };
+
+  schema.properties.tagField = {
+    title: 'Tag field(s)',
+    //default: [{label: 'Tag', value: 'Subject'}],
+    type: 'array',
+    factory: 'List',
+    widget: 'select_querystring_field',
+    vocabulary: { '@id': 'collective.indexvocabularies.KeywordIndexes' },
+    filterOptions: (options) => {
+      return Object.assign(
+        {},
+        ...Object.keys(options).map((k) =>
+          Object.keys(options[k].values || {}).length ||
+          hasNonValueOperation(options[k].operations) ||
+          hasKeywordOperation(options[k].operations)
+            ? { [k]: options[k] }
+            : {},
+        ),
+      );
+    },
+  };
+
+
   const itemDisplayFieldset = {
     id: 'listingDisplayFieldset',
     title: 'Item Settings',
     fields: [
       'showDescription',
+      'showLabel',
+      ...(formData.showLabel ? ['labelField'] : []),
       'showUrl',
       'showTags',
+      ...(formData.showTags ? ['tagField'] : []),
       'showDate',
       ...(formData.showDate ? ['dateField'] : []),
       ...(formData.variation !== 'cardListing'
