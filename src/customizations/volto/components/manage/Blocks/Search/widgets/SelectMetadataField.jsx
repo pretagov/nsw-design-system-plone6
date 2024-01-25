@@ -118,7 +118,7 @@ class SelectWidget extends Component {
       !this.props.choices?.length &&
       this.props.vocabBaseUrl
     ) {
-      this.props.getVocabulary({ vocabNameOrURL: this.props.vocabBaseUrl });
+      this.props.getVocabulary({ vocabNameOrURL: this.props.vocabBaseUrl, size: -1 });
     }
   }
 
@@ -135,7 +135,7 @@ class SelectWidget extends Component {
         !this.props.vocabLoaded &&
         this.props.vocabBaseUrl
       ) {
-        this.props.getVocabulary({ vocabNameOrURL: this.props.vocabBaseUrl });
+        this.props.getVocabulary({ vocabNameOrURL: this.props.vocabBaseUrl, size: -1 });
       }
   }
 
