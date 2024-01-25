@@ -140,41 +140,6 @@ class SelectWidget extends Component {
   }
 
   /**
-   * Initiate search with new query
-   * @method loadOptions
-   * @param {string} search Search query.
-   * @param {string} previousOptions The previous options rendered.
-   * @param {string} additional Additional arguments to pass to the next loadOptions.
-   * @returns {undefined}
-   */
-  loadOptions = (search, previousOptions, additional) => {
-    let hasMore = this.props.itemsTotal > previousOptions.length;
-    if (hasMore) {
-      const offset = this.state.search !== search ? 0 : additional.offset;
-      this.props.getVocabulary({
-        vocabNameOrURL: this.props.vocabBaseUrl,
-        query: search,
-        start: offset,
-      });
-      this.setState({ search });
-
-      return {
-        options:
-          intersection(previousOptions, this.props.choices).length ===
-          this.props.choices.length
-            ? []
-            : this.props.choices,
-        hasMore: hasMore,
-        additional: {
-          offset: offset === additional.offset ? offset + 25 : offset,
-        },
-      };
-    }
-    return null;
-  };
-
-
-  /**
    * Render method.
    * @method render
    * @returns {string} Markup for the component.
