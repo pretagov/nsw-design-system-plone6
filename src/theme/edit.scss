@@ -49,16 +49,17 @@
     line-height: var(--nsw-line-height-sm-desktop);
   }
 
-  // If a volto-form-block is in edit mode, `inert` is added. Let's set the pointer back to normal  (
   .block.form {
+    // If a volto-form-block is in edit mode, `inert` is added. Let's set the pointer back to normal  (
     .volto-subblocks-wrapper .field:has([inert]) {
       cursor: default !important;
     }
+
+    // Below two rules are copied from volto-form-block and adjusted to fit the NSW DDS
     .block.form .volto-subblocks-wrapper .single-block .dragsubblock {
       top: 1.5rem; // Originally 50% - 10px in volto-form-block/src/components/Field.css
       left: -17px; // Originally -10px in volto-form-block/src/components/Field.css
     }
-
     .volto-subblocks-wrapper
       .single-block.subblock-draggable
       .ui.basic.button.delete-button {
