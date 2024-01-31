@@ -88,8 +88,9 @@ function ErrorMessageBox({ formId, formErrors = {}, fields }) {
             const validationIdToShow = validations.find((validation) =>
               validationsWithErrors.includes(validation),
             );
-            const validationMessageToShow =
-              formErrors[name] && validationIdToShow;
+            const validationMessageToShow = formErrors[name].required
+              ? 'required'
+              : validationIdToShow;
             const errorMessage = validationMessageToShow
               ? `${label}: ${formErrors[name][validationMessageToShow]}`
               : intl.formatMessage(messages.field_is_required, {
