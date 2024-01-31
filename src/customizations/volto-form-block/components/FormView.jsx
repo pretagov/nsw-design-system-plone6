@@ -250,7 +250,7 @@ const FormView = ({
   const FieldSchema = config.blocks.blocksConfig.form.fieldSchema;
 
   const isValidField = (field) => {
-    return !formErrors.hasOwnProperty(field);
+    return !formErrors.hasOwnProperty(field) || formErrors[field] === null;
   };
 
   return (
