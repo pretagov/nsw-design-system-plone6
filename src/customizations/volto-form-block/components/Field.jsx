@@ -83,8 +83,8 @@ const Field = (props) => {
 
     return isInvalid;
   };
-
-  const errorList = Object.values(errors);
+  const errorList =
+    typeof errors === 'object' && errors !== null ? Object.values(errors) : {};
 
   if (widget) {
     const Widget = widgetMapping[widget];

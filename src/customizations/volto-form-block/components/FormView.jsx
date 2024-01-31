@@ -63,29 +63,34 @@ function ErrorMessageBox({ formId, formErrors = {}, fields }) {
 
   return (
     <div
-      class="nsw-in-page-alert nsw-in-page-alert--error"
+      className="nsw-in-page-alert nsw-in-page-alert--error"
       id={`${formId}-errors`}
     >
       <span
-        class="material-icons nsw-material-icons nsw-in-page-alert__icon"
+        className="material-icons nsw-material-icons nsw-in-page-alert__icon"
         focusable="false"
         aria-hidden="true"
       >
         cancel
       </span>
-      <div class="nsw-in-page-alert__content">
-        <p class="nsw-h5">{intl.formatMessage(messages.error)}</p>
+      <div className="nsw-in-page-alert__content">
+        <p className="nsw-h5">{intl.formatMessage(messages.error)}</p>
         {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
         <ul role="list">
           {Object.keys(formErrors).map((fieldName) => {
-            const { label, id, validations = [] } = allFieldData[fieldName];
+            const fieldData = allFieldData[fieldName];
+            if (!fieldData) {
+              return <React.Fragment key={fieldName}></React.Fragment>;
+            }
+            const { label, id, validations = [] } = fieldData;
             const name = getFieldName(label, id);
             const validationsWithErrors = Object.keys(formErrors[name]);
             const validationIdToShow = validations.find((validation) =>
               validationsWithErrors.includes(validation),
             );
-            const validationMessageToShow =
-              formErrors[name] && validationIdToShow;
+            const validationMessageToShow = formErrors[name].required
+              ? 'required'
+              : validationIdToShow;
             const errorMessage = validationMessageToShow
               ? `${label}: ${formErrors[name][validationMessageToShow]}`
               : intl.formatMessage(messages.field_is_required, {
@@ -93,7 +98,7 @@ function ErrorMessageBox({ formId, formErrors = {}, fields }) {
                 });
 
             return (
-              <li>
+              <li key={fieldName}>
                 <a href={`#field-${name}`}>{errorMessage}</a>
               </li>
             );
@@ -207,7 +212,7 @@ Only required if '${targetField.label}' is ${validatorLabel} to '${show_when_to}
           valid={isValidField(name)}
           errors={formErrors[name]}
           shouldShow={shouldShow}
-          formHasErrors={formErrors?.length > 0} // TODO: Deprecate legacy prop
+          formHasErrors={Object.keys(formErrors).length > 0} // TODO: Deprecate legacy prop
         />
       </div>
     );
@@ -225,7 +230,7 @@ Only required if '${targetField.label}' is ${validatorLabel} to '${show_when_to}
       valid={isValidField(name)}
       errors={formErrors[name]}
       shouldShow={shouldShow}
-      formHasErrors={formErrors?.length > 0} // TODO: Deprecate legacy prop
+      formHasErrors={Object.keys(formErrors).length > 0} // TODO: Deprecate legacy prop
     />
   );
 };
@@ -246,7 +251,7 @@ const FormView = ({
   const FieldSchema = config.blocks.blocksConfig.form.fieldSchema;
 
   const isValidField = (field) => {
-    return !formErrors.hasOwnProperty(field);
+    return !formErrors.hasOwnProperty(field) || formErrors[field] === null;
   };
 
   return (
