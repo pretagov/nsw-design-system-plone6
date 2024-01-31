@@ -93,7 +93,7 @@ function ErrorMessageBox({ formId, formErrors = {}, fields }) {
                 });
 
             return (
-              <li>
+              <li key={fieldName}>
                 <a href={`#field-${name}`}>{errorMessage}</a>
               </li>
             );
