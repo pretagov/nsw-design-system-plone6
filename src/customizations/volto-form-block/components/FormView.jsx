@@ -211,7 +211,7 @@ Only required if '${targetField.label}' is ${validatorLabel} to '${show_when_to}
           valid={isValidField(name)}
           errors={formErrors[name]}
           shouldShow={shouldShow}
-          formHasErrors={formErrors?.length > 0} // TODO: Deprecate legacy prop
+          formHasErrors={Object.keys(formErrors).length > 0} // TODO: Deprecate legacy prop
         />
       </div>
     );
@@ -229,7 +229,7 @@ Only required if '${targetField.label}' is ${validatorLabel} to '${show_when_to}
       valid={isValidField(name)}
       errors={formErrors[name]}
       shouldShow={shouldShow}
-      formHasErrors={formErrors?.length > 0} // TODO: Deprecate legacy prop
+      formHasErrors={Object.keys(formErrors).length > 0} // TODO: Deprecate legacy prop
     />
   );
 };
