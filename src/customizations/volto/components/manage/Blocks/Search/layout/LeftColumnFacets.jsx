@@ -1,5 +1,4 @@
 import {
-  Facets,
   FilterList,
   SearchDetails,
   SearchInput,
@@ -9,9 +8,7 @@ import config from '@plone/volto/registry';
 import cx from 'classnames';
 import { flushSync } from 'react-dom';
 
-const FacetWrapper = ({ children }) => (
-  <div className="nsw-filters__item">{children}</div>
-);
+import { Filters } from 'nsw-design-system-plone6/components/Components/Filters/Filters';
 
 const LeftColumnFacets = (props) => {
   const {
@@ -54,33 +51,17 @@ const LeftColumnFacets = (props) => {
           </>
         )}
       </div>
-      <div className={cx('nsw-layout', { 'nsw-filters--instant': isLive })}>
-        {data.facets && Object.keys(data.facets).length !== 0 ? (
-          <>
-            <div className="nsw-layout__sidebar">
-              <div className="nsw-filters">
-                <div className="nsw-filters__wrapper">
-                  <div className="nsw-filters__title">{data.facetsTitle}</div>
-                  <Facets
-                    querystring={querystring}
-                    data={data}
-                    facets={facets}
-                    setFacets={(f) => {
-                      flushSync(() => {
-                        setFacets(f);
-                        onTriggerSearch(searchedText || '', f);
-                      });
-                    }}
-                    facetWrapper={FacetWrapper}
-                  />
-                  <div className="nsw-filters__cancel">
-                    <button type="reset">Clear all filters</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
-        ) : null}
+      <div className="nsw-layout">
+        <div className="nsw-layout__sidebar">
+          <Filters
+            data={data}
+            liveUpdate={isLive}
+            querystring={querystring}
+            setFacets={setFacets}
+            onTriggerSearch={onTriggerSearch}
+            searchedText={searchedText}
+          />
+        </div>
         <div className="nsw-layout__main">
           <div className="nsw-results-bar">
             <SearchDetails total={totalItems} batchSize={batchSize} />
