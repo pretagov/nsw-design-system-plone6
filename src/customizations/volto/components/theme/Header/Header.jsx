@@ -14,20 +14,10 @@ import { useLocation } from 'react-router-dom';
 import { useGoogleAnalytics } from 'volto-google-analytics';
 import Navigation from '../Navigation/Navigation';
 import { Masthead } from './Masthead';
+import { useIsClient } from 'nsw-design-system-plone6/hooks/useIsClient';
 
 import MenuSVG from '@material-design-icons/svg/filled/menu.svg';
 import SearchSVG from '@material-design-icons/svg/filled/search.svg';
-
-// TODO: Extract to a 'hooks' folder
-function useIsClient() {
-  const [isClient, setClient] = useState(false);
-
-  useEffect(() => {
-    setClient(true);
-  }, []);
-
-  return isClient;
-}
 
 const MenuOpenButton = () => (
   <div className="nsw-header__menu">

@@ -1,10 +1,11 @@
-import { Facets } from '@plone/volto/components/manage/Blocks/Search/components';
-import cx from 'classnames';
+import loadable from '@loadable/component';
+import { useEffect, useRef } from 'react';
 import { flushSync } from 'react-dom';
 
-const FacetWrapper = ({ children }) => (
-  <div className="nsw-filters__item">{children}</div>
-);
+import { Facets } from '@plone/volto/components/manage/Blocks/Search/components';
+import cx from 'classnames';
+
+import { FilterItem } from 'nsw-design-system-plone6/components/Components/Filters/FilterItem';
 
 function FilterClearButton() {
   return (
@@ -28,126 +29,49 @@ export function Filters({
 }) {
   const { facets, facetsTitle } = data;
 
+  const facetsRef = useRef(null);
+  const facetsController = useRef(null);
+  if (__CLIENT__ && !facetsController.current && facetsRef) {
+    loadable(() => import('nsw-design-system/src/components/filters/filters'), {
+      ssr: false,
+    })
+      .load()
+      .then((navigation) => {
+        if (!facetsController.current) {
+          // Save the module for now so we can delay element checking until the querystrings
+          //   have been fetched and the facets displayed
+          facetsController.current = navigation;
+        }
+      });
+  }
+
+  useEffect(() => {
+    // Check we've initialized the facets controller as well as got an
+    //   index before we try to setup the UI with NSW JS
+    if (
+      querystring.indexes &&
+      Object.keys(querystring.indexes).length > 0 &&
+      facetsController.current.default
+    ) {
+      facetsController.current = new facetsController.current.default(
+        facetsRef.current,
+      );
+      facetsController.current.init();
+    }
+  }, [querystring.indexes]);
+
   if (!facets || Object.keys(facets).length < 1) {
     return null;
   }
 
   return (
     <>
-      <div className="nsw-filters nsw-filters--instant">
-        <div className="nsw-filters__wrapper">
-          <FilterTitleDisplay title={facetsTitle} />
-          <div className="nsw-filters__list">
-            <div className="nsw-filters__item">
-              <div className="nsw-filters__item-content">
-                <label
-                  className="nsw-form__label"
-                  for="filters-instant-regions-1"
-                >
-                  Region
-                </label>
-                <select
-                  className="nsw-form__select"
-                  name="filters-instant-regions-1"
-                  id="filters-instant-regions-1"
-                >
-                  <option value="">Please select</option>
-                  <option value="Central Coast">Central Coast</option>
-                  <option value="Central West &amp; Orana">
-                    Central West &amp; Orana
-                  </option>
-                  <option value="Far West">Far West</option>
-                  <option value="Hunter">Hunter</option>
-                  <option value="Illawarra-Shoalhaven">
-                    Illawarra-Shoalhaven
-                  </option>
-                  <option value="New England &amp; North West">
-                    New England &amp; North West
-                  </option>
-                  <option value="North Coast">North Coast</option>
-                  <option value="Riverina Murray">Riverina Murray</option>
-                </select>
-              </div>
-            </div>
-            <div className="nsw-filters__item">
-              <div className="nsw-filters__item-content">
-                <fieldset className="nsw-form__fieldset">
-                  <legend className="nsw-form__legend">Categories</legend>
-                  <input
-                    className="nsw-form__checkbox-input"
-                    type="checkbox"
-                    name="filters-instant-categories"
-                    value="Customer Service"
-                    id="filters-instant-categories-0-1"
-                  />
-                  <label
-                    className="nsw-form__checkbox-label"
-                    for="filters-instant-categories-0-1"
-                  >
-                    Customer Service
-                  </label>
-                  <input
-                    className="nsw-form__checkbox-input"
-                    type="checkbox"
-                    name="filters-instant-categories"
-                    value="Communities and Justice"
-                    id="filters-instant-categories-1-1"
-                  />
-                  <label
-                    className="nsw-form__checkbox-label"
-                    for="filters-instant-categories-1-1"
-                  >
-                    Communities and Justice
-                  </label>
-                  <input
-                    className="nsw-form__checkbox-input"
-                    type="checkbox"
-                    name="filters-instant-categories"
-                    value="Education"
-                    id="filters-instant-categories-2-1"
-                  />
-                  <label
-                    className="nsw-form__checkbox-label"
-                    for="filters-instant-categories-2-1"
-                  >
-                    Education
-                  </label>
-                  <input
-                    className="nsw-form__checkbox-input"
-                    type="checkbox"
-                    name="filters-instant-categories"
-                    value="Health"
-                    id="filters-instant-categories-3-1"
-                  />
-                  <label
-                    className="nsw-form__checkbox-label"
-                    for="filters-instant-categories-3-1"
-                  >
-                    Health
-                  </label>
-                  <input
-                    className="nsw-form__checkbox-input"
-                    type="checkbox"
-                    name="filters-instant-categories"
-                    value="Planning"
-                    id="filters-instant-categories-4-1"
-                  />
-                  <label
-                    className="nsw-form__checkbox-label"
-                    for="filters-instant-categories-4-1"
-                  >
-                    Planning
-                  </label>
-                </fieldset>
-              </div>
-            </div>
-          </div>
-          <FilterClearButton />
-        </div>
-      </div>
-
       <div
-        className={cx('nsw-filters', { 'nsw-filters--instant': liveUpdate })}
+        ref={facetsRef}
+        className={cx('nsw-filters', {
+          'nsw-filters--instant': liveUpdate,
+          'js-filters': liveUpdate,
+        })}
       >
         <div className="nsw-filters__wrapper">
           <FilterTitleDisplay title={facetsTitle} />
@@ -161,7 +85,7 @@ export function Filters({
                 onTriggerSearch(searchedText || '', f);
               });
             }}
-            facetWrapper={FacetWrapper}
+            facetWrapper={FilterItem}
           />
           <FilterClearButton />
         </div>
