@@ -6,6 +6,7 @@ import { Facets } from '@plone/volto/components/manage/Blocks/Search/components'
 import cx from 'classnames';
 
 import { FilterItem } from 'nsw-design-system-plone6/components/Components/Filters/FilterItem';
+import { Loader } from 'nsw-design-system-plone6/components/Components/Loader';
 
 function FilterClearButton() {
   return (
@@ -27,10 +28,15 @@ export function Filters({
   onTriggerSearch = () => {},
   searchedText,
 }) {
-  const { facets, facetsTitle } = data;
-
   const facetsRef = useRef(null);
   const facetsController = useRef(null);
+
+  const { facets, facetsTitle } = data;
+  const facetsReady =
+    querystring.indexes &&
+    Object.keys(querystring.indexes).length > 0 &&
+    facetsController.current?.default;
+
   if (__CLIENT__ && !facetsController.current && facetsRef) {
     loadable(() => import('nsw-design-system/src/components/filters/filters'), {
       ssr: false,
@@ -48,17 +54,25 @@ export function Filters({
   useEffect(() => {
     // Check we've initialized the facets controller as well as got an
     //   index before we try to setup the UI with NSW JS
-    if (
-      querystring.indexes &&
-      Object.keys(querystring.indexes).length > 0 &&
-      facetsController.current.default
-    ) {
+    if (facetsReady) {
       facetsController.current = new facetsController.current.default(
         facetsRef.current,
       );
       facetsController.current.init();
     }
-  }, [querystring.indexes]);
+  }, [facetsReady]);
+
+  console.log(
+    'facets ready',
+    facetsReady,
+    querystring.indexes,
+    querystring.indexes,
+    facetsController.current?.default,
+  );
+
+  if (!facetsReady) {
+    return <Loader fillWidth={true} />;
+  }
 
   if (!facets || Object.keys(facets).length < 1) {
     return null;
