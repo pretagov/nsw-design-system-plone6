@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const validSizes = ['lg', 'md', 'sm'];
 
 export function Loader({ size, fillWidth = false }) {
-  if (!validSizes.includes(size)) {
+  if (size && !validSizes.includes(size)) {
     // eslint-disable-next-line no-console
     console.warn('Invalid loader size', size);
   }
