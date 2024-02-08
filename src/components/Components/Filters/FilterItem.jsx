@@ -1,7 +1,7 @@
 function CollapsibleItem({ children }) {
   return (
     <>
-      <div className="nsw-filters__item-content">{children}</div>
+      {/* <div className="nsw-filters__item-content">{children}</div> */}
       <button className="nsw-filters__item-button">
         <span className="nsw-filters__item-name">Keyword</span>
         <span
