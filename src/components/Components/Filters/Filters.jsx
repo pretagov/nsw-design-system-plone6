@@ -20,6 +20,30 @@ function FilterTitleDisplay({ title }) {
   return <div className="nsw-filters__title">{title}</div>;
 }
 
+function FilterMobileControls({ title }) {
+  return (
+    <div className="nsw-filters__controls js-filters__count">
+      <button>
+        <span
+          className="material-icons nsw-material-icons"
+          focusable="false"
+          aria-hidden="true"
+        >
+          tune
+        </span>
+        <span>{title}</span>
+        <span
+          className="material-icons nsw-material-icons"
+          focusable="false"
+          aria-hidden="true"
+        >
+          keyboard_arrow_right
+        </span>
+      </button>
+    </div>
+  );
+}
+
 export function Filters({
   data,
   querystring,
@@ -33,9 +57,7 @@ export function Filters({
 
   const { facets, facetsTitle } = data;
   const facetsReady =
-    querystring.indexes &&
-    Object.keys(querystring.indexes).length > 0 &&
-    facetsController.current?.default;
+    querystring.indexes && Object.keys(querystring.indexes).length > 0;
 
   if (__CLIENT__ && !facetsController.current && facetsRef) {
     loadable(() => import('nsw-design-system/src/components/filters/filters'), {
@@ -54,7 +76,7 @@ export function Filters({
   useEffect(() => {
     // Check we've initialized the facets controller as well as got an
     //   index before we try to setup the UI with NSW JS
-    if (facetsReady) {
+    if (facetsReady && facetsController.current?.default) {
       facetsController.current = new facetsController.current.default(
         facetsRef.current,
       );
@@ -67,6 +89,7 @@ export function Filters({
     facetsReady,
     querystring.indexes,
     querystring.indexes,
+    facetsController.current,
     facetsController.current?.default,
   );
 
@@ -87,6 +110,7 @@ export function Filters({
           'js-filters': liveUpdate,
         })}
       >
+        <FilterMobileControls title={facetsTitle} />
         <div className="nsw-filters__wrapper">
           <FilterTitleDisplay title={facetsTitle} />
           <Facets
