@@ -6,13 +6,14 @@ import {
   getVocabFromHint,
   getVocabFromItems,
 } from '@plone/volto/helpers';
-import cx from 'classnames';
 import { map } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+
+import { Select } from 'nsw-design-system-plone6/components/Components/Form/Select';
 
 const messages = defineMessages({
   default: {
@@ -95,9 +96,8 @@ function SelectWidget(props) {
 
   const normalizedValue = normalizeValue(choices, value, intl);
   // Make sure that both disabled and isDisabled (from the DX layout feat work)
-  const shouldDisable = disabled || isDisabled;
 
-  let options = vocabBaseUrl
+  const options = vocabBaseUrl
     ? choices
     : [
         ...map(choices, (option) => ({
@@ -118,81 +118,34 @@ function SelectWidget(props) {
           : []),
       ];
 
-  let attributes = {};
-  if (required) {
-    attributes.required = true;
-    attributes['aria-required'] = true;
-  }
-
   const isInvalid = invalid === true || invalid === 'true';
-  if (isInvalid) {
-    attributes['aria-invalid'] = true;
-  }
-
-  const inputId = `field-${id}`;
 
   return (
     <FormFieldWrapper {...props} wrapped={false}>
-      <div className="nsw-form__group">
-        <label
-          className={cx('nsw-form__label', { 'nsw-form__required': required })}
-          htmlFor={inputId}
-        >
-          {title}
-          {required ? <span className="sr-only"> (required)</span> : null}
-        </label>
-        {description ? (
-          <span className="nsw-form__helper" id={`${id}-helper-text`}>
-            {description}
-          </span>
-        ) : null}
-        {/* eslint-disable-next-line jsx-a11y/no-onchange */}
-        <select
-          className="nsw-form__select"
-          id={inputId}
-          // TODO: Do we need a name here?
-          value={
-            normalizedValue
-              ? normalizedValue['value']
-              : required
-              ? options[0].value
-              : 'no-value'
-          }
-          disabled={shouldDisable}
-          {...attributes}
-          onChange={({ target: selectedOption }) => {
-            return onChange(
-              id,
-              selectedOption && selectedOption.value !== 'no-value'
-                ? selectedOption.value
-                : null,
-            );
-          }}
-        >
-          {options.map(({ value, label }) => {
-            return (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            );
-          })}
-        </select>
-        {isInvalid ? (
-          <span
-            class="nsw-form__helper nsw-form__helper--error"
-            id={`${inputId}-error-text`}
-          >
-            <span
-              class="material-icons nsw-material-icons"
-              focusable="false"
-              aria-hidden="true"
-            >
-              cancel
-            </span>
-            This field is required
-          </span>
-        ) : null}
-      </div>
+      <Select
+        options={options}
+        value={
+          normalizedValue
+            ? normalizedValue['value']
+            : required
+            ? options[0].value
+            : 'no-value'
+        }
+        onChange={({ target: selectedOption }) => {
+          return onChange(
+            id,
+            selectedOption && selectedOption.value !== 'no-value'
+              ? selectedOption.value
+              : null,
+          );
+        }}
+        id={id}
+        title={title}
+        description={description}
+        required={required}
+        disabled={disabled || isDisabled}
+        invalid={isInvalid}
+      />
     </FormFieldWrapper>
   );
 }

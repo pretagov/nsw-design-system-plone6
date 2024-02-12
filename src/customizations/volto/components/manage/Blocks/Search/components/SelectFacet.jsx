@@ -4,6 +4,8 @@ import {
   selectFacetValueToQuery,
 } from '@plone/volto/components/manage/Blocks/Search/components/base';
 
+import { Select } from 'nsw-design-system-plone6/components/Components/Form/Select';
+
 const SelectFacet = (props) => {
   const { facet, choices, onChange, isEditMode } = props;
 
@@ -11,34 +13,20 @@ const SelectFacet = (props) => {
   const selectHtmlId = `filters-${facetId}`;
 
   return (
-    <>
-      <label className="nsw-form__label" htmlFor={selectHtmlId}>
-        {facetLabel}
-      </label>
-      {/* eslint-disable-next-line jsx-a11y/no-onchange */}
-      <select
-        className="nsw-form__select"
-        id={selectHtmlId}
-        name={selectHtmlId}
-        onChange={(event) => {
-          const newValue = event.target?.value;
-          if (!newValue) {
-            onChange(facet.field.value, []);
-            return;
-          }
-          onChange(facet.field.value, [newValue]);
-        }}
-        disabled={isEditMode}
-      >
-        {choices.map(({ value, label }) => {
-          return (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          );
-        })}
-      </select>
-    </>
+    <Select
+      options={choices}
+      onChange={(event) => {
+        const newValue = event.target?.value;
+        if (!newValue) {
+          onChange(facet.field.value, []);
+          return;
+        }
+        onChange(facet.field.value, [newValue]);
+      }}
+      id={selectHtmlId}
+      title={facetLabel}
+      disabled={isEditMode}
+    />
   );
 };
 
