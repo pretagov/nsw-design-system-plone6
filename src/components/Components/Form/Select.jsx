@@ -1,8 +1,26 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
+import { defineMessages, useIntl } from 'react-intl';
+
+const messages = defineMessages({
+  no_value_selected_option: {
+    id: 'Please select',
+    defaultMessage: 'Please select',
+  },
+  required: {
+    id: 'required',
+    defaultMessage: 'required',
+  },
+  field_required: {
+    id: 'This field is required',
+    defaultMessage: 'This field is required',
+  },
+});
+
 export function Select({
   options = [],
+  noValueOption,
   value,
   id,
   title,
@@ -16,6 +34,7 @@ export function Select({
   disabled,
   invalid,
 }) {
+  const intl = useIntl();
   let attributes = {};
 
   if (required) {
@@ -29,6 +48,13 @@ export function Select({
 
   const inputId = `field-${id}`;
 
+  let showNoValueOption = false;
+  if (!typeof noValueOption === 'object') {
+    showNoValueOption = true;
+  } else if (!required && noValueOption !== false) {
+    showNoValueOption = true;
+  }
+
   return (
     <div className="nsw-form__group">
       <label
@@ -36,7 +62,12 @@ export function Select({
         htmlFor={inputId}
       >
         {title}
-        {required ? <span className="sr-only"> (required)</span> : null}
+        {required ? (
+          <span className="sr-only">
+            {' '}
+            ({intl.formatMessage(messages.required)})
+          </span>
+        ) : null}
       </label>
       {description ? (
         <span className="nsw-form__helper" id={`${id}-helper-text`}>
@@ -55,6 +86,13 @@ export function Select({
         required={required}
         aria-required={required}
       >
+        {showNoValueOption ? (
+          <option value={noValueOption?.value ?? ''}>
+            {noValueOption?.label || typeof noValueOption === 'string'
+              ? noValueOption
+              : intl.formatMessage(messages.no_value_selected_option)}
+          </option>
+        ) : null}
         {options.map(({ value, label }) => {
           return (
             <option key={value} value={value}>
@@ -75,7 +113,7 @@ export function Select({
           >
             cancel
           </span>
-          This field is required
+          {intl.formatMessage(messages.field_required)}
         </span>
       ) : null}
     </div>
@@ -84,6 +122,20 @@ export function Select({
 
 Select.propTypes = {
   options: PropTypes.array.isRequired,
+  noValueOption: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.shape({
+      label: PropTypes.string,
+      // TODO: Consolidate value proptype definitions
+      value: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string,
+        PropTypes.bool,
+        PropTypes.func,
+        PropTypes.array,
+      ]),
+    }),
+  ]),
   value: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.string,

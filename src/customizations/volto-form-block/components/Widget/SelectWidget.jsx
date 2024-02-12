@@ -56,10 +56,6 @@ const messages = defineMessages({
     id: 'No value',
     defaultMessage: 'No value',
   },
-  no_options: {
-    id: 'No options',
-    defaultMessage: 'No options',
-  },
 });
 
 function SelectWidget(props) {
@@ -79,11 +75,7 @@ function SelectWidget(props) {
     title,
   } = props;
   const intl = useIntl();
-  /**
-   * Component did mount
-   * @method componentDidMount
-   * @returns {undefined}
-   */
+
   React.useEffect(() => {
     if ((!choices || choices?.length === 0) && vocabBaseUrl) {
       getVocabulary({
@@ -95,7 +87,6 @@ function SelectWidget(props) {
   }, []);
 
   const normalizedValue = normalizeValue(choices, value, intl);
-  // Make sure that both disabled and isDisabled (from the DX layout feat work)
 
   const options = vocabBaseUrl
     ? choices
@@ -106,16 +97,6 @@ function SelectWidget(props) {
             // Fix "None" on the serializer, to remove when fixed in p.restapi
             option[1] !== 'None' && option[1] ? option[1] : option[0],
         })),
-        // Only set "no-value" option if there's no default in the field
-        // TODO: also if this.props.defaultValue?
-        ...(noValueOption && !defaultOption && !required
-          ? [
-              {
-                label: intl.formatMessage(messages.no_value),
-                value: 'no-value',
-              },
-            ]
-          : []),
       ];
 
   const isInvalid = invalid === true || invalid === 'true';
@@ -129,12 +110,12 @@ function SelectWidget(props) {
             ? normalizedValue['value']
             : required
             ? options[0].value
-            : 'no-value'
+            : ''
         }
         onChange={({ target: selectedOption }) => {
           return onChange(
             id,
-            selectedOption && selectedOption.value !== 'no-value'
+            selectedOption && selectedOption.value !== ''
               ? selectedOption.value
               : null,
           );
@@ -145,6 +126,10 @@ function SelectWidget(props) {
         required={required}
         disabled={disabled || isDisabled}
         invalid={isInvalid}
+        noValueOption={
+          // We do allow having default values but still allowing the user to go back and select `no-value`.
+          noValueOption && !defaultOption && !required ? true : false
+        }
       />
     </FormFieldWrapper>
   );
