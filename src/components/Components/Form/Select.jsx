@@ -57,18 +57,20 @@ export function Select({
 
   return (
     <div className="nsw-form__group">
-      <label
-        className={cx('nsw-form__label', { 'nsw-form__required': required })}
-        htmlFor={inputId}
-      >
-        {title}
-        {required ? (
-          <span className="sr-only">
-            {' '}
-            ({intl.formatMessage(messages.required)})
-          </span>
-        ) : null}
-      </label>
+      {title !== false ? (
+        <label
+          className={cx('nsw-form__label', { 'nsw-form__required': required })}
+          htmlFor={inputId}
+        >
+          {title}
+          {required ? (
+            <span className="sr-only">
+              {' '}
+              ({intl.formatMessage(messages.required)})
+            </span>
+          ) : null}
+        </label>
+      ) : null}
       {description ? (
         <span className="nsw-form__helper" id={`${id}-helper-text`}>
           {description}
@@ -144,7 +146,10 @@ Select.propTypes = {
     PropTypes.array,
   ]),
   id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.oneOfType([
+    PropTypes.string.isRequired,
+    PropTypes.oneOf([false]),
+  ]),
   description: PropTypes.string,
   required: PropTypes.bool,
   onChange: PropTypes.func,

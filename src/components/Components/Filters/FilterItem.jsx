@@ -1,9 +1,10 @@
-function CollapsibleItem({ children }) {
+function CollapsibleItem({ children, facet }) {
   return (
     <>
-      {/* <div className="nsw-filters__item-content">{children}</div> */}
       <button className="nsw-filters__item-button">
-        <span className="nsw-filters__item-name">Keyword</span>
+        {facet.title ? (
+          <span className="nsw-filters__item-name">{facet.title}</span>
+        ) : null}
         <span
           className="material-icons nsw-material-icons"
           focusable="false"
@@ -17,17 +18,24 @@ function CollapsibleItem({ children }) {
   );
 }
 
-// Unused as search block doesn't have SSR as of Volto 16.30
 function StaticItem({ children }) {
   return <div className="nsw-filters__item-content">{children}</div>;
 }
 
-export function FilterItem({ children }) {
+const displayModeComponentMapping = {
+  open: StaticItem,
+  collapsed: CollapsibleItem,
+  hidden: null,
+};
+
+export function FilterItem({ children, facet, ...props }) {
+  const ItemWrapper =
+    displayModeComponentMapping[facet?.displayMode] ?? StaticItem;
+
+  console.log('wrapper', props, facet, ItemWrapper);
   return (
-    <>
-      <div className="nsw-filters__item">
-        <CollapsibleItem>{children}</CollapsibleItem>
-      </div>
-    </>
+    <div className="nsw-filters__item">
+      <ItemWrapper facet={facet}>{children}</ItemWrapper>
+    </div>
   );
 }

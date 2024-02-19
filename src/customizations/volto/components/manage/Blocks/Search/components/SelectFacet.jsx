@@ -24,7 +24,7 @@ const SelectFacet = (props) => {
         onChange(facet.field.value, [newValue]);
       }}
       id={selectHtmlId}
-      title={facetLabel}
+      title={facet.displayMode === 'collapsed' ? false : facetLabel}
       disabled={isEditMode}
     />
   );
