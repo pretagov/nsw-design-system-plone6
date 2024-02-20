@@ -134,6 +134,22 @@ const schemaEnhancers = {
       default: false,
     };
 
+    const facetsFieldset = schema.fieldsets.find(
+      (fieldset) => fieldset.id === 'facets',
+    );
+    facetsFieldset.fields = ['facetsTitle', 'mobileDisplayMode', 'facets']; // Added `mobileDisplayMode`
+    schema.properties.mobileDisplayMode = {
+      title: intl.formatMessage(messages.searchFacetsDisplayMode),
+      type: 'string',
+      factory: 'Choice',
+      choices: [
+        // TODO: i18n of mobile display mode choices
+        ['inPage', 'In page'],
+        ['modal', 'Modal'],
+      ],
+      default: 'inPage',
+    };
+
     // Change 'hide facet' checkox to a 'Facet display mode' option
     const facetSchema = schema.properties.facets.schema;
     facetSchema.fieldsets[0].fields = ['title', 'displayMode', 'field', 'type']; // Remove 'hidden' and add 'displayMode'

@@ -44,6 +44,26 @@ function FilterMobileControls({ title }) {
   );
 }
 
+function FilterMobileControlsCloseButton() {
+  return (
+    <div className="nsw-filters__back">
+      <button
+        className="nsw-icon-button nsw-icon-button--flex js-close-sub-nav"
+        type="button"
+      >
+        <span
+          className="material-icons nsw-material-icons"
+          focusable="false"
+          aria-hidden="true"
+        >
+          close
+        </span>
+        <span className="sr-only">Close filters</span>
+      </button>
+    </div>
+  );
+}
+
 export function Filters({
   data,
   querystring,
@@ -84,15 +104,6 @@ export function Filters({
     }
   }, [facetsReady]);
 
-  console.log(
-    'facets ready',
-    facetsReady,
-    querystring.indexes,
-    querystring.indexes,
-    facetsController.current,
-    facetsController.current?.default,
-  );
-
   if (!facetsReady) {
     return <Loader fillWidth={true} />;
   }
@@ -108,10 +119,13 @@ export function Filters({
         className={cx('nsw-filters', {
           'nsw-filters--instant': liveUpdate,
           'js-filters': liveUpdate,
+          'nsw-filters--down': data.mobileDisplayMode === 'inPage',
+          'nsw-filters--right': data.mobileDisplayMode === 'modal',
         })}
       >
         <FilterMobileControls title={facetsTitle} />
         <div className="nsw-filters__wrapper">
+          <FilterMobileControlsCloseButton />
           <FilterTitleDisplay title={facetsTitle} />
           <Facets
             querystring={querystring}

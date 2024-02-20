@@ -32,7 +32,6 @@ export function FilterItem({ children, facet, ...props }) {
   const ItemWrapper =
     displayModeComponentMapping[facet?.displayMode] ?? StaticItem;
 
-  console.log('wrapper', props, facet, ItemWrapper);
   return (
     <div className="nsw-filters__item">
       <ItemWrapper facet={facet}>{children}</ItemWrapper>
