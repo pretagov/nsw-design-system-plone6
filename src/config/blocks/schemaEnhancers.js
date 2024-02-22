@@ -41,6 +41,10 @@ const messages = defineMessages({
     id: 'Display mode',
     defaultMessage: 'Display mode',
   },
+  searchFacetsMaxFilters: {
+    id: 'Maximum filters to show',
+    defaultMessage: 'Maximum filters to show',
+  },
   searchFullWidthSearchBar: {
     id: 'Full width search bar',
     defaultMessage: 'Full width search bar',
@@ -152,7 +156,20 @@ const schemaEnhancers = {
 
     // Change 'hide facet' checkox to a 'Facet display mode' option
     const facetSchema = schema.properties.facets.schema;
-    facetSchema.fieldsets[0].fields = ['title', 'displayMode', 'field', 'type']; // Remove 'hidden' and add 'displayMode'
+    facetSchema.fieldsets[0].fields = [
+      'title',
+      'displayMode',
+      'field',
+      'type',
+      'maxFilters',
+    ]; // Remove 'hidden', add 'displayMode', add `maximumFilters`
+
+    facetSchema.properties.maxFilters = {
+      title: intl.formatMessage(messages.searchFacetsMaxFilters),
+      type: 'number',
+      default: 5,
+    };
+
     facetSchema.properties.displayMode = {
       title: intl.formatMessage(messages.searchFacetsDisplayMode),
       type: 'string',
