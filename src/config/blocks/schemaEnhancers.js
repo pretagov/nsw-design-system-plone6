@@ -1,6 +1,5 @@
 import { composeSchema } from '@plone/volto/helpers';
 import voltoConfig from '@plone/volto/registry';
-import { hasNonValueOperation, hasDateOperation, hasKeywordOperation } from './utils';
 import {
   cardStylingSchema,
   contentBlockStylingSchema,
@@ -8,6 +7,11 @@ import {
 import { SectionSchema } from 'nsw-design-system-plone6/components/Blocks/Section';
 import { gridBlocks } from 'nsw-design-system-plone6/config/blocks/blockDefinitions';
 import { defineMessages } from 'react-intl';
+import {
+  hasDateOperation,
+  hasKeywordOperation,
+  hasNonValueOperation,
+} from './utils';
 
 const messages = defineMessages({
   // Media schema
@@ -32,6 +36,14 @@ const messages = defineMessages({
   searchFacetsTitleDefault: {
     id: 'Filter results',
     defaultMessage: 'Filter results',
+  },
+  searchFacetsDisplayMode: {
+    id: 'Display mode',
+    defaultMessage: 'Display mode',
+  },
+  searchFacetsMaxFilters: {
+    id: 'Maximum filters to show',
+    defaultMessage: 'Maximum filters to show',
   },
   searchFullWidthSearchBar: {
     id: 'Full width search bar',
@@ -125,6 +137,52 @@ const schemaEnhancers = {
       title: intl.formatMessage(messages.searchFullWidthSearchBar),
       default: false,
     };
+
+    const facetsFieldset = schema.fieldsets.find(
+      (fieldset) => fieldset.id === 'facets',
+    );
+    facetsFieldset.fields = ['facetsTitle', 'mobileDisplayMode', 'facets']; // Added `mobileDisplayMode`
+    schema.properties.mobileDisplayMode = {
+      title: intl.formatMessage(messages.searchFacetsDisplayMode),
+      type: 'string',
+      factory: 'Choice',
+      choices: [
+        // TODO: i18n of mobile display mode choices
+        ['inPage', 'In page'],
+        ['modal', 'Modal'],
+      ],
+      default: 'inPage',
+    };
+
+    // Change 'hide facet' checkox to a 'Facet display mode' option
+    const facetSchema = schema.properties.facets.schema;
+    facetSchema.fieldsets[0].fields = [
+      'title',
+      'displayMode',
+      'field',
+      'type',
+      'maxFilters',
+    ]; // Remove 'hidden', add 'displayMode', add `maximumFilters`
+
+    facetSchema.properties.maxFilters = {
+      title: intl.formatMessage(messages.searchFacetsMaxFilters),
+      type: 'number',
+      default: 5,
+    };
+
+    facetSchema.properties.displayMode = {
+      title: intl.formatMessage(messages.searchFacetsDisplayMode),
+      type: 'string',
+      factory: 'Choice',
+      choices: [
+        // TODO: i18n of facet display mode choices
+        ['open', 'Always open'],
+        ['collapsed', 'Collapsed'],
+        ['hidden', 'Hidden'],
+      ],
+      default: 'open',
+    };
+
     // 0 is the 'default' fieldset
     schema.fieldsets[0].fields = [
       ...schema.fieldsets[0].fields,
@@ -247,9 +305,7 @@ function withListingDisplayControls({ schema, formData, intl }) {
       return Object.assign(
         {},
         ...Object.keys(options).map((k) =>
-            hasDateOperation(options[k].operations)
-            ? { [k]: options[k] }
-            : {},
+          hasDateOperation(options[k].operations) ? { [k]: options[k] } : {},
         ),
       );
     },
@@ -293,7 +349,6 @@ function withListingDisplayControls({ schema, formData, intl }) {
       );
     },
   };
-
 
   const itemDisplayFieldset = {
     id: 'listingDisplayFieldset',
