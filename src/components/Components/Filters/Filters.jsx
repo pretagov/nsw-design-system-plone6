@@ -66,6 +66,7 @@ function FilterMobileControlsCloseButton() {
 
 export function Filters({
   data,
+  facets,
   querystring,
   liveUpdate = false,
   setFacets = () => {},
@@ -75,9 +76,21 @@ export function Filters({
   const facetsRef = useRef(null);
   const facetsController = useRef(null);
 
-  const { facets, facetsTitle } = data;
+  const { facets: dataFacets, facetsTitle } = data;
   const facetsReady =
     querystring.indexes && Object.keys(querystring.indexes).length > 0;
+
+  useEffect(() => {
+    // Check we've initialized the facets controller as well as got an
+    //   index before we try to setup the UI with NSW JS
+    if (facetsRef.current && facetsReady && facetsController.current?.default) {
+      // debugger;
+      facetsController.current = new facetsController.current.default(
+        facetsRef.current,
+      );
+      facetsController.current.init();
+    }
+  }, [facetsReady]);
 
   if (__CLIENT__ && !facetsController.current && facetsRef) {
     loadable(() => import('nsw-design-system/src/components/filters/filters'), {
@@ -93,22 +106,11 @@ export function Filters({
       });
   }
 
-  useEffect(() => {
-    // Check we've initialized the facets controller as well as got an
-    //   index before we try to setup the UI with NSW JS
-    if (facetsReady && facetsController.current?.default) {
-      facetsController.current = new facetsController.current.default(
-        facetsRef.current,
-      );
-      facetsController.current.init();
-    }
-  }, [facetsReady]);
-
   if (!facetsReady) {
     return <Loader fillWidth={true} />;
   }
 
-  if (!facets || Object.keys(facets).length < 1) {
+  if (!dataFacets || Object.keys(dataFacets).length < 1) {
     return null;
   }
 

@@ -78,8 +78,6 @@ const Facets = (props) => {
             rewriteOptions = (name, options) => options,
           } = search.extensions.facetWidgets;
 
-          // debugger;
-
           return FacetWrapper && (isEditMode || showFacet(index)) ? (
             <FacetWrapper key={facetSettings['@id']} facet={facetSettings}>
               <FacetWidget
