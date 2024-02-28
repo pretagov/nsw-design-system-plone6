@@ -237,7 +237,7 @@ const variationSchemaEnhancers = {
 };
 
 const blockVariationsToRemove = {
-  search: ['facetsTopSide'],
+  // search: ['facetsTopSide'],
 };
 export function applyVariations(config) {
   // Add new block variations

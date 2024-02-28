@@ -33,6 +33,7 @@
     "@mdi/svg": "7.2.96",
     "html-react-parser": "3.0.16",
     "material-icons": "1.13.6",
+    "moment": "2.24.0",
     "nsw-design-system": "3.11.2",
     "react-color": "2.19.3",
     "volto-google-analytics": "2.0.0",

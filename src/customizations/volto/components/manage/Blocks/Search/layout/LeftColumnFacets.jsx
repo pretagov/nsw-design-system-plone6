@@ -55,6 +55,7 @@ const LeftColumnFacets = (props) => {
         <div className="nsw-layout__sidebar">
           <Filters
             data={data}
+            facets={facets}
             liveUpdate={isLive}
             querystring={querystring}
             setFacets={setFacets}
