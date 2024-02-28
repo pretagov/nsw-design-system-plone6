@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
-import { Header } from 'semantic-ui-react';
-import { defineMessages, injectIntl } from 'react-intl';
-import { injectLazyLibs } from '@plone/volto/helpers/Loadable/Loadable';
-import { compose } from 'redux';
 import { Icon } from '@plone/volto/components';
+import { injectLazyLibs } from '@plone/volto/helpers/Loadable/Loadable';
+import React, { useState } from 'react';
+import { defineMessages, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { Header } from 'semantic-ui-react';
 
+import clearSVG from '@plone/volto/icons/clear.svg';
 import leftKey from '@plone/volto/icons/left-key.svg';
 import rightKey from '@plone/volto/icons/right-key.svg';
-import clearSVG from '@plone/volto/icons/clear.svg';
+
+import { DateInput } from 'nsw-design-system-plone6/components/Components/Form/DateInput';
 
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
@@ -65,39 +67,69 @@ const DateRangeFacet = (props) => {
   const { DateRangePicker } = reactDates;
   const [focused, setFocused] = useState(null);
 
+  const { title: facetLabel, '@id': facetId } = facet;
+
+  const startDateValue = value && value[0] ? moment(value[0]) : null;
+  const endDateValue = value && value[1] ? moment(value[1]) : null;
+
+  // debugger;
+
   return (
-    <div className="daterange-facet">
-      <Header as="h4">{facet?.title ?? facet?.field?.label}</Header>
-      <div className="ui form date-time-widget-wrapper">
-        <div className="ui input date-input">
-          <DateRangePicker
-            startDate={value && value[0] ? moment(value[0]) : null}
-            startDateId={`${facet['@id']}-start-date`}
-            startDatePlaceholderText={intl.formatMessage(messages.startDate)}
-            endDate={value && value[1] ? moment(value[1]) : null}
-            endDateId={`${facet['@id']}-end-date`}
-            endDatePlaceholderText={intl.formatMessage(messages.endDate)}
-            numberOfMonths={1}
-            disabled={isEditMode}
-            noBorder
-            showClearDates
-            customCloseIcon={<CloseIcon />}
-            displayFormat={moment.localeData(lang).longDateFormat('L')}
-            focusedInput={focused}
-            onFocusChange={(focusedInput) => setFocused(focusedInput)}
-            onDatesChange={({ startDate, endDate }) => {
-              onChange(facet.field.value, [
-                startDate ? startDate.format('YYYY-MM-DD') : null,
-                endDate ? endDate.format('YYYY-MM-DD') : null,
-              ]);
-            }}
-            isOutsideRange={() => false}
-            navPrev={<PrevIcon />}
-            navNext={<NextIcon />}
-          />
+    <>
+      <div className="daterange-facet">
+        <Header as="h4">{facet?.title ?? facet?.field?.label}</Header>
+        <div className="ui form date-time-widget-wrapper">
+          <div className="ui input date-input">
+            <DateRangePicker
+              startDate={startDateValue}
+              startDateId={`${facet['@id']}-start-date`}
+              startDatePlaceholderText={intl.formatMessage(messages.startDate)}
+              endDate={endDateValue}
+              endDateId={`${facet['@id']}-end-date`}
+              endDatePlaceholderText={intl.formatMessage(messages.endDate)}
+              numberOfMonths={1}
+              disabled={isEditMode}
+              noBorder
+              showClearDates
+              customCloseIcon={<CloseIcon />}
+              displayFormat={moment.localeData(lang).longDateFormat('L')}
+              focusedInput={focused}
+              onFocusChange={(focusedInput) => setFocused(focusedInput)}
+              onDatesChange={({ startDate, endDate }) => {
+                debugger;
+                onChange(facet.field.value, [
+                  startDate ? startDate.format('YYYY-MM-DD') : null,
+                  endDate ? endDate.format('YYYY-MM-DD') : null,
+                ]);
+              }}
+              isOutsideRange={() => false}
+              navPrev={<PrevIcon />}
+              navNext={<NextIcon />}
+            />
+          </div>
         </div>
       </div>
-    </div>
+      <div className="nsw-stuff">
+        <DateInput
+          title={intl.formatMessage(messages.startDate)}
+          id={`${facet['@id']}-start-date`}
+          value={startDateValue}
+          disabled={isEditMode}
+          onChange={(value) => {
+            onChange(facet.field.value, [value, endDateValue]);
+          }}
+        />
+        <DateInput
+          title={intl.formatMessage(messages.endDate)}
+          id={`${facet['@id']}-end-date`}
+          value={endDateValue}
+          disabled={isEditMode}
+          onChange={(value) => {
+            onChange(facet.field.value, [startDateValue, value]);
+          }}
+        />
+      </div>
+    </>
   );
 };
 
