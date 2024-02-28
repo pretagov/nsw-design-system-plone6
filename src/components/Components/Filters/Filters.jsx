@@ -115,7 +115,7 @@ export function Filters({
   }
 
   return (
-    <>
+    <div>
       <div
         ref={facetsRef}
         className={cx('nsw-filters', {
@@ -144,6 +144,6 @@ export function Filters({
           <FilterClearButton />
         </div>
       </div>
-    </>
+    </div>
   );
 }
