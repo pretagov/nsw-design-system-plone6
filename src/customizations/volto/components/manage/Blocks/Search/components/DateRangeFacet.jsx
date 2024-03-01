@@ -76,7 +76,7 @@ const DateRangeFacet = (props) => {
 
   return (
     <>
-      <div className="daterange-facet">
+      {/* <div className="daterange-facet">
         <Header as="h4">{facet?.title ?? facet?.field?.label}</Header>
         <div className="ui form date-time-widget-wrapper">
           <div className="ui input date-input">
@@ -109,26 +109,26 @@ const DateRangeFacet = (props) => {
           </div>
         </div>
       </div>
-      <div className="nsw-stuff">
-        <DateInput
-          title={intl.formatMessage(messages.startDate)}
-          id={`${facet['@id']}-start-date`}
-          value={startDateValue}
-          disabled={isEditMode}
-          onChange={(value) => {
-            onChange(facet.field.value, [value, endDateValue]);
-          }}
-        />
-        <DateInput
-          title={intl.formatMessage(messages.endDate)}
-          id={`${facet['@id']}-end-date`}
-          value={endDateValue}
-          disabled={isEditMode}
-          onChange={(value) => {
-            onChange(facet.field.value, [startDateValue, value]);
-          }}
-        />
-      </div>
+      <div className="nsw-stuff"> */}
+      <DateInput
+        title={intl.formatMessage(messages.startDate)}
+        id={`${facet['@id']}-start-date`}
+        value={startDateValue}
+        disabled={isEditMode}
+        onChange={(value) => {
+          onChange(facet.field.value, [value, endDateValue]);
+        }}
+      />
+      <DateInput
+        title={intl.formatMessage(messages.endDate)}
+        id={`${facet['@id']}-end-date`}
+        value={endDateValue}
+        disabled={isEditMode}
+        onChange={(value) => {
+          onChange(facet.field.value, [startDateValue, value]);
+        }}
+      />
+      {/* </div> */}
     </>
   );
 };
