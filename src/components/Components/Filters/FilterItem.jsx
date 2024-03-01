@@ -52,16 +52,19 @@ function CollapsibleItem({ children, facet, value }) {
         aria-controls={isClient ? uID.current : null}
         onClick={handleAccordionClick}
       >
-        <span className="nsw-filters__item-name">{facetTitle}</span>
-        {hasValue(value) ? (
-          <span
-            class="material-icons nsw-material-icons nsw-material-icons--valid"
-            focusable="false"
-            aria-hidden="true"
-          >
-            check_circle
-          </span>
-        ) : null}
+        <span className="nsw-filters__item-name">
+          {facetTitle}{' '}
+          {hasValue(value) ? (
+            <span
+              class="material-icons nsw-material-icons nsw-material-icons--valid"
+              focusable="false"
+              aria-hidden="true"
+            >
+              check_circle
+            </span>
+          ) : null}
+        </span>
+
         <span
           className="material-icons nsw-material-icons"
           focusable="false"
