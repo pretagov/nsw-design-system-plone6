@@ -51,12 +51,15 @@ function StaticItem({ children }) {
 const displayModeComponentMapping = {
   open: StaticItem,
   collapsed: CollapsibleItem,
-  hidden: null,
 };
 
 export function FilterItem({ children, facet, selected, onSelect }) {
-  const ItemWrapper =
-    displayModeComponentMapping[facet?.displayMode] ?? StaticItem;
+  let ItemWrapper =
+    displayModeComponentMapping[facet.displayMode] ?? StaticItem;
+
+  if (facet.displayMode === 'hidden' || facet.hidden) {
+    return null;
+  }
 
   return (
     <div className="nsw-filters__item">
