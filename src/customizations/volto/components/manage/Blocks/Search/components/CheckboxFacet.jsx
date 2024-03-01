@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import { getTitleForFacet } from 'nsw-design-system-plone6/components/Components/Filters/helpers';
 import { useIsClient } from 'nsw-design-system-plone6/hooks/useIsClient';
 import * as React from 'react';
 
@@ -15,7 +16,7 @@ const CheckboxFacet = (props) => {
   const [showAll, enableShowAll] = React.useReducer(() => true, false);
 
   const { facet, choices = [], isMulti, onChange, value, isEditMode } = props;
-  const facetTitle = facet.title || '';
+  const facetTitle = getTitleForFacet(facet);
   const facetValue = value;
   const maximumFacets = facet.maxFilters;
   const visibleChoices = choices.slice(0, maximumFacets);

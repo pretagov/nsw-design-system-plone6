@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import { getTitleForFacet } from 'nsw-design-system-plone6/components/Components/Filters/helpers';
 import { useIsClient } from 'nsw-design-system-plone6/hooks/useIsClient';
 import * as React from 'react';
 
@@ -40,6 +41,8 @@ function CollapsibleItem({ children, facet, value }) {
     setIsOpen((open) => !open);
   }
 
+  const facetTitle = getTitleForFacet(facet);
+
   return (
     <>
       <button
@@ -49,9 +52,7 @@ function CollapsibleItem({ children, facet, value }) {
         aria-controls={isClient ? uID.current : null}
         onClick={handleAccordionClick}
       >
-        {facet.title ? (
-          <span className="nsw-filters__item-name">{facet.title}</span>
-        ) : null}
+        <span className="nsw-filters__item-name">{facetTitle}</span>
         {hasValue(value) ? (
           <span
             class="material-icons nsw-material-icons nsw-material-icons--valid"
