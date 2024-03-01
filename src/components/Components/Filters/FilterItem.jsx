@@ -1,7 +1,15 @@
 import cx from 'classnames';
 import { useIsClient } from 'nsw-design-system-plone6/hooks/useIsClient';
-import { uniqueId } from 'nsw-design-system/src/global/scripts/helpers/utilities';
 import * as React from 'react';
+
+// Copied from nsw-design-system. Can't import due to Volto using CommonJS
+// import { uniqueId } from 'nsw-design-system/src/global/scripts/helpers/utilities';
+import { v4 as uuidv4 } from 'uuid';
+export const uniqueId = (prefix) => {
+  const prefixValue = prefix === undefined ? 'nsw' : prefix;
+  const uuid = uuidv4();
+  return `${prefixValue}-${uuid}`;
+};
 
 function hasValue(value) {
   // Sometimes `typeof` of an array gives object so we check outside of the switch. Don't ask me why....
