@@ -23,9 +23,13 @@ const CheckboxFacet = (props) => {
   // Todo: Toggling a checkbox will currently re-render the entire list.
   return (
     <fieldset className="nsw-form__fieldset" disabled={isEditMode}>
-      {facet.displayMode === 'collapsed' ? null : (
-        <legend className="nsw-form__legend">{facet.title}</legend>
-      )}
+      <legend
+        className={cx('nsw-form__legend', {
+          'sr-only': facet.displayMode === 'collapsed',
+        })}
+      >
+        {facet.title}
+      </legend>
       {visibleChoices.map(({ label, value }) => {
         const choiceHtmlId = `filters-${facet.title}-${value}`;
         return (
