@@ -1,4 +1,5 @@
 // Passed the information about the current facet down the facet wrapper in `<FacetWrapper>`
+// Passed the value of the current facet down the facet wrapper in `<FacetWrapper>`
 
 import {
   hasDateOperation,
@@ -79,7 +80,11 @@ const Facets = (props) => {
           } = search.extensions.facetWidgets;
 
           return FacetWrapper && (isEditMode || showFacet(index)) ? (
-            <FacetWrapper key={facetSettings['@id']} facet={facetSettings}>
+            <FacetWrapper
+              key={facetSettings['@id']}
+              facet={facetSettings}
+              value={value}
+            >
               <FacetWidget
                 facet={facetSettings}
                 choices={rewriteOptions(facetSettings?.field?.value, choices)}

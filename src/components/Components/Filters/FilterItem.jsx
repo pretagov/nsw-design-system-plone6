@@ -3,7 +3,27 @@ import { useIsClient } from 'nsw-design-system-plone6/hooks/useIsClient';
 import { uniqueId } from 'nsw-design-system/src/global/scripts/helpers/utilities';
 import * as React from 'react';
 
-function CollapsibleItem({ children, facet, selected, onSelect }) {
+function hasValue(value) {
+  // Sometimes `typeof` of an array gives object so we check outside of the switch. Don't ask me why....
+  if (Array.isArray(value)) {
+    return Boolean(
+      value.filter((item) => ![null, undefined].includes(item)).length, // Exclude an array filled with `null`
+    );
+  }
+  switch (typeof value) {
+    case 'array':
+      return Boolean(
+        value.filter((item) => ![null, undefined].includes(item)).length, // Exclude an array filled with `null`
+      );
+    case 'object':
+      return Boolean(Object.keys(value).length);
+    default:
+      return !!value;
+  }
+}
+
+// TODO: Swap all font icons for SVG
+function CollapsibleItem({ children, facet, selected, onSelect, value }) {
   const isClient = useIsClient();
   const uID = uniqueId('collapsed');
   const [isOpen, setIsOpen] = React.useState();
@@ -24,6 +44,15 @@ function CollapsibleItem({ children, facet, selected, onSelect }) {
       >
         {facet.title ? (
           <span className="nsw-filters__item-name">{facet.title}</span>
+        ) : null}
+        {hasValue(value) ? (
+          <span
+            class="material-icons nsw-material-icons nsw-material-icons--valid"
+            focusable="false"
+            aria-hidden="true"
+          >
+            check_circle
+          </span>
         ) : null}
         <span
           className="material-icons nsw-material-icons"
@@ -53,7 +82,7 @@ const displayModeComponentMapping = {
   collapsed: CollapsibleItem,
 };
 
-export function FilterItem({ children, facet, selected, onSelect }) {
+export function FilterItem({ children, facet, selected, onSelect, value }) {
   let ItemWrapper =
     displayModeComponentMapping[facet.displayMode] ?? StaticItem;
 
@@ -63,7 +92,12 @@ export function FilterItem({ children, facet, selected, onSelect }) {
 
   return (
     <div className="nsw-filters__item">
-      <ItemWrapper facet={facet} selected={selected} onSelect={onSelect}>
+      <ItemWrapper
+        facet={facet}
+        selected={selected}
+        onSelect={onSelect}
+        value={value}
+      >
         {children}
       </ItemWrapper>
     </div>

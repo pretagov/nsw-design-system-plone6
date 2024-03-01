@@ -9,10 +9,12 @@ import cx from 'classnames';
 import { FilterItem } from 'nsw-design-system-plone6/components/Components/Filters/FilterItem';
 import { Loader } from 'nsw-design-system-plone6/components/Components/Loader';
 
-function FilterClearButton() {
+function FilterClearButton({ onClick }) {
   return (
     <div className="nsw-filters__cancel">
-      <button type="reset">Clear all filters</button>
+      <button type="reset" onClick={onClick}>
+        Clear all filters
+      </button>
     </div>
   );
 }
@@ -95,6 +97,16 @@ export function Filters({
     setShowMobileFilters(false);
   }
 
+  function clearFilters(e) {
+    e.preventDefault();
+    const visibleFacets = data.facets.filter(
+      (facet) => facet.displayMode !== 'hidden' && !facet.hidden,
+    );
+
+    // TODO: Do we need to avoid clearing hidden facets?
+    setFacets({});
+  }
+
   const { facets: dataFacets, facetsTitle } = data;
   const facetsReady =
     querystring.indexes && Object.keys(querystring.indexes).length > 0;
@@ -106,6 +118,8 @@ export function Filters({
   if (!dataFacets || Object.keys(dataFacets).length < 1) {
     return null;
   }
+
+  const numberOfAppliedFacets = Object.keys(facets).length;
 
   return (
     <BodyClass
@@ -125,7 +139,14 @@ export function Filters({
           active: showMobileFilters,
         })}
       >
-        <FilterMobileControls title={facetsTitle} onClick={showFilters} />
+        <FilterMobileControls
+          title={
+            numberOfAppliedFacets > 0
+              ? `${facetsTitle} (${numberOfAppliedFacets})`
+              : facetsTitle
+          }
+          onClick={showFilters}
+        />
         <div className="nsw-filters__wrapper">
           {data.mobileDisplayMode === 'modal' ? (
             <FilterMobileControlsCloseButton onClick={hideFilters} />
@@ -155,7 +176,7 @@ export function Filters({
               );
             }}
           />
-          <FilterClearButton />
+          <FilterClearButton onClick={clearFilters} />
         </div>
       </div>
     </BodyClass>
