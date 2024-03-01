@@ -76,7 +76,7 @@ const CheckboxFacet = (props) => {
         <>
           <div
             className={cx('nsw-filters__all', {
-              hidden: isClient && !showAll ? true : null,
+              'nsw-display-none': isClient && !showAll ? true : null,
             })}
           >
             {hiddenChoices.map(({ label, value }) => {
@@ -131,7 +131,7 @@ const CheckboxFacet = (props) => {
           </div>
           <button
             className={cx('nsw-filters__more', {
-              hidden: isClient && showAll ? true : null,
+              'nsw-display-none': isClient && showAll ? true : null,
             })}
             onClick={enableShowAll}
           >
