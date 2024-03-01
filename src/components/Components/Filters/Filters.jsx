@@ -16,6 +16,10 @@ const messages = defineMessages({
   },
 });
 
+function FacetWrapper(facetProps) {
+  return <FilterItem {...facetProps}>{facetProps.children}</FilterItem>;
+}
+
 function FilterClearButton({ onClick }) {
   return (
     <div className="nsw-filters__cancel">
@@ -171,11 +175,7 @@ export function Filters({
                 onTriggerSearch(searchedText || '', f);
               });
             }}
-            facetWrapper={(facetProps) => {
-              return (
-                <FilterItem {...facetProps}>{facetProps.children}</FilterItem>
-              );
-            }}
+            facetWrapper={FacetWrapper}
           />
           <FilterClearButton onClick={clearFilters} />
         </div>
