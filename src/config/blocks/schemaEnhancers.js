@@ -129,9 +129,7 @@ const schemaEnhancers = {
       intl,
       formData,
     });
-    schema.properties.facetsTitle.default = intl.formatMessage(
-      messages.searchFacetsTitleDefault,
-    );
+    
     schema.properties.fullWidthSearchBar = {
       type: 'boolean',
       title: intl.formatMessage(messages.searchFullWidthSearchBar),

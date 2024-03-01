@@ -1,13 +1,20 @@
+import cx from 'classnames';
+import { FilterItem } from 'nsw-design-system-plone6/components/Components/Filters/FilterItem';
+import { Loader } from 'nsw-design-system-plone6/components/Components/Loader';
 import { useIsClient } from 'nsw-design-system-plone6/hooks/useIsClient';
 import * as React from 'react';
 import { flushSync } from 'react-dom';
+import { defineMessages, useIntl } from 'react-intl';
 
 import { Facets } from '@plone/volto/components/manage/Blocks/Search/components';
 import { BodyClass } from '@plone/volto/helpers';
 
-import cx from 'classnames';
-import { FilterItem } from 'nsw-design-system-plone6/components/Components/Filters/FilterItem';
-import { Loader } from 'nsw-design-system-plone6/components/Components/Loader';
+const messages = defineMessages({
+  facetsTitleDefault: {
+    id: 'Filters',
+    defaultMessage: 'Filters',
+  },
+});
 
 function FilterClearButton({ onClick }) {
   return (
@@ -83,6 +90,7 @@ export function Filters({
   searchedText,
 }) {
   const isClient = useIsClient();
+  const intl = useIntl();
   const [showMobileFilters, setShowMobileFilters] = React.useState(false);
 
   function showFilters() {
@@ -106,7 +114,9 @@ export function Filters({
     setFacets({});
   }
 
-  const { facets: dataFacets, facetsTitle } = data;
+  const { facets: dataFacets } = data;
+  const facetsTitle =
+    data.facetsTitle || intl.formatMessage(messages.facetsTitleDefault);
   const facetsReady =
     querystring.indexes && Object.keys(querystring.indexes).length > 0;
 
