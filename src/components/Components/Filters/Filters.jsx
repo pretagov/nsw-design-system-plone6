@@ -1,17 +1,20 @@
-import loadable from '@loadable/component';
-import { useEffect, useRef } from 'react';
+import { useIsClient } from 'nsw-design-system-plone6/hooks/useIsClient';
+import * as React from 'react';
 import { flushSync } from 'react-dom';
 
 import { Facets } from '@plone/volto/components/manage/Blocks/Search/components';
-import cx from 'classnames';
+import { BodyClass } from '@plone/volto/helpers';
 
+import cx from 'classnames';
 import { FilterItem } from 'nsw-design-system-plone6/components/Components/Filters/FilterItem';
 import { Loader } from 'nsw-design-system-plone6/components/Components/Loader';
 
-function FilterClearButton() {
+function FilterClearButton({ onClick }) {
   return (
     <div className="nsw-filters__cancel">
-      <button type="reset">Clear all filters</button>
+      <button type="reset" onClick={onClick}>
+        Clear all filters
+      </button>
     </div>
   );
 }
@@ -20,10 +23,10 @@ function FilterTitleDisplay({ title }) {
   return <div className="nsw-filters__title">{title}</div>;
 }
 
-function FilterMobileControls({ title }) {
+function FilterMobileControls({ title, onClick }) {
   return (
     <div className="nsw-filters__controls js-filters__count">
-      <button>
+      <button onClick={onClick}>
         <span
           className="material-icons nsw-material-icons"
           focusable="false"
@@ -44,12 +47,13 @@ function FilterMobileControls({ title }) {
   );
 }
 
-function FilterMobileControlsCloseButton() {
+function FilterMobileControlsCloseButton({ onClick }) {
   return (
     <div className="nsw-filters__back">
       <button
         className="nsw-icon-button nsw-icon-button--flex js-close-sub-nav"
         type="button"
+        onClick={onClick}
       >
         <span
           className="material-icons nsw-material-icons"
@@ -64,6 +68,11 @@ function FilterMobileControlsCloseButton() {
   );
 }
 
+/**
+ * Filters UI from https://digitalnsw.github.io/nsw-design-system/components/filters/index.html.
+ *
+ * The JavaScript functionality provided by nsw-design-system has been re-implemented in React.
+ */
 export function Filters({
   data,
   facets,
@@ -73,38 +82,33 @@ export function Filters({
   onTriggerSearch = () => {},
   searchedText,
 }) {
-  const facetsRef = useRef(null);
-  const facetsController = useRef(null);
+  const isClient = useIsClient();
+  const [showMobileFilters, setShowMobileFilters] = React.useState(false);
+
+  function showFilters() {
+    // When using `inPage` mode, we want to toggle it rather than always show it
+    setShowMobileFilters(
+      data.mobileDisplayMode === 'inPage' ? !showMobileFilters : true,
+    );
+  }
+
+  function hideFilters() {
+    setShowMobileFilters(false);
+  }
+
+  function clearFilters(e) {
+    e.preventDefault();
+    const visibleFacets = data.facets.filter(
+      (facet) => facet.displayMode !== 'hidden' && !facet.hidden,
+    );
+
+    // TODO: Do we need to avoid clearing hidden facets?
+    setFacets({});
+  }
 
   const { facets: dataFacets, facetsTitle } = data;
   const facetsReady =
     querystring.indexes && Object.keys(querystring.indexes).length > 0;
-
-  useEffect(() => {
-    // Check we've initialized the facets controller as well as got an
-    //   index before we try to setup the UI with NSW JS
-    if (facetsRef.current && facetsReady && facetsController.current?.default) {
-      // debugger;
-      facetsController.current = new facetsController.current.default(
-        facetsRef.current,
-      );
-      facetsController.current.init();
-    }
-  }, [facetsReady]);
-
-  if (__CLIENT__ && !facetsController.current && facetsRef) {
-    loadable(() => import('nsw-design-system/src/components/filters/filters'), {
-      ssr: false,
-    })
-      .load()
-      .then((navigation) => {
-        if (!facetsController.current) {
-          // Save the module for now so we can delay element checking until the querystrings
-          //   have been fetched and the facets displayed
-          facetsController.current = navigation;
-        }
-      });
-  }
 
   if (!facetsReady) {
     return <Loader fillWidth={true} />;
@@ -114,20 +118,38 @@ export function Filters({
     return null;
   }
 
+  const numberOfAppliedFacets = Object.keys(facets).length;
+
   return (
-    <div>
+    <BodyClass
+      className={
+        data.mobileDisplayMode === 'modal' && showMobileFilters
+          ? 'filters-open'
+          : null
+      }
+    >
       <div
-        ref={facetsRef}
         className={cx('nsw-filters', {
           'nsw-filters--instant': liveUpdate,
           'js-filters': liveUpdate,
           'nsw-filters--down': data.mobileDisplayMode === 'inPage',
           'nsw-filters--right': data.mobileDisplayMode === 'modal',
+          ready: isClient,
+          active: showMobileFilters,
         })}
       >
-        <FilterMobileControls title={facetsTitle} />
+        <FilterMobileControls
+          title={
+            numberOfAppliedFacets > 0
+              ? `${facetsTitle} (${numberOfAppliedFacets})`
+              : facetsTitle
+          }
+          onClick={showFilters}
+        />
         <div className="nsw-filters__wrapper">
-          <FilterMobileControlsCloseButton />
+          {data.mobileDisplayMode === 'modal' ? (
+            <FilterMobileControlsCloseButton onClick={hideFilters} />
+          ) : null}
           <FilterTitleDisplay title={facetsTitle} />
           <Facets
             querystring={querystring}
@@ -139,11 +161,15 @@ export function Filters({
                 onTriggerSearch(searchedText || '', f);
               });
             }}
-            facetWrapper={FilterItem}
+            facetWrapper={(facetProps) => {
+              return (
+                <FilterItem {...facetProps}>{facetProps.children}</FilterItem>
+              );
+            }}
           />
-          <FilterClearButton />
+          <FilterClearButton onClick={clearFilters} />
         </div>
       </div>
-    </div>
+    </BodyClass>
   );
 }

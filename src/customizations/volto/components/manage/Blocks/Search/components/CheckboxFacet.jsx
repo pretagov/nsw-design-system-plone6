@@ -3,9 +3,16 @@ import {
   selectFacetStateToValue,
   selectFacetValueToQuery,
 } from '@plone/volto/components/manage/Blocks/Search/components/base';
+import cx from 'classnames';
+import { useIsClient } from 'nsw-design-system-plone6/hooks/useIsClient';
+
 import * as React from 'react';
 
 const CheckboxFacet = (props) => {
+  const isClient = useIsClient();
+  // const filterItemContext = React.useContext(FilterItemContext);
+  const [showAll, enableShowAll] = React.useReducer(() => true, false);
+
   const { facet, choices = [], isMulti, onChange, value, isEditMode } = props;
   const facetTitle = facet.title || '';
   const facetValue = value;
@@ -16,9 +23,13 @@ const CheckboxFacet = (props) => {
   // Todo: Toggling a checkbox will currently re-render the entire list.
   return (
     <fieldset className="nsw-form__fieldset" disabled={isEditMode}>
-      {facet.displayMode === 'collapsed' ? null : (
-        <legend className="nsw-form__legend">{facet.title}</legend>
-      )}
+      <legend
+        className={cx('nsw-form__legend', {
+          'sr-only': facet.displayMode === 'collapsed',
+        })}
+      >
+        {facet.title}
+      </legend>
       {visibleChoices.map(({ label, value }) => {
         const choiceHtmlId = `filters-${facet.title}-${value}`;
         return (
@@ -67,7 +78,11 @@ const CheckboxFacet = (props) => {
       {hiddenChoices.length > 0 ? (
         // TODO: This was updated to use nsw-display-none rather than hidden from nsw-design-system@3.12 onwards
         <>
-          <div className="nsw-filters__all hidden">
+          <div
+            className={cx('nsw-filters__all', {
+              'nsw-display-none': isClient && !showAll ? true : null,
+            })}
+          >
             {hiddenChoices.map(({ label, value }) => {
               const choiceHtmlId = `filters-${facet.title}-${value}`;
               return (
@@ -118,7 +133,12 @@ const CheckboxFacet = (props) => {
               );
             })}
           </div>
-          <button className="nsw-filters__more">
+          <button
+            className={cx('nsw-filters__more', {
+              'nsw-display-none': isClient && showAll ? true : null,
+            })}
+            onClick={enableShowAll}
+          >
             Show all {facetTitle.toLowerCase()} (9)
           </button>
         </>
