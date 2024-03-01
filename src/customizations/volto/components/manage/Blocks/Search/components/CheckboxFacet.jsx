@@ -1,12 +1,13 @@
+import cx from 'classnames';
+import { useIsClient } from 'nsw-design-system-plone6/hooks/useIsClient';
+import * as React from 'react';
+
 import {
   selectFacetSchemaEnhancer,
   selectFacetStateToValue,
   selectFacetValueToQuery,
 } from '@plone/volto/components/manage/Blocks/Search/components/base';
-import cx from 'classnames';
-import { useIsClient } from 'nsw-design-system-plone6/hooks/useIsClient';
-
-import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 const CheckboxFacet = (props) => {
   const isClient = useIsClient();
@@ -133,14 +134,27 @@ const CheckboxFacet = (props) => {
               );
             })}
           </div>
-          <button
-            className={cx('nsw-filters__more', {
-              'nsw-display-none': isClient && showAll ? true : null,
-            })}
-            onClick={enableShowAll}
-          >
-            Show all {facetTitle.toLowerCase()} (9)
-          </button>
+          {hiddenChoices.length > 0 ? (
+            <button
+              className={cx('nsw-filters__more', {
+                'nsw-display-none': isClient && showAll ? true : null,
+              })}
+              onClick={enableShowAll}
+            >
+              <FormattedMessage
+                id="Facets show all button text"
+                // defaultMessage="Show all {facetTitle} ({totalNumberOfFilters})"
+                defaultMessage="Show all {totalNumberOfFilters, plural,
+                  =1 {{facetTitle}}
+                  other {{facetTitle}s}
+              } ({totalNumberOfFilters})"
+                values={{
+                  facetTitle: facetTitle,
+                  totalNumberOfFilters: choices.length,
+                }}
+              />
+            </button>
+          ) : null}
         </>
       ) : null}
     </fieldset>
