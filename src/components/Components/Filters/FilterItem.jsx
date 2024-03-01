@@ -23,14 +23,13 @@ function hasValue(value) {
 }
 
 // TODO: Swap all font icons for SVG
-function CollapsibleItem({ children, facet, selected, onSelect, value }) {
+function CollapsibleItem({ children, facet, value }) {
   const isClient = useIsClient();
-  const uID = uniqueId('collapsed');
-  const [isOpen, setIsOpen] = React.useState();
+  const uID = React.useRef(uniqueId('collapsed'));
+  const [isOpen, setIsOpen] = React.useState(false);
 
   function handleAccordionClick() {
-    onSelect(facet['@id']);
-    setIsOpen(!isOpen);
+    setIsOpen((open) => !open);
   }
 
   return (
@@ -38,8 +37,8 @@ function CollapsibleItem({ children, facet, selected, onSelect, value }) {
       <button
         className={cx('nsw-filters__item-button', { active: isOpen })}
         type={isClient ? 'button' : null}
-        aria-expanded={isClient ? (isOpen ? 'true' : false) : null}
-        aria-controls={isClient ? uID : null}
+        aria-expanded={isClient ? (isOpen ? 'true' : 'false') : null}
+        aria-controls={isClient ? uID.current : null}
         onClick={handleAccordionClick}
       >
         {facet.title ? (
@@ -64,8 +63,8 @@ function CollapsibleItem({ children, facet, selected, onSelect, value }) {
       </button>
       <div
         className="nsw-filters__item-content"
-        id={isClient ? uID : null}
-        hidden={isClient && isOpen ? true : null}
+        id={isClient ? uID.current : null}
+        hidden={isClient && !isOpen ? true : null}
       >
         {children}
       </div>
@@ -82,7 +81,7 @@ const displayModeComponentMapping = {
   collapsed: CollapsibleItem,
 };
 
-export function FilterItem({ children, facet, selected, onSelect, value }) {
+export function FilterItem({ children, facet, value }) {
   let ItemWrapper =
     displayModeComponentMapping[facet.displayMode] ?? StaticItem;
 
@@ -92,12 +91,7 @@ export function FilterItem({ children, facet, selected, onSelect, value }) {
 
   return (
     <div className="nsw-filters__item">
-      <ItemWrapper
-        facet={facet}
-        selected={selected}
-        onSelect={onSelect}
-        value={value}
-      >
+      <ItemWrapper facet={facet} value={value}>
         {children}
       </ItemWrapper>
     </div>
