@@ -82,6 +82,7 @@ export function Filters({
 }) {
   const isClient = useIsClient();
   const [showMobileFilters, setShowMobileFilters] = React.useState(false);
+  const [selectedFacet, setSelectedFacet] = React.useState(false);
 
   function showFilters() {
     // When using `inPage` mode, we want to toggle it rather than always show it
@@ -140,7 +141,19 @@ export function Filters({
                 onTriggerSearch(searchedText || '', f);
               });
             }}
-            facetWrapper={FilterItem}
+            facetWrapper={(facetProps) => {
+              return (
+                <FilterItem
+                  {...facetProps}
+                  selected={selectedFacet === facetProps.facet['@id']}
+                  onSelect={(facetToSelect) => {
+                    setSelectedFacet(facetToSelect);
+                  }}
+                >
+                  {facetProps.children}
+                </FilterItem>
+              );
+            }}
           />
           <FilterClearButton />
         </div>
