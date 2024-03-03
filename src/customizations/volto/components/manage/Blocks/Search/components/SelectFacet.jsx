@@ -26,6 +26,7 @@ const SelectFacet = (props) => {
       id={selectHtmlId}
       title={facet.displayMode === 'collapsed' ? false : facetTitle}
       disabled={isEditMode}
+      multiple={facet.multiple}
     />
   );
 };
