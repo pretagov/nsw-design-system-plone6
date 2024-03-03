@@ -1,6 +1,8 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
+import * as React from 'react';
 
+import loadable from '@loadable/component';
 import { defineMessages, useIntl } from 'react-intl';
 
 const messages = defineMessages({
@@ -18,6 +20,31 @@ const messages = defineMessages({
   },
 });
 
+function SelectWrapper({ isMultiple, children }) {
+  const multiSelectElement = React.useRef(null);
+  React.useEffect(() => {
+    loadable(() => import('nsw-design-system/src/components/select/select'))
+      .load()
+      .then((selectJs) => {
+        new selectJs.default(multiSelectElement.current).init();
+      });
+  }, [multiSelectElement]);
+
+  return isMultiple ? (
+    <>{children}</>
+  ) : (
+    <div
+      ref={multiSelectElement}
+      class="nsw-multi-select js-multi-select"
+      data-select-text="Select savings programs"
+      data-multi-select-text="{n} savings programs selected"
+      data-n-multi-select="2"
+    >
+      {children}
+    </div>
+  );
+}
+
 export function Select({
   options = [],
   noValueOption,
@@ -33,6 +60,7 @@ export function Select({
   },
   disabled,
   invalid,
+  multiple = false,
 }) {
   const intl = useIntl();
   let attributes = {};
@@ -76,33 +104,36 @@ export function Select({
           {description}
         </span>
       ) : null}
-      {/* eslint-disable-next-line jsx-a11y/no-onchange */}
-      <select
-        className="nsw-form__select"
-        id={inputId}
-        name={inputId}
-        value={value}
-        disabled={disabled}
-        {...attributes}
-        onChange={onChange}
-        required={required}
-        aria-required={required}
-      >
-        {showNoValueOption ? (
-          <option value={noValueOption?.value ?? ''}>
-            {noValueOption?.label || typeof noValueOption === 'string'
-              ? noValueOption
-              : intl.formatMessage(messages.no_value_selected_option)}
-          </option>
-        ) : null}
-        {options.map(({ value, label }) => {
-          return (
-            <option key={value} value={value}>
-              {label}
+      <SelectWrapper>
+        {/* eslint-disable-next-line jsx-a11y/no-onchange */}
+        <select
+          className={cx('nsw-form__select', { 'js-multi-select': multiple })}
+          id={inputId}
+          name={inputId}
+          value={value}
+          disabled={disabled}
+          {...attributes}
+          onChange={onChange}
+          required={required}
+          aria-required={required}
+          multiple={multiple}
+        >
+          {showNoValueOption ? (
+            <option value={noValueOption?.value ?? ''}>
+              {noValueOption?.label || typeof noValueOption === 'string'
+                ? noValueOption
+                : intl.formatMessage(messages.no_value_selected_option)}
             </option>
-          );
-        })}
-      </select>
+          ) : null}
+          {options.map(({ value, label }) => {
+            return (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            );
+          })}
+        </select>
+      </SelectWrapper>
       {isInvalid ? (
         <span
           class="nsw-form__helper nsw-form__helper--error"
@@ -156,4 +187,5 @@ Select.propTypes = {
   disabled: PropTypes.bool,
   invalid: PropTypes.bool,
   error: PropTypes.arrayOf(PropTypes.string),
+  multiple: PropTypes.bool,
 };
