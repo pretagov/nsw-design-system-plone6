@@ -56,7 +56,7 @@ function CollapsibleItem({ children, facet, value }) {
           {facetTitle}{' '}
           {hasValue(value) ? (
             <span
-              class="material-icons nsw-material-icons nsw-material-icons--valid"
+              className="material-icons nsw-material-icons nsw-material-icons--valid"
               focusable="false"
               aria-hidden="true"
             >

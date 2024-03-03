@@ -35,7 +35,7 @@ function SelectWrapper({ isMultiple, children }) {
   ) : (
     <div
       ref={multiSelectElement}
-      class="nsw-multi-select js-multi-select"
+      className="nsw-multi-select js-multi-select"
       data-select-text="Select savings programs"
       data-multi-select-text="{n} savings programs selected"
       data-n-multi-select="2"
@@ -136,11 +136,11 @@ export function Select({
       </SelectWrapper>
       {isInvalid ? (
         <span
-          class="nsw-form__helper nsw-form__helper--error"
+          className="nsw-form__helper nsw-form__helper--error"
           id={`${inputId}-error-text`}
         >
           <span
-            class="material-icons nsw-material-icons"
+            className="material-icons nsw-material-icons"
             focusable="false"
             aria-hidden="true"
           >
