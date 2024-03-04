@@ -95,16 +95,6 @@ const LeftColumnFacets = (props) => {
               />
             )}
           </div>
-          <FilterList
-            {...props}
-            isEditMode={isEditMode}
-            setFacets={(f) => {
-              flushSync(() => {
-                setFacets(f);
-                onTriggerSearch(searchedText || '', f);
-              });
-            }}
-          />
           {children}
         </div>
       </div>
