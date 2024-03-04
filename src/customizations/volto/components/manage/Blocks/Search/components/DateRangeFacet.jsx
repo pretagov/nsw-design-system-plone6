@@ -72,7 +72,29 @@ const DateRangeFacet = (props) => {
   const startDateValue = value && value[0] ? moment(value[0]) : null;
   const endDateValue = value && value[1] ? moment(value[1]) : null;
 
-  // debugger;
+  function updateDate(startDate, endDate) {
+    const isStartDate = startDate === startDateValue && !endDate;
+    // Bit of an assumption here
+    const value = isStartDate ? startDate : endDate;
+    // Strict mode to ensure it's YYYY
+    const momentValue = moment(value, 'YYYY-MM-DD', true);
+    if (!momentValue.isValid()) {
+      return;
+    }
+    if (!value) {
+      if (value !== startDateValue) {
+        onChange(
+          facet.field.value,
+          isStartDate ? [null, endDateValue] : [startDateValue, null],
+        );
+      }
+      return;
+    }
+    onChange(
+      facet.field.value,
+      isStartDate ? [value, endDateValue] : [startDateValue, value],
+    );
+  }
 
   return (
     <>
@@ -116,7 +138,7 @@ const DateRangeFacet = (props) => {
         value={startDateValue}
         disabled={isEditMode}
         onChange={(value) => {
-          onChange(facet.field.value, [value, endDateValue]);
+          updateDate(value, endDateValue);
         }}
       />
       <DateInput
@@ -125,7 +147,7 @@ const DateRangeFacet = (props) => {
         value={endDateValue}
         disabled={isEditMode}
         onChange={(value) => {
-          onChange(facet.field.value, [startDateValue, value]);
+          updateDate(startDateValue, value);
         }}
       />
       {/* </div> */}
