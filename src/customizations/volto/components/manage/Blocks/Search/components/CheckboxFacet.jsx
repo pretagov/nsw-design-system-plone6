@@ -19,8 +19,10 @@ const CheckboxFacet = (props) => {
   const facetTitle = getTitleForFacet(facet);
   const facetValue = value;
   const maximumFacets = facet.maxFilters;
-  const visibleChoices = choices.slice(0, maximumFacets);
-  const hiddenChoices = choices.slice(maximumFacets);
+  const visibleChoices = maximumFacets
+    ? choices.slice(0, maximumFacets)
+    : choices;
+  const hiddenChoices = maximumFacets ? choices.slice(maximumFacets) : [];
 
   // Todo: Toggling a checkbox will currently re-render the entire list.
   return (
