@@ -26,7 +26,7 @@
     "@plone-collective/volto-slots-editor"
   ],
   "dependencies": {
-    "@eeacms/volto-accordion-block": "6.0.0",
+    "@eeacms/volto-accordion-block": "10.4.6",
     "@eeacms/volto-columns-block": "6.3.2",
     "@fontsource/public-sans": "4.5.12",
     "@kitconcept/volto-blocks-grid": "5.2.0",
@@ -35,7 +35,7 @@
     "html-react-parser": "3.0.16",
     "material-icons": "1.13.6",
     "moment": "2.24.0",
-    "nsw-design-system": "3.11.2",
+    "nsw-design-system": "3.16.0",
     "react-color": "2.19.3",
     "volto-google-analytics": "2.0.0",
     "volto-siteinfo": "1.1.0",
