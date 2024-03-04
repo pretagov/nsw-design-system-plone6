@@ -42,8 +42,8 @@ const messages = defineMessages({
     defaultMessage: 'Display mode',
   },
   searchFacetsMaxFilters: {
-    id: 'Maximum filters to show',
-    defaultMessage: 'Maximum filters to show',
+    id: 'Maximum filter options to show',
+    defaultMessage: 'Initial options',
   },
   searchFullWidthSearchBar: {
     id: 'Full width search bar',
