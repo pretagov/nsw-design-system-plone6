@@ -45,6 +45,10 @@ const messages = defineMessages({
     id: 'Maximum filter options to show',
     defaultMessage: 'Initial options',
   },
+  searchFacetsWidget: {
+    id: 'Title for facet widget selected',
+    defaultMessage: 'Widget',
+  },
   searchFullWidthSearchBar: {
     id: 'Full width search bar',
     defaultMessage: 'Full width search bar',
@@ -129,7 +133,7 @@ const schemaEnhancers = {
       intl,
       formData,
     });
-    
+
     schema.properties.fullWidthSearchBar = {
       type: 'boolean',
       title: intl.formatMessage(messages.searchFullWidthSearchBar),
@@ -155,12 +159,16 @@ const schemaEnhancers = {
     // Change 'hide facet' checkox to a 'Facet display mode' option
     const facetSchema = schema.properties.facets.schema;
     facetSchema.fieldsets[0].fields = [
-      'title',
-      'displayMode',
       'field',
+      'title',
       'type',
+      'displayMode',
       'maxFilters',
     ]; // Remove 'hidden', add 'displayMode', add `maximumFilters`
+    // TODO: INTL for `Facet widget` being changed to `Widget`
+    facetSchema.properties.type.title = intl.formatMessage(
+      messages.searchFacetsWidget,
+    );
 
     facetSchema.properties.maxFilters = {
       title: intl.formatMessage(messages.searchFacetsMaxFilters),
