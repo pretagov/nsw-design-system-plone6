@@ -45,6 +45,7 @@ function SelectWrapper({ isMultiple, children }) {
   );
 }
 
+// TODO: Fix handling of 'all' button and 'Please select' button
 export function Select({
   options = [],
   noValueOption,

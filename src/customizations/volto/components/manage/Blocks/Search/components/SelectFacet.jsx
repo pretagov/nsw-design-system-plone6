@@ -16,6 +16,26 @@ const SelectFacet = (props) => {
     <Select
       options={choices}
       onChange={(event) => {
+        // TODO: Fix handling of 'all' button and 'Please select' button
+        if (facet.multiple) {
+          const multiWrapperElement = event.target.parentElement;
+          const selectedOptions = multiWrapperElement.querySelectorAll(
+            '[aria-selected="true"]',
+          );
+
+          if (!selectedOptions) {
+            onChange(facet.field.value, []);
+            return;
+          }
+          onChange(
+            facet.field.value,
+            [...selectedOptions].map(
+              (optionElement) => optionElement.dataset.value,
+            ),
+          );
+          return;
+        }
+
         const newValue = event.target?.value;
         if (!newValue) {
           onChange(facet.field.value, []);
