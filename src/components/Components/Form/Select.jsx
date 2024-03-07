@@ -18,30 +18,54 @@ const messages = defineMessages({
     id: 'This field is required',
     defaultMessage: 'This field is required',
   },
+  multiSelectNoValueText: {
+    id: 'multiSelectNoValueText',
+    defaultMessage: 'Select {title}s',
+  },
+  multiSelectGotValueText: {
+    id: 'multiSelectGotValueText',
+    defaultMessage:
+      '{numberSelected} {numberSelected, plural, =1 {{title}} other {{title}s}} selected',
+    // {n} savings programs selected
+  },
 });
 
-function SelectWrapper({ isMultiple, children }) {
+function SelectWrapper({ isMultiple, title, amountSelected, children }) {
+  const intl = useIntl();
+
   const multiSelectElement = React.useRef(null);
   React.useEffect(() => {
-    loadable(() => import('nsw-design-system/src/components/select/select'))
-      .load()
-      .then((selectJs) => {
-        new selectJs.default(multiSelectElement.current).init();
-      });
+    if (multiSelectElement) {
+      loadable(() => import('nsw-design-system/src/components/select/select'))
+        .load()
+        .then((selectJs) => {
+          new selectJs.default(multiSelectElement.current).init();
+        });
+    }
   }, [multiSelectElement]);
 
+  // TODO: Should `data-n-multi-select` be configurable? It's the number of items to be selected before displaying `data-multi-select-text` instead.
   return isMultiple ? (
-    <>{children}</>
-  ) : (
     <div
       ref={multiSelectElement}
       className="nsw-multi-select js-multi-select"
-      data-select-text="Select savings programs"
-      data-multi-select-text="{n} savings programs selected"
+      data-select-text={intl.formatMessage(messages.multiSelectNoValueText, {
+        title: title,
+      })}
+      data-multi-select-text={intl.formatMessage(
+        messages.multiSelectGotValueText,
+        {
+          title: title,
+          numberSelected: amountSelected,
+        },
+      )}
+      // data-multi-select-text="{n} savings programs selected"
       data-n-multi-select="2"
     >
       {children}
     </div>
+  ) : (
+    children
   );
 }
 
@@ -62,8 +86,10 @@ export function Select({
   disabled,
   invalid,
   multiple = false,
+  multipleTitle,
 }) {
   const intl = useIntl();
+  const [amountSelected, setAmountSelected] = React.useState(0);
   let attributes = {};
 
   if (required) {
@@ -82,6 +108,18 @@ export function Select({
     showNoValueOption = true;
   } else if (!required && noValueOption !== false) {
     showNoValueOption = true;
+  }
+  // We never want to show the `noValueOption` when in multiple mode, as implied by https://digitalnsw.github.io/nsw-design-system/components/select/index.html#section-interactive-demo
+  if (multiple) {
+    showNoValueOption = false;
+  }
+
+  function handleOptionChange(event) {
+    const multiWrapperElement = event.target.parentElement;
+    const selectedOptions =
+      multiWrapperElement.querySelectorAll('[aria-selected="true"]') || [];
+    setAmountSelected(selectedOptions.length);
+    onChange(event);
   }
 
   return (
@@ -105,7 +143,11 @@ export function Select({
           {description}
         </span>
       ) : null}
-      <SelectWrapper>
+      <SelectWrapper
+        isMultiple={multiple}
+        title={multipleTitle}
+        amountSelected={amountSelected}
+      >
         {/* eslint-disable-next-line jsx-a11y/no-onchange */}
         <select
           className={cx('nsw-form__select', { 'js-multi-select': multiple })}
@@ -114,7 +156,7 @@ export function Select({
           value={value}
           disabled={disabled}
           {...attributes}
-          onChange={onChange}
+          onChange={handleOptionChange}
           required={required}
           aria-required={required}
           multiple={multiple}
@@ -189,4 +231,5 @@ Select.propTypes = {
   invalid: PropTypes.bool,
   error: PropTypes.arrayOf(PropTypes.string),
   multiple: PropTypes.bool,
+  multipleTitle: PropTypes.string,
 };

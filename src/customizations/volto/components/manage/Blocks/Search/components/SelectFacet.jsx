@@ -47,6 +47,8 @@ const SelectFacet = (props) => {
       title={facet.displayMode === 'collapsed' ? false : facetTitle}
       disabled={isEditMode}
       multiple={facet.multiple}
+      multipleTitle={facetTitle}
+      
     />
   );
 };

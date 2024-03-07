@@ -57,7 +57,7 @@ const DateRangeFacet = (props) => {
             return;
           }
           if (!value) {
-            if (value !== startDateValue) {
+            if (value !== endDateValue) {
               onChange(facet.field.value, [startDateValue, null]);
             }
             return;
