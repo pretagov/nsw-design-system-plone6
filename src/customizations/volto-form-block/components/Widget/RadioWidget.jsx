@@ -25,7 +25,6 @@ const RadioWidget = ({
       title={title}
       description={description}
       required={required || null}
-      error={error}
       fieldSet={fieldSet}
       wrapped={false}
     >

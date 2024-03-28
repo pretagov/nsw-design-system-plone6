@@ -62,7 +62,12 @@ function DatetimeWidgetComponent(props) {
   }
 
   return (
-    <FormFieldWrapper {...props} className="text" wrapped={false}>
+    <FormFieldWrapper
+      id={inputId}
+      title={title}
+      className="text"
+      wrapped={false}
+    >
       <div className="nsw-form__group">
         <fieldset
           className="nsw-form__date"

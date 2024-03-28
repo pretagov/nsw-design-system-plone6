@@ -31,7 +31,7 @@ const messages = defineMessages({
   },
   field_is_required: {
     id: 'field_is_required',
-    defaultMessage: '{fieldLabel} is required',
+    defaultMessage: 'This field is required',
   },
 });
 
@@ -93,9 +93,7 @@ function ErrorMessageBox({ formId, formErrors = {}, fields }) {
               : validationIdToShow;
             const errorMessage = validationMessageToShow
               ? `${label}: ${formErrors[name][validationMessageToShow]}`
-              : intl.formatMessage(messages.field_is_required, {
-                  fieldLabel: label,
-                });
+              : intl.formatMessage(messages.field_is_required);
 
             return (
               <li key={fieldName}>

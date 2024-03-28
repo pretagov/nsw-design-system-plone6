@@ -45,7 +45,12 @@ function EmailWidget(props) {
   const inputId = `field-${id}`;
 
   return (
-    <FormFieldWrapper {...props} className="text" wrapped={false}>
+    <FormFieldWrapper
+      id={inputId}
+      title={title}
+      className="text"
+      wrapped={false}
+    >
       <div className="nsw-form__group">
         <label
           className={cx('nsw-form__label', { 'nsw-form__required': required })}
