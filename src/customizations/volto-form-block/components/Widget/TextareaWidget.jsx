@@ -42,7 +42,12 @@ const TextareaWidget = (props) => {
   const inputId = `field-${id}`;
 
   return (
-    <FormFieldWrapper {...props} className="textarea" wrapped={false}>
+    <FormFieldWrapper
+      id={inputId}
+      title={title}
+      className="textarea"
+      wrapped={false}
+    >
       <div className="nsw-form__group">
         <label
           className={cx('nsw-form__label', { 'nsw-form__required': required })}

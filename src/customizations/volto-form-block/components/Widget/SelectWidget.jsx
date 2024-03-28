@@ -125,7 +125,7 @@ function SelectWidget(props) {
   const inputId = `field-${id}`;
 
   return (
-    <FormFieldWrapper {...props} wrapped={false}>
+    <FormFieldWrapper id={inputId} title={title} wrapped={false}>
       <div className="nsw-form__group">
         <label
           className={cx('nsw-form__label', { 'nsw-form__required': required })}

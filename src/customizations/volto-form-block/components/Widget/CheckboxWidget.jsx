@@ -41,7 +41,7 @@ const CheckboxWidget = (props) => {
   const inputId = `field-${id}`;
 
   return (
-    <FormFieldWrapper {...props} wrapped={false}>
+    <FormFieldWrapper id={inputId} title={title} wrapped={false}>
       <div className="nsw-form__group">
         <input
           className="nsw-form__checkbox-input"

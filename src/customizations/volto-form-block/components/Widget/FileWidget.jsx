@@ -142,7 +142,7 @@ const FileWidget = (props) => {
   const inputId = `field-${id}`;
 
   return (
-    <FormFieldWrapper {...props} wrapped={false}>
+    <FormFieldWrapper id={inputId} title={title} wrapped={false}>
       <Dropzone onDrop={onDrop}>
         {({ getRootProps, getInputProps, isDragActive }) => (
           <div
