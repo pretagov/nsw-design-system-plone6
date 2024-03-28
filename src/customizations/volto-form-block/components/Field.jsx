@@ -51,6 +51,7 @@ const Field = (props) => {
     widget,
     shouldShow = true,
     display_values,
+    errors = {},
   } = props;
   let { value } = props;
   // A value of `null` is a touched field with no value
@@ -64,8 +65,26 @@ const Field = (props) => {
   const intl = useIntl();
 
   const isInvalid = () => {
-    return !isOnEdit && !valid;
+    let isInvalid = !isOnEdit && !valid;
+    // TODO: Re-enable frontend-validations
+    // if (validations && validations.length > 0) {
+    //   validations.forEach((validation) => {
+    //     const validatorObject = validationObjects[validation.validation_type];
+    //     const validator = validatorObject?.validator;
+    //     if (validator) {
+    //       const validatorProperties = Object.keys(validatorObject.properties)
+    //       isInvalid = !validator({
+    //         value,
+    //         ...pick(validation, validatorProperties),
+    //       });
+    //     }
+    //   })
+    // }
+
+    return isInvalid;
   };
+  const errorList =
+    typeof errors === 'object' && errors !== null ? Object.values(errors) : {};
 
   if (widget) {
     const Widget = widgetMapping[widget];
@@ -97,17 +116,23 @@ const Field = (props) => {
       <Widget
         {...props}
         id={name}
+        name={name}
         title={label}
         value={value}
         valueList={valueList}
         invalid={isInvalid().toString()}
+        error={errorList}
         {...(isInvalid() ? { className: 'is-invalid' } : {})}
       />
     );
   }
 
   return (
-    <MaybeWrap condition={isOnEdit} as="div" inert={isOnEdit ? '' : null}>
+    <MaybeWrap
+      condition={isOnEdit}
+      as="div"
+      inert={isOnEdit && field_type !== 'static_text' ? '' : null}
+    >
       {field_type === 'text' && (
         <TextWidget
           id={name}
@@ -115,6 +140,7 @@ const Field = (props) => {
           title={label}
           description={description}
           required={required}
+          error={errorList}
           onChange={onChange}
           value={value}
           isDisabled={disabled}
@@ -130,6 +156,7 @@ const Field = (props) => {
           title={label}
           description={description}
           required={required}
+          error={errorList}
           onChange={onChange}
           value={value}
           rows={10}
@@ -148,6 +175,7 @@ const Field = (props) => {
           getVocabularyTokenTitle={() => {}}
           choices={[...(input_values?.map((v) => [v, v]) ?? [])]}
           value={value}
+          error={errorList}
           onChange={onChange}
           placeholder={intl.formatMessage(messages.select_a_value)}
           aria-label={intl.formatMessage(messages.select_a_value)}
@@ -165,6 +193,7 @@ const Field = (props) => {
           description={description}
           required={required}
           onChange={onChange}
+          error={errorList}
           valueList={[
             ...(input_values?.map((v) => ({ value: v, label: v })) ?? []),
           ]}
@@ -182,6 +211,7 @@ const Field = (props) => {
           description={description}
           required={required}
           onChange={onChange}
+          error={errorList}
           valueList={[
             ...(input_values?.map((v) => ({ value: v, label: v })) ?? []),
           ]}
@@ -198,6 +228,7 @@ const Field = (props) => {
           title={label}
           description={description}
           required={required}
+          error={errorList}
           onChange={onChange}
           value={!!value}
           isDisabled={disabled}
@@ -214,6 +245,7 @@ const Field = (props) => {
           dateOnly={true}
           noPastDates={false}
           resettable={false}
+          error={errorList}
           onChange={onChange}
           value={value}
           isDisabled={disabled}
@@ -230,6 +262,7 @@ const Field = (props) => {
           description={description}
           type="file"
           required={required}
+          error={errorList}
           invalid={isInvalid().toString()}
           isDisabled={disabled}
           onChange={onChange}
@@ -243,6 +276,7 @@ const Field = (props) => {
           name={name}
           title={label}
           description={description}
+          error={errorList}
           required={required}
           onChange={onChange}
           value={value}
@@ -258,6 +292,7 @@ const Field = (props) => {
             id={name}
             name={name}
             title={label}
+            error={errorList}
             description={description}
             onChange={onChange}
             value={value}
@@ -281,6 +316,7 @@ const Field = (props) => {
               value={value}
               isDisabled={disabled}
               formHasErrors={formHasErrors}
+              error={errorList}
               invalid={isInvalid().toString()}
               {...(isInvalid() ? { className: 'is-invalid' } : {})}
             />,

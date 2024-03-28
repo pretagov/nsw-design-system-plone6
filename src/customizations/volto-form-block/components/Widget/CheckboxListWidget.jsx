@@ -3,6 +3,8 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { ErrorMessage } from 'nsw-design-system-plone6/components/Components/Form/ErrorMessage';
+
 const CheckboxListWidget = ({
   id,
   title,
@@ -23,17 +25,8 @@ const CheckboxListWidget = ({
     onChange(id, [...newValue]);
   };
 
-  let attributes = {};
-  // Causes all of the checkboxes to be checked.
-  // if (required) {
-  //   attributes.required = true;
-  //   attributes['aria-required'] = true;
-  // }
-
   const isInvalid = invalid === true || invalid === 'true';
-  if (isInvalid) {
-    attributes['aria-invalid'] = true;
-  }
+  const inputId = `field-${id}`;
 
   return (
     <FormFieldWrapper
@@ -41,12 +34,11 @@ const CheckboxListWidget = ({
       title={title}
       description={description}
       required={required || null}
-      error={error}
       fieldSet={fieldSet}
       wrapped={false}
     >
       <div className="nsw-form__group">
-        <fieldset className="nsw-form__fieldset">
+        <fieldset className="nsw-form__fieldset" id={inputId}>
           <legend>
             <span
               className={cx('nsw-form__legend', {
@@ -60,20 +52,11 @@ const CheckboxListWidget = ({
               <span className="nsw-form__helper">{description}</span>
             ) : null}
             {isInvalid ? (
-              <span class="nsw-form__helper nsw-form__helper--error">
-                <span
-                  class="material-icons nsw-material-icons"
-                  focusable="false"
-                  aria-hidden="true"
-                >
-                  cancel
-                </span>
-                This field is required
-              </span>
+              <ErrorMessage inputId={inputId} message={error[0]} />
             ) : null}
           </legend>
           {valueList?.map((opt) => {
-            const checkboxId = `field-${id}-${opt.value}`;
+            const checkboxId = `${inputId}-${opt.value}`;
             return (
               <React.Fragment key={checkboxId}>
                 <input
@@ -85,7 +68,6 @@ const CheckboxListWidget = ({
                   onChange={({ target }) => {
                     return updateValueList(opt.value, target.checked);
                   }}
-                  {...attributes}
                 />
                 <label
                   className="nsw-form__checkbox-label"

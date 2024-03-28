@@ -14,6 +14,8 @@ import { defineMessages, useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
+import { ErrorMessage } from 'nsw-design-system-plone6/components/Components/Form/ErrorMessage';
+
 const messages = defineMessages({
   default: {
     id: 'Default',
@@ -76,6 +78,7 @@ function SelectWidget(props) {
     isDisabled,
     invalid,
     title,
+    error = [],
   } = props;
   const intl = useIntl();
   /**
@@ -118,21 +121,11 @@ function SelectWidget(props) {
           : []),
       ];
 
-  let attributes = {};
-  if (required) {
-    attributes.required = true;
-    attributes['aria-required'] = true;
-  }
-
   const isInvalid = invalid === true || invalid === 'true';
-  if (isInvalid) {
-    attributes['aria-invalid'] = true;
-  }
-
   const inputId = `field-${id}`;
 
   return (
-    <FormFieldWrapper {...props} wrapped={false}>
+    <FormFieldWrapper id={inputId} title={title} wrapped={false}>
       <div className="nsw-form__group">
         <label
           className={cx('nsw-form__label', { 'nsw-form__required': required })}
@@ -154,12 +147,11 @@ function SelectWidget(props) {
           value={
             normalizedValue
               ? normalizedValue['value']
-              : required
+              : required && options[0]
               ? options[0].value
               : 'no-value'
           }
           disabled={shouldDisable}
-          {...attributes}
           onChange={({ target: selectedOption }) => {
             return onChange(
               id,
@@ -168,6 +160,12 @@ function SelectWidget(props) {
                 : null,
             );
           }}
+          aria-invalid={isInvalid ? 'true' : null}
+          // The order here matters, as not all Assistive Technology supports multiple describedby
+          aria-describedby={cx({
+            [`${inputId}-helper-text`]: description,
+            [`${inputId}-error-text`]: isInvalid,
+          })}
         >
           {options.map(({ value, label }) => {
             return (
@@ -178,19 +176,7 @@ function SelectWidget(props) {
           })}
         </select>
         {isInvalid ? (
-          <span
-            class="nsw-form__helper nsw-form__helper--error"
-            id={`${inputId}-error-text`}
-          >
-            <span
-              class="material-icons nsw-material-icons"
-              focusable="false"
-              aria-hidden="true"
-            >
-              cancel
-            </span>
-            This field is required
-          </span>
+          <ErrorMessage inputId={inputId} message={error[0]} />
         ) : null}
       </div>
     </FormFieldWrapper>

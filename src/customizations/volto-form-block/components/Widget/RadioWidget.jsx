@@ -2,6 +2,8 @@ import { FormFieldWrapper } from '@plone/volto/components';
 import cx from 'classnames';
 import React from 'react';
 
+import { ErrorMessage } from 'nsw-design-system-plone6/components/Components/Form/ErrorMessage';
+
 const RadioWidget = ({
   id,
   title,
@@ -14,16 +16,8 @@ const RadioWidget = ({
   fieldSet,
   invalid,
 }) => {
-  let attributes = {};
-  if (required) {
-    attributes.required = true;
-    attributes['aria-required'] = true;
-  }
-
   const isInvalid = invalid === true || invalid === 'true';
-  if (isInvalid) {
-    attributes['aria-invalid'] = true;
-  }
+  const inputId = `field-${id}`;
 
   return (
     <FormFieldWrapper
@@ -31,12 +25,19 @@ const RadioWidget = ({
       title={title}
       description={description}
       required={required || null}
-      error={error}
       fieldSet={fieldSet}
       wrapped={false}
     >
       <div className="nsw-form__group">
-        <fieldset className="nsw-form__fieldset">
+        <fieldset
+          className="nsw-form__fieldset"
+          id={inputId}
+          // The order here matters, as not all Assistive Technology supports multiple describedby
+          aria-describedby={cx({
+            [`${inputId}-helper-text`]: description,
+            [`${inputId}-error-text`]: isInvalid,
+          })}
+        >
           <legend>
             <span
               className={cx('nsw-form__legend', {
@@ -51,20 +52,11 @@ const RadioWidget = ({
               <span className="nsw-form__helper">{description}</span>
             ) : null}
             {isInvalid ? (
-              <span class="nsw-form__helper nsw-form__helper--error">
-                <span
-                  class="material-icons nsw-material-icons"
-                  focusable="false"
-                  aria-hidden="true"
-                >
-                  cancel
-                </span>
-                This field is required
-              </span>
+              <ErrorMessage inputId={inputId} message={error[0]} />
             ) : null}
           </legend>
           {valueList.map((opt) => {
-            const radioId = id + opt.value;
+            const radioId = `${inputId}-${opt.value}`;
             return (
               <React.Fragment key={opt.label}>
                 <input
@@ -75,7 +67,6 @@ const RadioWidget = ({
                   value={opt.value}
                   checked={opt.value === value}
                   onChange={(e) => onChange(id, opt.value)}
-                  {...attributes}
                 />
                 <label className="nsw-form__radio-label" htmlFor={radioId}>
                   {opt.label}
