@@ -60,7 +60,12 @@ const Field = (props) => {
     value !== null &&
     value === undefined
   ) {
-    value = props.default_value;
+    if (
+      !['select', 'single_choice', 'multiple_choice'].includes(field_type) &&
+      input_values.includes(props.default_value)
+    ) {
+      value = props.default_value;
+    }
   }
   const intl = useIntl();
 
