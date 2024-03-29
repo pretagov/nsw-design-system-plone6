@@ -62,7 +62,7 @@ const Field = (props) => {
   ) {
     if (
       !['select', 'single_choice', 'multiple_choice'].includes(field_type) &&
-      input_values.includes(props.default_value)
+      input_values?.includes(props.default_value)
     ) {
       value = props.default_value;
     }
