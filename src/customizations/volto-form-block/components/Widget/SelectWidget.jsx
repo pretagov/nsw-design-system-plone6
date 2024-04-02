@@ -103,15 +103,9 @@ function SelectWidget(props) {
   let options = vocabBaseUrl
     ? choices
     : [
-        ...map(choices, (option) => ({
-          value: option[0],
-          label:
-            // Fix "None" on the serializer, to remove when fixed in p.restapi
-            option[1] !== 'None' && option[1] ? option[1] : option[0],
-        })),
         // Only set "no-value" option if there's no default in the field
         // TODO: also if this.props.defaultValue?
-        ...(noValueOption && !defaultOption && !required
+        ...(noValueOption && !defaultOption
           ? [
               {
                 label: intl.formatMessage(messages.no_value),
@@ -119,6 +113,12 @@ function SelectWidget(props) {
               },
             ]
           : []),
+        ...map(choices, (option) => ({
+          value: option[0],
+          label:
+            // Fix "None" on the serializer, to remove when fixed in p.restapi
+            option[1] !== 'None' && option[1] ? option[1] : option[0],
+        })),
       ];
 
   const isInvalid = invalid === true || invalid === 'true';
