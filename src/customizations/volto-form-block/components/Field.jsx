@@ -62,7 +62,11 @@ const Field = (props) => {
   ) {
     if (
       !['select', 'single_choice', 'multiple_choice'].includes(field_type) ||
-      input_values?.includes(props.default_value)
+      input_values?.includes(props.default_value) || // Single-select includes the value
+      (Array.isArray(props.default_value) &&
+        props.default_value?.every((default_value) =>
+          input_values?.includes(props.default_value),
+        )) // Multi-select includes the value
     ) {
       value = props.default_value;
     }
