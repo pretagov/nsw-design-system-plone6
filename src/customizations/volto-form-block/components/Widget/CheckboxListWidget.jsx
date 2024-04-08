@@ -17,13 +17,16 @@ const CheckboxListWidget = ({
   fieldSet,
   invalid,
 }) => {
-  const updateValueList = (val, checked) => {
-    let newValue = new Set([...(value || [])]);
-    if (checked) newValue.add(val);
-    else newValue.delete(val);
+  const updateValueList = React.useCallback(
+    (val, checked) => {
+      let newValue = new Set([...(value || [])]);
+      if (checked) newValue.add(val);
+      else newValue.delete(val);
 
-    onChange(id, [...newValue]);
-  };
+      onChange(id, [...newValue]);
+    },
+    [id, onChange, value],
+  );
 
   const isInvalid = invalid === true || invalid === 'true';
   const inputId = `field-${id}`;
