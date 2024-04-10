@@ -1,7 +1,7 @@
 import { Edit } from '@plone/volto/components';
 import View from '@plone/volto/components/theme/View/View';
 
-const contentRoutes = ['/search'];
+const contentRoutes = ['/search', '/sitemap'];
 
 const removeFromArray = (item, array) => {
   const index = array.indexOf(item);
