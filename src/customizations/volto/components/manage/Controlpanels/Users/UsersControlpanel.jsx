@@ -1,6 +1,9 @@
 /**
  * Users controlpanel container.
  * @module components/manage/Controlpanels/UsersControlpanel
+ *
+ * Added siteinfo connect
+ * Added ability to hide username field if email_login is enabled
  */
 import {
   createUser,
@@ -382,6 +385,24 @@ class UsersControlpanel extends Component {
     let usernameToDelete = this.state.userToDelete
       ? this.state.userToDelete.username
       : '';
+
+    const { siteInfo } = this.props;
+    const addFormFields = [
+      'fullname',
+      'email',
+      'password',
+      'sendPasswordReset',
+      'roles',
+      'groups',
+    ];
+    const addFormRequiredFields = ['email'];
+
+    // Explicit true check incase siteInfo isn't around
+    if (siteInfo.use_email_as_login !== true) {
+      addFormFields.unshift('username');
+      addFormRequiredFields.unshift('username');
+    }
+
     return (
       <Container className="users-control-panel">
         <Helmet title={this.props.intl.formatMessage(messages.users)} />
@@ -424,15 +445,7 @@ class UsersControlpanel extends Component {
                   {
                     id: 'default',
                     title: 'FIXME: User Data',
-                    fields: [
-                      'username',
-                      'fullname',
-                      'email',
-                      'password',
-                      'sendPasswordReset',
-                      'roles',
-                      'groups',
-                    ],
+                    fields: addFormFields,
                   },
                 ],
                 properties: {
@@ -503,7 +516,7 @@ class UsersControlpanel extends Component {
                     noValueOption: false,
                   },
                 },
-                required: ['username', 'email'],
+                required: addFormRequiredFields,
               }}
             />
           ) : null}
@@ -670,6 +683,7 @@ export default compose(
       createRequest: state.users.create,
       loadRolesRequest: state.roles,
       inheritedRole: state.authRole.authenticatedRole,
+      siteInfo: state.siteInfo || {},
     }),
     (dispatch) =>
       bindActionCreators(
