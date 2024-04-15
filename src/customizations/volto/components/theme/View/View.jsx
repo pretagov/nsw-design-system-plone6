@@ -1,6 +1,8 @@
 /**
  * View container.
  * @module components/theme/View/View
+ * 
+ * Added tabindex="-1" to the id="view" element
  */
 
 import React, { Component } from 'react';
@@ -220,7 +222,7 @@ class View extends Component {
         FoundView = views.errorViews['404']; // default to 404
       }
       return (
-        <div id="view">
+        <div id="view" tabIndex="-1">
           <FoundView {...this.props} />
         </div>
       );
@@ -232,7 +234,7 @@ class View extends Component {
       this.getViewByLayout() || this.getViewByType() || this.getViewDefault();
 
     return (
-      <div id="view">
+      <div id="view" tabIndex="-1">
         <ContentMetadataTags content={this.props.content} />
         {/* Body class if displayName in component is set */}
         <BodyClass
