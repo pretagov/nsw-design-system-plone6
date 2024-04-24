@@ -95,9 +95,9 @@ const displayModeComponentMapping = {
 
 export function FilterItem({ children, facet, value }) {
   let ItemWrapper =
-    displayModeComponentMapping[facet.displayMode] ?? StaticItem;
+    displayModeComponentMapping[facet?.displayMode] ?? StaticItem;
 
-  if (facet.displayMode === 'hidden' || facet.hidden) {
+  if (!facet || facet.displayMode === 'hidden' || facet.hidden) {
     return null;
   }
 
