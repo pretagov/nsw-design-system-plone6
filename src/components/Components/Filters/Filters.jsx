@@ -110,12 +110,17 @@ export function Filters({
 
   function clearFilters(e) {
     e.preventDefault();
+
+    // TODO: Do we need to avoid clearing hidden facets?
     const visibleFacets = data.facets.filter(
       (facet) => facet.displayMode !== 'hidden' && !facet.hidden,
     );
 
-    // TODO: Do we need to avoid clearing hidden facets?
-    setFacets({});
+    // setFacets({});
+    flushSync(() => {
+      setFacets({});
+      onTriggerSearch(searchedText || '', {});
+    });
   }
 
   const { facets: dataFacets } = data;
