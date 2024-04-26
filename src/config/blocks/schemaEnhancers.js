@@ -125,11 +125,29 @@ const schemaEnhancers = {
       title: intl.formatMessage(messages.searchFullWidthSearchBar),
       default: false,
     };
+    schema.properties.queryType = {
+      title: 'Search type',
+      type: 'string',
+      factory: 'Choice',
+      choices: [
+        ['contains', 'Standard search'],
+        ['search', 'Advanced search'],
+      ],
+      default: 'contains',
+    };
+
     // 0 is the 'default' fieldset
     schema.fieldsets[0].fields = [
       ...schema.fieldsets[0].fields,
       'fullWidthSearchBar',
     ];
+
+    const query = schema.fieldsets.findIndex((fieldset) => fieldset.id === 'searchquery');
+    schema.fieldsets[query].fields = [
+      'queryType',
+      ...schema.fieldsets[query].fields,
+    ];
+
     return schema;
   },
   toc: ({ schema }) => {
