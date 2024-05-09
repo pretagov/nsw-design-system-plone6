@@ -50,132 +50,132 @@ const blockVariations = {
       template: CardListing,
     },
   ],
-  hero: [
-    {
-      id: 'default',
-      title: 'Default',
-      isDefault: true,
-    },
-    {
-      id: 'heroWithLinks',
-      title: 'Text links',
-      template: HeroWithLinks,
-      schemaEnhancer: ({ schema, formData, intl }) => {
-        schema.properties.linksTitle = {
-          title: intl.formatMessage(messages.linksTitle),
-          type: 'string',
-        };
-        schema.properties.links = {
-          title: intl.formatMessage(messages.links),
-          widget: 'object_list',
-          schema: {
-            title: intl.formatMessage(messages.link),
-            fieldsets: [
-              {
-                id: 'default',
-                title: 'Default',
-                fields: ['title', 'url'],
-              },
-            ],
-            properties: {
-              title: {
-                title: intl.formatMessage(messages.title),
-              },
-              url: {
-                title: intl.formatMessage(messages.link),
-                widget: 'object_browser',
-                mode: 'link',
-              },
-            },
-          },
-        };
+  // hero: [
+  //   {
+  //     id: 'default',
+  //     title: 'Default',
+  //     isDefault: true,
+  //   },
+  //   {
+  //     id: 'heroWithLinks',
+  //     title: 'Text links',
+  //     template: HeroWithLinks,
+  //     schemaEnhancer: ({ schema, formData, intl }) => {
+  //       schema.properties.linksTitle = {
+  //         title: intl.formatMessage(messages.linksTitle),
+  //         type: 'string',
+  //       };
+  //       schema.properties.links = {
+  //         title: intl.formatMessage(messages.links),
+  //         widget: 'object_list',
+  //         schema: {
+  //           title: intl.formatMessage(messages.link),
+  //           fieldsets: [
+  //             {
+  //               id: 'default',
+  //               title: 'Default',
+  //               fields: ['title', 'url'],
+  //             },
+  //           ],
+  //           properties: {
+  //             title: {
+  //               title: intl.formatMessage(messages.title),
+  //             },
+  //             url: {
+  //               title: intl.formatMessage(messages.link),
+  //               widget: 'object_browser',
+  //               mode: 'link',
+  //             },
+  //           },
+  //         },
+  //       };
 
-        const defaultFieldsetIndex = schema.fieldsets.findIndex(
-          (fieldset) => fieldset.id === 'default',
-        );
+  //       const defaultFieldsetIndex = schema.fieldsets.findIndex(
+  //         (fieldset) => fieldset.id === 'default',
+  //       );
 
-        schema.fieldsets[defaultFieldsetIndex].fields = [
-          ...schema.fieldsets[defaultFieldsetIndex].fields,
-          'linksTitle',
-          'links',
-        ];
-        return schema;
-      },
-    },
-    {
-      id: 'heroWithLinkList',
-      title: 'Link list',
-      template: HeroWithLinkList,
-      schemaEnhancer: ({ schema, formData, intl }) => {
-        schema.properties.linksTitle = {
-          title: intl.formatMessage(messages.linksTitle),
-          type: 'string',
-        };
-        schema.properties.links = {
-          title: intl.formatMessage(messages.links),
-          widget: 'object_list',
-          schema: {
-            title: intl.formatMessage(messages.link),
-            fieldsets: [
-              {
-                id: 'default',
-                title: 'Default',
-                fields: ['title', 'url'],
-              },
-            ],
-            properties: {
-              title: {
-                title: intl.formatMessage(messages.title),
-              },
-              url: {
-                title: intl.formatMessage(messages.link),
-                widget: 'object_browser',
-                mode: 'link',
-              },
-            },
-          },
-        };
+  //       schema.fieldsets[defaultFieldsetIndex].fields = [
+  //         ...schema.fieldsets[defaultFieldsetIndex].fields,
+  //         'linksTitle',
+  //         'links',
+  //       ];
+  //       return schema;
+  //     },
+  //   },
+  //   {
+  //     id: 'heroWithLinkList',
+  //     title: 'Link list',
+  //     template: HeroWithLinkList,
+  //     schemaEnhancer: ({ schema, formData, intl }) => {
+  //       schema.properties.linksTitle = {
+  //         title: intl.formatMessage(messages.linksTitle),
+  //         type: 'string',
+  //       };
+  //       schema.properties.links = {
+  //         title: intl.formatMessage(messages.links),
+  //         widget: 'object_list',
+  //         schema: {
+  //           title: intl.formatMessage(messages.link),
+  //           fieldsets: [
+  //             {
+  //               id: 'default',
+  //               title: 'Default',
+  //               fields: ['title', 'url'],
+  //             },
+  //           ],
+  //           properties: {
+  //             title: {
+  //               title: intl.formatMessage(messages.title),
+  //             },
+  //             url: {
+  //               title: intl.formatMessage(messages.link),
+  //               widget: 'object_browser',
+  //               mode: 'link',
+  //             },
+  //           },
+  //         },
+  //       };
 
-        const defaultFieldsetIndex = schema.fieldsets.findIndex(
-          (fieldset) => fieldset.id === 'default',
-        );
+  //       const defaultFieldsetIndex = schema.fieldsets.findIndex(
+  //         (fieldset) => fieldset.id === 'default',
+  //       );
 
-        schema.fieldsets[defaultFieldsetIndex].fields = [
-          ...schema.fieldsets[defaultFieldsetIndex].fields,
-          'linksTitle',
-          'links',
-        ];
-        return schema;
-      },
-    },
-    {
-      id: 'heroWithBlocks',
-      title: 'With blocks',
-      template: HeroWithBlocks,
-    },
-    {
-      id: 'heroWithDropdownQuickNavigation',
-      title: 'With quick navigation',
-      template: HeroWithDropdownQuickNavigation,
-      schemaEnhancer: ({ schema, formData, intl }) => {
-        const dropdownQuickNavigationSchema = DropdownQuickNavigationSchema({
-          intl,
-        });
-        schema.properties = {
-          ...schema.properties,
-          ...dropdownQuickNavigationSchema.properties,
-        };
-        const variationFieldset = {
-          id: 'dropdownQuickNavVariation',
-          title: 'Quick Navigation Settings',
-          fields: [...dropdownQuickNavigationSchema.fieldsets[0].fields],
-          required: [...dropdownQuickNavigationSchema.fieldsets[0].required],
-        };
-        schema.fieldsets.push(variationFieldset);
-        return schema;
-      },
-    },
-  ],
+  //       schema.fieldsets[defaultFieldsetIndex].fields = [
+  //         ...schema.fieldsets[defaultFieldsetIndex].fields,
+  //         'linksTitle',
+  //         'links',
+  //       ];
+  //       return schema;
+  //     },
+  //   },
+  //   {
+  //     id: 'heroWithBlocks',
+  //     title: 'With blocks',
+  //     template: HeroWithBlocks,
+  //   },
+  //   {
+  //     id: 'heroWithDropdownQuickNavigation',
+  //     title: 'With quick navigation',
+  //     template: HeroWithDropdownQuickNavigation,
+  //     schemaEnhancer: ({ schema, formData, intl }) => {
+  //       const dropdownQuickNavigationSchema = DropdownQuickNavigationSchema({
+  //         intl,
+  //       });
+  //       schema.properties = {
+  //         ...schema.properties,
+  //         ...dropdownQuickNavigationSchema.properties,
+  //       };
+  //       const variationFieldset = {
+  //         id: 'dropdownQuickNavVariation',
+  //         title: 'Quick Navigation Settings',
+  //         fields: [...dropdownQuickNavigationSchema.fieldsets[0].fields],
+  //         required: [...dropdownQuickNavigationSchema.fieldsets[0].required],
+  //       };
+  //       schema.fieldsets.push(variationFieldset);
+  //       return schema;
+  //     },
+  //   },
+  // ],
 };
 
 // Add schema enhancers to specific variations of existing blocks
