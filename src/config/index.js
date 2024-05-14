@@ -1,4 +1,3 @@
-import updateApiExpandersConfig from './apiExpanders';
 import updateAsyncConnectConfig from './asyncConnect';
 import updateBlocksConfig from './blocks';
 import updateLoadablesConfig from './loadables';
@@ -15,7 +14,6 @@ export const applyAddonConfig = (config) => {
   // Settings may be used by other configs
   updateSettingsConfig(config);
 
-  updateApiExpandersConfig(config);
   updateAsyncConnectConfig(config);
   updateBlocksConfig(config);
   updateLoadablesConfig(config);
