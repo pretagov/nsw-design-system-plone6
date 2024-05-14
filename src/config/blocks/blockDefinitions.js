@@ -92,6 +92,17 @@ export const nswBlocks = [
     },
   },
   {
+    id: 'nsw_globalAlert',
+    title: 'Global alert',
+    icon: sliderSVG,
+    group: 'nsw',
+    view: Components.GlobalAlertView,
+    edit: Components.GlobalAlertEdit,
+    schema: Components.globalAlertSchema,
+    restricted: false,
+    mostUsed: false,
+  },
+  {
     id: 'nsw_inPageAlert',
     title: 'In-page Alert',
     icon: sliderSVG,
