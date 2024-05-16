@@ -99,7 +99,7 @@ export const nswBlocks = [
     view: Components.GlobalAlertView,
     edit: Components.GlobalAlertEdit,
     schema: Components.globalAlertSchema,
-    restricted: false,
+    restricted: true,
     mostUsed: false,
   },
   {
