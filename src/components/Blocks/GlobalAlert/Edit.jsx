@@ -28,7 +28,7 @@ export function GlobalAlertEdit(props) {
 
   return (
     <>
-      <GlobalAlertView {...data} />
+      <GlobalAlertView data={data} />
       <SidebarPortal selected={selected}>
         <SidebarContents {...props} />
       </SidebarPortal>
