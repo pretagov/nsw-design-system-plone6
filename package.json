@@ -28,7 +28,7 @@
     "@eeacms/volto-accordion-block": "6.0.0",
     "@eeacms/volto-columns-block": "6.3.2",
     "@fontsource/public-sans": "4.5.12",
-    "@kitconcept/volto-blocks-grid": "5.2.0",
+    "@kitconcept/volto-blocks-grid": "8.0.3",
     "@material-design-icons/svg": "0.14.6",
     "@mdi/svg": "7.2.96",
     "html-react-parser": "3.0.16",
