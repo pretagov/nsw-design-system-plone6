@@ -1,4 +1,4 @@
-import config from '@plone/registry';
+import config from '@plone/volto/registry';
 import { BlockDataForm, SidebarPortal } from '@plone/volto/components';
 import { GlobalAlertView } from './View';
 import { globalAlertSchema } from './schema';
