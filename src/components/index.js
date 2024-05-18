@@ -23,6 +23,7 @@ export {
 export { InPageAlertEdit, InPageAlertView } from './Blocks/InPageAlert';
 export { LinkListEdit, LinkListView } from './Blocks/LinkList';
 export { SectionEdit, SectionSchema, SectionView } from './Blocks/Section';
+export * from './Blocks/GlobalAlert';
 export {
   SeparatorEdit,
   SeparatorView,
