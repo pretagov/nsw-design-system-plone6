@@ -1,10 +1,6 @@
 import { defineMessages, useIntl } from 'react-intl';
 
 const messages = defineMessages({
-  unsorted: {
-    id: 'Unsorted',
-    defaultMessage: 'Unsorted',
-  },
   relevance: {
     id: 'Relevance',
     defaultMessage: 'Relevance',
@@ -21,7 +17,6 @@ const SortOn = (props) => {
     sortOn = null,
     isEditMode,
     querystring = {},
-    searchedText,
     setSortOn,
   } = props;
   const intl = useIntl();
@@ -36,9 +31,7 @@ const SortOn = (props) => {
 
   const activeSortOn = sortOn || data?.query?.sort_on || '';
 
-  const noValueLabel = searchedText
-    ? intl.formatMessage(messages.relevance)
-    : intl.formatMessage(messages.unsorted);
+  const noValueLabel = intl.formatMessage(messages.relevance);
 
   const options = [
     { value: '', label: noValueLabel },
