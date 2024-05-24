@@ -139,6 +139,17 @@ const schemaEnhancers = {
       title: intl.formatMessage(messages.searchFullWidthSearchBar),
       default: false,
     };
+    schema.properties.queryType = {
+      title: 'Search type',
+      type: 'string',
+      factory: 'Choice',
+      choices: [
+        ['contains', 'Standard search'],
+        ['search', 'Advanced search'],
+      ],
+      default: 'contains',
+    };
+
 
     const facetsFieldset = schema.fieldsets.find(
       (fieldset) => fieldset.id === 'facets',
@@ -194,6 +205,13 @@ const schemaEnhancers = {
       ...schema.fieldsets[0].fields,
       'fullWidthSearchBar',
     ];
+
+    const query = schema.fieldsets.findIndex((fieldset) => fieldset.id === 'searchquery');
+    schema.fieldsets[query].fields = [
+      'queryType',
+      ...schema.fieldsets[query].fields,
+    ];
+
     return schema;
   },
   toc: ({ schema }) => {
@@ -311,7 +329,9 @@ function withListingDisplayControls({ schema, formData, intl }) {
       return Object.assign(
         {},
         ...Object.keys(options).map((k) =>
-          hasDateOperation(options[k].operations) ? { [k]: options[k] } : {},
+            hasDateOperation(options[k].operations)
+            ? { [k]: options[k] }
+            : {},
         ),
       );
     },
@@ -355,6 +375,7 @@ function withListingDisplayControls({ schema, formData, intl }) {
       );
     },
   };
+
 
   const itemDisplayFieldset = {
     id: 'listingDisplayFieldset',
