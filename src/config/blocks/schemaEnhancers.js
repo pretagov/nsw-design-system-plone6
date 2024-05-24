@@ -7,6 +7,11 @@ import {
 import { SectionSchema } from 'nsw-design-system-plone6/components/Blocks/Section';
 import { gridBlocks } from 'nsw-design-system-plone6/config/blocks/blockDefinitions';
 import { defineMessages } from 'react-intl';
+import {
+  hasDateOperation,
+  hasKeywordOperation,
+  hasNonValueOperation,
+} from './utils';
 
 const messages = defineMessages({
   // Media schema
@@ -31,6 +36,18 @@ const messages = defineMessages({
   searchFacetsTitleDefault: {
     id: 'Filter results',
     defaultMessage: 'Filter results',
+  },
+  searchFacetsDisplayMode: {
+    id: 'Display mode',
+    defaultMessage: 'Display mode',
+  },
+  searchFacetsMaxFilters: {
+    id: 'Maximum filter options to show',
+    defaultMessage: 'Initial options',
+  },
+  searchFacetsWidget: {
+    id: 'Title for facet widget selected',
+    defaultMessage: 'Widget',
   },
   searchFullWidthSearchBar: {
     id: 'Full width search bar',
@@ -116,19 +133,85 @@ const schemaEnhancers = {
       intl,
       formData,
     });
-    schema.properties.facetsTitle.default = intl.formatMessage(
-      messages.searchFacetsTitleDefault,
-    );
+
     schema.properties.fullWidthSearchBar = {
       type: 'boolean',
       title: intl.formatMessage(messages.searchFullWidthSearchBar),
       default: false,
     };
+    schema.properties.queryType = {
+      title: 'Search type',
+      type: 'string',
+      factory: 'Choice',
+      choices: [
+        ['contains', 'Standard search'],
+        ['search', 'Advanced search'],
+      ],
+      default: 'contains',
+    };
+
+
+    const facetsFieldset = schema.fieldsets.find(
+      (fieldset) => fieldset.id === 'facets',
+    );
+    facetsFieldset.fields = ['facetsTitle', 'mobileDisplayMode', 'facets']; // Added `mobileDisplayMode`
+    schema.properties.mobileDisplayMode = {
+      title: intl.formatMessage(messages.searchFacetsDisplayMode),
+      type: 'string',
+      factory: 'Choice',
+      choices: [
+        // TODO: i18n of mobile display mode choices
+        ['inPage', 'In page'],
+        ['modal', 'Modal'],
+      ],
+      default: 'inPage',
+    };
+
+    // Change 'hide facet' checkox to a 'Facet display mode' option
+    const facetSchema = schema.properties.facets.schema;
+    facetSchema.fieldsets[0].fields = [
+      'field',
+      'title',
+      'type',
+      'displayMode',
+      'maxFilters',
+    ]; // Remove 'hidden', add 'displayMode', add `maximumFilters`
+    // TODO: INTL for `Facet widget` being changed to `Widget`
+    facetSchema.properties.type.title = intl.formatMessage(
+      messages.searchFacetsWidget,
+    );
+
+    facetSchema.properties.maxFilters = {
+      title: intl.formatMessage(messages.searchFacetsMaxFilters),
+      type: 'number',
+      default: 5,
+    };
+
+    facetSchema.properties.displayMode = {
+      title: intl.formatMessage(messages.searchFacetsDisplayMode),
+      type: 'string',
+      factory: 'Choice',
+      choices: [
+        // TODO: i18n of facet display mode choices
+        ['open', 'Always open'],
+        ['collapsed', 'Collapsed'],
+        ['hidden', 'Hidden'],
+      ],
+      default: 'open',
+    };
+
     // 0 is the 'default' fieldset
     schema.fieldsets[0].fields = [
       ...schema.fieldsets[0].fields,
       'fullWidthSearchBar',
     ];
+
+    const query = schema.fieldsets.findIndex((fieldset) => fieldset.id === 'searchquery');
+    schema.fieldsets[query].fields = [
+      'queryType',
+      ...schema.fieldsets[query].fields,
+    ];
+
     return schema;
   },
   toc: ({ schema }) => {
@@ -201,6 +284,11 @@ function withListingDisplayControls({ schema, formData, intl }) {
     ],
     default: 'title',
   };
+
+  schema.properties.showLabel = {
+    title: 'Show label',
+    type: 'boolean',
+  };
   schema.properties.showDescription = {
     title: 'Show description',
     type: 'boolean',
@@ -236,21 +324,69 @@ function withListingDisplayControls({ schema, formData, intl }) {
     title: 'Date field',
     type: 'string',
     factory: 'Choice',
-    choices: [
-      ['CreationDate', 'Creation date'],
-      ['EffectiveDate', 'Publication date'],
-      ['ModificationDate', 'Last modified'],
-      ['ExpirationDate', 'Expiration date'],
-    ],
-    default: 'EffectiveDate',
+    widget: 'select_querystring_field',
+    filterOptions: (options) => {
+      return Object.assign(
+        {},
+        ...Object.keys(options).map((k) =>
+            hasDateOperation(options[k].operations)
+            ? { [k]: options[k] }
+            : {},
+        ),
+      );
+    },
   };
+  schema.properties.labelField = {
+    title: 'Label field',
+    default: 'Type',
+    type: 'string',
+    factory: 'Choice',
+    widget: 'select_querystring_field',
+    filterOptions: (options) => {
+      return Object.assign(
+        {},
+        ...Object.keys(options).map((k) =>
+          Object.keys(options[k].values || {}).length ||
+          hasNonValueOperation(options[k].operations)
+            ? { [k]: options[k] }
+            : {},
+        ),
+      );
+    },
+  };
+
+  schema.properties.tagField = {
+    title: 'Tag field(s)',
+    //default: [{label: 'Tag', value: 'Subject'}],
+    type: 'array',
+    factory: 'List',
+    widget: 'select_querystring_field',
+    vocabulary: { '@id': 'collective.indexvocabularies.KeywordIndexes' },
+    filterOptions: (options) => {
+      return Object.assign(
+        {},
+        ...Object.keys(options).map((k) =>
+          Object.keys(options[k].values || {}).length ||
+          hasNonValueOperation(options[k].operations) ||
+          hasKeywordOperation(options[k].operations)
+            ? { [k]: options[k] }
+            : {},
+        ),
+      );
+    },
+  };
+
+
   const itemDisplayFieldset = {
     id: 'listingDisplayFieldset',
     title: 'Item Settings',
     fields: [
       'showDescription',
+      'showLabel',
+      ...(formData.showLabel ? ['labelField'] : []),
       'showUrl',
       'showTags',
+      ...(formData.showTags ? ['tagField'] : []),
       'showDate',
       ...(formData.showDate ? ['dateField'] : []),
       ...(formData.variation !== 'cardListing'

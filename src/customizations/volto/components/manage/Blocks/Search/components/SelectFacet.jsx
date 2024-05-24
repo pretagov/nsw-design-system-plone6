@@ -1,3 +1,6 @@
+import { getTitleForFacet } from 'nsw-design-system-plone6/components/Components/Filters/helpers';
+import { Select } from 'nsw-design-system-plone6/components/Components/Form/Select';
+
 import {
   selectFacetSchemaEnhancer,
   selectFacetStateToValue,
@@ -6,39 +9,49 @@ import {
 
 const SelectFacet = (props) => {
   const { facet, choices, onChange, isEditMode } = props;
+  const facetTitle = getTitleForFacet(facet);
+  const selectHtmlId = `filters-${facet['@id']}`;
 
-  const { title: facetLabel, '@id': facetId } = facet;
-  const selectHtmlId = `filters-${facetId}`;
+  const value = props.value?.value ?? props.value
 
   return (
-    <>
-      <label className="nsw-form__label" htmlFor={selectHtmlId}>
-        {facetLabel}
-      </label>
-      {/* eslint-disable-next-line jsx-a11y/no-onchange */}
-      <select
-        className="nsw-form__select"
-        id={selectHtmlId}
-        name={selectHtmlId}
-        onChange={(event) => {
-          const newValue = event.target?.value;
-          if (!newValue) {
+    <Select
+      options={choices}
+      onChange={(event) => {
+        // TODO: Fix handling of 'all' button and 'Please select' button
+        if (facet.multiple) {
+          const multiWrapperElement = event.target.parentElement;
+          const selectedOptions = multiWrapperElement.querySelectorAll(
+            '[aria-selected="true"]',
+          );
+
+          if (!selectedOptions) {
             onChange(facet.field.value, []);
             return;
           }
-          onChange(facet.field.value, [newValue]);
-        }}
-        disabled={isEditMode}
-      >
-        {choices.map(({ value, label }) => {
-          return (
-            <option key={value} value={value}>
-              {label}
-            </option>
+          onChange(
+            facet.field.value,
+            [...selectedOptions].map(
+              (optionElement) => optionElement.dataset.value,
+            ),
           );
-        })}
-      </select>
-    </>
+          return;
+        }
+
+        const newValue = event.target?.value;
+        if (!newValue) {
+          onChange(facet.field.value, []);
+          return;
+        }
+        onChange(facet.field.value, [newValue]);
+      }}
+      id={selectHtmlId}
+      title={facet.displayMode === 'collapsed' ? false : facetTitle}
+      disabled={isEditMode}
+      multiple={facet.multiple}
+      multipleTitle={facetTitle}
+      value={value}
+    />
   );
 };
 
