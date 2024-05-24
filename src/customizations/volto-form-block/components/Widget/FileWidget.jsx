@@ -17,6 +17,8 @@ import React from 'react';
 import { defineMessages, injectIntl, useIntl } from 'react-intl';
 import { Button, Dimmer, Image } from 'semantic-ui-react';
 
+import { ErrorMessage } from 'nsw-design-system-plone6/components/Components/Form/ErrorMessage';
+
 const imageMimetypes = [
   'image/png',
   'image/jpeg',
@@ -84,6 +86,7 @@ const FileWidget = (props) => {
     onChange,
     required,
     invalid,
+    error = [],
   } = props;
   const [fileType, setFileType] = React.useState(false);
   const intl = useIntl();
@@ -133,58 +136,13 @@ const FileWidget = (props) => {
   };
 
   let attributes = {};
-  if (required) {
-    attributes.required = true;
-    attributes['aria-required'] = true;
-  }
 
-  const isInvalid = invalid === true || invalid === 'true';
-  if (isInvalid) {
-    attributes['aria-invalid'] = true;
-  }
+  const isInvalid = invalid === true || invalid === 'true' || error.length > 0;
 
   const inputId = `field-${id}`;
 
   return (
-    <FormFieldWrapper {...props} wrapped={false}>
-      {/* <div className="nsw-form__group">
-        <label className="nsw-form__label" htmlFor={inputId}>
-          {title}
-        </label>
-        {description ? (
-          <span className="nsw-form__helper" id={`${id}-helper-text`}>
-            {description}
-          </span>
-        ) : null}
-        <input
-          className="nsw-form__file-input"
-          type="file"
-          id={inputId}
-          name={id}
-          required={required ? true : null}
-          aria-required={required ? true : null}
-          aria-invalid={isInvalid ? true : null}
-          ref={node}
-          onChange={({ target }) => {
-            const upload = target.value;
-            let file = {
-              data: null,
-              encoding: null,
-              'content-type': null,
-              filename: null,
-            };
-            for (let i = 0; i < upload.length; i++) {
-              new FileUpload(imgs[i], imgs[i].file);
-            }
-            onChange(id, {
-              data: fields[3],
-              encoding: fields[2],
-              'content-type': fields[1],
-              filename: file.name,
-            });
-          }}
-        />
-      </div> */}
+    <FormFieldWrapper id={inputId} title={title} wrapped={false}>
       <Dropzone onDrop={onDrop}>
         {({ getRootProps, getInputProps, isDragActive }) => (
           <div
@@ -238,6 +196,9 @@ const FileWidget = (props) => {
             )}
 
             <div className="">{value && value.filename}</div>
+            {isInvalid ? (
+              <ErrorMessage inputId={inputId} message={error[0]} />
+            ) : null}
             <button type="button" className="nsw-button nsw-button--dark">
               {value
                 ? intl.formatMessage(messages.replaceFile)

@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { FormFieldWrapper } from '@plone/volto/components';
+import { ErrorMessage } from 'nsw-design-system-plone6/components/Components/Form/ErrorMessage';
 
 /**
  * CheckboxWidget component class.
@@ -36,35 +37,24 @@ const CheckboxWidget = (props) => {
     error = [],
   } = props;
 
-  let attributes = {};
-  // if (required) {
-  //   attributes.required = true;
-  //   attributes['aria-required'] = 'true';
-  // }
-
   const isInvalid = invalid === true || invalid === 'true';
-  if (isInvalid) {
-    attributes['aria-invalid'] = true;
-  }
-
-  const checkboxId = `field-${id}`;
+  const inputId = `field-${id}`;
 
   return (
-    <FormFieldWrapper {...props} wrapped={false}>
+    <FormFieldWrapper id={inputId} title={title} wrapped={false}>
       <div className="nsw-form__group">
         <input
           className="nsw-form__checkbox-input"
           type="checkbox"
-          name={checkboxId}
-          id={checkboxId}
+          name={inputId}
+          id={inputId}
           checked={value || false}
           onChange={({ target }) => {
             onChange(id, target.checked);
           }}
           disabled={isDisabled}
-          {...attributes}
         />
-        <label className="nsw-form__checkbox-label" htmlFor={checkboxId}>
+        <label className="nsw-form__checkbox-label" htmlFor={inputId}>
           {title}
           {required ? (
             <>
@@ -74,19 +64,7 @@ const CheckboxWidget = (props) => {
           ) : null}
         </label>
         {isInvalid ? (
-          <span
-            class="nsw-form__helper nsw-form__helper--error"
-            id={`${checkboxId}-error-text`}
-          >
-            <span
-              class="material-icons nsw-material-icons"
-              focusable="false"
-              aria-hidden="true"
-            >
-              cancel
-            </span>
-            This field is required
-          </span>
+          <ErrorMessage inputId={inputId} message={error[0]} />
         ) : null}
       </div>
     </FormFieldWrapper>

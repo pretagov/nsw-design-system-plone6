@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { FormFieldWrapper } from '@plone/volto/components';
+import { ErrorMessage } from 'nsw-design-system-plone6/components/Components/Form/ErrorMessage';
 
 /**
  * The simple text widget.
@@ -18,7 +19,7 @@ function TextWidget(props) {
     placeholder,
     invalid,
     required = false,
-    error = [], // Isn't passed down from `Field.jsx` so doesn't seem to be a valid prop. Exists in volto-form-block so keeping it here
+    error = [],
     isDisabled,
     value,
     draggable,
@@ -35,14 +36,19 @@ function TextWidget(props) {
     if (focus) {
       node.focus();
     }
-  }, []);
+  }, [focus, node]);
 
   // Never fails `isInvalid` if set as required
-  const isInvalid = invalid === true || invalid === 'true';
+  const isInvalid = invalid === true || invalid === 'true' || error.length > 0;
   const inputId = `field-${id}`;
 
   return (
-    <FormFieldWrapper {...props} className="text" wrapped={false}>
+    <FormFieldWrapper
+      id={inputId}
+      title={title}
+      className="text"
+      wrapped={false}
+    >
       <div className="nsw-form__group">
         <label
           className={cx('nsw-form__label', { 'nsw-form__required': required })}
@@ -63,11 +69,10 @@ function TextWidget(props) {
           name={id}
           minLength={minLength || null}
           maxLength={maxLength || null}
-          aria-invalid={isInvalid ? true : null}
           disabled={isDisabled ? true : null}
           placeholder={placeholder}
           ref={node}
-          value={value}
+          value={value || ''}
           onClick={() => onClick()}
           onBlur={({ target }) =>
             onBlur(id, target.value === '' ? null : target.value)
@@ -75,21 +80,15 @@ function TextWidget(props) {
           onChange={({ target }) => {
             return onChange(id, target.value === '' ? null : target.value);
           }}
+          aria-invalid={isInvalid ? 'true' : null}
+          // The order here matters, as not all Assistive Technology supports multiple describedby
+          aria-describedby={cx({
+            [`${inputId}-helper-text`]: description,
+            [`${inputId}-error-text`]: isInvalid,
+          })}
         />
         {isInvalid ? (
-          <span
-            class="nsw-form__helper nsw-form__helper--error"
-            id={`${inputId}-error-text`}
-          >
-            <span
-              class="material-icons nsw-material-icons"
-              focusable="false"
-              aria-hidden="true"
-            >
-              cancel
-            </span>
-            This field is required
-          </span>
+          <ErrorMessage inputId={inputId} message={error[0]} />
         ) : null}
       </div>
     </FormFieldWrapper>
