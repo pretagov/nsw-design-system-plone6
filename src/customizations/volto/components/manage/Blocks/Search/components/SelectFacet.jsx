@@ -12,6 +12,8 @@ const SelectFacet = (props) => {
   const facetTitle = getTitleForFacet(facet);
   const selectHtmlId = `filters-${facet['@id']}`;
 
+  const value = props.value?.value ?? props.value
+
   return (
     <Select
       options={choices}
@@ -48,7 +50,7 @@ const SelectFacet = (props) => {
       disabled={isEditMode}
       multiple={facet.multiple}
       multipleTitle={facetTitle}
-      
+      value={value}
     />
   );
 };

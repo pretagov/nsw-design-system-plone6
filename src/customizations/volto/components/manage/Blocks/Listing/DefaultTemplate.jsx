@@ -13,10 +13,17 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
                 item.image_field
               }/teaser`
             : null;
-        const date =
-          item[data.dateField?.value] === 'None' ? null : item[data.dateField?.value];
+
+        const dateFieldValue =
+          item[data.dateField] === 'None' ? null : item?.[data.dateField];
+        // Check the field is actually a date
+        const date = ['Invalid Date', NaN].includes(new Date(dateFieldValue))
+          ? null
+          : dateFieldValue;
         const label =
-          item[data.labelField?.value] === 'None' ? null : item[data.labelField?.value];
+          item[data.labelField] === 'None'
+            ? null
+            : item[data.labelField?.value];
         const tags = [];
         data.tagField?.forEach((field) => {
           let fieldValue = item[field.value];
@@ -34,15 +41,18 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
             })}
           >
             <div className="nsw-list-item__content">
-
               {data.showLabel ? (
-                  <div className="nsw-list-item__label">{label}</div>
+                <div className="nsw-list-item__label">{label}</div>
               ) : null}
 
               {data.showDate ? (
                 <div className="nsw-list-item__info">
                   {data.showDate && date ? (
-                    <FormattedDate date={date} format={{ dateStyle: 'long' }} locale="en-au" />
+                    <FormattedDate
+                      date={date}
+                      format={{ dateStyle: 'long' }}
+                      locale="en-au"
+                    />
                   ) : null}
                 </div>
               ) : null}

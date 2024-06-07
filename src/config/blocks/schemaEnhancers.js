@@ -150,7 +150,6 @@ const schemaEnhancers = {
       default: 'contains',
     };
 
-
     const facetsFieldset = schema.fieldsets.find(
       (fieldset) => fieldset.id === 'facets',
     );
@@ -206,7 +205,9 @@ const schemaEnhancers = {
       'fullWidthSearchBar',
     ];
 
-    const query = schema.fieldsets.findIndex((fieldset) => fieldset.id === 'searchquery');
+    const query = schema.fieldsets.findIndex(
+      (fieldset) => fieldset.id === 'searchquery',
+    );
     schema.fieldsets[query].fields = [
       'queryType',
       ...schema.fieldsets[query].fields,
@@ -324,15 +325,8 @@ function withListingDisplayControls({ schema, formData, intl }) {
     title: 'Date field',
     type: 'string',
     factory: 'Choice',
-    widget: 'select_querystring_field',
-    filterOptions: (options) => {
-      return Object.assign(
-        {},
-        ...Object.keys(options).map((k) =>
-          hasDateOperation(options[k].operations) ? { [k]: options[k] } : {},
-        ),
-      );
-    },
+    vocabulary: { '@id': 'plone.app.vocabularies.MetadataFields' },
+    x,
   };
   schema.properties.labelField = {
     title: 'Label field',
