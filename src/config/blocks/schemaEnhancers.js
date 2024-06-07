@@ -326,7 +326,6 @@ function withListingDisplayControls({ schema, formData, intl }) {
     type: 'string',
     factory: 'Choice',
     vocabulary: { '@id': 'plone.app.vocabularies.MetadataFields' },
-    x,
   };
   schema.properties.labelField = {
     title: 'Label field',
