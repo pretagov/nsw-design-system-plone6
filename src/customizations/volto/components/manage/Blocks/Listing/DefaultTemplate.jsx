@@ -27,7 +27,7 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
           month: 'long',
           year: 'numeric',
         });
-        debugger;
+
         const label =
           item[data.labelField] === 'None'
             ? null
