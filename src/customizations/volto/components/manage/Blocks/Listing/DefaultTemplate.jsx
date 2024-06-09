@@ -1,9 +1,12 @@
-import { ConditionalLink, FormattedDate } from '@plone/volto/components';
+import { ConditionalLink } from '@plone/volto/components';
 import { flattenToAppURL } from '@plone/volto/helpers';
 import cx from 'classnames';
+import { useIntl } from 'react-intl';
 
 // TODO: Customisable datetime format
 const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
+  const intl = useIntl();
+
   return (
     <div className="nsw-list-items">
       {items.map((item) => {
@@ -20,6 +23,12 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
         const date = ['Invalid Date', NaN].includes(new Date(dateFieldValue))
           ? null
           : dateFieldValue;
+        const formattedDate = intl.formatDate(date, {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric',
+        });
+
         const label =
           item[data.labelField] === 'None'
             ? null
@@ -45,16 +54,8 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
                 <div className="nsw-list-item__label">{label}</div>
               ) : null}
 
-              {data.showDate ? (
-                <div className="nsw-list-item__info">
-                  {data.showDate && date ? (
-                    <FormattedDate
-                      date={date}
-                      format={{ dateStyle: 'long' }}
-                      locale="en-au"
-                    />
-                  ) : null}
-                </div>
+              {data.showDate && date ? (
+                <div className="nsw-list-item__info">{formattedDate}</div>
               ) : null}
 
               <div className="nsw-list-item__title">
