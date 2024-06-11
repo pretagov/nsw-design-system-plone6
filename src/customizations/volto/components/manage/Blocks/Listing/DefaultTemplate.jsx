@@ -1,9 +1,12 @@
-import { ConditionalLink, FormattedDate } from '@plone/volto/components';
+import { ConditionalLink } from '@plone/volto/components';
 import { flattenToAppURL } from '@plone/volto/helpers';
 import cx from 'classnames';
+import { useIntl } from 'react-intl';
 
 // TODO: Customisable datetime format
 const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
+  const intl = useIntl();
+
   return (
     <div className="nsw-list-items">
       {items.map((item) => {
@@ -13,10 +16,22 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
                 item.image_field
               }/teaser`
             : null;
-        const date =
-          item[data.dateField?.value] === 'None' ? null : item[data.dateField?.value];
+        const dateFieldValue =
+          item[data.dateField] === 'None' ? null : item?.[data.dateField];
+        // Check the field is actually a date
+        const date = ['Invalid Date', NaN].includes(new Date(dateFieldValue))
+          ? null
+          : dateFieldValue;
+        const formattedDate = intl.formatDate(date, {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric',
+        });
+
         const label =
-          item[data.labelField?.value] === 'None' ? null : item[data.labelField?.value];
+          item[data.labelField] === 'None'
+            ? null
+            : item[data.labelField?.value];
         const tags = [];
         data.tagField?.forEach((field) => {
           let fieldValue = item[field.value];
@@ -34,17 +49,12 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
             })}
           >
             <div className="nsw-list-item__content">
-
               {data.showLabel ? (
-                  <div className="nsw-list-item__label">{label}</div>
+                <div className="nsw-list-item__label">{label}</div>
               ) : null}
 
-              {data.showDate ? (
-                <div className="nsw-list-item__info">
-                  {data.showDate && date ? (
-                    <FormattedDate date={date} format={{ dateStyle: 'long' }} locale="en-au" />
-                  ) : null}
-                </div>
+              {data.showDate && date ? (
+                <div className="nsw-list-item__info">{formattedDate}</div>
               ) : null}
 
               <div className="nsw-list-item__title">
