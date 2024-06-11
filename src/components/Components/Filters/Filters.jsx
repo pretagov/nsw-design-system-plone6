@@ -96,6 +96,7 @@ export function Filters({
   const isClient = useIsClient();
   const intl = useIntl();
   const [showMobileFilters, setShowMobileFilters] = React.useState(false);
+  const formRef = React.useRef();
 
   function showFilters() {
     // When using `inPage` mode, we want to toggle it rather than always show it
@@ -118,6 +119,7 @@ export function Filters({
       setFacets({});
       onTriggerSearch(searchedText || '', {});
     });
+    formRef.current?.reset();
   }
 
   const { facets: dataFacets } = data;
@@ -144,7 +146,8 @@ export function Filters({
           : null
       }
     >
-      <div
+      <form
+        ref={formRef}
         className={cx('nsw-filters', {
           'nsw-filters--instant': liveUpdate,
           'js-filters': liveUpdate,
@@ -181,7 +184,7 @@ export function Filters({
           />
           <FilterClearButton onClick={clearFilters} />
         </div>
-      </div>
+      </form>
     </BodyClass>
   );
 }
