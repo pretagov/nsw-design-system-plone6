@@ -4,6 +4,7 @@
   "description": "nsw-design-system-plone6: Volto add-on",
   "main": "src/index.js",
   "license": "MIT",
+  "type": "module",
   "keywords": [
     "volto-addon",
     "volto",
@@ -25,7 +26,7 @@
     "@plone-collective/volto-slots-editor"
   ],
   "dependencies": {
-    "@eeacms/volto-accordion-block": "6.0.0",
+    "@eeacms/volto-accordion-block": "10.4.6",
     "@eeacms/volto-columns-block": "6.3.2",
     "@fontsource/public-sans": "4.5.12",
     "@kitconcept/volto-blocks-grid": "5.2.0",
@@ -33,7 +34,8 @@
     "@mdi/svg": "7.2.96",
     "html-react-parser": "3.0.16",
     "material-icons": "1.13.6",
-    "nsw-design-system": "3.11.2",
+    "moment": "2.24.0",
+    "nsw-design-system": "3.16.0",
     "react-color": "2.19.3",
     "volto-google-analytics": "2.0.0",
     "volto-siteinfo": "1.1.0",
@@ -50,6 +52,7 @@
   "devDependencies": {
     "@plone/scripts": ">= 2.2.2",
     "mrs-developer": "2.1.0",
+    "razzle-dev-utils": "4.2.18",
     "release-it": "^15.4.2"
   }
 }
