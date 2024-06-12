@@ -44,7 +44,7 @@
   },
   "peerDependencies": {
     "@plone-collective/volto-slots-editor": "*",
-    "@plone/volto": ">= 16.20.1 < 17.0.0",
+    "@plone/volto": ">= 18.0.0-alpha.30",
     "react": ">= 16.8.0",
     "react-dom": ">= 16.8.0",
     "volto-form-block": ">=3.0.0"

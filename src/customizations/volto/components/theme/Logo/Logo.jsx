@@ -5,13 +5,9 @@ import './Logo.custom.less';
 
 const Logo = () => {
   const { settings } = config;
-  const { lang, logoUrl, siteTitle } = useSelector((state) => {
-    return {
-      lang: state.intl.locale,
-      logoUrl: state.siteInfo.logo_url,
-      siteTitle: state.siteInfo.title,
-    };
-  });
+  const lang = useSelector((state) => state.intl.locale);
+  const logoUrl = useSelector((state) => state.siteInfo.logo_url);
+  const siteTitle = useSelector((state) => state.siteInfo.title);
 
   return (
     <UniversalLink href={settings.isMultilingual ? `/${lang}` : '/'}>

@@ -81,10 +81,8 @@ const SearchStartButton = ({ searchInputElement }) => {
 };
 
 const Header = ({ nswDesignSystem }) => {
-  const { siteSettings, siteTitle } = useSelector((state) => ({
-    siteTitle: state.siteInfo.title,
-    siteSettings: state.nswSiteSettings.data,
-  }));
+  const siteTitle = useSelector((state) => state.siteInfo.title);
+  const siteSettings = useSelector((state) => state.nswSiteSettings.data);
   const searchInputElement = useRef(null);
   const searchInputController = useRef(null);
   if (__CLIENT__ && !searchInputController.current && searchInputElement) {
