@@ -52,17 +52,19 @@ const LeftColumnFacets = (props) => {
         )}
       </div>
       <div className="nsw-layout">
-        <div className="nsw-layout__sidebar">
-          <Filters
-            data={data}
-            facets={facets}
-            liveUpdate={isLive}
-            querystring={querystring}
-            setFacets={setFacets}
-            onTriggerSearch={onTriggerSearch}
-            searchedText={searchedText}
-          />
-        </div>
+        {data.facets && Object.keys(data.facets).length !== 0 ? (
+          <div className="nsw-layout__sidebar">
+            <Filters
+              data={data}
+              facets={facets}
+              liveUpdate={isLive}
+              querystring={querystring}
+              setFacets={setFacets}
+              onTriggerSearch={onTriggerSearch}
+              searchedText={searchedText}
+            />
+          </div>
+        ) : null}
         <div className="nsw-layout__main">
           <div className="nsw-results-bar">
             <SearchDetails total={totalItems} batchSize={batchSize} />
