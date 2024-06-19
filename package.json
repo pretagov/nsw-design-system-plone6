@@ -4,7 +4,7 @@
   "description": "nsw-design-system-plone6: Volto add-on",
   "main": "src/index.js",
   "license": "MIT",
-  "type": "module",
+  "type": "commonjs",
   "keywords": [
     "volto-addon",
     "volto",
