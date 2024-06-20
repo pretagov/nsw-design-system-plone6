@@ -34,7 +34,7 @@ const SortOn = (props) => {
   const noValueLabel = intl.formatMessage(messages.relevance);
 
   const options = [
-    { value: '', label: noValueLabel },
+    { value: 'relevance', label: noValueLabel },
     ...sortOnOptions.map((k) => ({
       value: k,
       label: k === '' ? noValueLabel : sortable_indexes[k]?.title || k,
