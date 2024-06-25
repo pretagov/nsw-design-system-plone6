@@ -3,6 +3,24 @@ import { flattenToAppURL } from '@plone/volto/helpers';
 import cx from 'classnames';
 import { useIntl } from 'react-intl';
 
+/**
+ * @param {Object} in
+ * @param {string} in.locale
+ * @param {string|Array<string>} in.labels
+ */
+function formatLabels({ locale, labels }) {
+  if (typeof labels === 'string') {
+    return [labels];
+  }
+  if (typeof window !== 'undefined' && Intl.ListFormat) {
+    return new Intl.ListFormat(locale || 'en', {
+      style: 'short', // All `,` in English
+      type: 'unit',
+    }).format(labels);
+  }
+  return labels.join(',');
+}
+
 // TODO: Customisable datetime format
 const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
   const intl = useIntl();
@@ -28,10 +46,15 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
           year: 'numeric',
         });
 
-        const label =
+        const labels =
           item[data.labelField] === 'None'
             ? null
             : item[data.labelField?.value];
+        const formattedLabels = formatLabels({
+          locale: intl.locale,
+          labels: labels,
+        });
+
         const tags = [];
         data.tagField?.forEach((field) => {
           let fieldValue = item[field.value];
@@ -50,7 +73,7 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
           >
             <div className="nsw-list-item__content">
               {data.showLabel ? (
-                <div className="nsw-list-item__label">{label}</div>
+                <div className="nsw-list-item__label">{formattedLabels}</div>
               ) : null}
 
               {data.showDate && date ? (
