@@ -139,6 +139,7 @@ const CheckboxFacet = (props) => {
           </div>
           {hiddenChoices.length > 0 ? (
             <button
+              type="button"
               className={cx('nsw-filters__more', {
                 'nsw-display-none': isClient && showAll ? true : null,
               })}
