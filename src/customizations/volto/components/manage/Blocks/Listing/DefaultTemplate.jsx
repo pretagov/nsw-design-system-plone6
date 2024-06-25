@@ -6,9 +6,12 @@ import { useIntl } from 'react-intl';
 /**
  * @param {Object} in
  * @param {string} in.locale
- * @param {string|Array<string>} in.labels
+ * @param {null|string|Array<string>} in.labels
  */
 function formatLabels({ locale, labels }) {
+  if (!labels) {
+    return [];
+  }
   if (typeof labels === 'string') {
     return [labels];
   }
