@@ -27,7 +27,7 @@ const SkipLinks = () => {
       <a className="skiplink" href="#main-nav">
         <span>{intl.formatMessage(messages.skipToNavigation)}</span>
       </a>
-      <a className="skiplink" href="#page-document">
+      <a className="skiplink" href="#view">
         <span>{intl.formatMessage(messages.skipToContent)}</span>
       </a>
     </nav>

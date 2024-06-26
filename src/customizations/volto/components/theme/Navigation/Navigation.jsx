@@ -192,6 +192,7 @@ const Navigation = () => {
         id="main-nav"
         aria-label={intl.formatMessage(messages.mobileMenuAccessibleLabel)}
         ref={mainNavRef}
+        tabIndex="-1"
       >
         <div className="nsw-main-nav__header">
           <div className="nsw-main-nav__title">
