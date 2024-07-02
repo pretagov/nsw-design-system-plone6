@@ -19,9 +19,16 @@ export function DateInput({
   const yearRef = React.useRef();
 
   function handleInputChange() {
-    const day = dayRef.current?.value;
-    const month = monthRef.current?.value;
+    let day = dayRef.current?.value;
+    let month = monthRef.current?.value;
     const year = yearRef.current?.value;
+
+    if (day.length === 1) {
+      day = `0${day}`;
+    }
+    if (month.length === 1) {
+      month = `0${month}`;
+    }
 
     if (day && month && year) {
       onChange(`${year}-${month}-${day}`);
