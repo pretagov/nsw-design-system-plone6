@@ -4,7 +4,11 @@
  */
 
 import { last, memoize, isArray, isObject, isString } from 'lodash';
-import { urlRegex, telRegex, mailRegex } from './urlRegex';
+import {
+  urlRegex,
+  telRegex,
+  mailRegex,
+} from '@plone/volto/helpers/Url/urlRegex';
 import prependHttp from 'prepend-http';
 import config from '@plone/volto/registry';
 import { matchPath } from 'react-router';
