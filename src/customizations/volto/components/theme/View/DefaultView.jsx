@@ -113,6 +113,31 @@ const getCoreContentGroupedLayout = (blocksInLayout, blocksData) => {
   }, []);
 };
 
+// Skip over blocks that fail to render and log the exception, the block data and the content if there is a problem.
+class BlockErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(error) {
+    console.error(
+      'BLOCK RENDERING ERROR:',
+      this.props.blockData,
+      this.props.content,
+      error,
+    );
+  }
+  render() {
+    if (this.state.hasError) {
+      return null;
+    }
+    return this.props.children;
+  }
+}
+
 const BlocksLayout = ({ content, location }) => {
   const intl = useIntl();
   const blocksFieldname = getBlocksFieldname(content);
@@ -168,13 +193,18 @@ const BlocksLayout = ({ content, location }) => {
                   const Block =
                     config.blocks.blocksConfig[blockType]?.['view'] || null;
                   return Block !== null ? (
-                    <Block
+                    <BlockErrorBoundary
                       key={blockId}
-                      id={blockId}
-                      properties={content}
-                      data={blocksData[blockId]}
-                      path={getBaseUrl(location?.pathname || '')}
-                    />
+                      content={content}
+                      blockData={blockData}
+                    >
+                      <Block
+                        id={blockId}
+                        properties={content}
+                        data={blocksData[blockId]}
+                        path={getBaseUrl(location?.pathname || '')}
+                      />
+                    </BlockErrorBoundary>
                   ) : (
                     <div key={blockId}>
                       {intl.formatMessage(messages.unknownBlock, {
@@ -200,13 +230,19 @@ const BlocksLayout = ({ content, location }) => {
             );
           }
           return config.settings.fullWidthBlockTypes.includes(blockType) ? (
-            <Block
+            <BlockErrorBoundary
               key={blockId}
-              id={blockId}
-              properties={content}
-              data={blocksData[blockId]}
-              path={getBaseUrl(location?.pathname || '')}
-            />
+              content={content}
+              blockData={blockData}
+            >
+              <Block
+                key={blockId}
+                id={blockId}
+                properties={content}
+                data={blocksData[blockId]}
+                path={getBaseUrl(location?.pathname || '')}
+              />
+            </BlockErrorBoundary>
           ) : (
             <div
               key={blockId}
@@ -216,12 +252,18 @@ const BlocksLayout = ({ content, location }) => {
                   blockType !== 'nsw_section',
               })}
             >
-              <Block
-                id={blockId}
-                properties={content}
-                data={blocksData[blockId]}
-                path={getBaseUrl(location?.pathname || '')}
-              />
+              <BlockErrorBoundary
+                key={blockId}
+                content={content}
+                blockData={blockData}
+              >
+                <Block
+                  id={blockId}
+                  properties={content}
+                  data={blocksData[blockId]}
+                  path={getBaseUrl(location?.pathname || '')}
+                />
+              </BlockErrorBoundary>
             </div>
           );
         })}
