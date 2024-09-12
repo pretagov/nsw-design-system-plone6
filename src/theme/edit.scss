@@ -1,7 +1,8 @@
 @use 'nsw-design-system/src/main';
 
 // Ensure Volto toolbar is above the NSW main navigation
-#toolbar {
+#toolbar,
+#sidebar {
   z-index: 300;
 }
 
