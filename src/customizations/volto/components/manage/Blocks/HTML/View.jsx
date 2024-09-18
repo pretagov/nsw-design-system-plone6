@@ -32,10 +32,25 @@ const View = ({ data }) => {
         console.error("Couldn't get valid iframe document");
         return;
       }
-
       const iframeBody = iframeDocument.querySelector('body');
-      const contentsHeight = iframeBody.scrollHeight;
-      iframe.setAttribute('style', `min-height: ${contentsHeight}px`);
+
+      function updateIframeHeight() {
+        const contentsHeight = iframeBody.scrollHeight;
+        iframe.setAttribute(
+          'style',
+          `min-height: ${contentsHeight}px; border: red 1px solid;`,
+        );
+      }
+
+      const resizeObserver = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          const elementHeight = entry.target.scrollHeight;
+          if (iframe.scrollHeight !== elementHeight) {
+            updateIframeHeight(elementHeight);
+          }
+        }
+      });
+      resizeObserver.observe(iframeBody);
     };
   }, []);
 
