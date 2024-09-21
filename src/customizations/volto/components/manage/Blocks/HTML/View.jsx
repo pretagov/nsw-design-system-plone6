@@ -36,10 +36,7 @@ const View = ({ data }) => {
 
       function updateIframeHeight() {
         const contentsHeight = iframeBody.scrollHeight;
-        iframe.setAttribute(
-          'style',
-          `min-height: ${contentsHeight}px; border: red 1px solid;`,
-        );
+        iframe.setAttribute('style', `min-height: ${contentsHeight}px;`);
       }
 
       const resizeObserver = new ResizeObserver((entries) => {
