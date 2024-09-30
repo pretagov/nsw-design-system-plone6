@@ -1,9 +1,12 @@
 @use 'nsw-design-system/src/main';
 
-// Ensure Volto toolbar is above the NSW main navigation
+// Ensure Volto toolbar is above the NSW main navigation. Object browser should go over these too.
 #toolbar,
 #sidebar {
   z-index: 300;
+}
+*:not(#sidebar) > .sidebar-container {
+  z-index: 400;
 }
 
 #page-edit {
