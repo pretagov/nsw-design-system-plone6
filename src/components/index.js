@@ -20,10 +20,11 @@ export {
   DropdownQuickNavigationEdit,
   DropdownQuickNavigationView,
 } from './Blocks/DropdownQuickNavigation';
+export * from './Blocks/GlobalAlert';
 export { InPageAlertEdit, InPageAlertView } from './Blocks/InPageAlert';
 export { LinkListEdit, LinkListView } from './Blocks/LinkList';
+export { PDFBlockEdit, PDFBlockView, pdfBlockSchema } from './Blocks/PDF';
 export { SectionEdit, SectionSchema, SectionView } from './Blocks/Section';
-export * from './Blocks/GlobalAlert';
 export {
   SeparatorEdit,
   SeparatorView,

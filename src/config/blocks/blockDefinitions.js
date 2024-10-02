@@ -5,6 +5,8 @@ import {
 import sliderSVG from '@plone/volto/icons/slider.svg';
 import * as Components from 'nsw-design-system-plone6/components';
 
+console.log('PDF', Components.PDFBlockView);
+
 // Todo: i18n for component titles and groups
 export const nswBlocks = [
   {
@@ -167,6 +169,17 @@ export const nswBlocks = [
       addPermission: [],
       view: [],
     },
+  },
+  {
+    id: 'nsw_pdf',
+    title: 'PDF',
+    icon: sliderSVG,
+    group: 'common',
+    view: Components.PDFBlockView,
+    edit: Components.PDFBlockEdit,
+    blockSchema: Components.pdfBlockSchema,
+    restricted: false,
+    mostUsed: false,
   },
 ];
 
