@@ -37,7 +37,7 @@ function FilterTitleDisplay({ title }) {
 function FilterMobileControls({ title, onClick }) {
   return (
     <div className="nsw-filters__controls js-filters__count">
-      <button onClick={onClick}>
+      <button type="button" onClick={onClick}>
         <span
           className="material-icons nsw-material-icons"
           focusable="false"
