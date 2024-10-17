@@ -48,16 +48,20 @@ const MimeToFriendlyNameMapping = {
 const ClassicFileView = ({ content }) => {
   const intl = useIntl();
 
-  const formattedDate = intl.formatDate(
-    ['Invalid Date', NaN].includes(new Date(content?.effective))
-      ? null
-      : content?.effective,
-    {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric',
-    },
-  );
+  const formattedDate = content?.effective
+    ? intl.formatDate(
+        ['Invalid Date', NaN].includes(new Date(content?.effective))
+          ? null
+          : content?.effective,
+        {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric',
+        },
+      )
+    : null;
+
+  debugger;
 
   return (
     <>
