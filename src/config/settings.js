@@ -15,6 +15,8 @@ export const updateSettingsConfig = (config) => {
     ...(config.settings.fullWidthBlockTypes || []),
   ];
 
+  config.settings.downloadableObjects = [];
+
   config.settings.showTags = false;
   config.settings.showSelfRegistration =
     process?.env?.['RAZZLE_ENABLE_SELF_REGISTRATION'] === 'true' ||
@@ -38,7 +40,7 @@ When enabled, the built-in AOC will be disabled.
         description: `Appears as the first contents on the page after the skiplinks.
       `,
       },
-    }
+    },
   };
 };
 
