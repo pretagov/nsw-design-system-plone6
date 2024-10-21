@@ -61,8 +61,6 @@ const ClassicFileView = ({ content }) => {
       )
     : null;
 
-  debugger;
-
   return (
     <>
       <h1>
@@ -115,7 +113,7 @@ function FileView(props) {
           )}
           {MimeMappedComponent ? <MimeMappedComponent {...props} /> : null}
         </div>
-        <div className="nsw-layout__sidebar"></div>
+        {/* <div className="nsw-layout__sidebar"></div> */}
       </div>
     </div>
   );
