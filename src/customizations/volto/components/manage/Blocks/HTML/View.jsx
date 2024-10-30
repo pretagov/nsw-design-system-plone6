@@ -34,15 +34,26 @@ const View = ({ data }) => {
       }
       const iframeBody = iframeDocument.querySelector('body');
 
-      function updateIframeHeight() {
-        const contentsHeight = iframeBody.scrollHeight;
-        iframe.setAttribute('style', `min-height: ${contentsHeight}px;`);
+      function updateIframeHeight(contentsHeight) {
+        iframe.style.minHeight = `${contentsHeight}px`;
+        iframe.style['overflow-y'] = 'hidden';
+        iframe.setAttribute('scrolling', 'no');
       }
 
       const resizeObserver = new ResizeObserver((entries) => {
         for (const entry of entries) {
-          const elementHeight = entry.target.scrollHeight;
-          if (iframe.scrollHeight !== elementHeight) {
+          let elementHeight = entry.target.scrollHeight;
+          const elementMargin =
+            parseInt(
+              iframe.contentWindow.getComputedStyle(entry.target)[
+                'margin-block'
+              ],
+            ) || 0;
+          elementHeight += elementMargin;
+          // Margin gets re-applied after a resize, causing it to keep expanding. Lets try to guard against that.
+          const isExpandingFromMargin =
+            elementHeight - iframe.scrollHeight === elementMargin;
+          if (iframe.scrollHeight !== elementHeight && !isExpandingFromMargin) {
             updateIframeHeight(elementHeight);
           }
         }
