@@ -67,6 +67,6 @@
 }
 
 body.cms-ui.has-toolbar.has-sidebar .ui.wrapper > * {
-  display: initial !important;
+  display: inherit !important;
   width: initial !important;
 }
