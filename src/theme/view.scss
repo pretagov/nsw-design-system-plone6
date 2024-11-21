@@ -28,6 +28,10 @@ mark {
   @extend .nsw-p-y-sm;
 }
 
+.nsw-multi-select__dropdown {
+  z-index: 300;
+}
+
 // Hero component's extra-wide support
 .nsw-hero-banner {
   &--extra-wide {
