@@ -12,7 +12,11 @@ const SelectFacet = (props) => {
   const facetTitle = getTitleForFacet(facet);
   const selectHtmlId = `filters-${facet['@id']}`;
 
-  const value = props.value?.value ?? props.value
+  let value = props.value?.value ?? props.value;
+
+  if (Array.isArray(value) && value.length === 0) {
+    value = '';
+  }
 
   return (
     <Select
