@@ -54,6 +54,7 @@ const SelectFacet = (props) => {
       disabled={isEditMode}
       multiple={facet.multiple}
       multipleTitle={facetTitle}
+      required={facet.facetRequired}
       value={value}
     />
   );
