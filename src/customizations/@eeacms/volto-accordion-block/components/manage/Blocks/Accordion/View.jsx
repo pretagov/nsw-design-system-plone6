@@ -53,14 +53,19 @@ const View = (props) => {
 
   const accordionElement = useRef(null);
   useEffect(() => {
+    if (!accordionElement.current) {
+      return;
+    }
     loadable(() => import('nsw-design-system/src/main'))
       .load()
       .then((nswDesignSystem) => {
+        // Same guard clause here to guard against the closure within this async code.
+        if (!accordionElement.current) {
+          return;
+        }
         new nswDesignSystem['Accordion'](accordionElement.current).init();
       });
-  }, [accordionElement]);
-
-  debugger;
+  }, []);
 
   return (
     <div
