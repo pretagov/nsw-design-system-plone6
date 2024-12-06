@@ -14,7 +14,7 @@ export function GlobalAlert({ title, description, buttonText, url, type }) {
   return (
     <div
       className={cx('nsw-global-alert js-global-alert', {
-        [`nsw-card--${type}`]: ['light', 'critical'].includes(type),
+        [`nsw-global-alert--${type}`]: ['light', 'critical'].includes(type),
       })}
       role="alert"
       hidden={isHidden ? 'hidden' : null}
