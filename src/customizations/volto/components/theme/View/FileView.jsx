@@ -1,4 +1,5 @@
 import RenderBlocks from '@plone/volto/components/theme/View/RenderBlocks';
+import config from '@plone/volto/registry';
 import filesize from 'filesize';
 import { useIntl } from 'react-intl';
 
@@ -12,6 +13,9 @@ import {
 import PropTypes from 'prop-types';
 
 function PDFDisplay({ content }) {
+  if (!config.blocks.blocksConfig['nsw_pdf']) {
+    return null;
+  }
   const blocksFieldname = getBlocksFieldname(content) || 'blocks';
   const blocksLayoutFieldname =
     getBlocksLayoutFieldname(content) || 'blocks_layout';
