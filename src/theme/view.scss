@@ -28,6 +28,10 @@ mark {
   @extend .nsw-p-y-sm;
 }
 
+.nsw-multi-select__dropdown {
+  z-index: 300;
+}
+
 // Hero component's extra-wide support
 .nsw-hero-banner {
   &--extra-wide {
@@ -62,4 +66,14 @@ mark {
   @extend .nsw-p-y-sm;
 
   background-color: unset;
+}
+
+// HTML block auto-resizing
+.block.html iframe {
+  border: 0;
+  height: 100%;
+  left: 0;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
 }
