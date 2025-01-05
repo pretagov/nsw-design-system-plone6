@@ -14,8 +14,8 @@ const SelectFacet = (props) => {
 
   let value = props.value?.value ?? props.value;
 
-  if (Array.isArray(value) && value.length === 0) {
-    value = '';
+  if (value.length === 0) {
+    value = facet.multiple ? [] : '';
   }
 
   return (
