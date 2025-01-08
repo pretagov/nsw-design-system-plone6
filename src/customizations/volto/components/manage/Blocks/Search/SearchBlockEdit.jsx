@@ -58,6 +58,8 @@ const SearchBlockEdit = (props) => {
     ]),
   };
 
+  const dataAdapter = config.blocks.blocksConfig[data['@type']].dataAdapter;
+
   const { query = {} } = data || {};
   // We don't need deep compare here, as this is just json serializable data.
   const deepQuery = JSON.stringify(query);
@@ -76,10 +78,20 @@ const SearchBlockEdit = (props) => {
         <BlockDataForm
           schema={schema}
           onChangeField={(id, value) => {
-            onChangeBlock(block, {
-              ...data,
-              [id]: value,
-            });
+            if (dataAdapter) {
+              dataAdapter({
+                block,
+                data,
+                id,
+                onChangeBlock,
+                value,
+              });
+            } else {
+              onChangeBlock(block, {
+                ...data,
+                [id]: value,
+              });
+            }
           }}
           onChangeBlock={onChangeBlock}
           formData={data}
