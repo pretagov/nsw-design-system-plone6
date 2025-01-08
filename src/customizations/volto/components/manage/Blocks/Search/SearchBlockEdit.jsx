@@ -1,3 +1,7 @@
+/**
+ * Shadow changes:
+ * Added the dataAdapter during `onChangeField`
+ */
 import React, { useEffect } from 'react';
 import { defineMessages } from 'react-intl';
 import { compose } from 'redux';
@@ -7,9 +11,9 @@ import { addExtensionFieldToSchema } from '@plone/volto/helpers/Extensions/withB
 import { getBaseUrl } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
 
-import { SearchBlockViewComponent } from './SearchBlockView';
-import Schema from './schema';
-import { withSearch, withQueryString } from './hocs';
+import { SearchBlockViewComponent } from '@plone/volto/components/manage/Blocks/Search/SearchBlockView';
+import Schema from '@plone/volto/components/manage/Blocks/Search/schema';
+import { withSearch, withQueryString } from '@plone/volto/components/manage/Blocks/Search/hocs';
 import { cloneDeep } from 'lodash';
 
 const messages = defineMessages({
