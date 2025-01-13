@@ -33,7 +33,6 @@ function getInitialState(data, facets, urlSearchText, id) {
   const facetSettings = data?.facets || [];
   const queryType = data?.queryType || 'contains';
 
-
   return {
     query: [
       ...(data.query?.query || []),
@@ -48,7 +47,7 @@ function getInitialState(data, facets, urlSearchText, id) {
           );
 
           const name = facet.field.value;
-          const value = facets[name];
+          const value = facets[name] || facet.defaultValue;
 
           return valueToQuery({ value, facet });
         })

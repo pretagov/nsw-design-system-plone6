@@ -89,6 +89,7 @@ const SearchBlockEdit = (props) => {
                 id,
                 onChangeBlock,
                 value,
+                props,
               });
             } else {
               onChangeBlock(block, {
