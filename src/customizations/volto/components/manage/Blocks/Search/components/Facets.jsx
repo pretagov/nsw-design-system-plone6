@@ -68,7 +68,13 @@ const Facets = (props) => {
               );
 
           const isMulti = facetSettings.multiple;
-          const selectedValue = facets[facetSettings?.field?.value];
+          let selectedValue = facets[facetSettings?.field?.value];
+
+          const defaultValue = facetSettings.defaultValue;
+
+          if (!selectedValue && defaultValue) {
+            selectedValue = isMulti ? [defaultValue] : defaultValue;
+          }
 
           // TODO :handle changing the type of facet (multi/nonmulti)
 
