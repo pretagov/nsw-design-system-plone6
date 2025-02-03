@@ -58,12 +58,23 @@ const Facets = (props) => {
                 : true,
             );
 
-          choices = choices.sort((a, b) =>
-            a.label.localeCompare(b.label, 'en', { sensitivity: 'base' }),
-          );
+          // TODO: Inefficient, buts works.
+          choices = index.values_order
+            ? index.values_order.map((valueToFind) =>
+                choices.find((choice) => choice.value === valueToFind),
+              )
+            : choices.sort((a, b) =>
+                a.label.localeCompare(b.label, 'en', { sensitivity: 'base' }),
+              );
 
           const isMulti = facetSettings.multiple;
-          const selectedValue = facets[facetSettings?.field?.value];
+          let selectedValue = facets[facetSettings?.field?.value];
+
+          const defaultValue = facetSettings.defaultValue;
+
+          if (!selectedValue && defaultValue) {
+            selectedValue = isMulti ? [defaultValue] : defaultValue;
+          }
 
           // TODO :handle changing the type of facet (multi/nonmulti)
 
