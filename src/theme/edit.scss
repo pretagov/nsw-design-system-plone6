@@ -70,3 +70,11 @@ body.cms-ui.has-toolbar.has-sidebar .ui.wrapper > * {
   display: inherit !important;
   width: initial !important;
 }
+
+// Control-panel specific edit mode fixes/ hacks
+#page-controlpanel {
+  // Fix accordion panel title not being visible
+  .ui.form .inline.field:not(.wide) .ui.input {
+    width: 100% !important;
+  }
+}
