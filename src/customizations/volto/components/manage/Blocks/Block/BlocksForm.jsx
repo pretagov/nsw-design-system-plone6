@@ -1,6 +1,10 @@
+/**
+ * Backport https://github.com/plone/volto/pull/6753
+ * Update imports to use the full @plone/volto path
+ */
 import React from 'react';
 import { useIntl } from 'react-intl';
-import EditBlock from './Edit';
+import EditBlock from '@plone/volto/components/manage/Blocks/Block/Edit';
 import { DragDropList } from '@plone/volto/components';
 import {
   getBlocks,
@@ -17,7 +21,7 @@ import {
   nextBlockId,
   previousBlockId,
 } from '@plone/volto/helpers';
-import EditBlockWrapper from './EditBlockWrapper';
+import EditBlockWrapper from '@plone/volto/components/manage/Blocks/Block/EditBlockWrapper';
 import { setSidebarTab } from '@plone/volto/actions';
 import { useDispatch } from 'react-redux';
 import { useDetectClickOutside, useEvent } from '@plone/volto/helpers';
@@ -44,10 +48,21 @@ const BlocksForm = (props) => {
     editable = true,
   } = props;
 
+  const intl = useIntl();
+  const dispatch = useDispatch();
+
   const blockList = getBlocks(properties);
 
-  const dispatch = useDispatch();
-  const intl = useIntl();
+  React.useEffect(() => {
+    for (const [n, v] of blockList) {
+      if (!v) {
+        const newFormData = deleteBlock(properties, n, intl);
+        onChangeFormData(newFormData);
+      }
+    }
+  }, [blockList, intl, onChangeFormData, properties]);
+
+  const blocksWithData = blockList.filter((block) => !!block[1]);
 
   const ClickOutsideListener = () => {
     onSelectBlock(null);
@@ -202,7 +217,7 @@ const BlocksForm = (props) => {
     <div className="blocks-form" ref={ref}>
       <fieldset className="invisible" disabled={!editable}>
         <DragDropList
-          childList={blockList}
+          childList={blocksWithData}
           onMoveItem={(result) => {
             const { source, destination } = result;
             if (!destination) {
