@@ -1,6 +1,8 @@
 /**
  * Blocks helper.
  * @module helpers/Blocks
+ *
+ * Backport https://github.com/plone/volto/pull/6753
  */
 
 import { omit, without, endsWith, find, isObject, keys, merge } from 'lodash';
@@ -115,17 +117,35 @@ export function moveBlock(formData, source, destination) {
 export function deleteBlock(formData, blockId) {
   const blocksFieldname = getBlocksFieldname(formData);
   const blocksLayoutFieldname = getBlocksLayoutFieldname(formData);
+  const { [formData[blocksFieldname]]: _, ...newBlocks } = formData[
+    blocksFieldname
+  ];
 
   let newFormData = {
     ...formData,
     [blocksLayoutFieldname]: {
       items: without(formData[blocksLayoutFieldname].items, blockId),
     },
-    [blocksFieldname]: omit(formData[blocksFieldname], [blockId]),
+    [blocksFieldname]: newBlocks ?? {},
   };
 
   if (newFormData[blocksLayoutFieldname].items.length === 0) {
-    newFormData = addBlock(newFormData, config.settings.defaultBlockType, 0);
+    if (Object.keys(newFormData.blocks).length > 0) {
+      const existingTitleBlock = Object.entries(formData.blocks).find(
+        ([blockId, blockValue]) => blockValue['@type'] === 'title',
+      )?.[0];
+      // Some messy syntax to get every block other than the already found title block
+      const {
+        [existingTitleBlock]: _,
+        ...existingOtherBlocks
+      } = newFormData.blocks;
+      newFormData[blocksLayoutFieldname].items = [
+        existingTitleBlock,
+        ...Object.keys(existingOtherBlocks ?? {}),
+      ];
+    } else {
+      newFormData = addBlock(newFormData, config.settings.defaultBlockType, 0);
+    }
   }
 
   return newFormData;
