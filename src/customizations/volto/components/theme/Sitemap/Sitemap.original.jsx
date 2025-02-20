@@ -116,4 +116,3 @@ export default compose(
     },
   ]),
 )(Sitemap);
-s
