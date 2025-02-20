@@ -1,7 +1,7 @@
 /**
  * Login container.
  * @module components/theme/Sitemap/Sitemap
- * 
+ *
  * Removed Container from Semantic-UI and used nsw-layout instead
  */
 
@@ -72,7 +72,7 @@ class Sitemap extends Component {
   render() {
     const { items } = this.props;
     return (
-      <div id="page-sitemap">
+      <div id="page-sitemap" className="nsw-container">
         <div className="nsw-layout">
           <div className="nsw-layout__main">
             <Helmet title={this.props.intl.formatMessage(messages.Sitemap)} />
