@@ -7,11 +7,7 @@ import {
 import { SectionSchema } from 'nsw-design-system-plone6/components/Blocks/Section';
 import { gridBlocks } from 'nsw-design-system-plone6/config/blocks/blockDefinitions';
 import { defineMessages } from 'react-intl';
-import {
-  hasDateOperation,
-  hasKeywordOperation,
-  hasNonValueOperation,
-} from './utils';
+import { hasKeywordOperation, hasNonValueOperation } from './utils';
 
 const messages = defineMessages({
   // Media schema
@@ -48,6 +44,10 @@ const messages = defineMessages({
   searchFacetsWidget: {
     id: 'Title for facet widget selected',
     defaultMessage: 'Widget',
+  },
+  searchFacetsRequired: {
+    id: 'Title for facet widget required option',
+    defaultMessage: 'Required',
   },
   searchFullWidthSearchBar: {
     id: 'Full width search bar',
@@ -150,11 +150,15 @@ const schemaEnhancers = {
       default: 'contains',
     };
 
-
     const facetsFieldset = schema.fieldsets.find(
       (fieldset) => fieldset.id === 'facets',
     );
-    facetsFieldset.fields = ['facetsTitle', 'mobileDisplayMode', 'facets']; // Added `mobileDisplayMode`
+    facetsFieldset.fields = [
+      'facetRequired',
+      'facetsTitle',
+      'mobileDisplayMode',
+      'facets',
+    ]; // Added `mobileDisplayMode`
     schema.properties.mobileDisplayMode = {
       title: intl.formatMessage(messages.searchFacetsDisplayMode),
       type: 'string',
@@ -167,7 +171,7 @@ const schemaEnhancers = {
       default: 'inPage',
     };
 
-    // Change 'hide facet' checkox to a 'Facet display mode' option
+    // Change 'hide facet' checkbox to a 'Facet display mode' option
     const facetSchema = schema.properties.facets.schema;
     facetSchema.fieldsets[0].fields = [
       'field',
@@ -175,7 +179,8 @@ const schemaEnhancers = {
       'type',
       'displayMode',
       'maxFilters',
-    ]; // Remove 'hidden', add 'displayMode', add `maximumFilters`
+      'facetRequired',
+    ]; // Remove 'hidden', add 'displayMode', add `maximumFilters`, add 'facetRequired'
     // TODO: INTL for `Facet widget` being changed to `Widget`
     facetSchema.properties.type.title = intl.formatMessage(
       messages.searchFacetsWidget,
@@ -185,6 +190,10 @@ const schemaEnhancers = {
       title: intl.formatMessage(messages.searchFacetsMaxFilters),
       type: 'number',
       default: 5,
+    };
+    facetSchema.properties.facetRequired = {
+      title: intl.formatMessage(messages.searchFacetsRequired),
+      type: 'boolean',
     };
 
     facetSchema.properties.displayMode = {
@@ -206,7 +215,9 @@ const schemaEnhancers = {
       'fullWidthSearchBar',
     ];
 
-    const query = schema.fieldsets.findIndex((fieldset) => fieldset.id === 'searchquery');
+    const query = schema.fieldsets.findIndex(
+      (fieldset) => fieldset.id === 'searchquery',
+    );
     schema.fieldsets[query].fields = [
       'queryType',
       ...schema.fieldsets[query].fields,
@@ -365,7 +376,6 @@ function withListingDisplayControls({ schema, formData, intl }) {
       );
     },
   };
-
 
   const itemDisplayFieldset = {
     id: 'listingDisplayFieldset',

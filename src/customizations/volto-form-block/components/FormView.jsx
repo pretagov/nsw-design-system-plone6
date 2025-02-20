@@ -236,7 +236,9 @@ const FormView = ({
   const FieldSchema = config.blocks.blocksConfig.form.fieldSchema;
 
   const isValidField = (field) => {
-    return formErrors?.indexOf(field) < 0;
+    return Array.isArray(formErrors)
+      ? formErrors?.indexOf(field) < 0
+      : !formErrors[field];
   };
 
   return (
