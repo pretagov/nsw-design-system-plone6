@@ -1,8 +1,8 @@
 import { Edit } from '@plone/volto/components';
 import View from '@plone/volto/components/theme/View/View';
 
-// const contentRoutes = ['/search', '/sitemap'];
-const contentRoutes = [];
+// Used to remove all the public-facing CMS-UI pages from the below nonContentRoutesPublic list
+const contentRoutes = ['/search', '/sitemap'];
 
 // Backport https://github.com/plone/volto/pull/6173
 const nonContentRoutesPublic = [
@@ -27,8 +27,10 @@ const removeFromArray = (item, array) => {
 
 export const updateRoutesConfig = (config) => {
   // Some routes are used in non-cms pages. Remove those from the list
-  contentRoutes.forEach((route) => {
-    removeFromArray(route, config.settings.nonContentRoutes);
+  nonContentRoutesPublic.forEach((route) => {
+    if (!contentRoutes.includes(route)) {
+      removeFromArray(route, nonContentRoutesPublic);
+    }
   });
 
   // Backport https://github.com/plone/volto/pull/6173
