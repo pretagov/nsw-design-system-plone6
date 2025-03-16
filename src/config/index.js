@@ -1,6 +1,7 @@
 import updateApiExpandersConfig from './apiExpanders';
 import updateAsyncConnectConfig from './asyncConnect';
 import updateBlocksConfig from './blocks';
+import updateComponentRegistryConfig from './components';
 import updateLoadablesConfig from './loadables';
 import updateMiddlewareConfig from './middleware';
 import updateReducersConfig from './reducers';
@@ -14,6 +15,7 @@ import nswLogo from 'nsw-design-system-plone6/assets/NSW-ONLY-nsw-government-log
 export const applyAddonConfig = (config) => {
   // Settings may be used by other configs
   updateSettingsConfig(config);
+  updateComponentRegistryConfig(config);
 
   updateApiExpandersConfig(config);
   updateAsyncConnectConfig(config);
