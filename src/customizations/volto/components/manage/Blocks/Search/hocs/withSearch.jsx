@@ -47,8 +47,10 @@ function getInitialState(data, facets, urlSearchText, id) {
           );
 
           const name = facet.field.value;
-          const value =
-            facets[name] || facet.facetRequired ? facet.defaultValue : null;
+          let value = facets[name];
+          if (!facets[name] && facet.facetRequired) {
+            value = facet.defaultValue;
+          }
 
           return valueToQuery({ value, facet });
         })
