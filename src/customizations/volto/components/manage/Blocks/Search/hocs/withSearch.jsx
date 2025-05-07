@@ -33,7 +33,6 @@ function getInitialState(data, facets, urlSearchText, id) {
   const facetSettings = data?.facets || [];
   const queryType = data?.queryType || 'contains';
 
-
   return {
     query: [
       ...(data.query?.query || []),
@@ -48,7 +47,10 @@ function getInitialState(data, facets, urlSearchText, id) {
           );
 
           const name = facet.field.value;
-          const value = facets[name];
+          let value = facets[name];
+          if (!facets[name] && facet.facetRequired) {
+            value = facet.defaultValue;
+          }
 
           return valueToQuery({ value, facet });
         })
@@ -301,7 +303,7 @@ const withSearch = (options) => (WrappedComponent) => {
               id,
               query: data.query || {},
               facets: toSearchFacets || facets,
-              searchText: toSearchText || searchText,
+              searchText: toSearchText ? toSearchText.trim() : '',
               sortOn: toSortOn ?? sortOn,
               sortOrder: toSortOrder ?? sortOrder,
               facetSettings,

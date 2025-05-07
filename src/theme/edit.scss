@@ -1,8 +1,12 @@
 @use 'nsw-design-system/src/main';
 
-// Ensure Volto toolbar is above the NSW main navigation
-#toolbar {
+// Ensure Volto toolbar is above the NSW main navigation. Object browser should go over these too.
+#toolbar,
+#sidebar {
   z-index: 300;
+}
+*:not(#sidebar) > .sidebar-container {
+  z-index: 400;
 }
 
 #page-edit {
@@ -59,5 +63,18 @@
 .columns-block {
   .nsw-col .blocks-form > fieldset {
     min-inline-size: initial;
+  }
+}
+
+body.cms-ui.has-toolbar.has-sidebar .ui.wrapper > * {
+  display: inherit !important;
+  width: initial !important;
+}
+
+// Control-panel specific edit mode fixes/ hacks
+#page-controlpanel {
+  // Fix accordion panel title not being visible
+  .ui.form .inline.field:not(.wide) .ui.input {
+    width: 100% !important;
   }
 }

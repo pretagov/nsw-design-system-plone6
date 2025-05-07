@@ -75,8 +75,11 @@ const getCoreContentGroupedLayout = (blocksInLayout, blocksData) => {
         const currentBlockSectionData = Object.fromEntries(
           sectionFields.map((k) => [k, currentBlock?.[k]]),
         );
-
-        if (currentBlockSectionData.sectionType === 'sameAsPrevious') {
+        // Handle case where previous block is not in a section but we have 'same as previous'. Let's start a new section.
+        if (
+          currentBlockSectionData.sectionType === 'sameAsPrevious' &&
+          Array.isArray(previousBlockOrGroup)
+        ) {
           previousBlockOrGroup.push(currentBlockId);
           result.splice(result.length - 1, 1, previousBlockOrGroup);
         } else {

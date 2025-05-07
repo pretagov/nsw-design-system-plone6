@@ -12,7 +12,6 @@ import { FormattedMessage } from 'react-intl';
 
 const CheckboxFacet = (props) => {
   const isClient = useIsClient();
-  // const filterItemContext = React.useContext(FilterItemContext);
   const [showAll, enableShowAll] = React.useReducer(() => true, false);
 
   const { facet, choices = [], isMulti, onChange, value, isEditMode } = props;
@@ -139,6 +138,7 @@ const CheckboxFacet = (props) => {
           </div>
           {hiddenChoices.length > 0 ? (
             <button
+              type="button"
               className={cx('nsw-filters__more', {
                 'nsw-display-none': isClient && showAll ? true : null,
               })}

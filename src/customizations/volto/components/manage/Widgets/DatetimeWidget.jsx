@@ -194,10 +194,8 @@ export class DatetimeWidgetComponent extends Component {
     const moment = this.props.moment.default;
     const datetime = this.getInternalValue();
     const dateOnly = this.getDateOnly();
-    const {SingleDatePicker} = reactDates;
+    const { SingleDatePicker } = reactDates;
     
-    console.log("lang", lang);
-
     return (
       <FormFieldWrapper {...this.props}>
         <div className="date-time-widget-wrapper">

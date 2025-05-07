@@ -4,8 +4,8 @@
 // Didn't include scroll-to-heading support (https://github.com/eea/volto-accordion-block/commit/447c67ebda7b749ce74492258efa28e0ea4a1c06), but did add the `id` attribute to the title of each panel
 // Didn't add support for panel linking (https://github.com/eea/volto-accordion-block/commit/76e624db2231b81e33bd7c1107792d1b10aa6ab6#diff-b4f6a9fccfef701227a0730f9d0e185fc5001392cab3b67000149f8c48202689 , https://github.com/eea/volto-accordion-block/commit/c43dd5c6340195d82694efda63fd5c7755e28e7d)
 // Didn't add support for panel filtering (https://github.com/eea/volto-accordion-block/commit/902005a7c7e8ed65ec6cb7f32d45a394a474acfa#diff-b4f6a9fccfef701227a0730f9d0e185fc5001392cab3b67000149f8c48202689)
+// Didn't add support for customising icons
 
-import loadable from '@loadable/component';
 import { RenderBlocks } from '@plone/volto/components';
 import {
   blockHasValue,
@@ -15,8 +15,9 @@ import {
 } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
 import cx from 'classnames';
-import React, { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
+
+import { Accordion } from 'nsw-design-system-plone6/components/Components/Accordion';
 
 // Copied from @eeacms/volto-accordion-block as it doesn't seem to want to be imported
 const getPanels = (data) => {
@@ -51,52 +52,34 @@ const View = (props) => {
       location?.pathname.length,
     ) === '/diff';
 
-  const accordionElement = useRef(null);
-  useEffect(() => {
-    loadable(() => import('nsw-design-system/src/main'))
-      .load()
-      .then((nswDesignSystem) => {
-        new nswDesignSystem['Accordion'](accordionElement.current).init();
-      });
-  }, [accordionElement]);
-
-  debugger;
-
   return (
     <div
       className={cx(
-        'accordion-block nsw-accordion js-accordion',
+        'accordion-block',
         className,
         data.styles ? data.styles.theme : accordionConfig?.defaults?.theme,
       )}
       {...accordionConfig.options}
-      ref={accordionElement}
     >
-      {panels.map(([id, panel], index) => {
-        return accordionBlockHasValue(panel) ? (
-          <React.Fragment key={id}>
-            <div
-              id={id}
-              className={cx('nsw-accordion__title', {
-                'nsw-accordion__open': diffView || data.collapsed === false,
-              })}
-            >
-              {panel?.title}
-            </div>
-            <div className="nsw-accordion__content">
+      <Accordion
+        items={panels.map(([id, panel]) => {
+          return {
+            title: panel.title,
+            id: id,
+            open: diffView || data.collapsed === false,
+            Content: accordionBlockHasValue(panel) ? (
               <RenderBlocks
                 {...props}
                 location={location}
                 metadata={blockMetadata}
                 content={panel}
               />
-            </div>
-          </React.Fragment>
-        ) : null;
-      })}
+            ) : null,
+          };
+        })}
+      />
     </div>
   );
 };
 
-// export default injectLazyLibs(['nswDesignSystem'])(withBlockExtensions(View));
 export default withBlockExtensions(View);
