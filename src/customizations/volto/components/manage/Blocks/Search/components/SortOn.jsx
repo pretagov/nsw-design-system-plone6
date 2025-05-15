@@ -34,7 +34,7 @@ const SortOn = (props) => {
 
   const { sortable_indexes } = querystring;
 
-  const activeSortOn = sortOn || data?.query?.sort_on || '';
+  const activeSortOn = sortOn ?? data?.query?.sort_on ?? '';
 
   const noValueLabel = intl.formatMessage(messages.relevance);
 
