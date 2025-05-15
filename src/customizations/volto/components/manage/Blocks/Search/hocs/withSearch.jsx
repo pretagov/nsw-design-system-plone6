@@ -329,11 +329,14 @@ const withSearch = (options) => (WrappedComponent) => {
             //   setSortOn('');
             // }
             // Reset the sort to relevance only if we have changed the keywords
-            if (!previousSearch.current !== toSearchText) {
+            if (toSearchText && previousSearch.current !== toSearchText) {
               delete searchData.sort_on;
               setSortOn('');
             }
-
+            // Reset to default when removing keyword
+            else if (previousSearch.current && !toSearchText) {
+              setSortOn(data.query.sort_on || '');
+            }
             previousSearch.current = toSearchText;
             setSearchData(searchData);
             setLocationSearchData(getSearchFields(searchData));
