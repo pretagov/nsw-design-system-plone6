@@ -17,6 +17,7 @@ const SortOn = (props) => {
     sortOn = null,
     isEditMode,
     querystring = {},
+    searchedText,
     setSortOn,
   } = props;
   const intl = useIntl();
