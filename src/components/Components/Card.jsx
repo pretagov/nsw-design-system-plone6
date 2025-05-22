@@ -2,6 +2,7 @@ import { FormattedDate, Icon, UniversalLink } from '@plone/volto/components';
 import config from '@plone/volto/registry';
 import cx from 'classnames';
 import { isValidElement } from 'react';
+import { FormattedDate as IntlFormattedDate, useIntl } from 'react-intl';
 
 import EastSVG from '@material-design-icons/svg/filled/east.svg';
 import NswLogo from 'nsw-design-system-plone6/assets/NSW-ONLY-nsw-government-logo.svg';
@@ -50,6 +51,7 @@ export function Card({
   data, // Might  be extra data we want about the block
   columns,
 }) {
+  const intl = useIntl();
   const linkTitle = title || href;
   const cleanDate = date === 'None' ? null : date;
 
@@ -65,6 +67,8 @@ export function Card({
           : image
         : `data:${image['content-type']};base64,${image.data}`;
   }
+
+  debugger;
 
   return (
     <div
@@ -86,15 +90,15 @@ export function Card({
         )
       ) : null}
       <div className="nsw-card__content">
-        {label ? (
-            <div className="nsw-card__tag">{label}</div>
-        ) : null}
-
+        {label ? <div className="nsw-card__tag">{label}</div> : null}
 
         {cleanDate ? (
           <div className="nsw-card__date">
             {cleanDate ? (
-              <FormattedDate date={cleanDate} locale="en-au" />
+              <>
+                <FormattedDate date={cleanDate} /> <br />
+                <IntlFormattedDate value={cleanDate} />
+              </>
             ) : null}
           </div>
         ) : null}

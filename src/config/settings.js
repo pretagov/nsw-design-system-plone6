@@ -17,6 +17,9 @@ export const updateSettingsConfig = (config) => {
 
   config.settings.downloadableObjects = [];
 
+  config.settings.defaultLanguage = 'en_AU';
+  config.settings.supportedLanguages = ['en_AU', 'en'];
+
   config.settings.showTags = false;
   config.settings.showSelfRegistration =
     process?.env?.['RAZZLE_ENABLE_SELF_REGISTRATION'] === 'true' ||

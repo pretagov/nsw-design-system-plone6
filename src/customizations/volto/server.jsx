@@ -1,39 +1,34 @@
-/* eslint no-console: 0 */
-/**
- * Hard-coded the language to be `en-au`
- * Disabled the language switcher based on cookies
- */
-import '@plone/volto/config'; // This is the bootstrap for the global config - server side
-import { existsSync, lstatSync, readFileSync } from 'fs';
-import React from 'react';
-import { StaticRouter } from 'react-router-dom';
-import { Provider } from 'react-intl-redux';
-import express from 'express';
-import { renderToString } from 'react-dom/server';
-import { createMemoryHistory } from 'history';
-import { parse as parseUrl } from 'url';
-import { keys } from 'lodash';
-import locale from 'locale';
-import { detect } from 'detect-browser';
-import path from 'path';
 import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
+import '@plone/volto/config'; // This is the bootstrap for the global config - server side
+import debug from 'debug';
+import { detect } from 'detect-browser';
+import express from 'express';
+import { existsSync, lstatSync, readFileSync } from 'fs';
+import { createMemoryHistory } from 'history';
+import locale from 'locale';
+import { keys } from 'lodash';
+import path from 'path';
+import React from 'react';
 import { resetServerContext } from 'react-beautiful-dnd';
 import { CookiesProvider } from 'react-cookie';
+import { renderToString } from 'react-dom/server';
+import { Provider } from 'react-intl-redux';
+import { StaticRouter } from 'react-router-dom';
 import cookiesMiddleware from 'universal-cookie-express';
-import debug from 'debug';
+import { parse as parseUrl } from 'url';
 
-import routes from '@root/routes';
 import config from '@plone/volto/registry';
+import routes from '@root/routes';
 
+import { changeLanguage } from '@plone/volto/actions';
 import {
+  Api,
   flattenToAppURL,
   Html,
-  Api,
-  persistAuthToken,
   normalizeLanguageName,
+  persistAuthToken,
   toLangUnderscoreRegion,
 } from '@plone/volto/helpers';
-import { changeLanguage } from '@plone/volto/actions';
 
 import userSession from '@plone/volto/reducers/userSession/userSession';
 
@@ -41,8 +36,11 @@ import ErrorPage from '@plone/volto/error';
 
 import languages from '@plone/volto/constants/Languages';
 
+import {
+  loadOnServer,
+  ReduxAsyncConnect,
+} from '@plone/volto/helpers/AsyncConnect';
 import configureStore from '@plone/volto/store';
-import { ReduxAsyncConnect, loadOnServer } from '@plone/volto/helpers/AsyncConnect';
 
 let locales = {};
 
@@ -116,8 +114,8 @@ function setupServer(req, res, next) {
   // Minimum initial state for the fake Redux store instance
   const initialState = {
     intl: {
-      defaultLocale: 'en-au',
-      locale: 'en-au',
+      defaultLocale: 'en',
+      locale: lang,
       messages: locales[lang],
     },
   };
@@ -193,8 +191,8 @@ server.get('/*', (req, res) => {
     userSession: { ...userSession(), token: authToken },
     form: req.body,
     intl: {
-      defaultLocale: 'en-au',
-      locale: 'en-au',
+      defaultLocale: 'en',
+      locale: lang,
       messages: locales[lang],
     },
     browserdetect,
@@ -238,13 +236,12 @@ server.get('/*', (req, res) => {
         : store.getState().content.data?.language?.token ||
           config.settings.defaultLanguage;
 
-      // DISABLED IN THIS SHADOW TO STAY USING 'EN-AU'
-      // if (cookie_lang !== contentLang) {
-      //   const newLocale = toLangUnderscoreRegion(
-      //     new locale.Locales(contentLang).best(supported).toString(),
-      //   );
-      //   store.dispatch(changeLanguage(newLocale, locales[newLocale], req));
-      // }
+      if (cookie_lang !== contentLang) {
+        const newLocale = toLangUnderscoreRegion(
+          new locale.Locales(contentLang).best(supported).toString(),
+        );
+        store.dispatch(changeLanguage(newLocale, locales[newLocale], req));
+      }
 
       const context = {};
       resetServerContext();
