@@ -329,6 +329,20 @@ class Toolbar extends Component {
     if (!this.props.token) {
       return false;
     }
+
+    const noTypesToAdd =
+      Array.isArray(this.props.types) && this.props.types.length < 1;
+    const noDocumentActions =
+      Array.isArray(this.props.actions?.document_actions) &&
+      this.props.actions.document_actions.length < 1;
+    // View will always be here if we are able to see the page.
+    const noObjectActions =
+      Object.keys(this.props.actions?.object || {}).length <= 1 &&
+      this.props.actions.object[0].id === 'view';
+
+    if (noTypesToAdd && noDocumentActions && noObjectActions) {
+      return false;
+    }
     return true;
   }
 
