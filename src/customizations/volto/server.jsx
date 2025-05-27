@@ -114,7 +114,7 @@ function setupServer(req, res, next) {
   // Minimum initial state for the fake Redux store instance
   const initialState = {
     intl: {
-      defaultLocale: 'en',
+      defaultLocale: 'en-au',
       locale: lang,
       messages: locales[lang],
     },
@@ -191,7 +191,7 @@ server.get('/*', (req, res) => {
     userSession: { ...userSession(), token: authToken },
     form: req.body,
     intl: {
-      defaultLocale: 'en',
+      defaultLocale: 'en-au',
       locale: lang,
       messages: locales[lang],
     },

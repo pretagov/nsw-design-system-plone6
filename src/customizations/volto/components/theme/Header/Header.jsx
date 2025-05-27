@@ -112,7 +112,7 @@ const Header = ({ nswDesignSystem }) => {
     <>
       {/* TODO: Anon-tools and language selector currently don't work nor have a NSW component. Need to integrate. */}
       {/* <Anontools /> */}
-      <LanguageSelector />
+      {/* <LanguageSelector /> */}
       {siteSettings && siteSettings.show_masthead !== undefined && !siteSettings.show_masthead ? null : (
         <>
           {BeforeMastheadSlotDisplay && beforeMastheadSlotData?.enabled === true ? <BeforeMastheadSlotDisplay slot="beforeMasthead" /> : null}
