@@ -92,9 +92,7 @@ export function Card({
 
         {cleanDate ? (
           <div className="nsw-card__date">
-            {cleanDate ? (
-                <FormattedDate date={cleanDate} /> <br />
-            ) : null}
+            {cleanDate ? <FormattedDate date={cleanDate} /> : null}
           </div>
         ) : null}
         <div className="nsw-card__title">
