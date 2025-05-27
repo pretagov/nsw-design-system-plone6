@@ -68,8 +68,6 @@ export function Card({
         : `data:${image['content-type']};base64,${image.data}`;
   }
 
-  debugger;
-
   return (
     <div
       className={cx('nsw-card', {
