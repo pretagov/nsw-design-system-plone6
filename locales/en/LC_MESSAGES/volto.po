@@ -369,6 +369,11 @@ msgstr ""
 msgid "No items found in this container."
 msgstr ""
 
+#: customizations/volto-form-block/components/Widget/SelectWidget
+# defaultMessage: No options
+msgid "No options"
+msgstr ""
+
 #: customizations/volto/components/theme/Search/Search
 # defaultMessage: No results found
 msgid "No results found"
@@ -712,11 +717,6 @@ msgstr ""
 msgid "Unknown Block"
 msgstr ""
 
-#: customizations/volto/components/manage/Blocks/Search/components/SortOn
-# defaultMessage: Unsorted
-msgid "Unsorted"
-msgstr ""
-
 #: customizations/volto/components/manage/Blocks/HeroImageLeft/Edit
 # defaultMessage: Upload a new image
 msgid "Upload a new image"
@@ -766,7 +766,7 @@ msgid "Width"
 msgstr ""
 
 #: customizations/volto-form-block/components/FormView
-# defaultMessage: {fieldLabel} is required
+# defaultMessage: This field is required
 msgid "field_is_required"
 msgstr ""
 
