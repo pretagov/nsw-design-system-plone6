@@ -133,8 +133,16 @@ const Header = ({ nswDesignSystem }) => {
                 </div>
               )}
             </div>
-            <MenuOpenButton />
-            <SearchStartButton searchInputElement={searchInputElement} />
+            <div className="pretagov-nsw-header-buttons">
+              <MenuOpenButton />
+              <SearchStartButton searchInputElement={searchInputElement} />
+              <div
+                className="language-selector"
+                style={{ marginInlineStart: 'auto' }}
+              >
+                <LanguageSelector />
+              </div>
+            </div>
           </div>
 
           {/* This will only be the search input. The button to display the search input is still rendered by the header */}
