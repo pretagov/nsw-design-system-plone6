@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone\n"
-"POT-Creation-Date: 2023-03-08T10:45:28.387Z\n"
+"POT-Creation-Date: 2025-05-28T00:28:36.545Z\n"
 "Last-Translator: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "Language-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -61,8 +61,18 @@ msgid "Description"
 msgstr ""
 
 #: config/blocks/schemaEnhancers
+# defaultMessage: Display mode
+msgid "Display mode"
+msgstr ""
+
+#: config/blocks/schemaEnhancers
 # defaultMessage: Filter results
 msgid "Filter results"
+msgstr ""
+
+#: components/Components/Filters/Filters
+# defaultMessage: Filters
+msgid "Filters"
 msgstr ""
 
 #: components/Blocks/DropdownQuickNavigation/schema
@@ -118,6 +128,11 @@ msgstr ""
 msgid "Include margin"
 msgstr ""
 
+#: editor/IntroText/constants
+# defaultMessage: Intro text
+msgid "Intro text"
+msgstr ""
+
 #: components/Blocks/DropdownQuickNavigation/schema
 # defaultMessage: Invert colours?
 msgid "Invert colours?"
@@ -154,9 +169,29 @@ msgstr ""
 msgid "Make compact"
 msgstr ""
 
+#: config/blocks/schemaEnhancers
+# defaultMessage: Initial options
+msgid "Maximum filter options to show"
+msgstr ""
+
+#: components/DesignSystemVersionInformation
+# defaultMessage: NSW DDS Plone {ddsVersion}
+msgid "NSW Built with - DDS and Plone"
+msgstr ""
+
+#: components/DesignSystemVersionInformation
+# defaultMessage: NSW DDS Plone
+msgid "NSW Built with - plone only"
+msgstr ""
+
 #: config/blocks/variations
 # defaultMessage: Number of columns
 msgid "Number of columns"
+msgstr ""
+
+#: components/Components/Form/Select
+# defaultMessage: Please select
+msgid "Please select"
 msgstr ""
 
 #: components/Blocks/Section/schema
@@ -244,10 +279,20 @@ msgstr ""
 msgid "Size"
 msgstr ""
 
+#: editor/SmallText/constants
+# defaultMessage: Small text
+msgid "Small text"
+msgstr ""
+
 #: components/Blocks/Card/schema
 #: components/Blocks/ContentBlock/schema
 # defaultMessage: Styling
 msgid "Styling"
+msgstr ""
+
+#: components/Components/Form/Select
+# defaultMessage: This field is required
+msgid "This field is required"
 msgstr ""
 
 #: components/Blocks/Callout/schema
@@ -256,6 +301,16 @@ msgstr ""
 #: config/blocks/variations
 # defaultMessage: Title
 msgid "Title"
+msgstr ""
+
+#: config/blocks/schemaEnhancers
+# defaultMessage: Required
+msgid "Title for facet widget required option"
+msgstr ""
+
+#: config/blocks/schemaEnhancers
+# defaultMessage: Widget
+msgid "Title for facet widget selected"
 msgstr ""
 
 #: components/Blocks/Card/schema
@@ -268,6 +323,11 @@ msgstr ""
 msgid "Title is headline title"
 msgstr ""
 
+#: components/Components/Section/Section
+# defaultMessage: Unknown Block {block}
+msgid "Unknown Block"
+msgstr ""
+
 #: components/Blocks/ContentBlock/schema
 # defaultMessage: View more
 msgid "View more"
@@ -276,4 +336,19 @@ msgstr ""
 #: config/blocks/schemaEnhancers
 # defaultMessage: Width
 msgid "Width"
+msgstr ""
+
+#: components/Components/Form/Select
+# defaultMessage: {numberSelected} {numberSelected, plural, =1 {{title}} other {{title}s}} selected
+msgid "multiSelectGotValueText"
+msgstr ""
+
+#: components/Components/Form/Select
+# defaultMessage: Select {title}s
+msgid "multiSelectNoValueText"
+msgstr ""
+
+#: components/Components/Form/Select
+# defaultMessage: required
+msgid "required"
 msgstr ""
