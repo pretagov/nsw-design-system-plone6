@@ -18,12 +18,17 @@ export function CardListing({ items, isEditMode, ...data }) {
           href = flattenToAppURL(href);
         }
 
-        const label =
-          item[data.labelField?.value] === 'None' ? null : item[data.labelField?.value];
+        const labelField =
+          typeof data.labelField === 'string'
+            ? data.labelField
+            : data.labelField?.value;
+        const label = item[labelField] === 'None' ? null : item[labelField];
 
-
-        const date =
-            item[data.dateField?.value] === 'None' ? null : item[data.dateField?.value];
+        const dateField =
+          typeof data.dateField === 'string'
+            ? data.dateField
+            : data.dateField?.value;
+        const date = item[dateField] === 'None' ? null : item[dateField];
 
         const image =
           data.imagePosition !== 'hidden' && item.image_field
@@ -46,7 +51,7 @@ export function CardListing({ items, isEditMode, ...data }) {
               {...item}
               description={!data.showDescription ? null : description}
               image={image}
-              label={label}
+              label={data.showLabel ? label : null}
               href={href}
               urlDisplay={data.showUrl ? href : null}
               date={data.showDate ? date : null}
