@@ -90,6 +90,11 @@ mark {
   @media (min-width: 48rem) {
     margin-inline-start: auto;
   }
+
+  // Hack for re-using volto components here
+  .nsw-form__group {
+    margin-top: 0;
+  }
 }
 
 .nsw-header__search {
