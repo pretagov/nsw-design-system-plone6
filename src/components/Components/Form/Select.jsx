@@ -122,6 +122,12 @@ export function Select({
     onChange(event);
   }
 
+  const cleanOptions = Array.isArray(options)
+    ? options.map((option) => {
+        return { value: option[0], label: option[1] };
+      })
+    : options;
+
   return (
     <div className="nsw-form__group">
       {title !== false ? (
@@ -168,7 +174,7 @@ export function Select({
                 : intl.formatMessage(messages.no_value_selected_option)}
             </option>
           ) : null}
-          {options.map(({ value, label }) => {
+          {cleanOptions.map(({ value, label }) => {
             return (
               <option key={value} value={value}>
                 {label}
