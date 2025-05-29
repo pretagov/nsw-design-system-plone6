@@ -85,6 +85,8 @@ mark {
 .pretagov-nsw-header-buttons {
   margin-block: auto;
   display: flex;
+  align-items: center;
+
   @media (min-width: 48rem) {
     margin-inline-start: auto;
   }
