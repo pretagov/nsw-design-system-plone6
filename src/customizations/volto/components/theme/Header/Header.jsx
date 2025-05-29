@@ -140,9 +140,7 @@ const Header = ({ nswDesignSystem }) => {
             <div className="pretagov-nsw-header-buttons">
               <MenuOpenButton />
               <SearchStartButton searchInputElement={searchInputElement} />
-              <div className="language-selector">
-                <LanguageSelector />
-              </div>
+              <LanguageSelector />
             </div>
           </div>
 
