@@ -9,12 +9,12 @@ import {
 } from '@plone/volto/components';
 
 import { Masthead } from 'nsw-design-system-plone6/components/Components/Masthead';
+import { useIsClient } from 'nsw-design-system-plone6/hooks/useIsClient';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useGoogleAnalytics } from 'volto-google-analytics';
 import Navigation from '../Navigation/Navigation';
-import { useIsClient } from 'nsw-design-system-plone6/hooks/useIsClient';
 
 import { useVoltoSlotsEditor } from '@plone-collective/volto-slots-editor';
 import config from '@plone/volto/registry';
@@ -112,10 +112,14 @@ const Header = ({ nswDesignSystem }) => {
     <>
       {/* TODO: Anon-tools and language selector currently don't work nor have a NSW component. Need to integrate. */}
       {/* <Anontools /> */}
-      {/* <LanguageSelector /> */}
-      {siteSettings && siteSettings.show_masthead !== undefined && !siteSettings.show_masthead ? null : (
+      {siteSettings &&
+      siteSettings.show_masthead !== undefined &&
+      !siteSettings.show_masthead ? null : (
         <>
-          {BeforeMastheadSlotDisplay && beforeMastheadSlotData?.enabled === true ? <BeforeMastheadSlotDisplay slot="beforeMasthead" /> : null}
+          {BeforeMastheadSlotDisplay &&
+          beforeMastheadSlotData?.enabled === true ? (
+            <BeforeMastheadSlotDisplay slot="beforeMasthead" />
+          ) : null}
           <Masthead />
         </>
       )}
