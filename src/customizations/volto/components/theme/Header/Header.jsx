@@ -121,6 +121,8 @@ const Header = ({ nswDesignSystem }) => {
             <BeforeMastheadSlotDisplay slot="beforeMasthead" />
           ) : null}
           <Masthead />
+          {/* TODO: Make this injectable and not fixed */}
+          <div id="translateElement" />
         </>
       )}
 
