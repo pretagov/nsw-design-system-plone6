@@ -9,6 +9,7 @@ import {
 } from '@plone/volto/components';
 
 import { Masthead } from 'nsw-design-system-plone6/components/Components/Masthead';
+import { GoogleTranslateWarning } from 'nsw-design-system-plone6/components/GoogleTranslateWarning';
 import { useIsClient } from 'nsw-design-system-plone6/hooks/useIsClient';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -81,6 +82,9 @@ const SearchStartButton = ({ searchInputElement }) => {
 };
 
 const Header = ({ nswDesignSystem }) => {
+  const googleTranslateReady = useSelector(
+    (state) => !state.googleTranslate.loading && state.googleTranslate.loaded,
+  );
   const { siteSettings, siteTitle } = useSelector((state) => ({
     siteTitle: state.siteInfo.title,
     siteSettings: state.nswSiteSettings.data,
@@ -122,7 +126,7 @@ const Header = ({ nswDesignSystem }) => {
           ) : null}
           <Masthead />
           {/* TODO: Make this injectable and not fixed */}
-          <div id="translateElement" />
+          {googleTranslateReady ? <GoogleTranslateWarning /> : null}
         </>
       )}
 
