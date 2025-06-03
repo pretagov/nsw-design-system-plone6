@@ -35,7 +35,7 @@ function SelectWrapper({ isMultiple, title, amountSelected, children }) {
 
   const multiSelectElement = React.useRef(null);
   React.useEffect(() => {
-    if (multiSelectElement) {
+    if (multiSelectElement.current) {
       loadable(() => import('nsw-design-system/src/components/select/select'))
         .load()
         .then((selectJs) => {
@@ -206,6 +206,7 @@ Select.propTypes = {
   options: PropTypes.array.isRequired,
   noValueOption: PropTypes.oneOfType([
     PropTypes.bool,
+    PropTypes.string,
     PropTypes.shape({
       label: PropTypes.string,
       // TODO: Consolidate value proptype definitions
