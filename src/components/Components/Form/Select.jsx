@@ -35,7 +35,7 @@ function SelectWrapper({ isMultiple, title, amountSelected, children }) {
 
   const multiSelectElement = React.useRef(null);
   React.useEffect(() => {
-    if (multiSelectElement) {
+    if (multiSelectElement.current) {
       loadable(() => import('nsw-design-system/src/components/select/select'))
         .load()
         .then((selectJs) => {
@@ -122,6 +122,12 @@ export function Select({
     onChange(event);
   }
 
+  const cleanOptions = Array.isArray(options)
+    ? options.map((option) => {
+        return { value: option[0], label: option[1] };
+      })
+    : options;
+
   return (
     <div className="nsw-form__group">
       {title !== false ? (
@@ -168,7 +174,7 @@ export function Select({
                 : intl.formatMessage(messages.no_value_selected_option)}
             </option>
           ) : null}
-          {options.map(({ value, label }) => {
+          {cleanOptions.map(({ value, label }) => {
             return (
               <option key={value} value={value}>
                 {label}
@@ -200,6 +206,7 @@ Select.propTypes = {
   options: PropTypes.array.isRequired,
   noValueOption: PropTypes.oneOfType([
     PropTypes.bool,
+    PropTypes.string,
     PropTypes.shape({
       label: PropTypes.string,
       // TODO: Consolidate value proptype definitions
