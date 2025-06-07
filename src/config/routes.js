@@ -32,6 +32,9 @@ export const updateRoutesConfig = (config) => {
       removeFromArray(route, nonContentRoutesPublic);
     }
   });
+  contentRoutes.forEach((route) => {
+    removeFromArray(route, config.settings.nonContentRoutes);
+  });
 
   // Backport https://github.com/plone/volto/pull/6173
   config.settings.nonContentRoutesPublic = nonContentRoutesPublic;
