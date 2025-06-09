@@ -24,6 +24,11 @@ export function Section({
   shouldInvert,
   imageSrc = undefined,
 }) {
+  const imageUrl =
+    typeof imageSrc === 'object'
+      ? `data:${imageSrc['content-type']};base64,${imageSrc.data}`
+      : imageSrc;
+
   return (
     <section
       className={cx('nsw-section', {
@@ -31,9 +36,9 @@ export function Section({
         'nsw-section--box': isBox,
         [`nsw-section--${colour}`]: colour,
         'nsw-section--invert': shouldInvert,
-        'nsw-section--image': imageSrc,
+        'nsw-section--image': !!imageSrc,
       })}
-      style={imageSrc ? { backgroundImage: `url(${imageSrc})` } : null}
+      style={imageSrc ? { backgroundImage: `url(${imageUrl})` } : null}
     >
       <div className="nsw-container">
         {title ? <h2 className="nsw-section-title">{title}</h2> : null}
@@ -86,6 +91,7 @@ export function BlocksAsSection({ blocksLayout, blocksData, content }) {
       isBox={blockWithSectionData.sectionType === 'box'}
       colour={sectionColour}
       shouldInvert={blockWithSectionData.sectioninvert}
+      imageSrc={blockWithSectionData.sectionimage}
     >
       {blocksLayout.map((blockId) => {
         // Copy pasted from below. Should really make this a function!
