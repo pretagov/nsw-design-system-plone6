@@ -105,3 +105,15 @@ mark {
     margin-top: 0 !important;
   }
 }
+
+// Google translate
+#field-google-translate-language-select {
+  width: fit-content;
+  border: 0;
+
+  // Shrink it for the empty value case
+  &:has(option[value=""]:checked) {
+    padding-inline-end: 0;
+    width: 14ch;
+  }
+}
