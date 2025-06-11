@@ -83,7 +83,7 @@ const SearchStartButton = ({ searchInputElement }) => {
 
 const Header = ({ nswDesignSystem }) => {
   const googleTranslateReady = useSelector(
-    (state) => !state.googleTranslate.loading && state.googleTranslate.loaded,
+    (state) => !state.googleTranslate.loading && state.googleTranslate.loaded && !!state.googleTranslate.language,
   );
   const { siteSettings, siteTitle } = useSelector((state) => ({
     siteTitle: state.siteInfo.title,
