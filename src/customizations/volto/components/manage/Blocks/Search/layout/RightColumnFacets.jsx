@@ -38,7 +38,7 @@ const RightColumnFacets = (props) => {
   const batchSize = data.query?.b_size || config.settings.defaultPageSize;
 
   return (
-    <div className="searchBlock-facets right-column-facets notranslate">
+    <div className="searchBlock-facets right-column-facets">
       <div className="nsw-layout">
         {(Object.keys(data).includes('showSearchInput')
           ? data.showSearchInput
