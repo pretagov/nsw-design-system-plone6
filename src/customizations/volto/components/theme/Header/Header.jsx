@@ -10,6 +10,7 @@ import {
 
 import { Masthead } from 'nsw-design-system-plone6/components/Components/Masthead';
 import { GoogleTranslateWarning } from 'nsw-design-system-plone6/components/GoogleTranslateWarning';
+import { useIsTranslating } from 'volto-google-translate/helpers';
 import { useIsClient } from 'nsw-design-system-plone6/hooks/useIsClient';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -82,9 +83,7 @@ const SearchStartButton = ({ searchInputElement }) => {
 };
 
 const Header = ({ nswDesignSystem }) => {
-  const googleTranslateReady = useSelector(
-    (state) => !state.googleTranslate.loading && state.googleTranslate.loaded && !!state.googleTranslate.language,
-  );
+  const googleTranslateReady = useIsTranslating();
   const { siteSettings, siteTitle } = useSelector((state) => ({
     siteTitle: state.siteInfo.title,
     siteSettings: state.nswSiteSettings.data,
