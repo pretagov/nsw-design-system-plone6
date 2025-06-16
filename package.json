@@ -13,7 +13,8 @@
   ],
   "scripts": {
     "i18n": "rm -rf build/messages && NODE_ENV=production i18n --addon",
-    "release": "npx release-it"
+    "release": "npx release-it",
+    "test": "jest --env=@happy-dom/jest-environment"
   },
   "addons": [
     "@eeacms/volto-accordion-block",
@@ -50,9 +51,14 @@
     "volto-form-block": ">=3.0.0"
   },
   "devDependencies": {
+    "@happy-dom/jest-environment": "18.0.1",
     "@plone/scripts": ">= 2.2.2",
+    "@testing-library/react": "16.3.0",
+    "jest": "30.0.0",
     "mrs-developer": "2.1.0",
     "razzle-dev-utils": "4.2.18",
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0",
     "release-it": "^15.4.2"
   }
 }
