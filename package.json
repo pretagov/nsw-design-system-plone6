@@ -53,8 +53,8 @@
   "devDependencies": {
     "@happy-dom/jest-environment": "14.12.3",
     "@plone/scripts": ">= 2.2.2",
-    "@testing-library/react": "16.3.0",
-    "jest": "30.0.0",
+    "@testing-library/react": "14.3.1",
+    "jest": "29.7.0",
     "mrs-developer": "2.1.0",
     "razzle-dev-utils": "4.2.18",
     "react": ">=16.8.0",
