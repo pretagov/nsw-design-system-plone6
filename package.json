@@ -13,7 +13,8 @@
   ],
   "scripts": {
     "i18n": "rm -rf build/messages && NODE_ENV=production i18n --addon",
-    "release": "npx release-it"
+    "release": "npx release-it",
+    "test": "jest --env=@happy-dom/jest-environment"
   },
   "addons": [
     "@eeacms/volto-accordion-block",
@@ -32,6 +33,7 @@
     "@kitconcept/volto-blocks-grid": "5.2.0",
     "@material-design-icons/svg": "0.14.6",
     "@mdi/svg": "7.2.96",
+    "classnames": "2.5.1",
     "html-react-parser": "3.0.16",
     "material-icons": "1.13.6",
     "moment": "2.24.0",
@@ -50,9 +52,18 @@
     "volto-form-block": ">=3.0.0"
   },
   "devDependencies": {
+    "@babel/types": "7.20.5",
+    "@happy-dom/jest-environment": "14.12.3",
     "@plone/scripts": ">= 2.2.2",
+    "@testing-library/react": "14.3.1",
+    "babel-plugin-react-intl": "5.1.17",
+    "babel-preset-razzle": "4.2.18",
+    "jest": "29.7.0",
     "mrs-developer": "2.1.0",
+    "razzle": "4.2.18",
     "razzle-dev-utils": "4.2.18",
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0",
     "release-it": "^15.4.2"
   }
 }
