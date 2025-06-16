@@ -51,7 +51,7 @@
     "volto-form-block": ">=3.0.0"
   },
   "devDependencies": {
-    "@happy-dom/jest-environment": "18.0.1",
+    "@happy-dom/jest-environment": "14.12.3",
     "@plone/scripts": ">= 2.2.2",
     "@testing-library/react": "16.3.0",
     "jest": "30.0.0",
