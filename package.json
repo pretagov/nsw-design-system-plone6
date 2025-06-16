@@ -55,6 +55,7 @@
     "@babel/types": "7.20.5",
     "@happy-dom/jest-environment": "14.12.3",
     "@plone/scripts": ">= 2.2.2",
+    "@plone/volto": "16.20.1",
     "@testing-library/react": "14.3.1",
     "babel-plugin-react-intl": "5.1.17",
     "babel-preset-razzle": "4.2.18",
@@ -65,5 +66,13 @@
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0",
     "release-it": "^15.4.2"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "/node_modules/(?!@plone/volto).+\\.js$"
+    ],
+    "moduleNameMapper": {
+      "@plone/volto/(.*)$": "<rootDir>/node_modules/@plone/volto/src/$1"
+    }
   }
 }
