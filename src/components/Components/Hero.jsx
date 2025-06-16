@@ -1,4 +1,4 @@
-import { UniversalLink } from '@plone/volto/components';
+import { UniversalLink } from '@plone/volto/components/manage/UniversalLink/UniversalLink';
 import { isValidElement } from 'react'
 import cx from 'classnames';
 
