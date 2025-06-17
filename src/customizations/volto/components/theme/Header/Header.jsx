@@ -10,12 +10,12 @@ import {
 
 import { Masthead } from 'nsw-design-system-plone6/components/Components/Masthead';
 import { GoogleTranslateWarning } from 'nsw-design-system-plone6/components/GoogleTranslateWarning';
-import { useIsTranslating } from 'volto-google-translate/helpers';
 import { useIsClient } from 'nsw-design-system-plone6/hooks/useIsClient';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useGoogleAnalytics } from 'volto-google-analytics';
+import { useIsTranslating } from 'volto-google-translate/helpers';
 import Navigation from '../Navigation/Navigation';
 
 import { useVoltoSlotsEditor } from '@plone-collective/volto-slots-editor';
@@ -45,7 +45,7 @@ const MenuOpenButton = () => (
   </div>
 );
 
-const SearchStartButton = ({ searchInputElement }) => {
+const SearchStartButton = ({ searchInputElement, onClick }) => {
   const isClient = useIsClient();
   return (
     <div className="nsw-header__search">
@@ -56,6 +56,7 @@ const SearchStartButton = ({ searchInputElement }) => {
           aria-expanded="false"
           aria-controls="header-search"
           ref={searchInputElement}
+          onClick={onClick}
         >
           <Icon
             name={SearchSVG}
@@ -111,6 +112,9 @@ const Header = ({ nswDesignSystem }) => {
     name: 'VoltoBlocksSlotDisplay',
   }).component;
 
+  // TODO: Having state for this is ridiculous as it's only computed when it needs to be shown after clicking the search button
+  const [headerOffset, setHeaderOffset] = useState(50);
+
   return (
     <>
       {/* TODO: Anon-tools and language selector currently don't work nor have a NSW component. Need to integrate. */}
@@ -144,13 +148,35 @@ const Header = ({ nswDesignSystem }) => {
             </div>
             <div className="pretagov-nsw-header-buttons">
               <MenuOpenButton />
-              <SearchStartButton searchInputElement={searchInputElement} />
+              <SearchStartButton
+                searchInputElement={searchInputElement}
+                onClick={() => {
+                  const searchButtonElement = document.querySelector(
+                    '.nsw-header__search',
+                  );
+                  // Copied media query from the CSS to account for mobile position being different
+                  const isDesktop = window
+                    .matchMedia('(min-width: 62rem)')
+                    .match();
+                  if (searchButtonElement && isDesktop) {
+                    const offset =
+                      window.innerWidth -
+                      searchButtonElement.getBoundingClientRect().x -
+                      searchButtonElement.offsetWidth -
+                      20; // There's a 20px not accounted for somewhere and I can't figure out where so hard-coded for now
+                    setHeaderOffset(offset);
+                  }
+                }}
+              />
               <LanguageSelector />
             </div>
           </div>
 
           {/* This will only be the search input. The button to display the search input is still rendered by the header */}
-          <SearchWidget searchInputController={searchInputController.current} />
+          <SearchWidget
+            searchInputController={searchInputController.current}
+            positionOffset={headerOffset}
+          />
         </div>
       </header>
 
