@@ -91,7 +91,11 @@ const Header = ({ nswDesignSystem }) => {
   }));
   const searchInputElement = useRef(null);
   const searchInputController = useRef(null);
-  if (__CLIENT__ && !searchInputController.current && searchInputElement) {
+  if (
+    __CLIENT__ &&
+    !searchInputController.current &&
+    searchInputElement.current
+  ) {
     loadable(() => import('nsw-design-system/src/components/header/header'), {
       ssr: false,
     })
@@ -155,9 +159,8 @@ const Header = ({ nswDesignSystem }) => {
                     '.nsw-header__search',
                   );
                   // Copied media query from the CSS to account for mobile position being different
-                  const isDesktop = window
-                    .matchMedia('(min-width: 62rem)')
-                    .match();
+                  const isDesktop = window.matchMedia('(min-width: 62rem)')
+                    .matches;
                   if (searchButtonElement && isDesktop) {
                     const offset =
                       window.innerWidth -
