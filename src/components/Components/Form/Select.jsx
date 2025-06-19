@@ -108,7 +108,7 @@ export function Select({
   let showNoValueOption = false;
   if (!typeof noValueOption === 'object') {
     showNoValueOption = true;
-  } else if (!required && noValueOption !== false) {
+  } else if (noValueOption !== false) {
     showNoValueOption = true;
   }
   // We never want to show the `noValueOption` when in multiple mode, as implied by https://digitalnsw.github.io/nsw-design-system/components/select/index.html#section-interactive-demo

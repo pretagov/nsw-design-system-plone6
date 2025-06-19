@@ -192,6 +192,7 @@ const Field = (props) => {
           isDisabled={disabled}
           invalid={isInvalid().toString()}
           required={required}
+          default={props.default_value}
           {...(isInvalid() ? { className: 'is-invalid' } : {})}
         />
       )}

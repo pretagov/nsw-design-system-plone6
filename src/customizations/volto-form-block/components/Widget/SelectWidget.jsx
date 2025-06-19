@@ -67,7 +67,7 @@ function SelectWidget(props) {
     choices = [],
     value,
     onChange = () => {},
-    noValueOption = true,
+    noValueOption,
     id,
     default: defaultOption,
     disabled,
@@ -107,13 +107,7 @@ function SelectWidget(props) {
     <FormFieldWrapper {...props} wrapped={false}>
       <Select
         options={options}
-        value={
-          normalizedValue
-            ? normalizedValue['value']
-            : required && options[0]
-            ? options[0].value
-            : ''
-        }
+        value={normalizedValue ? normalizedValue['value'] : ''}
         onChange={({ target: selectedOption }) => {
           return onChange(
             id,
@@ -129,8 +123,11 @@ function SelectWidget(props) {
         disabled={disabled || isDisabled}
         invalid={isInvalid}
         noValueOption={
-          // We do allow having default values but still allowing the user to go back and select `no-value`.
-          noValueOption && !defaultOption && !required ? true : false
+          noValueOption !== undefined
+            ? noValueOption
+            : defaultOption && required
+            ? false
+            : true
         }
       />
       {isInvalid ? (
