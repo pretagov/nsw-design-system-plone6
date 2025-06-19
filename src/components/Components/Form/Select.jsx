@@ -122,11 +122,12 @@ export function Select({
     onChange(event);
   }
 
-  const cleanOptions = Array.isArray(options)
-    ? options.map((option) => {
-        return { value: option[0], label: option[1] };
-      })
-    : options;
+  const cleanOptions = options.map((option) => {
+    if (Array.isArray(option)) {
+      return { value: option[0], label: option[1] };
+    }
+    return option;
+  });
 
   return (
     <div className="nsw-form__group">
