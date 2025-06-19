@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone\n"
-"POT-Creation-Date: 2025-06-19T21:30:23.371Z\n"
+"POT-Creation-Date: 2025-06-19T21:47:51.744Z\n"
 "Last-Translator: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "Language-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -771,7 +771,7 @@ msgid "Width"
 msgstr ""
 
 #: customizations/volto-form-block/components/FormView
-# defaultMessage: {fieldLabel} is required
+# defaultMessage: This field is required
 msgid "field_is_required"
 msgstr ""
 
