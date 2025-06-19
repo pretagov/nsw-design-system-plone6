@@ -8,26 +8,19 @@ import {
   UniversalLink,
 } from '@plone/volto/components';
 
+import { Masthead } from 'nsw-design-system-plone6/components/Components/Masthead';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useGoogleAnalytics } from 'volto-google-analytics';
 import Navigation from '../Navigation/Navigation';
-import { Masthead } from './Masthead';
+import { useIsClient } from 'nsw-design-system-plone6/hooks/useIsClient';
+
+import { useVoltoSlotsEditor } from '@plone-collective/volto-slots-editor';
+import config from '@plone/volto/registry';
 
 import MenuSVG from '@material-design-icons/svg/filled/menu.svg';
 import SearchSVG from '@material-design-icons/svg/filled/search.svg';
-
-// TODO: Extract to a 'hooks' folder
-function useIsClient() {
-  const [isClient, setClient] = useState(false);
-
-  useEffect(() => {
-    setClient(true);
-  }, []);
-
-  return isClient;
-}
 
 const MenuOpenButton = () => (
   <div className="nsw-header__menu">
@@ -110,16 +103,21 @@ const Header = ({ nswDesignSystem }) => {
   }
   useGoogleAnalytics();
 
-  //   TODO: We should be able to use a fragment instead of a div here. Not sure why the `Navigation` component isn't being rendered if we use a fragment.
+  const beforeMastheadSlotData = useVoltoSlotsEditor('beforeMasthead');
+  const BeforeMastheadSlotDisplay = config.getComponent({
+    name: 'VoltoBlocksSlotDisplay',
+  }).component;
+
   return (
     <>
       {/* TODO: Anon-tools and language selector currently don't work nor have a NSW component. Need to integrate. */}
       {/* <Anontools /> */}
       {/* <LanguageSelector /> */}
-      {siteSettings &&
-      siteSettings.show_masthead !== undefined &&
-      !siteSettings.show_masthead ? null : (
-        <Masthead />
+      {siteSettings && siteSettings.show_masthead !== undefined && !siteSettings.show_masthead ? null : (
+        <>
+          {BeforeMastheadSlotDisplay && beforeMastheadSlotData?.enabled === true ? <BeforeMastheadSlotDisplay slot="beforeMasthead" /> : null}
+          <Masthead />
+        </>
       )}
 
       <header className="nsw-header">

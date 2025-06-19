@@ -6,7 +6,6 @@ import {
   getVocabFromHint,
   getVocabFromItems,
 } from '@plone/volto/helpers';
-import cx from 'classnames';
 import { map } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -15,6 +14,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import { ErrorMessage } from 'nsw-design-system-plone6/components/Components/Form/ErrorMessage';
+import { Select } from 'nsw-design-system-plone6/components/Components/Form/Select';
 
 const messages = defineMessages({
   default: {
@@ -57,10 +57,6 @@ const messages = defineMessages({
     id: 'No value',
     defaultMessage: 'No value',
   },
-  no_options: {
-    id: 'No options',
-    defaultMessage: 'No options',
-  },
 });
 
 function SelectWidget(props) {
@@ -81,11 +77,7 @@ function SelectWidget(props) {
     error = [],
   } = props;
   const intl = useIntl();
-  /**
-   * Component did mount
-   * @method componentDidMount
-   * @returns {undefined}
-   */
+
   React.useEffect(() => {
     if ((!choices || choices?.length === 0) && vocabBaseUrl) {
       getVocabulary({
@@ -97,22 +89,10 @@ function SelectWidget(props) {
   }, []);
 
   const normalizedValue = normalizeValue(choices, value, intl);
-  // Make sure that both disabled and isDisabled (from the DX layout feat work)
-  const shouldDisable = disabled || isDisabled;
 
-  let options = vocabBaseUrl
+  const options = vocabBaseUrl
     ? choices
     : [
-        // Only set "no-value" option if there's no default in the field
-        // TODO: also if this.props.defaultValue?
-        ...(noValueOption && !defaultOption
-          ? [
-              {
-                label: intl.formatMessage(messages.no_value),
-                value: 'no-value',
-              },
-            ]
-          : []),
         ...map(choices, (option) => ({
           value: option[0],
           label:
@@ -122,63 +102,40 @@ function SelectWidget(props) {
       ];
 
   const isInvalid = invalid === true || invalid === 'true';
-  const inputId = `field-${id}`;
 
   return (
-    <FormFieldWrapper id={inputId} title={title} wrapped={false}>
-      <div className="nsw-form__group">
-        <label
-          className={cx('nsw-form__label', { 'nsw-form__required': required })}
-          htmlFor={inputId}
-        >
-          {title}
-          {required ? <span className="sr-only"> (required)</span> : null}
-        </label>
-        {description ? (
-          <span className="nsw-form__helper" id={`${id}-helper-text`}>
-            {description}
-          </span>
-        ) : null}
-        {/* eslint-disable-next-line jsx-a11y/no-onchange */}
-        <select
-          className="nsw-form__select"
-          id={inputId}
-          // TODO: Do we need a name here?
-          value={
-            normalizedValue
-              ? normalizedValue['value']
-              : required && options[0]
-              ? options[0].value
-              : 'no-value'
-          }
-          disabled={shouldDisable}
-          onChange={({ target: selectedOption }) => {
-            return onChange(
-              id,
-              selectedOption && selectedOption.value !== 'no-value'
-                ? selectedOption.value
-                : null,
-            );
-          }}
-          aria-invalid={isInvalid ? 'true' : null}
-          // The order here matters, as not all Assistive Technology supports multiple describedby
-          aria-describedby={cx({
-            [`${inputId}-helper-text`]: description,
-            [`${inputId}-error-text`]: isInvalid,
-          })}
-        >
-          {options.map(({ value, label }) => {
-            return (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            );
-          })}
-        </select>
-        {isInvalid ? (
-          <ErrorMessage inputId={inputId} message={error[0]} />
-        ) : null}
-      </div>
+    <FormFieldWrapper {...props} wrapped={false}>
+      <Select
+        options={options}
+        value={
+          normalizedValue
+            ? normalizedValue['value']
+            : required && options[0]
+            ? options[0].value
+            : ''
+        }
+        onChange={({ target: selectedOption }) => {
+          return onChange(
+            id,
+            selectedOption && selectedOption.value !== ''
+              ? selectedOption.value
+              : null,
+          );
+        }}
+        id={id}
+        title={title}
+        description={description}
+        required={required}
+        disabled={disabled || isDisabled}
+        invalid={isInvalid}
+        noValueOption={
+          // We do allow having default values but still allowing the user to go back and select `no-value`.
+          noValueOption && !defaultOption && !required ? true : false
+        }
+      />
+      {isInvalid ? (
+        <ErrorMessage inputId={`field-${id}`} message={error[0]} />
+      ) : null}
     </FormFieldWrapper>
   );
 }

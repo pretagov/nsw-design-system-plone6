@@ -31,6 +31,7 @@ function getInitialState(data, facets, urlSearchText, id) {
     types: facetWidgetTypes,
   } = config.blocks.blocksConfig.search.extensions.facetWidgets;
   const facetSettings = data?.facets || [];
+  const queryType = data?.queryType || 'contains';
 
   return {
     query: [
@@ -46,7 +47,10 @@ function getInitialState(data, facets, urlSearchText, id) {
           );
 
           const name = facet.field.value;
-          const value = facets[name];
+          let value = facets[name];
+          if (!facets[name] && facet.facetRequired) {
+            value = facet.defaultValue;
+          }
 
           return valueToQuery({ value, facet });
         })
@@ -55,7 +59,7 @@ function getInitialState(data, facets, urlSearchText, id) {
         ? [
             {
               i: 'SearchableText',
-              o: 'plone.app.querystring.operation.string.contains',
+              o: `plone.app.querystring.operation.string.${queryType}`,
               v: urlSearchText,
             },
           ]
@@ -84,6 +88,7 @@ function normalizeState({
   sortOn,
   sortOrder,
   facetSettings, // data.facets extracted from block data
+  queryType, // data.queryType extracted from block data
 }) {
   const {
     types: facetWidgetTypes,
@@ -129,7 +134,7 @@ function normalizeState({
     );
     params.query.push({
       i: 'SearchableText',
-      o: 'plone.app.querystring.operation.string.contains',
+      o: `plone.app.querystring.operation.string.${queryType}`,
       v: searchText,
     });
   }
@@ -281,6 +286,7 @@ const withSearch = (options) => (WrappedComponent) => {
 
     const timeoutRef = React.useRef();
     const facetSettings = data?.facets;
+    const queryType = data?.queryType;
 
     const deepQuery = JSON.stringify(data.query);
     const onTriggerSearch = React.useCallback(
@@ -297,10 +303,11 @@ const withSearch = (options) => (WrappedComponent) => {
               id,
               query: data.query || {},
               facets: toSearchFacets || facets,
-              searchText: toSearchText || searchText,
+              searchText: toSearchText ? toSearchText.trim() : '',
               sortOn: toSortOn ?? sortOn,
               sortOrder: toSortOrder ?? sortOrder,
               facetSettings,
+              queryType,
             });
             if (toSearchFacets) setFacets(toSearchFacets);
             // Added the check for '' here to reset it

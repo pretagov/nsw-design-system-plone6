@@ -1,5 +1,5 @@
 import { useVoltoSlotsEditor } from '@plone-collective/volto-slots-editor';
-import { Icon } from '@plone/volto/components';
+import { Icon, UniversalLink } from '@plone/volto/components';
 import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
 import cx from 'classnames';
@@ -10,12 +10,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getSubFooter } from 'volto-subfooter';
 
 import { DesignSystemVersionInformation } from 'nsw-design-system-plone6/components/DesignSystemVersionInformation';
-import { Link } from 'react-router-dom';
 
 // TODO: Would dynamically importing these reduce bundle size?
+import MailSVG from '@mdi/svg/svg/email.svg';
 import FacebookSVG from '@mdi/svg/svg/facebook.svg';
+import InstagramSVG from '@mdi/svg/svg/instagram.svg';
 import LinkedInSVG from '@mdi/svg/svg/linkedin.svg';
 import TwitterSVG from '@mdi/svg/svg/twitter.svg';
+import WeChatSVG from '@mdi/svg/svg/wechat.svg';
 import YouTubeSVG from '@mdi/svg/svg/youtube.svg';
 
 const messages = defineMessages({
@@ -35,20 +37,35 @@ const messages = defineMessages({
 });
 
 const socialFieldIconMapping = {
-  twitter_username: {
-    href: (strings, username) => `https://www.twitter.com/${username}`,
-    socialName: 'Twitter',
-    Logo: TwitterSVG,
-  },
   facebook_username: {
     href: (strings, username) => `https://www.facebook.com/${username}`,
     socialName: 'Facebook',
     Logo: FacebookSVG,
   },
+  instagram_url: {
+    href: (strings, url) => url,
+    socialName: 'Instagram',
+    Logo: InstagramSVG,
+  },
   linkedin_url: {
     href: (strings, url) => url,
     socialName: 'LinkedIn',
     Logo: LinkedInSVG,
+  },
+  mail_link: {
+    href: (strings, address) => `mailto:${address}`,
+    socialName: 'Email',
+    Logo: MailSVG,
+  },
+  twitter_username: {
+    href: (strings, username) => `https://www.twitter.com/${username}`,
+    socialName: 'Twitter',
+    Logo: TwitterSVG,
+  },
+  we_chat_url: {
+    href: (strings, url) => url,
+    socialName: 'WeChat',
+    Logo: WeChatSVG,
   },
   youtube_url: {
     href: (strings, url) => url,
@@ -134,7 +151,9 @@ function Footer() {
                   >
                     <div className="nsw-footer__heading">
                       {headingItemHref ? (
-                        <Link to={headingItemHref}>{headingItem.title}</Link>
+                        <UniversalLink href={headingItemHref}>
+                          {headingItem.title}
+                        </UniversalLink>
                       ) : (
                         headingItem.title
                       )}
@@ -157,7 +176,9 @@ function Footer() {
                               : linkHref;
                             return (
                               <li key={key}>
-                                <Link to={linkHref}>{title}</Link>
+                                <UniversalLink href={linkHref}>
+                                  {title}
+                                </UniversalLink>
                               </li>
                             );
                           },
@@ -208,7 +229,7 @@ function Footer() {
                         : linkHref;
                       return (
                         <li key={`lowerLinks-${index}`}>
-                          <Link to={linkHref}>{title}</Link>
+                          <UniversalLink href={linkHref}>{title}</UniversalLink>
                         </li>
                       );
                     },

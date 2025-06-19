@@ -15,19 +15,31 @@ export const updateSettingsConfig = (config) => {
     ...(config.settings.fullWidthBlockTypes || []),
   ];
 
+  config.settings.downloadableObjects = [];
+
   config.settings.showTags = false;
   config.settings.showSelfRegistration =
     process?.env?.['RAZZLE_ENABLE_SELF_REGISTRATION'] === 'true' ||
     (typeof window !== 'undefined' &&
       window.env['RAZZLE_ENABLE_SELF_REGISTRATION'] === 'true');
-  config.settings['volto-slots-editor'].slots = {
-    ...config.settings['volto-slots-editor'].slots,
-    aoc: {
-      // TODO: i18n
-      title: 'AOC',
-      description: `Appears in between the lower and upper footer.
+  config.settings['volto-slots-editor'] = {
+    // allowedBlocks: ['video'],
+    showRestricted: true,
+    slots: {
+      ...config.settings['volto-slots-editor'].slots,
+      aoc: {
+        // TODO: i18n
+        title: 'AOC',
+        description: `Appears in between the lower and upper footer.
 When enabled, the built-in AOC will be disabled.
       `,
+      },
+      beforeMasthead: {
+        // TODO: i18n
+        title: 'Before masthead',
+        description: `Appears as the first contents on the page after the skiplinks.
+      `,
+      },
     },
   };
 };

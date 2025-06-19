@@ -85,7 +85,14 @@ export function applyBlocks(config) {
     '30': 'preview',
   };
 
-  removeFieldsFromBlock(config, 'accordion', ['right_arrows', 'non_exclusive']);
+  removeFieldsFromBlock(config, 'accordion', [
+    'right_arrows',
+    'non_exclusive',
+    'filtering',
+    'title_size',
+    'title',
+    'headline',
+  ]);
   removeVariationsFromBlock(config, 'toc', ['horizontalMenu']);
   removeUnwantedBlocks(config);
 

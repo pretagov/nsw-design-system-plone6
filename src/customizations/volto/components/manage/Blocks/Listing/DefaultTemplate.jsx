@@ -1,9 +1,33 @@
-import { ConditionalLink, FormattedDate } from '@plone/volto/components';
+import { ConditionalLink } from '@plone/volto/components';
 import { flattenToAppURL } from '@plone/volto/helpers';
 import cx from 'classnames';
+import { useIntl } from 'react-intl';
+
+/**
+ * @param {Object} in
+ * @param {string} in.locale
+ * @param {null|string|Array<string>} in.labels
+ */
+function formatLabels({ locale, labels }) {
+  if (!labels) {
+    return [];
+  }
+  if (typeof labels === 'string') {
+    return [labels];
+  }
+  if (typeof window !== 'undefined' && Intl.ListFormat) {
+    return new Intl.ListFormat(locale || 'en', {
+      style: 'short', // All `,` in English
+      type: 'unit',
+    }).format(labels);
+  }
+  return labels.join(',');
+}
 
 // TODO: Customisable datetime format
 const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
+  const intl = useIntl();
+
   return (
     <div className="nsw-list-items">
       {items.map((item) => {
@@ -13,8 +37,41 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
                 item.image_field
               }/teaser`
             : null;
-        const date =
-          item[data.dateField] === 'None' ? null : item[data.dateField];
+
+        const dateField =
+          typeof data.dateField === 'string'
+            ? data.dateField
+            : data.dateField?.value;
+        const dateFieldValue =
+          item[dateField] === 'None' ? null : item?.[dateField];
+        // Check the field is actually a date
+        const date = ['Invalid Date', NaN].includes(new Date(dateFieldValue))
+          ? null
+          : dateFieldValue;
+        const formattedDate = intl.formatDate(date, {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric',
+        });
+
+        const labelField =
+          typeof data.labelField === 'string'
+            ? data.labelField
+            : data.labelField?.value;
+        const labels = item[labelField] === 'None' ? null : item[labelField];
+        const formattedLabels = formatLabels({
+          locale: intl.locale,
+          labels: labels,
+        });
+
+        const tags = [];
+        data.tagField?.forEach((field) => {
+          let fieldValue = item[field.value];
+          if (!fieldValue || fieldValue === 'None') {
+            return null;
+          }
+          tags.push(...item[field.value]);
+        });
         return (
           <div
             key={item['@id']}
@@ -24,19 +81,23 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
             })}
           >
             <div className="nsw-list-item__content">
-              {/* TODO: Find a way to allow adjustable labels */}
-              {/* <div className="nsw-list-item__label">Stories</div> */}
+              {data.showLabel ? (
+                <div className="nsw-list-item__label">{formattedLabels}</div>
+              ) : null}
+
+              {data.showDate && date ? (
+                <div className="nsw-list-item__info">{formattedDate}</div>
+              ) : null}
+
               <div className="nsw-list-item__title">
                 <ConditionalLink item={item} condition={!isEditMode}>
                   {item.title ? item.title : item['@id']}
                 </ConditionalLink>
               </div>
-              {data.showUrl || data.showDate ? (
+
+              {data.showUrl ? (
                 <div className="nsw-list-item__info">
                   {data.showUrl ? item.getURL : null}
-                  {data.showDate && date ? (
-                    <FormattedDate date={date} locale="en-au" />
-                  ) : null}
                 </div>
               ) : null}
 
@@ -46,12 +107,13 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
                   dangerouslySetInnerHTML={{ __html: item.description }}
                 />
               )}
-              {data.showTags && item.Subject?.length > 0 ? (
+
+              {data.showTags && tags?.length > 0 ? (
                 <div className="nsw-list-item__tags">
                   <div className="nsw-list nsw-list--8">
-                    {item.Subject.map((tagText) => {
+                    {tags.map((tagText, index) => {
                       return (
-                        <span key={tagText} className="nsw-tag">
+                        <span key={index} className="nsw-tag">
                           {tagText}
                         </span>
                       );
