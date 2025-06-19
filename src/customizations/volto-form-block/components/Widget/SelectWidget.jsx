@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import { ErrorMessage } from 'nsw-design-system-plone6/components/Components/Form/ErrorMessage';
+import { Select } from 'nsw-design-system-plone6/components/Components/Form/Select';
 
 const messages = defineMessages({
   default: {
@@ -71,7 +72,7 @@ function SelectWidget(props) {
     choices = [],
     value,
     onChange = () => {},
-    noValueOption = true,
+    noValueOption,
     id,
     default: defaultOption,
     disabled,
@@ -97,8 +98,6 @@ function SelectWidget(props) {
   }, []);
 
   const normalizedValue = normalizeValue(choices, value, intl);
-  // Make sure that both disabled and isDisabled (from the DX layout feat work)
-  const shouldDisable = disabled || isDisabled;
 
   let options = vocabBaseUrl
     ? choices
@@ -122,63 +121,37 @@ function SelectWidget(props) {
       ];
 
   const isInvalid = invalid === true || invalid === 'true';
-  const inputId = `field-${id}`;
 
   return (
-    <FormFieldWrapper id={inputId} title={title} wrapped={false}>
-      <div className="nsw-form__group">
-        <label
-          className={cx('nsw-form__label', { 'nsw-form__required': required })}
-          htmlFor={inputId}
-        >
-          {title}
-          {required ? <span className="sr-only"> (required)</span> : null}
-        </label>
-        {description ? (
-          <span className="nsw-form__helper" id={`${id}-helper-text`}>
-            {description}
-          </span>
-        ) : null}
-        {/* eslint-disable-next-line jsx-a11y/no-onchange */}
-        <select
-          className="nsw-form__select"
-          id={inputId}
-          // TODO: Do we need a name here?
-          value={
-            normalizedValue
-              ? normalizedValue['value']
-              : required && options[0]
-              ? options[0].value
-              : 'no-value'
-          }
-          disabled={shouldDisable}
-          onChange={({ target: selectedOption }) => {
-            return onChange(
-              id,
-              selectedOption && selectedOption.value !== 'no-value'
-                ? selectedOption.value
-                : null,
-            );
-          }}
-          aria-invalid={isInvalid ? 'true' : null}
-          // The order here matters, as not all Assistive Technology supports multiple describedby
-          aria-describedby={cx({
-            [`${inputId}-helper-text`]: description,
-            [`${inputId}-error-text`]: isInvalid,
-          })}
-        >
-          {options.map(({ value, label }) => {
-            return (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            );
-          })}
-        </select>
-        {isInvalid ? (
-          <ErrorMessage inputId={inputId} message={error[0]} />
-        ) : null}
-      </div>
+    <FormFieldWrapper {...props} wrapped={false}>
+      <Select
+        options={options}
+        value={normalizedValue ? normalizedValue['value'] : ''}
+        onChange={({ target: selectedOption }) => {
+          return onChange(
+            id,
+            selectedOption && selectedOption.value !== ''
+              ? selectedOption.value
+              : null,
+          );
+        }}
+        id={id}
+        title={title}
+        description={description}
+        required={required}
+        disabled={disabled || isDisabled}
+        invalid={isInvalid}
+        noValueOption={
+          noValueOption !== undefined
+            ? noValueOption
+            : defaultOption && required
+            ? false
+            : true
+        }
+      />
+      {isInvalid ? (
+        <ErrorMessage inputId={`field-${id}`} message={error[0]} />
+      ) : null}
     </FormFieldWrapper>
   );
 }

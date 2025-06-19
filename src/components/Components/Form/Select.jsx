@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import { ErrorMessage } from 'nsw-design-system-plone6/components/Components/Form/ErrorMessage';
 import PropTypes from 'prop-types';
 import * as React from 'react';
 
@@ -87,6 +88,7 @@ export function Select({
   invalid,
   multiple = false,
   multipleTitle,
+  error,
 }) {
   const intl = useIntl();
   const [amountSelected, setAmountSelected] = React.useState(0);
@@ -106,7 +108,7 @@ export function Select({
   let showNoValueOption = false;
   if (!typeof noValueOption === 'object') {
     showNoValueOption = true;
-  } else if (!required && noValueOption !== false) {
+  } else if (noValueOption !== false) {
     showNoValueOption = true;
   }
   // We never want to show the `noValueOption` when in multiple mode, as implied by https://digitalnsw.github.io/nsw-design-system/components/select/index.html#section-interactive-demo
@@ -184,19 +186,16 @@ export function Select({
         </select>
       </SelectWrapper>
       {isInvalid ? (
-        <span
-          className="nsw-form__helper nsw-form__helper--error"
-          id={`${inputId}-error-text`}
-        >
-          <span
-            className="material-icons nsw-material-icons"
-            focusable="false"
-            aria-hidden="true"
-          >
-            cancel
-          </span>
-          {intl.formatMessage(messages.field_required)}
-        </span>
+        <ErrorMessage
+          inputId={inputId}
+          message={
+            Array.isArray(error) && error.length > 1
+              ? error[0]
+              : error
+              ? error
+              : intl.formatMessage(messages.field_required)
+          }
+        />
       ) : null}
     </div>
   );
