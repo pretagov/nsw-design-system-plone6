@@ -36,14 +36,14 @@ function SelectWrapper({ isMultiple, title, amountSelected, children }) {
 
   const multiSelectElement = React.useRef(null);
   React.useEffect(() => {
-    if (multiSelectElement) {
+    if (multiSelectElement.current) {
       loadable(() => import('nsw-design-system/src/components/select/select'))
         .load()
         .then((selectJs) => {
           new selectJs.default(multiSelectElement.current).init();
         });
     }
-  }, [multiSelectElement]);
+  }, []);
 
   // TODO: Should `data-n-multi-select` be configurable? It's the number of items to be selected before displaying `data-multi-select-text` instead.
   return isMultiple ? (
