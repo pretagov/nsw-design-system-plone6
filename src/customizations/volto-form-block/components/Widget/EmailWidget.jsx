@@ -74,7 +74,7 @@ function EmailWidget(props) {
           disabled={isDisabled ? true : null}
           placeholder={placeholder}
           ref={node}
-          value={value}
+          value={value || ''}
           onClick={() => onClick()}
           onBlur={({ target }) =>
             onBlur(id, target.value === '' ? null : target.value)

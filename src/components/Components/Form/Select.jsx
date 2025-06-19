@@ -43,7 +43,7 @@ function SelectWrapper({ isMultiple, title, amountSelected, children }) {
           new selectJs.default(multiSelectElement.current).init();
         });
     }
-  }, [multiSelectElement]);
+  }, []);
 
   // TODO: Should `data-n-multi-select` be configurable? It's the number of items to be selected before displaying `data-multi-select-text` instead.
   return isMultiple ? (
