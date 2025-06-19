@@ -37,8 +37,13 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
                 item.image_field
               }/teaser`
             : null;
+
+        const dateField =
+          typeof data.dateField === 'string'
+            ? data.dateField
+            : data.dateField?.value;
         const dateFieldValue =
-          item[data.dateField] === 'None' ? null : item?.[data.dateField];
+          item[dateField] === 'None' ? null : item?.[dateField];
         // Check the field is actually a date
         const date = ['Invalid Date', NaN].includes(new Date(dateFieldValue))
           ? null
@@ -49,10 +54,11 @@ const ListItemsTemplate = ({ items, isEditMode, ...data }) => {
           year: 'numeric',
         });
 
-        const labels =
-          item[data.labelField] === 'None'
-            ? null
-            : item[data.labelField?.value];
+        const labelField =
+          typeof data.labelField === 'string'
+            ? data.labelField
+            : data.labelField?.value;
+        const labels = item[labelField] === 'None' ? null : item[labelField];
         const formattedLabels = formatLabels({
           locale: intl.locale,
           labels: labels,
