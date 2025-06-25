@@ -55,7 +55,7 @@ function getInitialState(data, facets, urlSearchText, id) {
           return valueToQuery({ value, facet });
         })
         .filter((f) => !!f),
-      ...(urlSearchText
+      ...(urlSearchText !== null || urlSearchText !== undefined
         ? [
             {
               i: 'SearchableText',
@@ -126,7 +126,7 @@ function normalizeState({
   // TODO eventually the searchText should be a distinct facet from SearchableText, and
   // the two conditions could be combined, in comparison to the current state, when
   // one overrides the other.
-  if (searchText) {
+  if (searchText !== null || searchText !== undefined) {
     params.query = params.query.reduce(
       // Remove SearchableText from query
       (acc, kvp) => (kvp.i === 'SearchableText' ? acc : [...acc, kvp]),
