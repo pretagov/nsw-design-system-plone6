@@ -325,6 +325,26 @@ class Toolbar extends Component {
     this.props.unlockContent(getBaseUrl(this.props.pathname), true);
   };
 
+  shouldShowMoreMenu() {
+    const moreAction = Object.values(
+      this.props.actions.object || {},
+    ).find((action) => ['local_roles', 'history'].includes(action.id));
+    if (moreAction) {
+      return true;
+    }
+    if (this.props.workflowTransitions?.length > 0) {
+      return true;
+    }
+    const otherActions = Object.values(this.props.actions.object || {}).filter(
+      (action) => !['edit', 'folderContents', 'view'].includes(action.id),
+    );
+    debugger;
+    if (otherActions.length > 0) {
+      return true;
+    }
+    return false;
+  }
+
   shouldShowToolbar() {
     if (!this.props.token) {
       return false;
@@ -339,10 +359,15 @@ class Toolbar extends Component {
     const noObjectActions =
       Object.keys(this.props.actions?.object || {}).length <= 1 &&
       this.props.actions.object[0].id === 'view';
-
-    if (noTypesToAdd && noDocumentActions && noObjectActions) {
+    if (
+      noTypesToAdd &&
+      noDocumentActions &&
+      noObjectActions &&
+      !this.shouldShowMoreMenu()
+    ) {
       return false;
     }
+
     return true;
   }
 
@@ -643,6 +668,7 @@ export default compose(
         : '',
       content: state.content.data,
       pathname: props.pathname,
+      workflowTransitions: state.workflow.transitions,
       types: filter(state.types.types, 'addable'),
       unlockRequest: state.content.unlock,
     }),
