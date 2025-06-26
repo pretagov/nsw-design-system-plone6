@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone\n"
-"POT-Creation-Date: 2023-03-08T10:45:28.387Z\n"
+"POT-Creation-Date: 2025-06-19T21:47:51.744Z\n"
 "Last-Translator: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "Language-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -13,9 +13,26 @@ msgstr ""
 "Preferred-Encodings: utf-8\n"
 "Domain: volto\n"
 
+#: customizations/volto/components/theme/Footer/Footer
+# defaultMessage: We pay respect to the Traditional Custodians and First Peoples of NSW, and acknowledge their continued connection to their country and culture.
+msgid "Acknowledgement Of Country"
+msgstr ""
+
+#: customizations/volto/components/manage/Controlpanels/Users/UsersControlpanel
+#: customizations/volto/components/manage/Controlpanels/Users/UsersControlpanel.original
+# defaultMessage: Actions
+msgid "Actions"
+msgstr ""
+
 #: components/Widgets/ImagePickerWidget
 # defaultMessage: Add image
 msgid "Add image"
+msgstr ""
+
+#: customizations/@plone/volto-slate/editor/plugins/StyleMenu/StyleMenu
+#: customizations/@plone/volto-slate/editor/plugins/StyleMenu/StyleMenu.original
+# defaultMessage: Additional Styles
+msgid "Additional Styles"
 msgstr ""
 
 #: components/Blocks/InPageAlert/schema
@@ -23,10 +40,36 @@ msgstr ""
 msgid "Alert type"
 msgstr ""
 
+#: customizations/volto/components/theme/Search/Search
+# defaultMessage: Alphabetically
+msgid "Alphabetically"
+msgstr ""
+
 #: components/Blocks/AnnouncementBar/schema
 #: components/Blocks/InPageAlert/schema
 # defaultMessage: Body
 msgid "Body"
+msgstr ""
+
+#: customizations/volto/components/theme/Breadcrumbs/Breadcrumbs
+# defaultMessage: My Breadcrumbs
+msgid "Breadcrumbs"
+msgstr ""
+
+#: customizations/volto/components/manage/Blocks/HeroImageLeft/Edit
+# defaultMessage: Browse
+msgid "Browse"
+msgstr ""
+
+#: customizations/volto/components/manage/Blocks/Image/Edit
+#: customizations/volto/components/manage/Blocks/Image/Edit.original
+# defaultMessage: Browse the site, drop an image, or type an URL
+msgid "Browse the site, drop an image, or type an URL"
+msgstr ""
+
+#: customizations/volto/components/theme/Footer/Footer
+# defaultMessage: Built with 
+msgid "Built with"
 msgstr ""
 
 #: config/blocks/schemaEnhancers
@@ -39,10 +82,56 @@ msgstr ""
 msgid "Caption background colour"
 msgstr ""
 
+#: customizations/volto-form-block/components/Widget/SelectWidget
+# defaultMessage: Choices
+msgid "Choices"
+msgstr ""
+
+#: customizations/volto-form-block/components/Widget/FileWidget
+# defaultMessage: Choose a file
+msgid "Choose a file"
+msgstr ""
+
+#: customizations/volto/components/theme/View/ImageView
+#: customizations/volto/components/theme/View/ImageView.original
+# defaultMessage: Click to download full sized image
+msgid "Click to download full sized image"
+msgstr ""
+
+#: customizations/volto-form-block/components/Widget/SelectWidget
+# defaultMessage: Close
+msgid "Close"
+msgstr ""
+
+#: customizations/volto/components/theme/Navigation/Navigation
+# defaultMessage: Close menu
+msgid "Close menu"
+msgstr ""
+
+#: customizations/volto/components/theme/SearchWidget/SearchWidget
+# defaultMessage: Close search
+msgid "Close search"
+msgstr ""
+
+#: customizations/volto/components/manage/Widgets/ColorPickerWidget
+# defaultMessage: Color
+msgid "Color"
+msgstr ""
+
 #: components/Blocks/AnnouncementBar/schema
 #: components/Blocks/Card/schema
 # defaultMessage: Colour
 msgid "Colour"
+msgstr ""
+
+#: customizations/@eeacms/volto-columns-block/ColumnsBlock/ColumnsBlockEdit
+# defaultMessage: Column
+msgid "Column"
+msgstr ""
+
+#: customizations/@eeacms/volto-columns-block/ColumnsBlock/ColumnsBlockEdit
+# defaultMessage: Columns block
+msgid "Columns block"
 msgstr ""
 
 #: components/Blocks/Callout/schema
@@ -55,14 +144,87 @@ msgstr ""
 msgid "Copy"
 msgstr ""
 
+#: customizations/volto/components/theme/Footer/Footer
+# defaultMessage: Copyright
+msgid "Copyright"
+msgstr ""
+
+#: customizations/volto/components/manage/Widgets/DatetimeWidget
+#: customizations/volto/components/manage/Widgets/DatetimeWidget.original
+# defaultMessage: Date
+msgid "Date"
+msgstr ""
+
+#: customizations/volto/components/theme/Search/Search
+# defaultMessage: Date (newest first)
+msgid "Date (newest first)"
+msgstr ""
+
+#: customizations/volto-form-block/components/Widget/SelectWidget
+# defaultMessage: Default
+msgid "Default"
+msgstr ""
+
 #: components/Blocks/Card/schema
+#: customizations/volto-form-block/components/Widget/SelectWidget
+#: customizations/volto/components/manage/Blocks/HeroImageLeft/Edit
 # defaultMessage: Description
 msgid "Description"
 msgstr ""
 
 #: config/blocks/schemaEnhancers
+# defaultMessage: Display mode
+msgid "Display mode"
+msgstr ""
+
+#: customizations/volto/components/manage/Controlpanels/Users/UsersControlpanel
+#: customizations/volto/components/manage/Controlpanels/Users/UsersControlpanel.original
+# defaultMessage: Do you really want to delete the user {username}?
+msgid "Do you really want to delete the user {username}?"
+msgstr ""
+
+#: customizations/volto-form-block/components/Widget/FileWidget
+# defaultMessage: Drop file here to replace the existing file
+msgid "Drop file here to replace the existing file"
+msgstr ""
+
+#: customizations/volto-form-block/components/Widget/FileWidget
+# defaultMessage: Drop file here to upload a new file
+msgid "Drop file here to upload a new file"
+msgstr ""
+
+#: customizations/volto-form-block/components/Widget/FileWidget
+# defaultMessage: Drop files here ...
+msgid "Drop files here ..."
+msgstr ""
+
+#: customizations/@eeacms/volto-columns-block/ColumnsBlock/ColumnsBlockEdit
+# defaultMessage: Edit parent columns block
+msgid "Edit parent columns block"
+msgstr ""
+
+#: customizations/volto/components/manage/Blocks/Search/components/DateRangeFacet
+#: customizations/volto/components/manage/Blocks/Search/components/DateRangeFacet.old
+# defaultMessage: End Date
+msgid "End Date"
+msgstr ""
+
+#: customizations/volto/components/manage/Blocks/Search/components/CheckboxFacet
+# defaultMessage: Show all {totalNumberOfFilters, plural,
+                  =1 {{facetTitle}}
+                  other {{facetTitle}s}
+              } ({totalNumberOfFilters})
+msgid "Facets show all button text"
+msgstr ""
+
+#: config/blocks/schemaEnhancers
 # defaultMessage: Filter results
 msgid "Filter results"
+msgstr ""
+
+#: components/Components/Filters/Filters
+# defaultMessage: Filters
+msgid "Filters"
 msgstr ""
 
 #: components/Blocks/DropdownQuickNavigation/schema
@@ -80,14 +242,31 @@ msgstr ""
 msgid "Full width search bar"
 msgstr ""
 
+#: customizations/@eeacms/volto-columns-block/ColumnsBlock/ColumnsBlockEdit
+# defaultMessage: Go to Column settings
+msgid "Go to Column settings"
+msgstr ""
+
+#: customizations/volto/components/theme/Breadcrumbs/Breadcrumbs
+# defaultMessage: Home
+msgid "Home"
+msgstr ""
+
 #: components/Blocks/Callout/schema
 #: components/Blocks/InPageAlert/schema
 # defaultMessage: Icon
 msgid "Icon"
 msgstr ""
 
+#: customizations/volto/components/theme/NotFound/NotFound
+#: customizations/volto/components/theme/NotFound/NotFound.original
+# defaultMessage: If you are certain you have the correct web address but are encountering an error, please contact the {site_admin}.
+msgid "If you are certain you have the correct web address but are encountering an error, please contact the {site_admin}."
+msgstr ""
+
 #: components/Blocks/Card/schema
 #: components/Blocks/ContentBlock/schema
+#: customizations/volto/components/manage/Blocks/HeroImageLeft/Edit
 # defaultMessage: Image
 msgid "Image"
 msgstr ""
@@ -116,6 +295,17 @@ msgstr ""
 #: components/Blocks/InPageAlert/schema
 # defaultMessage: Include margin
 msgid "Include margin"
+msgstr ""
+
+#: customizations/@plone/volto-slate/editor/plugins/StyleMenu/StyleMenu
+#: customizations/@plone/volto-slate/editor/plugins/StyleMenu/StyleMenu.original
+# defaultMessage: Inline Style
+msgid "Inline Style"
+msgstr ""
+
+#: editor/IntroText/constants
+# defaultMessage: Intro text
+msgid "Intro text"
 msgstr ""
 
 #: components/Blocks/DropdownQuickNavigation/schema
@@ -154,9 +344,123 @@ msgstr ""
 msgid "Make compact"
 msgstr ""
 
+#: config/blocks/schemaEnhancers
+# defaultMessage: Initial options
+msgid "Maximum filter options to show"
+msgstr ""
+
+#: customizations/volto/components/theme/Navigation/Navigation
+# defaultMessage: Main menu
+msgid "Mobile menu accessible label"
+msgstr ""
+
+#: customizations/volto/components/theme/Navigation/Navigation
+# defaultMessage: Menu
+msgid "Mobile menu title"
+msgstr ""
+
+#: components/DesignSystemVersionInformation
+# defaultMessage: NSW DDS Plone {ddsVersion}
+msgid "NSW Built with - DDS and Plone"
+msgstr ""
+
+#: components/DesignSystemVersionInformation
+# defaultMessage: NSW DDS Plone
+msgid "NSW Built with - plone only"
+msgstr ""
+
+#: customizations/volto/components/manage/Blocks/Listing/ListingBody
+# defaultMessage: No items found in this container.
+msgid "No items found in this container."
+msgstr ""
+
+#: customizations/volto/components/theme/Search/Search
+# defaultMessage: No results found
+msgid "No results found"
+msgstr ""
+
+#: customizations/volto/components/manage/Blocks/Listing/ListingBody
+# defaultMessage: No results found.
+msgid "No results found."
+msgstr ""
+
+#: customizations/volto-form-block/components/Widget/SelectWidget
+# defaultMessage: No value
+msgid "No value"
+msgstr ""
+
+#: customizations/volto/components/manage/Controlpanels/Users/UsersControlpanel
+#: customizations/volto/components/manage/Controlpanels/Users/UsersControlpanel.original
+# defaultMessage: Note that roles set here apply directly to a user. The symbol{plone_svg}indicates a role inherited from membership in a group.
+msgid "Note that roles set here apply directly to a user. The symbol{plone_svg}indicates a role inherited from membership in a group."
+msgstr ""
+
 #: config/blocks/variations
 # defaultMessage: Number of columns
 msgid "Number of columns"
+msgstr ""
+
+#: customizations/volto/components/manage/Blocks/ToC/variations/DefaultTocRenderer
+# defaultMessage: On this page
+msgid "On this page"
+msgstr ""
+
+#: customizations/volto/components/theme/Navigation/Navigation
+# defaultMessage: Open menu
+msgid "Open menu"
+msgstr ""
+
+#: customizations/volto/components/theme/NotFound/NotFound
+# defaultMessage: Page not found
+msgid "Page not found"
+msgstr ""
+
+#: customizations/volto/components/theme/NotFound/NotFound
+# defaultMessage: Page not found - {siteTitle}
+msgid "Page not found - {siteTitle}"
+msgstr ""
+
+#: customizations/@plone/volto-slate/editor/plugins/StyleMenu/StyleMenu
+#: customizations/@plone/volto-slate/editor/plugins/StyleMenu/StyleMenu.original
+# defaultMessage: Paragraph Style
+msgid "Paragraph Style"
+msgstr ""
+
+#: customizations/volto/components/manage/Blocks/Video/Body
+# defaultMessage: Please enter a valid URL by deleting the block and adding a new video block.
+msgid "Please enter a valid URL by deleting the block and adding a new video block."
+msgstr ""
+
+#: components/Components/Form/Select
+# defaultMessage: Please select
+msgid "Please select"
+msgstr ""
+
+#: customizations/volto/components/theme/Search/Search
+# defaultMessage: Read More…
+msgid "Read More…"
+msgstr ""
+
+#: customizations/volto/components/manage/Blocks/Search/components/SortOn
+#: customizations/volto/components/theme/Search/Search
+# defaultMessage: Relevance
+msgid "Relevance"
+msgstr ""
+
+#: customizations/volto-form-block/components/Widget/FileWidget
+# defaultMessage: Replace existing file
+msgid "Replace existing file"
+msgstr ""
+
+#: customizations/volto-form-block/components/Widget/SelectWidget
+# defaultMessage: Required
+msgid "Required"
+msgstr ""
+
+#: customizations/volto/components/manage/Blocks/Search/SearchBlockEdit
+#: customizations/volto/components/manage/Blocks/Search/SearchBlockEdit.original
+# defaultMessage: Results template
+msgid "Results template"
 msgstr ""
 
 #: components/Blocks/Section/schema
@@ -204,6 +508,27 @@ msgstr ""
 msgid "Schema_Title_Title"
 msgstr ""
 
+#: customizations/volto/components/manage/Blocks/Search/components/SearchInput
+#: customizations/volto/components/theme/SearchWidget/SearchWidget
+# defaultMessage: Search
+msgid "Search"
+msgstr ""
+
+#: customizations/volto/components/theme/SearchWidget/SearchWidget
+# defaultMessage: Search Site
+msgid "Search Site"
+msgstr ""
+
+#: customizations/volto/components/theme/Search/Search
+# defaultMessage: Search results
+msgid "Search results"
+msgstr ""
+
+#: customizations/volto/components/theme/Search/Search
+# defaultMessage: Search results for {term}
+msgid "Search results for {term}"
+msgstr ""
+
 #: components/Blocks/DropdownQuickNavigation/schema
 # defaultMessage: Second dropdown title
 msgid "Second dropdown title"
@@ -219,6 +544,17 @@ msgstr ""
 msgid "Select an icon"
 msgstr ""
 
+#: customizations/volto-form-block/components/Widget/SelectWidget
+#: customizations/volto/components/manage/Blocks/Search/widgets/SelectMetadataField
+# defaultMessage: Select…
+msgid "Select…"
+msgstr ""
+
+#: customizations/volto-form-block/components/Widget/SelectWidget
+# defaultMessage: Short Name
+msgid "Short Name"
+msgstr ""
+
 #: components/Blocks/Card/schema
 # defaultMessage: Should the card be highlighted?
 msgid "Should Highlight Description"
@@ -229,9 +565,19 @@ msgstr ""
 msgid "Should Highlight Title"
 msgstr ""
 
+#: customizations/volto/components/theme/Pagination/Pagination
+# defaultMessage: Show
+msgid "Show"
+msgstr ""
+
 #: components/Blocks/ContentBlock/schema
 # defaultMessage: Show view more link
 msgid "Show view more link"
+msgstr ""
+
+#: customizations/volto/components/manage/Blocks/Search/components/SearchDetails
+# defaultMessage: Showing results {resultsStart} - {resultsEnd} of {resultsTotal} results
+msgid "Showing results {resultsStart} - {resultsEnd} of {resultsTotal} results"
 msgstr ""
 
 #: components/Blocks/Sidebar/schema
@@ -239,9 +585,54 @@ msgstr ""
 msgid "Sidebar position"
 msgstr ""
 
+#: customizations/volto/components/theme/NotFound/NotFound
+#: customizations/volto/components/theme/NotFound/NotFound.original
+# defaultMessage: Site Administration
+msgid "Site Administration"
+msgstr ""
+
+#: customizations/volto/components/theme/Sitemap/Sitemap
+#: customizations/volto/components/theme/Sitemap/Sitemap.original
+# defaultMessage: Sitemap
+msgid "Sitemap"
+msgstr ""
+
 #: config/blocks/schemaEnhancers
 # defaultMessage: Size
 msgid "Size"
+msgstr ""
+
+#: customizations/volto/components/theme/View/ImageView
+#: customizations/volto/components/theme/View/ImageView.original
+# defaultMessage: Size: {size}
+msgid "Size: {size}"
+msgstr ""
+
+#: editor/SmallText/constants
+# defaultMessage: Small text
+msgid "Small text"
+msgstr ""
+
+#: customizations/volto/components/theme/Search/Search
+# defaultMessage: Sort by:
+msgid "Sort By:"
+msgstr ""
+
+#: customizations/volto/components/manage/Blocks/Search/components/SortOn
+# defaultMessage: Sort by
+msgid "Sort by"
+msgstr ""
+
+#: customizations/volto/components/manage/Blocks/Video/Edit
+#: customizations/volto/components/manage/Blocks/Video/Edit.original
+# defaultMessage: Specify a youtube video or playlist url
+msgid "Specify a youtube video or playlist url"
+msgstr ""
+
+#: customizations/volto/components/manage/Blocks/Search/components/DateRangeFacet
+#: customizations/volto/components/manage/Blocks/Search/components/DateRangeFacet.old
+# defaultMessage: Start Date
+msgid "Start Date"
 msgstr ""
 
 #: components/Blocks/Card/schema
@@ -250,12 +641,52 @@ msgstr ""
 msgid "Styling"
 msgstr ""
 
+#: customizations/volto/components/theme/NotFound/NotFound
+#: customizations/volto/components/theme/NotFound/NotFound.original
+# defaultMessage: Thank you.
+msgid "Thank you."
+msgstr ""
+
+#: customizations/volto-form-block/components/FormView
+# defaultMessage: There is a problem submitting your form
+msgid "There is a problem submitting your form"
+msgstr ""
+
+#: components/Components/Form/Select
+# defaultMessage: This field is required
+msgid "This field is required"
+msgstr ""
+
+#: customizations/volto/components/theme/NotFound/NotFound
+#: customizations/volto/components/theme/NotFound/NotFound.original
+# defaultMessage: This page does not seem to exist…
+msgid "This page does not seem to exist…"
+msgstr ""
+
+#: customizations/volto/components/manage/Widgets/DatetimeWidget
+#: customizations/volto/components/manage/Widgets/DatetimeWidget.original
+# defaultMessage: Time
+msgid "Time"
+msgstr ""
+
 #: components/Blocks/Callout/schema
 #: components/Blocks/Card/schema
 #: components/Blocks/ContentBlock/schema
 #: config/blocks/variations
+#: customizations/volto-form-block/components/Widget/SelectWidget
+#: customizations/volto/components/manage/Blocks/HeroImageLeft/Edit
 # defaultMessage: Title
 msgid "Title"
+msgstr ""
+
+#: config/blocks/schemaEnhancers
+# defaultMessage: Required
+msgid "Title for facet widget required option"
+msgstr ""
+
+#: config/blocks/schemaEnhancers
+# defaultMessage: Widget
+msgid "Title for facet widget selected"
 msgstr ""
 
 #: components/Blocks/Card/schema
@@ -268,12 +699,143 @@ msgstr ""
 msgid "Title is headline title"
 msgstr ""
 
+#: customizations/volto/components/manage/Blocks/Video/Edit
+#: customizations/volto/components/manage/Blocks/Video/Edit.original
+# defaultMessage: Type a Video (YouTube, Vimeo or mp4) URL
+msgid "Type a Video (YouTube, Vimeo or mp4) URL"
+msgstr ""
+
+#: customizations/volto/components/manage/TextLineEdit/TextLineEdit
+#: customizations/volto/components/manage/TextLineEdit/TextLineEdit.original
+# defaultMessage: Type the heading…
+msgid "Type the heading…"
+msgstr ""
+
+#: components/Components/Section/Section
+#: customizations/volto/components/theme/View/DefaultView
+# defaultMessage: Unknown Block {block}
+msgid "Unknown Block"
+msgstr ""
+
+#: customizations/volto/components/manage/Blocks/Search/components/SortOn
+# defaultMessage: Unsorted
+msgid "Unsorted"
+msgstr ""
+
+#: customizations/volto/components/manage/Blocks/HeroImageLeft/Edit
+# defaultMessage: Upload a new image
+msgid "Upload a new image"
+msgstr ""
+
+#: customizations/volto/components/manage/Blocks/HeroImageLeft/Edit
+#: customizations/volto/components/manage/Blocks/Image/Edit
+# defaultMessage: Uploading image
+msgid "Uploading image"
+msgstr ""
+
+#: customizations/volto-form-block/components/Widget/SelectWidget
+# defaultMessage: Used for programmatic access to the fieldset.
+msgid "Used for programmatic access to the fieldset."
+msgstr ""
+
+#: customizations/volto/components/manage/Controlpanels/Users/UsersControlpanel
+#: customizations/volto/components/manage/Controlpanels/Users/UsersControlpanel.original
+# defaultMessage: User name
+msgid "User name"
+msgstr ""
+
+#: customizations/volto/components/manage/Controlpanels/Users/UsersControlpanel
+#: customizations/volto/components/manage/Controlpanels/Users/UsersControlpanel.original
+# defaultMessage: Users
+msgid "Users"
+msgstr ""
+
 #: components/Blocks/ContentBlock/schema
 # defaultMessage: View more
 msgid "View more"
 msgstr ""
 
+#: customizations/volto/components/theme/NotFound/NotFound
+# defaultMessage: We apologize for the inconvenience, but the page you were trying to access is not at this address.
+msgid "We apologize for the inconvenience, but the page you were trying to access is not at this address."
+msgstr ""
+
+#: customizations/volto/components/theme/NotFound/NotFound.original
+# defaultMessage: We apologize for the inconvenience, but the page you were trying to access is not at this address. You can use the links below to help you find what you are looking for.
+msgid "We apologize for the inconvenience, but the page you were trying to access is not at this address. You can use the links below to help you find what you are looking for."
+msgstr ""
+
 #: config/blocks/schemaEnhancers
 # defaultMessage: Width
 msgid "Width"
+msgstr ""
+
+#: customizations/volto-form-block/components/FormView
+# defaultMessage: This field is required
+msgid "field_is_required"
+msgstr ""
+
+#: customizations/volto-form-block/components/FormView
+# defaultMessage: Submit
+msgid "form_default_submit_label"
+msgstr ""
+
+#: customizations/volto-form-block/components/FormView
+# defaultMessage: Fill in the required fields
+msgid "form_empty_values_validation"
+msgstr ""
+
+#: customizations/volto-form-block/components/FormView
+# defaultMessage: Clear
+msgid "form_reset"
+msgstr ""
+
+#: customizations/volto-form-block/components/Field
+# defaultMessage: Select a value
+msgid "form_select_a_value"
+msgstr ""
+
+#: customizations/volto-form-block/components/FormView
+# defaultMessage: Sent!
+msgid "form_submit_success"
+msgstr ""
+
+#: customizations/volto/components/manage/Blocks/Listing/ListingBody
+# defaultMessage: Loading
+msgid "loading"
+msgstr ""
+
+#: components/Components/Form/Select
+# defaultMessage: {numberSelected} {numberSelected, plural, =1 {{title}} other {{title}s}} selected
+msgid "multiSelectGotValueText"
+msgstr ""
+
+#: components/Components/Form/Select
+# defaultMessage: Select {title}s
+msgid "multiSelectNoValueText"
+msgstr ""
+
+#: components/Components/Form/Select
+# defaultMessage: required
+msgid "required"
+msgstr ""
+
+#: customizations/volto/components/theme/Search/Search
+# defaultMessage: results
+msgid "results found"
+msgstr ""
+
+#: customizations/volto/components/theme/SkipLinks/SkipLinks
+# defaultMessage: Skip to content
+msgid "skiplink-main-content"
+msgstr ""
+
+#: customizations/volto/components/theme/SkipLinks/SkipLinks
+# defaultMessage: Skip to navigation
+msgid "skiplink-navigation"
+msgstr ""
+
+#: customizations/volto/components/theme/SkipLinks/SkipLinks
+# defaultMessage: Skip to links
+msgid "skiplink-title"
 msgstr ""
