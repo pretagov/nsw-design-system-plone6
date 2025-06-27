@@ -114,6 +114,6 @@ mark {
   // Shrink it for the empty value case
   &:has(option[value=""]:checked) {
     padding-inline-end: 0;
-    width: 14ch;
+    width: 20ch;
   }
 }
