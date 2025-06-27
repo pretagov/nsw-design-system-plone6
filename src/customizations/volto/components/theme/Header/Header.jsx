@@ -117,7 +117,7 @@ const Header = ({ nswDesignSystem }) => {
   }).component;
 
   // TODO: Having state for this is ridiculous as it's only computed when it needs to be shown after clicking the search button
-  const [headerOffset, setHeaderOffset] = useState(50);
+  const [headerOffset, setHeaderOffset] = useState(0);
 
   return (
     <>
@@ -158,15 +158,18 @@ const Header = ({ nswDesignSystem }) => {
                   const searchButtonElement = document.querySelector(
                     '.nsw-header__search',
                   );
+                  const searchInputElement = document.querySelector(
+                    '.nsw-header__search-area',
+                  );
                   // Copied media query from the CSS to account for mobile position being different
                   const isDesktop = window.matchMedia('(min-width: 62rem)')
                     .matches;
-                  if (searchButtonElement && isDesktop) {
+                  if (searchButtonElement && searchInputElement && isDesktop) {
+                    const containerStart = searchInputElement.parentElement.getBoundingClientRect()
+                      .right;
                     const offset =
-                      window.innerWidth -
-                      searchButtonElement.getBoundingClientRect().x -
-                      searchButtonElement.offsetWidth -
-                      20; // There's a 20px not accounted for somewhere and I can't figure out where so hard-coded for now
+                      containerStart -
+                      searchButtonElement.getBoundingClientRect().right;
                     setHeaderOffset(offset);
                   }
                 }}
