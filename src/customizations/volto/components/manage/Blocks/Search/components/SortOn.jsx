@@ -34,14 +34,12 @@ const SortOn = (props) => {
 
   const { sortable_indexes } = querystring;
 
-  const activeSortOn = sortOn || data?.query?.sort_on || '';
+  const activeSortOn = sortOn ?? data?.query?.sort_on ?? '';
 
-  const noValueLabel = searchedText
-    ? intl.formatMessage(messages.relevance)
-    : intl.formatMessage(messages.unsorted);
+  const noValueLabel = intl.formatMessage(messages.relevance);
 
   const options = [
-    { value: '', label: noValueLabel },
+    { value: '', label: noValueLabel, disabled: !searchedText },
     ...sortOnOptions.map((k) => ({
       value: k,
       label: k === '' ? noValueLabel : sortable_indexes[k]?.title || k,
@@ -64,10 +62,14 @@ const SortOn = (props) => {
           !isEditMode && setSortOn(target.value);
         }}
       >
-        {options.map(({ value, label }) => {
+        {options.map((option) => {
           return (
-            <option key={value} value={value}>
-              {label}
+            <option
+              key={option.value}
+              value={option.value}
+              disabled={option.disabled}
+            >
+              {option.label}
             </option>
           );
         })}

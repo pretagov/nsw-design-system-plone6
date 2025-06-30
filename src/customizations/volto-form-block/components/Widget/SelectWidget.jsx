@@ -13,6 +13,7 @@ import { defineMessages, useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
+import { ErrorMessage } from 'nsw-design-system-plone6/components/Components/Form/ErrorMessage';
 import { Select } from 'nsw-design-system-plone6/components/Components/Form/Select';
 
 const messages = defineMessages({
@@ -66,13 +67,14 @@ function SelectWidget(props) {
     choices = [],
     value,
     onChange = () => {},
-    noValueOption = true,
+    noValueOption,
     id,
     default: defaultOption,
     disabled,
     isDisabled,
     invalid,
     title,
+    error = [],
   } = props;
   const intl = useIntl();
 
@@ -105,13 +107,7 @@ function SelectWidget(props) {
     <FormFieldWrapper {...props} wrapped={false}>
       <Select
         options={options}
-        value={
-          normalizedValue
-            ? normalizedValue['value']
-            : required
-            ? options[0].value
-            : ''
-        }
+        value={normalizedValue ? normalizedValue['value'] : ''}
         onChange={({ target: selectedOption }) => {
           return onChange(
             id,
@@ -127,10 +123,16 @@ function SelectWidget(props) {
         disabled={disabled || isDisabled}
         invalid={isInvalid}
         noValueOption={
-          // We do allow having default values but still allowing the user to go back and select `no-value`.
-          noValueOption && !defaultOption && !required ? true : false
+          noValueOption !== undefined
+            ? noValueOption
+            : defaultOption && required
+            ? false
+            : true
         }
       />
+      {isInvalid ? (
+        <ErrorMessage inputId={`field-${id}`} message={error[0]} />
+      ) : null}
     </FormFieldWrapper>
   );
 }

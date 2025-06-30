@@ -285,6 +285,7 @@ const withSearch = (options) => (WrappedComponent) => {
     );
 
     const timeoutRef = React.useRef();
+    const previousSearch = React.useRef();
     const facetSettings = data?.facets;
     const queryType = data?.queryType;
 
@@ -321,6 +322,22 @@ const withSearch = (options) => (WrappedComponent) => {
             if (toSortOrder === '') {
               delete searchData.sort_order;
             }
+
+            // Reset the sort to relevance if we have gone from no keyword to search for keywords.
+            // if (!previousSearch.current && !!toSearchText) {
+            //   delete searchData.sort_on;
+            //   setSortOn('');
+            // }
+            // Reset the sort to relevance only if we have changed the keywords
+            if (toSearchText && previousSearch.current !== toSearchText) {
+              delete searchData.sort_on;
+              setSortOn('');
+            }
+            // Reset to default when removing keyword
+            else if (previousSearch.current && !toSearchText) {
+              setSortOn(data.query.sort_on || '');
+            }
+            previousSearch.current = toSearchText;
             setSearchData(searchData);
             setLocationSearchData(getSearchFields(searchData));
           },
