@@ -338,7 +338,6 @@ class Toolbar extends Component {
     const otherActions = Object.values(this.props.actions.object || {}).filter(
       (action) => !['edit', 'folderContents', 'view'].includes(action.id),
     );
-    debugger;
     if (otherActions.length > 0) {
       return true;
     }
