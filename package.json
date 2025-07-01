@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@plone/scripts": ">= 2.2.2",
-    "mrs-developer": "2.1.0",
+    "mrs-developer": "2.3.0",
     "razzle-dev-utils": "4.2.18",
     "release-it": "^15.4.2"
   }
