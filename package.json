@@ -40,7 +40,7 @@
     "volto-google-analytics": "2.0.0",
     "volto-siteinfo": "1.1.0",
     "volto-subblocks": "2.0.0",
-    "volto-subfooter": "2.0.0"
+    "volto-subfooter": "3.1.3"
   },
   "peerDependencies": {
     "@plone-collective/volto-slots-editor": "*",
