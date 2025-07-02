@@ -26,7 +26,7 @@
     "@plone-collective/volto-slots-editor"
   ],
   "dependencies": {
-    "@eeacms/volto-accordion-block": "10.4.6",
+    "@eeacms/volto-accordion-block": "11.0.4",
     "@eeacms/volto-columns-block": "6.3.2",
     "@fontsource/public-sans": "4.5.12",
     "@kitconcept/volto-blocks-grid": "5.2.0",
