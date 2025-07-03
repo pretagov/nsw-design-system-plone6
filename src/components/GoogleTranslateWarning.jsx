@@ -8,7 +8,7 @@ export function GoogleTranslateWarning(props) {
         <span
           focusable="false"
           aria-hidden="true"
-          className="material-icons nsw-material-icons nsw-in-page-alert__icon"
+          className="material-icons nsw-material-icons nsw-in-page-alert__icon notranslate"
         >
           error
         </span>
