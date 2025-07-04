@@ -80,6 +80,9 @@ function ErrorMessageBox({ formId, formErrors = {}, fields }) {
           {Object.keys(formErrors).map((fieldName) => {
             const fieldData = allFieldData[fieldName];
             if (!fieldData) {
+              if (typeof formErrors[fieldName] === 'string') {
+                return <li key={fieldName}>{formErrors[fieldName]}</li>;
+              }
               return <React.Fragment key={fieldName}></React.Fragment>;
             }
             const { label, id, validations = [] } = fieldData;
