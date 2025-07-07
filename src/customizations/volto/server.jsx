@@ -1,8 +1,3 @@
-/* eslint no-console: 0 */
-/**
- * Hard-coded the language to be `en-au`
- * Disabled the language switcher based on cookies
- */
 import '@plone/volto/config'; // This is the bootstrap for the global config - server side
 import { existsSync, lstatSync, readFileSync } from 'fs';
 import React from 'react';
@@ -117,7 +112,7 @@ function setupServer(req, res, next) {
   const initialState = {
     intl: {
       defaultLocale: 'en-au',
-      locale: 'en-au',
+      locale: lang,
       messages: locales[lang],
     },
   };
@@ -194,7 +189,7 @@ server.get('/*', (req, res) => {
     form: req.body,
     intl: {
       defaultLocale: 'en-au',
-      locale: 'en-au',
+      locale: lang,
       messages: locales[lang],
     },
     browserdetect,
@@ -238,13 +233,12 @@ server.get('/*', (req, res) => {
         : store.getState().content.data?.language?.token ||
           config.settings.defaultLanguage;
 
-      // DISABLED IN THIS SHADOW TO STAY USING 'EN-AU'
-      // if (cookie_lang !== contentLang) {
-      //   const newLocale = toLangUnderscoreRegion(
-      //     new locale.Locales(contentLang).best(supported).toString(),
-      //   );
-      //   store.dispatch(changeLanguage(newLocale, locales[newLocale], req));
-      // }
+      if (cookie_lang !== contentLang) {
+        const newLocale = toLangUnderscoreRegion(
+          new locale.Locales(contentLang).best(supported).toString(),
+        );
+        store.dispatch(changeLanguage(newLocale, locales[newLocale], req));
+      }
 
       const context = {};
       resetServerContext();
