@@ -17,8 +17,8 @@ import { CookiesProvider } from 'react-cookie';
 import cookiesMiddleware from 'universal-cookie-express';
 import debug from 'debug';
 
-import config from '@plone/volto/registry';
 import routes from '@root/routes';
+import config from '@plone/volto/registry';
 
 import {
   flattenToAppURL,
