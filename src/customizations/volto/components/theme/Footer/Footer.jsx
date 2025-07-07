@@ -1,5 +1,5 @@
 import { useVoltoSlotsEditor } from '@plone-collective/volto-slots-editor';
-import { Icon } from '@plone/volto/components';
+import { Icon, UniversalLink } from '@plone/volto/components';
 import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
 import cx from 'classnames';
@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getSubFooter } from 'volto-subfooter';
 
 import { DesignSystemVersionInformation } from 'nsw-design-system-plone6/components/DesignSystemVersionInformation';
-import { Link } from 'react-router-dom';
 
 // TODO: Would dynamically importing these reduce bundle size?
 import MailSVG from '@mdi/svg/svg/email.svg';
@@ -152,7 +151,9 @@ function Footer() {
                   >
                     <div className="nsw-footer__heading">
                       {headingItemHref ? (
-                        <Link to={headingItemHref}>{headingItem.title}</Link>
+                        <UniversalLink href={headingItemHref}>
+                          {headingItem.title}
+                        </UniversalLink>
                       ) : (
                         headingItem.title
                       )}
@@ -175,7 +176,9 @@ function Footer() {
                               : linkHref;
                             return (
                               <li key={key}>
-                                <Link to={linkHref}>{title}</Link>
+                                <UniversalLink href={linkHref}>
+                                  {title}
+                                </UniversalLink>
                               </li>
                             );
                           },
@@ -226,7 +229,7 @@ function Footer() {
                         : linkHref;
                       return (
                         <li key={`lowerLinks-${index}`}>
-                          <Link to={linkHref}>{title}</Link>
+                          <UniversalLink href={linkHref}>{title}</UniversalLink>
                         </li>
                       );
                     },

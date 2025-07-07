@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { FormFieldWrapper } from '@plone/volto/components';
+import { ErrorMessage } from 'nsw-design-system-plone6/components/Components/Form/ErrorMessage';
 
 /** EmailWidget, a widget for email addresses
  *
@@ -40,12 +41,16 @@ function EmailWidget(props) {
     }
   }, []);
 
-  const isInvalid =
-    error?.length > 0 && (invalid === true || invalid === 'true');
+  const isInvalid = invalid === true || invalid === 'true' || error.length > 0;
   const inputId = `field-${id}`;
 
   return (
-    <FormFieldWrapper {...props} className="text" wrapped={false}>
+    <FormFieldWrapper
+      id={inputId}
+      title={title}
+      className="text"
+      wrapped={false}
+    >
       <div className="nsw-form__group">
         <label
           className={cx('nsw-form__label', { 'nsw-form__required': required })}
@@ -66,13 +71,10 @@ function EmailWidget(props) {
           name={id}
           minLength={minLength || null}
           maxLength={maxLength || null}
-          // required={required ? true : null}
-          // aria-required={required ? true : null}
-          aria-invalid={isInvalid ? true : null}
           disabled={isDisabled ? true : null}
           placeholder={placeholder}
           ref={node}
-          value={value}
+          value={value || ''}
           onClick={() => onClick()}
           onBlur={({ target }) =>
             onBlur(id, target.value === '' ? null : target.value)
@@ -80,7 +82,16 @@ function EmailWidget(props) {
           onChange={({ target }) => {
             return onChange(id, target.value === '' ? null : target.value);
           }}
+          aria-invalid={isInvalid ? 'true' : null}
+          // The order here matters, as not all Assistive Technology supports multiple describedby
+          aria-describedby={cx({
+            [`${inputId}-helper-text`]: description,
+            [`${inputId}-error-text`]: isInvalid,
+          })}
         />
+        {isInvalid ? (
+          <ErrorMessage inputId={inputId} message={error[0]} />
+        ) : null}
       </div>
     </FormFieldWrapper>
   );

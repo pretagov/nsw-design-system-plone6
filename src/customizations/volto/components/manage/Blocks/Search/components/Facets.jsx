@@ -60,9 +60,13 @@ const Facets = (props) => {
 
           // TODO: Inefficient, buts works.
           choices = index.values_order
-            ? index.values_order.map((valueToFind) =>
-                choices.find((choice) => choice.value === valueToFind),
-              )
+            ? index.values_order.reduce((validChoices, valueToFind) => {
+                const choice = choices.find((choice) => choice.value === valueToFind)
+                if (choice) {
+                  validChoices.push(choice)
+                }
+                return validChoices;
+              }, [])
             : choices.sort((a, b) =>
                 a.label.localeCompare(b.label, 'en', { sensitivity: 'base' }),
               );
