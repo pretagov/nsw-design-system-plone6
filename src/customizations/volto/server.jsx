@@ -1,34 +1,34 @@
-import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
 import '@plone/volto/config'; // This is the bootstrap for the global config - server side
-import debug from 'debug';
-import { detect } from 'detect-browser';
-import express from 'express';
 import { existsSync, lstatSync, readFileSync } from 'fs';
-import { createMemoryHistory } from 'history';
-import locale from 'locale';
-import { keys } from 'lodash';
-import path from 'path';
 import React from 'react';
+import { StaticRouter } from 'react-router-dom';
+import { Provider } from 'react-intl-redux';
+import express from 'express';
+import { renderToString } from 'react-dom/server';
+import { createMemoryHistory } from 'history';
+import { parse as parseUrl } from 'url';
+import { keys } from 'lodash';
+import locale from 'locale';
+import { detect } from 'detect-browser';
+import path from 'path';
+import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
 import { resetServerContext } from 'react-beautiful-dnd';
 import { CookiesProvider } from 'react-cookie';
-import { renderToString } from 'react-dom/server';
-import { Provider } from 'react-intl-redux';
-import { StaticRouter } from 'react-router-dom';
 import cookiesMiddleware from 'universal-cookie-express';
-import { parse as parseUrl } from 'url';
+import debug from 'debug';
 
 import config from '@plone/volto/registry';
 import routes from '@root/routes';
 
-import { changeLanguage } from '@plone/volto/actions';
 import {
-  Api,
   flattenToAppURL,
   Html,
-  normalizeLanguageName,
+  Api,
   persistAuthToken,
+  normalizeLanguageName,
   toLangUnderscoreRegion,
 } from '@plone/volto/helpers';
+import { changeLanguage } from '@plone/volto/actions';
 
 import userSession from '@plone/volto/reducers/userSession/userSession';
 
@@ -36,11 +36,8 @@ import ErrorPage from '@plone/volto/error';
 
 import languages from '@plone/volto/constants/Languages';
 
-import {
-  loadOnServer,
-  ReduxAsyncConnect,
-} from '@plone/volto/helpers/AsyncConnect';
 import configureStore from '@plone/volto/store';
+import { ReduxAsyncConnect, loadOnServer } from '@plone/volto/helpers/AsyncConnect';
 
 let locales = {};
 
