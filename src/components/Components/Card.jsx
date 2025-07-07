@@ -86,16 +86,11 @@ export function Card({
         )
       ) : null}
       <div className="nsw-card__content">
-        {label ? (
-            <div className="nsw-card__tag">{label}</div>
-        ) : null}
-
+        {label ? <div className="nsw-card__tag">{label}</div> : null}
 
         {cleanDate ? (
           <div className="nsw-card__date">
-            {cleanDate ? (
-              <FormattedDate date={cleanDate} locale="en-au" />
-            ) : null}
+            {cleanDate ? <FormattedDate date={cleanDate} /> : null}
           </div>
         ) : null}
         <div className="nsw-card__title">
