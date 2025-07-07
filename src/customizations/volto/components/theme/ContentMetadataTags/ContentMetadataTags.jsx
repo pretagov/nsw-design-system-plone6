@@ -11,6 +11,8 @@ import { useLocation } from 'react-router';
 
 const ContentMetadataTags = (props) => {
   const siteTitle = useSelector((state) => state.siteInfo?.title);
+  const siteLanguage = useSelector((state) => state.siteInfo?.default_language);
+
   const { pathname } = useLocation();
   const {
     opengraph_title,
@@ -61,10 +63,16 @@ const ContentMetadataTags = (props) => {
       : `${contentTitle} | ${siteTitle}`
     : contentTitle;
 
+  const contentLanguage = props.content.language?.token;
+
   return (
     <>
       <Helmet>
-        <title>{pageTitle}</title>
+        {contentLanguage !== siteLanguage ? (
+          <title lang={contentLanguage}>{pageTitle}</title>
+        ) : (
+          <title>{pageTitle}</title>
+        )}
         <meta name="description" content={seo_description || description} />
         <meta
           property="og:title"
