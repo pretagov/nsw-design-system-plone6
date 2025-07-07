@@ -55,7 +55,7 @@ function getInitialState(data, facets, urlSearchText, id) {
           return valueToQuery({ value, facet });
         })
         .filter((f) => !!f),
-      ...(urlSearchText
+      ...(urlSearchText !== null || urlSearchText !== undefined
         ? [
             {
               i: 'SearchableText',
@@ -126,7 +126,7 @@ function normalizeState({
   // TODO eventually the searchText should be a distinct facet from SearchableText, and
   // the two conditions could be combined, in comparison to the current state, when
   // one overrides the other.
-  if (searchText) {
+  if (searchText !== null || searchText !== undefined) {
     params.query = params.query.reduce(
       // Remove SearchableText from query
       (acc, kvp) => (kvp.i === 'SearchableText' ? acc : [...acc, kvp]),
@@ -285,6 +285,7 @@ const withSearch = (options) => (WrappedComponent) => {
     );
 
     const timeoutRef = React.useRef();
+    const previousSearch = React.useRef();
     const facetSettings = data?.facets;
     const queryType = data?.queryType;
 
@@ -321,6 +322,22 @@ const withSearch = (options) => (WrappedComponent) => {
             if (toSortOrder === '') {
               delete searchData.sort_order;
             }
+
+            // Reset the sort to relevance if we have gone from no keyword to search for keywords.
+            // if (!previousSearch.current && !!toSearchText) {
+            //   delete searchData.sort_on;
+            //   setSortOn('');
+            // }
+            // Reset the sort to relevance only if we have changed the keywords
+            if (toSearchText && previousSearch.current !== toSearchText) {
+              delete searchData.sort_on;
+              setSortOn('');
+            }
+            // Reset to default when removing keyword
+            else if (previousSearch.current && !toSearchText) {
+              setSortOn(data.query.sort_on || '');
+            }
+            previousSearch.current = toSearchText;
             setSearchData(searchData);
             setLocationSearchData(getSearchFields(searchData));
           },

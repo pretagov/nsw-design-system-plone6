@@ -31,7 +31,7 @@ const messages = defineMessages({
   },
   field_is_required: {
     id: 'field_is_required',
-    defaultMessage: '{fieldLabel} is required',
+    defaultMessage: 'This field is required',
   },
 });
 
@@ -45,48 +45,62 @@ function useIsClient() {
   return isClient;
 }
 
-function ErrorMessageBox({ formId, formErrors = [], fields }) {
+function ErrorMessageBox({ formId, formErrors = {}, fields }) {
   const intl = useIntl();
   const allFieldData = React.useMemo(() => {
     return fields.reduce((errorData, currentField) => {
       const fieldName = getFieldName(currentField.label, currentField.id);
-      if (formErrors.includes(fieldName)) {
+      if (formErrors[fieldName]) {
         errorData[fieldName] = currentField;
       }
       return errorData;
     }, {});
   }, [fields, formErrors]);
 
-  if (formErrors.length < 1) {
+  if (Object.keys(formErrors).length < 1) {
     return null;
   }
 
   return (
     <div
-      class="nsw-in-page-alert nsw-in-page-alert--error"
+      className="nsw-in-page-alert nsw-in-page-alert--error"
       id={`${formId}-errors`}
     >
       <span
-        class="material-icons nsw-material-icons nsw-in-page-alert__icon"
+        className="material-icons nsw-material-icons nsw-in-page-alert__icon"
         focusable="false"
         aria-hidden="true"
       >
         cancel
       </span>
-      <div class="nsw-in-page-alert__content">
-        <p class="nsw-h5">{intl.formatMessage(messages.error)}</p>
+      <div className="nsw-in-page-alert__content">
+        <p className="nsw-h5">{intl.formatMessage(messages.error)}</p>
         {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
         <ul role="list">
-          {formErrors.map((fieldName) => {
-            const { label, id } = allFieldData[fieldName];
+          {Object.keys(formErrors).map((fieldName) => {
+            const fieldData = allFieldData[fieldName];
+            if (!fieldData) {
+              if (typeof formErrors[fieldName] === 'string') {
+                return <li key={fieldName}>{formErrors[fieldName]}</li>;
+              }
+              return <React.Fragment key={fieldName}></React.Fragment>;
+            }
+            const { label, id, validations = [] } = fieldData;
             const name = getFieldName(label, id);
+            const validationsWithErrors = Object.keys(formErrors[name]);
+            const validationIdToShow = validations.find((validation) =>
+              validationsWithErrors.includes(validation),
+            );
+            const validationMessageToShow = formErrors[name].required
+              ? 'required'
+              : validationIdToShow;
+            const errorMessage = validationMessageToShow
+              ? `${label}: ${formErrors[name][validationMessageToShow]}`
+              : intl.formatMessage(messages.field_is_required);
+
             return (
-              <li>
-                <a href={`#field-${name}`}>
-                  {intl.formatMessage(messages.field_is_required, {
-                    fieldLabel: label,
-                  })}
-                </a>
+              <li key={fieldName}>
+                <a href={`#field-${name}`}>{errorMessage}</a>
               </li>
             );
           })}
@@ -102,7 +116,7 @@ const FieldRenderWrapper = ({
   index,
   blockData,
   onChangeFormData,
-  formErrors,
+  formErrors = {},
   isValidField,
   FieldSchema,
 }) => {
@@ -197,8 +211,9 @@ Only required if '${targetField.label}' is ${validatorLabel} to '${show_when_to}
           value={value}
           description={description}
           valid={isValidField(name)}
-          formHasErrors={formErrors?.length > 0}
+          errors={formErrors[name]}
           shouldShow={shouldShow}
+          formHasErrors={Object.keys(formErrors).length > 0} // TODO: Deprecate legacy prop
         />
       </div>
     );
@@ -214,8 +229,9 @@ Only required if '${targetField.label}' is ${validatorLabel} to '${show_when_to}
       value={value}
       description={description}
       valid={isValidField(name)}
-      formHasErrors={formErrors?.length > 0}
+      errors={formErrors[name]}
       shouldShow={shouldShow}
+      formHasErrors={Object.keys(formErrors).length > 0} // TODO: Deprecate legacy prop
     />
   );
 };
@@ -238,7 +254,7 @@ const FormView = ({
   const isValidField = (field) => {
     return Array.isArray(formErrors)
       ? formErrors?.indexOf(field) < 0
-      : !formErrors[field];
+      : !formErrors.hasOwnProperty(field) || formErrors[field] === null;
   };
 
   return (
@@ -268,7 +284,7 @@ const FormView = ({
       ) : (
         // TODO: The original component has a `loading` state. Is this needed here?
         <form id={id} className="nsw-form" onSubmit={onSubmit} method="post">
-          {formErrors.length > 0 && (
+          {Object.keys(formErrors).length > 0 && (
             <ErrorMessageBox
               formId={id}
               formErrors={formErrors}
@@ -290,7 +306,14 @@ const FormView = ({
                 onChange={() => {}}
                 disabled
                 valid={isValidField}
-                formHasErrors={formErrors?.length > 0}
+                formHasErrors={!!formErrors[field.name]}
+                errors={
+                  formErrors[
+                    'static_field_' +
+                      (field.field_id ??
+                        field.name?.toLowerCase()?.replace(' ', ''))
+                  ]
+                }
               />
             );
           })}
@@ -301,6 +324,7 @@ const FormView = ({
                 subblock={subblock}
                 index={index}
                 formData={formData}
+                formErrors={formErrors}
                 blockData={data}
                 onChangeFormData={onChangeFormData}
                 isValidField={isValidField}
