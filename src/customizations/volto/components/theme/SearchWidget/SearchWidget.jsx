@@ -21,7 +21,13 @@ const messages = defineMessages({
   },
 });
 
-const SearchWidget = ({ searchInputController }) => {
+/**
+ *
+ * @param {Object} props
+ * @param props.searchInputController - React ref for the NSW JavaScript class for controlling the search input
+ * @param {number | string} props.positionOffset - Pixel offset from the right
+ */
+const SearchWidget = ({ searchInputController, positionOffset }) => {
   const intl = useIntl();
   const [text, setText] = useState('');
   const { pathname } = useLocation();
@@ -51,6 +57,16 @@ const SearchWidget = ({ searchInputController }) => {
       className="nsw-header__search-area js-search-area"
       id="header-search"
       hidden
+      style={
+        positionOffset
+          ? {
+              right:
+                typeof positionOffset === 'number'
+                  ? `${positionOffset}px`
+                  : positionOffset,
+            }
+          : null
+      }
     >
       {/* TODO: Progressive Enhancement, this currently just takes you to the default search page */}
       <form role="search" action="/search" onSubmit={onSubmit}>

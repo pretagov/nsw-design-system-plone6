@@ -1,17 +1,15 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Plone\n"
-"POT-Creation-Date: 2025-07-07T23:25:06.483Z\n"
-"Last-Translator: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
-"Language-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"Language-Code: en\n"
-"Language-Name: English\n"
-"Preferred-Encodings: utf-8\n"
-"Domain: volto\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language: \n"
+"Language-Team: \n"
+"Content-Type: \n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
 
 #: customizations/volto/components/theme/Footer/Footer
 # defaultMessage: We pay respect to the Traditional Custodians and First Peoples of NSW, and acknowledge their continued connection to their country and culture.
@@ -86,7 +84,7 @@ msgid "Browse the site, drop an image, or type an URL"
 msgstr ""
 
 #: customizations/volto/components/theme/Footer/Footer
-# defaultMessage: Built with 
+# defaultMessage: Built with
 msgid "Built with"
 msgstr ""
 
@@ -261,9 +259,6 @@ msgstr ""
 
 #: customizations/volto/components/manage/Blocks/Search/components/CheckboxFacet
 # defaultMessage: Show all {totalNumberOfFilters, plural,
-                  =1 {{facetTitle}}
-                  other {{facetTitle}s}
-              } ({totalNumberOfFilters})
 msgid "Facets show all button text"
 msgstr ""
 
