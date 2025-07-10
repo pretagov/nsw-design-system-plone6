@@ -19,6 +19,8 @@ const Body = ({ data, isEditMode, isSelectedInEditMode }) => {
       if (data.url.match('list')) {
         const matches = data.url.match(/^.*\?list=(.*)|^.*&list=(.*)$/);
         listID = matches[1] || matches[2];
+      } else if (data.url.match('youtube.com/embed')) {
+        videoID = data.url.match('youtube.com/embed/(.*)')[1];
       } else {
         videoID = data.url.match(/.be\//)
           ? data.url.match(/^.*\.be\/(.*)/)[1]
