@@ -4,7 +4,7 @@ export function globalAlertSchema({ intl }) {
       {
         id: 'default',
         title: 'Default',
-        fields: ['title', 'description', 'buttonText', 'url'],
+        fields: ['title', 'description', 'buttonText', 'url', 'state'],
         required: ['title'],
       },
     ],
@@ -34,6 +34,20 @@ export function globalAlertSchema({ intl }) {
           defaultMessage: 'Link',
         }),
         widget: 'url',
+      },
+      state: {
+        title: intl.formatMessage({
+          id: 'State',
+          defaultMessage: 'state',
+        }),
+        type: 'string',
+        factory: 'Choice',
+        choices: [
+          ['information', 'Information'],
+          ['light', 'Light'],
+          ['critical', 'Critical'],
+        ],
+        default: 'information',
       },
     },
   };

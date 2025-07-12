@@ -72,12 +72,16 @@
       left: auto;
     }
   }
-}
 
-// Columns block editing fixes
-.columns-block {
-  .nsw-col .blocks-form > fieldset {
-    min-inline-size: initial;
+  // Columns block editing fixes
+  .columns-block {
+    .nsw-col .blocks-form > fieldset {
+      min-inline-size: initial;
+    }
+  }
+  // Hide the close button on the global alert in edit mode
+  .nsw-global-alert .js-close-alert {
+    display: none;
   }
 }
 
