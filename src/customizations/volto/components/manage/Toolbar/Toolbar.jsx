@@ -345,10 +345,10 @@ class Toolbar extends Component {
   }
 
   shouldShowToolbar() {
-    return true;
     if (!this.props.token) {
       return false;
     }
+    return true;
 
     const noTypesToAdd =
       Array.isArray(this.props.types) && this.props.types.length < 1;
