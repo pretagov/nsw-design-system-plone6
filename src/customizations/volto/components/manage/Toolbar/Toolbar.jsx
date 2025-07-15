@@ -345,6 +345,7 @@ class Toolbar extends Component {
   }
 
   shouldShowToolbar() {
+    return true;
     if (!this.props.token) {
       return false;
     }
