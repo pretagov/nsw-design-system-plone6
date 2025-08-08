@@ -1,4 +1,3 @@
-import { useVoltoSlotsEditor } from '@plone-collective/volto-slots-editor';
 import { Icon, UniversalLink } from '@plone/volto/components';
 import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
@@ -7,6 +6,7 @@ import { getTextColourUtilityForPaletteName } from 'nsw-design-system-plone6/hel
 import { useEffect } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { useVoltoSlotsEditor } from 'volto-slots-editor';
 import { getSubFooter } from 'volto-subfooter';
 
 import { DesignSystemVersionInformation } from 'nsw-design-system-plone6/components/DesignSystemVersionInformation';
