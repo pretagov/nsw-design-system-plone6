@@ -18,8 +18,8 @@ import { useGoogleAnalytics } from 'volto-google-analytics';
 import { useIsTranslating } from 'volto-google-translate/helpers';
 import Navigation from '../Navigation/Navigation';
 
-import { useVoltoSlotsEditor } from '@plone-collective/volto-slots-editor';
 import config from '@plone/volto/registry';
+import { useVoltoSlotsEditor } from 'volto-slots-editor';
 
 import MenuSVG from '@material-design-icons/svg/filled/menu.svg';
 import SearchSVG from '@material-design-icons/svg/filled/search.svg';
