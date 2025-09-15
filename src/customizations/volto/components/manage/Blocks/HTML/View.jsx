@@ -23,9 +23,20 @@ const View = ({ data }) => {
     }
     // TODO: Handle multiple iframes (unlikely but you never know)
     const iframe = iframes[0];
+    let resizeObserver = null;
     iframe.onload = ({ target }) => {
-      const iframeDocument =
-        target.contentDocument || target.contentWindow.document;
+      let iframeDocument = null;
+      try {
+        iframeDocument =
+          target.contentDocument || target.contentWindow.document;
+      } catch (error) {
+        // iframe source is cross-origin so the resizeobserver code won't work.
+        if (error.name === 'SecurityError') {
+          return;
+        } else {
+          throw error;
+        }
+      }
 
       if (!iframeDocument) {
         // TODO: error handling?
@@ -40,25 +51,35 @@ const View = ({ data }) => {
         iframe.setAttribute('scrolling', 'no');
       }
 
-      const resizeObserver = new ResizeObserver((entries) => {
-        for (const entry of entries) {
-          let elementHeight = entry.target.scrollHeight;
-          const elementMargin =
-            parseInt(
-              iframe.contentWindow.getComputedStyle(entry.target)[
-                'margin-block'
-              ],
-            ) || 0;
-          elementHeight += elementMargin;
-          // Margin gets re-applied after a resize, causing it to keep expanding. Lets try to guard against that.
-          const isExpandingFromMargin =
-            elementHeight - iframe.scrollHeight === elementMargin;
-          if (iframe.scrollHeight !== elementHeight && !isExpandingFromMargin) {
-            updateIframeHeight(elementHeight);
+      resizeObserver = new ResizeObserver((entries) => {
+        requestAnimationFrame(() => {
+          for (const entry of entries) {
+            let elementHeight = entry.target.scrollHeight;
+            const elementMargin =
+              parseInt(
+                iframe.contentWindow.getComputedStyle(entry.target)[
+                  'margin-block'
+                ],
+              ) || 0;
+            elementHeight += elementMargin;
+            // Margin gets re-applied after a resize, causing it to keep expanding. Lets try to guard against that.
+            const isExpandingFromMargin =
+              elementHeight - iframe.scrollHeight === elementMargin;
+            if (
+              iframe.scrollHeight !== elementHeight &&
+              !isExpandingFromMargin
+            ) {
+              updateIframeHeight(elementHeight);
+            }
           }
-        }
+        });
       });
       resizeObserver.observe(iframeBody);
+    };
+    return () => {
+      if (resizeObserver?.disconnect) {
+        resizeObserver.disconnect();
+      }
     };
   }, []);
 
