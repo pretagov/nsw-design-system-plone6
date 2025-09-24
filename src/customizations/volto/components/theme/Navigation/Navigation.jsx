@@ -177,12 +177,17 @@ const Navigation = () => {
 
   useEffect(() => {
     if (navigationController.current) {
-      if (navigationController.current.openSubNavElements.length > 0) {
-        navigationController.current.toggleSubNavDesktop();
+      navigationController.current.mainNavIsOpen = false;
+      const isDesktop = navigationController.current.breakpoint.matches;
+      if (isDesktop) {
+        if (navigationController.current.openSubNavElements.length > 0) {
+          navigationController.current.toggleSubNavDesktop();
+        }
+      } else {
+        navigationController.current.mobileHideMainNav({
+          propertyName: 'transform',
+        });
       }
-      navigationController.current.mobileHideMainNav({
-        propertyName: 'transform',
-      });
     }
   }, [location]);
   useEffect(() => {
