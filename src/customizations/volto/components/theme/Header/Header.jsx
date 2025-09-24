@@ -101,7 +101,7 @@ const Header = ({ nswDesignSystem }) => {
     })
       .load()
       .then((navigation) => {
-        if (!searchInputController.current) {
+        if (!searchInputController.current && searchInputElement.current) {
           searchInputController.current = new navigation.default(
             searchInputElement.current,
           );
