@@ -149,23 +149,31 @@ const Navigation = () => {
 
   const navigationController = useRef(null);
   const mainNavRef = useRef(null);
-  useEffect(() => {
-    if (__CLIENT__ && !navigationController.current) {
-      loadable(
-        () => import('nsw-design-system/src/components/main-nav/main-nav'),
-        { ssr: false },
-      )
-        .load()
-        .then((navigation) => {
-          if (!navigationController.current && mainNavRef) {
-            navigationController.current = new navigation.default(
-              mainNavRef.current,
-            );
-            navigationController.current.init();
-          }
-        });
-    }
-  }, [mainNavRef]);
+  if (
+    __CLIENT__ &&
+    navigationController.current === null &&
+    mainNavRef.current
+  ) {
+    // Set it from null to false to ensure we only attempt to try the loadable once
+    navigationController.current = false;
+    loadable(
+      () => import('nsw-design-system/src/components/main-nav/main-nav'),
+      { ssr: false },
+    )
+      .load()
+      .then((navigation) => {
+        if (!navigationController.current && mainNavRef.current) {
+          navigationController.current = new navigation.default(
+            mainNavRef.current,
+          );
+          navigationController.current.init();
+        }
+      })
+      .catch(() => {
+        // Reset it back to null so we can re-attempt a loadable later
+        navigationController.current = null;
+      });
+  }
 
   useEffect(() => {
     if (navigationController.current) {
