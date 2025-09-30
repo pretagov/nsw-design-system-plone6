@@ -66,6 +66,9 @@ export function Card({
         : `data:${image['content-type']};base64,${image.data}`;
   }
 
+  const universalLinkAttributes =
+    typeof href === 'string' ? { href: href } : { item: href };
+
   return (
     <div
       className={cx('nsw-card', {
@@ -97,7 +100,8 @@ export function Card({
           {isEditMode || !href ? (
             linkTitle
           ) : (
-            <UniversalLink href={href}>
+            // <UniversalLink href={href}>
+            <UniversalLink {...universalLinkAttributes}>
               {isValidElement(title) ? (
                 <div dangerouslySetInnerHTML={{ __html: title }}></div>
               ) : (
