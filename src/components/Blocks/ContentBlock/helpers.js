@@ -1,6 +1,7 @@
 export const getViewMore = (data) => {
   if (data.url) {
-    return typeof data.url === 'string' ? data.url : data?.url?.[0]?.getURL;
+    return typeof data.url === 'string' ? data.url : data.url;
+    // return typeof data.url === 'string' ? data.url : data?.url?.[0]?.getURL;
   } else if (data.link) {
     return typeof data.link === 'string' ? data.link : data?.link?.[0]?.getURL;
   }

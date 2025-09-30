@@ -17,7 +17,11 @@ ContentBlock.propTypes = {
       encoding: PropTypes.string.isRequired,
     }),
   ]),
-  viewMoreUrl: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  viewMoreUrl: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+    PropTypes.object,
+  ]),
   links: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
@@ -66,6 +70,9 @@ export function ContentBlock({
         : `data:${image['content-type']};base64,${image.data}`;
   }
 
+  const viewMoreUniversalLinkAttributes =
+    typeof href === 'string' ? { href: viewMoreUrl } : { item: viewMoreUrl };
+
   return (
     <div className="nsw-content-block__content">
       {imagePosition !== 'hidden' ? (
@@ -102,12 +109,16 @@ export function ContentBlock({
       {links ? (
         <ul className="nsw-content-block__list">
           {links.map(({ title, url }, index) => {
+            const universalLinkAttributes =
+              typeof href === 'string' ? { href: url } : { item: url };
             return (
               <li key={index}>
                 {isEditMode ? (
                   title
                 ) : (
-                  <UniversalLink href={url}>{title}</UniversalLink>
+                  <UniversalLink {...universalLinkAttributes}>
+                    {title}
+                  </UniversalLink>
                 )}
               </li>
             );
@@ -123,7 +134,9 @@ export function ContentBlock({
             {isEditMode ? (
               'View more'
             ) : (
-              <UniversalLink href={viewMoreUrl}>View more</UniversalLink>
+              <UniversalLink {...viewMoreUniversalLinkAttributes}>
+                View more
+              </UniversalLink>
             )}
           </div>
         )
