@@ -204,6 +204,12 @@ server.get('/*', (req, res) => {
 
   persistAuthToken(store, req);
 
+  // Set CSP nonce and header (from volto-csp addon)
+  const { setCspHeader } = require('@plone-collective/volto-csp/middleware');
+  const readCriticalCssforCsp =
+    config.settings.serverConfig.readCriticalCss || defaultReadCriticalCss;
+  setCspHeader(req, res, store, readCriticalCssforCsp(req));
+
   // @loadable/server extractor
   const buildDir = process.env.BUILD_DIR || 'build';
   const extractor = new ChunkExtractor({
