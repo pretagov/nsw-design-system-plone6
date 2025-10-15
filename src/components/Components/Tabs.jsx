@@ -3,8 +3,8 @@ import { isValidElement } from 'react';
 /**
  * @typedef TabItem
  * @type {object}
- * @property {string} title - an ID.
- * @property {string} urlHash - your name.
+ * @property {string} title - The title for the tab.
+ * @property {string} urlHash - Hash used to update the URL for the currently selected tab.
  * @property {string | import("react").ReactNode} content - your age.
  */
 /**
