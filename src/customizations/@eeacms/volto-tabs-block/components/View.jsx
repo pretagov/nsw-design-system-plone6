@@ -18,6 +18,8 @@ import '@eeacms/volto-tabs-block/less/tabs.less';
 
 import { Tabs } from 'nsw-design-system-plone6/components/Components/Tabs';
 
+import loadable from '@loadable/component';
+
 const View = (props) => {
   const view = React.useRef(null);
   const { data = {}, uiContainer = '', location, history } = props;
@@ -37,6 +39,27 @@ const View = (props) => {
   const activeVariation = config.blocks.blocksConfig[TABS_BLOCK].variations.filter((v, _i) => v.id === variation);
 
   const TabsView = activeVariation?.[0]?.view || DefaultView;
+
+  const tabController = React.useRef(null);
+  const tabElementRef = React.useRef(null);
+  if (__CLIENT__ && tabController.current === null && tabElementRef.current) {
+    // Set it from null to false to ensure we only attempt to try the loadable once
+    tabController.current = false;
+    loadable(() => import('nsw-design-system/src/components/tabs/tabs'), {
+      ssr: false,
+    })
+      .load()
+      .then((tabsJs) => {
+        if (!tabController.current && tabElementRef.current) {
+          tabController.current = new tabsJs.default(tabElementRef.current);
+          tabController.current.init();
+        }
+      })
+      .catch((err) => {
+        // Reset it back to null so we can re-attempt a loadable later
+        tabController.current = null;
+      });
+  }
 
   const query = useMemo(() => {
     const { search } = location;
@@ -91,6 +114,7 @@ const View = (props) => {
 
   return (
     <Tabs
+      ref={tabElementRef}
       tabItems={[
         {
           title: 'New and existing homes',
