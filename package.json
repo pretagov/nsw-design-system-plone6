@@ -28,6 +28,7 @@
   ],
   "dependencies": {
     "@eeacms/volto-accordion-block": "10.4.6",
+    "@eeacms/volto-block-style": "6.1.0",
     "@eeacms/volto-columns-block": "6.3.2",
     "@eeacms/volto-tabs-block": "9.1.0",
     "@fontsource/public-sans": "4.5.12",
