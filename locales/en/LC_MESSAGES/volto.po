@@ -22,6 +22,12 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
+#: customizations/volto/components/manage/Toolbar/Toolbar
+#: customizations/volto/components/manage/Toolbar/Toolbar.original
+# defaultMessage: Add
+msgid "Add"
+msgstr ""
+
 #: components/Widgets/ImagePickerWidget
 # defaultMessage: Add image
 msgid "Add image"
@@ -41,6 +47,18 @@ msgstr ""
 #: customizations/volto/components/theme/Search/Search
 # defaultMessage: Alphabetically
 msgid "Alphabetically"
+msgstr ""
+
+#: customizations/volto/components/manage/Toolbar/More
+#: customizations/volto/components/manage/Toolbar/More.original
+# defaultMessage: Apply working copy
+msgid "Apply working copy"
+msgstr ""
+
+#: customizations/volto/components/manage/Toolbar/Toolbar
+#: customizations/volto/components/manage/Toolbar/Toolbar.original
+# defaultMessage: Back
+msgid "Back"
 msgstr ""
 
 #: components/Blocks/AnnouncementBar/schema
@@ -80,6 +98,12 @@ msgstr ""
 msgid "Caption background colour"
 msgstr ""
 
+#: customizations/volto/components/manage/Toolbar/More
+#: customizations/volto/components/manage/Toolbar/More.original
+# defaultMessage: Changes applied
+msgid "Changes applied."
+msgstr ""
+
 #: customizations/volto-form-block/components/Widget/SelectWidget
 # defaultMessage: Choices
 msgid "Choices"
@@ -111,6 +135,12 @@ msgstr ""
 msgid "Close search"
 msgstr ""
 
+#: customizations/volto/components/manage/Toolbar/Toolbar
+#: customizations/volto/components/manage/Toolbar/Toolbar.original
+# defaultMessage: Collection
+msgid "Collection"
+msgstr ""
+
 #: customizations/volto/components/manage/Widgets/ColorPickerWidget
 # defaultMessage: Color
 msgid "Color"
@@ -133,6 +163,8 @@ msgid "Columns block"
 msgstr ""
 
 #: components/Blocks/Callout/schema
+#: customizations/volto/components/manage/Toolbar/Toolbar
+#: customizations/volto/components/manage/Toolbar/Toolbar.original
 # defaultMessage: Contents
 msgid "Contents"
 msgstr ""
@@ -145,6 +177,12 @@ msgstr ""
 #: customizations/volto/components/theme/Footer/Footer
 # defaultMessage: Copyright
 msgid "Copyright"
+msgstr ""
+
+#: customizations/volto/components/manage/Toolbar/More
+#: customizations/volto/components/manage/Toolbar/More.original
+# defaultMessage: Create working copy
+msgid "Create working copy"
 msgstr ""
 
 #: customizations/volto/components/manage/Widgets/DatetimeWidget
@@ -196,6 +234,12 @@ msgstr ""
 msgid "Drop files here ..."
 msgstr ""
 
+#: customizations/volto/components/manage/Toolbar/Toolbar
+#: customizations/volto/components/manage/Toolbar/Toolbar.original
+# defaultMessage: Edit
+msgid "Edit"
+msgstr ""
+
 #: customizations/@eeacms/volto-columns-block/ColumnsBlock/ColumnsBlockEdit
 # defaultMessage: Edit parent columns block
 msgid "Edit parent columns block"
@@ -207,9 +251,21 @@ msgstr ""
 msgid "End Date"
 msgstr ""
 
+#: customizations/volto/components/manage/Toolbar/More
+#: customizations/volto/components/manage/Toolbar/More.original
+# defaultMessage: Error
+msgid "Error"
+msgstr ""
+
 #: customizations/volto/components/manage/Blocks/Search/components/CheckboxFacet
 # defaultMessage: Show all {totalNumberOfFilters, plural,
 msgid "Facets show all button text"
+msgstr ""
+
+#: customizations/volto/components/manage/Toolbar/Toolbar
+#: customizations/volto/components/manage/Toolbar/Toolbar.original
+# defaultMessage: File
+msgid "File"
 msgstr ""
 
 #: config/blocks/schemaEnhancers
@@ -240,6 +296,12 @@ msgstr ""
 #: customizations/@eeacms/volto-columns-block/ColumnsBlock/ColumnsBlockEdit
 # defaultMessage: Go to Column settings
 msgid "Go to Column settings"
+msgstr ""
+
+#: customizations/volto/components/manage/Toolbar/More
+#: customizations/volto/components/manage/Toolbar/More.original
+# defaultMessage: History
+msgid "History"
 msgstr ""
 
 #: customizations/volto/components/theme/Breadcrumbs/Breadcrumbs
@@ -312,6 +374,8 @@ msgstr ""
 #: components/Blocks/DropdownQuickNavigation/schema
 #: components/Blocks/LinkList/schema
 #: config/blocks/variations
+#: customizations/volto/components/manage/Toolbar/Toolbar
+#: customizations/volto/components/manage/Toolbar/Toolbar.original
 # defaultMessage: Link
 msgid "Link"
 msgstr ""
@@ -334,9 +398,27 @@ msgstr ""
 msgid "Links title"
 msgstr ""
 
+#: customizations/volto/components/manage/Toolbar/More
+#: customizations/volto/components/manage/Toolbar/More.original
+# defaultMessage: Made by {creator} on {date}. This is not a working copy anymore, but the main content.
+msgid "Made by {creator} on {date}. This is not a working copy anymore, but the main content."
+msgstr ""
+
 #: components/Blocks/InPageAlert/schema
 # defaultMessage: Make compact
 msgid "Make compact"
+msgstr ""
+
+#: customizations/volto/components/manage/Toolbar/More
+#: customizations/volto/components/manage/Toolbar/More.original
+# defaultMessage: Manage Translations
+msgid "Manage Translations"
+msgstr ""
+
+#: customizations/volto/components/manage/Toolbar/More
+#: customizations/volto/components/manage/Toolbar/More.original
+# defaultMessage: Manage content…
+msgid "Manage content…"
 msgstr ""
 
 #: config/blocks/schemaEnhancers
@@ -354,6 +436,12 @@ msgstr ""
 msgid "Mobile menu title"
 msgstr ""
 
+#: customizations/volto/components/manage/Toolbar/Toolbar
+#: customizations/volto/components/manage/Toolbar/Toolbar.original
+# defaultMessage: More
+msgid "More"
+msgstr ""
+
 #: components/DesignSystemVersionInformation
 # defaultMessage: NSW DDS Plone {ddsVersion}
 msgid "NSW Built with - DDS and Plone"
@@ -362,6 +450,12 @@ msgstr ""
 #: components/DesignSystemVersionInformation
 # defaultMessage: NSW DDS Plone
 msgid "NSW Built with - plone only"
+msgstr ""
+
+#: customizations/volto/components/manage/Toolbar/Toolbar
+#: customizations/volto/components/manage/Toolbar/Toolbar.original
+# defaultMessage: News Item
+msgid "News Item"
 msgstr ""
 
 #: customizations/volto/components/manage/Blocks/Listing/ListingBody
@@ -405,6 +499,12 @@ msgstr ""
 msgid "Open menu"
 msgstr ""
 
+#: customizations/volto/components/manage/Toolbar/Toolbar
+#: customizations/volto/components/manage/Toolbar/Toolbar.original
+# defaultMessage: Page
+msgid "Page"
+msgstr ""
+
 #: customizations/volto/components/theme/NotFound/NotFound
 # defaultMessage: Page not found
 msgid "Page not found"
@@ -419,6 +519,26 @@ msgstr ""
 #: customizations/@plone/volto-slate/editor/plugins/StyleMenu/StyleMenu.original
 # defaultMessage: Paragraph Style
 msgid "Paragraph Style"
+msgstr ""
+
+#: customizations/volto/components/manage/Toolbar/Toolbar
+#: customizations/volto/components/manage/Toolbar/Toolbar.original
+# defaultMessage: Personal Information
+msgid "Personal Information"
+msgstr ""
+
+#: customizations/volto/components/manage/Toolbar/Toolbar
+#: customizations/volto/components/manage/Toolbar/Toolbar.original
+# defaultMessage: Personal Preferences
+msgid "Personal Preferences"
+msgstr ""
+
+#: customizations/volto/components/manage/Toolbar/More
+#: customizations/volto/components/manage/Toolbar/More.original
+#: customizations/volto/components/manage/Toolbar/Toolbar
+#: customizations/volto/components/manage/Toolbar/Toolbar.original
+# defaultMessage: Personal tools
+msgid "Personal tools"
 msgstr ""
 
 #: customizations/volto/components/manage/Blocks/Video/Body
@@ -442,6 +562,12 @@ msgstr ""
 msgid "Relevance"
 msgstr ""
 
+#: customizations/volto/components/manage/Toolbar/More
+#: customizations/volto/components/manage/Toolbar/More.original
+# defaultMessage: Remove working copy
+msgid "Remove working copy"
+msgstr ""
+
 #: customizations/volto-form-block/components/Widget/FileWidget
 # defaultMessage: Replace existing file
 msgid "Replace existing file"
@@ -456,6 +582,12 @@ msgstr ""
 #: customizations/volto/components/manage/Blocks/Search/SearchBlockEdit.original
 # defaultMessage: Results template
 msgid "Results template"
+msgstr ""
+
+#: customizations/volto/components/manage/Toolbar/More
+#: customizations/volto/components/manage/Toolbar/More.original
+# defaultMessage: Rules
+msgid "Rules"
 msgstr ""
 
 #: components/Blocks/Section/schema
@@ -545,6 +677,12 @@ msgstr ""
 msgid "Select…"
 msgstr ""
 
+#: customizations/volto/components/manage/Toolbar/More
+#: customizations/volto/components/manage/Toolbar/More.original
+# defaultMessage: Sharing
+msgid "Sharing"
+msgstr ""
+
 #: customizations/volto-form-block/components/Widget/SelectWidget
 # defaultMessage: Short Name
 msgid "Short Name"
@@ -573,6 +711,12 @@ msgstr ""
 #: customizations/volto/components/manage/Blocks/Search/components/SearchDetails
 # defaultMessage: Showing results {resultsStart} - {resultsEnd} of {resultsTotal} results
 msgid "Showing results {resultsStart} - {resultsEnd} of {resultsTotal} results"
+msgstr ""
+
+#: customizations/volto/components/manage/Toolbar/Toolbar
+#: customizations/volto/components/manage/Toolbar/Toolbar.original
+# defaultMessage: Shrink toolbar
+msgid "Shrink toolbar"
 msgstr ""
 
 #: components/Blocks/Sidebar/schema
@@ -642,6 +786,12 @@ msgstr ""
 msgid "Thank you."
 msgstr ""
 
+#: customizations/volto/components/manage/Toolbar/More
+#: customizations/volto/components/manage/Toolbar/More.original
+# defaultMessage: The working copy was discarded
+msgid "The working copy was discarded"
+msgstr ""
+
 #: customizations/volto-form-block/components/FormView
 # defaultMessage: There is a problem submitting your form
 msgid "There is a problem submitting your form"
@@ -706,10 +856,28 @@ msgstr ""
 msgid "Type the heading…"
 msgstr ""
 
+#: customizations/volto/components/manage/Toolbar/More
+#: customizations/volto/components/manage/Toolbar/More.original
+# defaultMessage: URL Management
+msgid "URL Management"
+msgstr ""
+
+#: customizations/volto/components/manage/Toolbar/More
+#: customizations/volto/components/manage/Toolbar/More.original
+# defaultMessage: Unauthorized
+msgid "Unauthorized"
+msgstr ""
+
 #: components/Components/Section/Section
 #: customizations/volto/components/theme/View/DefaultView
 # defaultMessage: Unknown Block {block}
 msgid "Unknown Block"
+msgstr ""
+
+#: customizations/volto/components/manage/Toolbar/Toolbar
+#: customizations/volto/components/manage/Toolbar/Toolbar.original
+# defaultMessage: Unlock
+msgid "Unlock"
 msgstr ""
 
 #: customizations/volto/components/manage/Blocks/Search/components/SortOn
@@ -750,6 +918,12 @@ msgstr ""
 msgid "View more"
 msgstr ""
 
+#: customizations/volto/components/manage/Toolbar/More
+#: customizations/volto/components/manage/Toolbar/More.original
+# defaultMessage: View working copy
+msgid "View working copy"
+msgstr ""
+
 #: customizations/volto/components/theme/NotFound/NotFound
 # defaultMessage: We apologize for the inconvenience, but the page you were trying to access is not at this address.
 msgid "We apologize for the inconvenience, but the page you were trying to access is not at this address."
@@ -766,7 +940,7 @@ msgid "Width"
 msgstr ""
 
 #: customizations/volto-form-block/components/FormView
-# defaultMessage: {fieldLabel} is required
+# defaultMessage: This field is required
 msgid "field_is_required"
 msgstr ""
 
@@ -833,4 +1007,16 @@ msgstr ""
 #: customizations/volto/components/theme/SkipLinks/SkipLinks
 # defaultMessage: Skip to links
 msgid "skiplink-title"
+msgstr ""
+
+#: customizations/volto/components/manage/Toolbar/More
+#: customizations/volto/components/manage/Toolbar/More.original
+# defaultMessage: You are not authorized to perform this operation.
+msgid "workingCopyErrorUnauthorized"
+msgstr ""
+
+#: customizations/volto/components/manage/Toolbar/More
+#: customizations/volto/components/manage/Toolbar/More.original
+# defaultMessage: An error occurred while performing this operation.
+msgid "workingCopyGenericError"
 msgstr ""

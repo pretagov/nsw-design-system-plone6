@@ -23,7 +23,7 @@
     "volto-subfooter",
     "volto-siteinfo",
     "@eeacms/volto-columns-block",
-    "@plone-collective/volto-slots-editor"
+    "volto-slots-editor"
   ],
   "dependencies": {
     "@eeacms/volto-accordion-block": "10.4.6",
@@ -43,11 +43,11 @@
     "volto-subfooter": "2.0.0"
   },
   "peerDependencies": {
-    "@plone-collective/volto-slots-editor": "*",
     "@plone/volto": ">= 16.20.1 < 17.0.0",
     "react": ">= 16.8.0",
     "react-dom": ">= 16.8.0",
-    "volto-form-block": ">=3.0.0"
+    "volto-form-block": ">=3.0.0",
+    "volto-slots-editor": "*"
   },
   "devDependencies": {
     "@plone/scripts": ">= 2.2.2",

@@ -1,4 +1,8 @@
 @use 'nsw-design-system/src/main';
+// Hate using `@import` as we end up with duplicate styles, but until nsw-design-system 3.20 there's a reliance on global variables.
+// @import 'nsw-design-system/src/global/scss/settings/settings';
+// @import 'nsw-design-system/src/global/scss/base/mixins';
+// @use 'nsw-design-system/src/global/scss/settings/settings' as settings;
 
 // Don't use flex container for the main body
 #main {
@@ -80,4 +84,40 @@ mark {
 
 .nsw-hero-banner__content h1 {
   text-wrap: balance;
+}
+
+.pretagov-nsw-header-buttons {
+  margin-block: auto;
+  display: flex;
+  align-items: center;
+
+  @media (min-width: 48rem) {
+    margin-inline-start: auto;
+  }
+
+  // Hack for re-using volto components here
+  .nsw-form__group {
+    margin-top: 0;
+  }
+}
+
+.nsw-header__search {
+  // Can't figure out how to do `@include mixins.breakpoint('md')` without it complaining about missing `$nsw-breakpoints`
+  //    48rem is the same breakpoint value with default settings.
+  @media (min-width: 48rem) {
+    position: relative;
+    margin-top: 0 !important;
+  }
+}
+
+// Google translate
+#field-google-translate-language-select {
+  width: fit-content;
+  border: 0;
+
+  // Shrink it for the empty value case
+  &:has(option[value=""]:checked) {
+    padding-inline-end: 0;
+    width: 20ch;
+  }
 }

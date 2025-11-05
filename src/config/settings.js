@@ -1,3 +1,5 @@
+import { GoogleTranslateWidget } from 'nsw-design-system-plone6/components/GoogleTranslateWidget';
+
 export const updateSettingsConfig = (config) => {
   config.settings.navDepth = 2;
   config.experimental.addBlockButton.enabled = true;
@@ -42,6 +44,11 @@ When enabled, the built-in AOC will be disabled.
       },
     },
   };
+
+  config.registerComponent({
+    name: 'VoltoGoogleTranslateSelect',
+    component: GoogleTranslateWidget,
+  });
 };
 
 export default updateSettingsConfig;
