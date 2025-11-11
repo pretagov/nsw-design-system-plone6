@@ -358,7 +358,7 @@ class Toolbar extends Component {
     // View will always be here if we are able to see the page.
     const noObjectActions =
       Object.keys(this.props.actions?.object || {}).length <= 1 &&
-      this.props.actions.object[0].id === 'view';
+      this.props.actions.object?.[0]?.id === 'view';
     if (
       noTypesToAdd &&
       noDocumentActions &&
