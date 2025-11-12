@@ -20,7 +20,9 @@ export const Tabs = forwardRef(function Tabs({ tabItems, title }, ref) {
             const Element = item.as || 'a';
             return (
               <li key={item.title}>
-                <Element href={`#tab-${item.urlHash}`}>{item.title}</Element>
+                <Element href={`#tab-${item.urlHash}`}>
+                  {item.title || `Tab ${index + 1}`}
+                </Element>
               </li>
             );
           })}
