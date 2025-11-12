@@ -80,12 +80,20 @@ export function BlocksAsSection({ blocksLayout, blocksData, content }) {
   }
   const sectionColour = getSectionColour(blockWithSectionData);
 
+  const blockImageSrc =
+    blockWithSectionData?.sectionType === 'image'
+      ? blockWithSectionData.sectionimage?.data
+        ? `data:${blockWithSectionData.sectionimage['content-type']};base64,${blockWithSectionData.sectionimage.data}`
+        : null
+      : null;
+
   return (
     <Section
       padding={blockWithSectionData.sectionspacing}
       isBox={blockWithSectionData.sectionType === 'box'}
       colour={sectionColour}
       shouldInvert={blockWithSectionData.sectioninvert}
+      imageSrc={blockImageSrc}
     >
       {blocksLayout.map((blockId) => {
         // Copy pasted from below. Should really make this a function!
