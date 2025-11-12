@@ -85,7 +85,7 @@ export function BlocksAsSection({ blocksLayout, blocksData, content }) {
       ? blockWithSectionData.sectionimage?.data
         ? `data:${blockWithSectionData.sectionimage['content-type']};base64,${blockWithSectionData.sectionimage.data}`
         : flattenToAppURL(
-            `${blockWithSectionData.sectionimage}/@@images/image/preview`,
+            `${blockWithSectionData.sectionimage}/@@images/image/great`,
           )
       : null;
 
