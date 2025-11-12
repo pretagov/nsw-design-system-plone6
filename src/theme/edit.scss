@@ -72,6 +72,12 @@
       left: auto;
     }
   }
+
+  .nsw-hero-banner {
+    .nsw-hero-banner__button {
+      @extend .nsw-hero-banner__button;
+    }
+  }
 }
 
 // Columns block editing fixes

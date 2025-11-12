@@ -509,17 +509,6 @@ class EditComponent extends Component {
                 }}
               />
             ),
-            // imageUrl={null}
-            linkTitle:
-              this.props.data.linkHref && this.props.data.linkTitle ? (
-                <div className="nsw-hero-banner__button">
-                  <span className=" nsw-button nsw-button--white">
-                    {this.props.data.linkTitle}
-                  </span>
-                </div>
-              ) : (
-                this.props.data.linkTitle
-              ),
           }}
           contentChildren={
             variation?.id === 'heroWithBlocks' ? (

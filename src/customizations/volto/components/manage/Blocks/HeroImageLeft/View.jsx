@@ -24,6 +24,7 @@ const View = ({ data, ...props }) => {
         linkTitle={data.linkTitle}
         linkUrl={linkUrl}
         width={data.heroWidth}
+        colour={data.colour}
       />
     );
   }
