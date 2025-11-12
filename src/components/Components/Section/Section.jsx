@@ -1,4 +1,4 @@
-import { getBaseUrl } from '@plone/volto/helpers';
+import { getBaseUrl, flattenToAppURL } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
 import cx from 'classnames';
 import { getSectionColour } from 'nsw-design-system-plone6/components/Blocks/Section/utils';
@@ -80,12 +80,22 @@ export function BlocksAsSection({ blocksLayout, blocksData, content }) {
   }
   const sectionColour = getSectionColour(blockWithSectionData);
 
+  const blockImageSrc =
+    blockWithSectionData?.sectionType === 'image'
+      ? blockWithSectionData.sectionimage?.data
+        ? `data:${blockWithSectionData.sectionimage['content-type']};base64,${blockWithSectionData.sectionimage.data}`
+        : flattenToAppURL(
+            `${blockWithSectionData.sectionimage}/@@images/image/great`,
+          )
+      : null;
+
   return (
     <Section
       padding={blockWithSectionData.sectionspacing}
       isBox={blockWithSectionData.sectionType === 'box'}
       colour={sectionColour}
       shouldInvert={blockWithSectionData.sectioninvert}
+      imageSrc={blockImageSrc}
     >
       {blocksLayout.map((blockId) => {
         // Copy pasted from below. Should really make this a function!
