@@ -1,4 +1,4 @@
-import { getBaseUrl } from '@plone/volto/helpers';
+import { getBaseUrl, flattenToAppURL } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
 import cx from 'classnames';
 import { getSectionColour } from 'nsw-design-system-plone6/components/Blocks/Section/utils';
@@ -84,7 +84,9 @@ export function BlocksAsSection({ blocksLayout, blocksData, content }) {
     blockWithSectionData?.sectionType === 'image'
       ? blockWithSectionData.sectionimage?.data
         ? `data:${blockWithSectionData.sectionimage['content-type']};base64,${blockWithSectionData.sectionimage.data}`
-        : null
+        : flattenToAppURL(
+            `${blockWithSectionData.sectionimage}/@@images/image/preview`,
+          )
       : null;
 
   return (
