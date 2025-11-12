@@ -1,4 +1,6 @@
+import config from '@plone/volto/registry';
 import { defineMessages } from 'react-intl';
+
 const messages = defineMessages({
   sectionTitleTitle: {
     id: 'Schema_Title_Title',
@@ -112,8 +114,7 @@ export const sectionSchema = ({ intl, formData }) => {
       },
       sectionimage: {
         title: intl.formatMessage(messages.imageTitle),
-        type: 'file',
-        widget: 'file',
+        widget: config.widgets.widget.image ? 'image' : 'file',
       },
       sectioncolour: {
         title: intl.formatMessage(messages.colourTitle),
