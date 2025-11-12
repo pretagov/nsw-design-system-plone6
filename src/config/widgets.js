@@ -1,8 +1,10 @@
 import { IconPickerWidget } from '../components/Widgets';
+import ImageWidget from 'nsw-design-system-plone6/components/Widgets/ImageWidget';
 
 export const widgetMapping = {
   widget: {
     icon: IconPickerWidget,
+    image: ImageWidget,
   },
 };
 
