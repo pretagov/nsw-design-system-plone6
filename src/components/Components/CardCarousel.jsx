@@ -1,15 +1,21 @@
-import { Icon } from '@plone/volto/components';
 import { Card } from 'nsw-design-system-plone6/components/Components/Card';
+
+import loadable from '@loadable/component';
+import { Icon } from '@plone/volto/components';
+import { useEffect, useRef } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 
-import KeyboardArrowLeftSVG from '@material-design-icons/svg/filled/keyboard_arrow_left.svg';
-import ChevronLeftSVG from '@material-design-icons/svg/filled/keyboard_arrow_left.svg';
-import KeyboardArrowRightSVG from '@material-design-icons/svg/filled/keyboard_arrow_right.svg';
+import ChevronLeftSVG from '@material-design-icons/svg/filled/chevron_left.svg';
+import ChevronRightSVG from '@material-design-icons/svg/filled/chevron_right.svg';
 
 const messages = defineMessages({
   showPreviousItems: {
     id: 'Show previous items',
     defaultMessage: 'Show previous items',
+  },
+  showNextItems: {
+    id: 'Show next items',
+    defaultMessage: 'Show next items',
   },
 });
 
@@ -21,10 +27,31 @@ export function CardCarousel({ title, cards }) {
   const cardValues = Array.isArray(cards) ? cards : Object.values(cards);
   const intl = useIntl();
 
+  const carouselElement = useRef(null);
+  useEffect(() => {
+    if (carouselElement.current) {
+      loadable(() => import('nsw-design-system/src/components/card-carousel/carousel'))
+        .load()
+        .then((carouselJs) => {
+          new carouselJs.default(carouselElement.current).init();
+        });
+    }
+  }, []);
+
   return (
     <>
       {/* TODO: 'nsw-carousel--loaded' is added by the JS, we should remove it */}
-      <div className="nsw-carousel js-carousel nsw-carousel--loaded" data-description="Highlighted latest news" data-drag="on">
+      <div
+        // className="nsw-carousel js-carousel nsw-carousel--loaded"
+        className="nsw-carousel js-carousel"
+        data-description="Highlighted latest news"
+        data-drag="on"
+        data-loop="on"
+        data-navigation="on"
+        data-navigation-pagination="off"
+        ata-justify-content="off"
+        ref={carouselElement}
+      >
         <p className="sr-only">Carousel items</p>
         <div className="nsw-carousel__wrapper js-carousel__wrapper">
           <ol className="nsw-carousel__list">
@@ -47,21 +74,12 @@ export function CardCarousel({ title, cards }) {
             <ul>
               <li>
                 <button aria-label={intl.formatMessage(messages.showPreviousItems)} className="nsw-carousel__control nsw-carousel__control--prev js-carousel__control">
-                  {/* TODO: Do we actuall need the SVG do be descriptive? */}
-                  <Icon name={ChevronLeftSVG} className="nsw-icon" size="24px" ariaHidden={true} />
-
-                  <svg className="nsw-icon" viewBox="0 0 20 20">
-                    <title>Show previous items</title>
-                    <polyline points="13 2 5 10 13 18" fill="none" stroke="currentColor" stroke-linecap="square" stroke-linejoin="square" stroke-width="2" />
-                  </svg>
+                  <Icon name={ChevronLeftSVG} className="nsw-icon" size="28px" ariaHidden={true} />
                 </button>
               </li>
               <li>
-                <button aria-label="Show next items" className="nsw-carousel__control nsw-carousel__control--next js-carousel__control">
-                  <svg className="nsw-icon" viewBox="0 0 20 20">
-                    <title>Show next items</title>
-                    <polyline points="7 2 15 10 7 18" fill="none" stroke="currentColor" stroke-linecap="square" stroke-linejoin="square" stroke-width="2" />
-                  </svg>
+                <button aria-label={intl.formatMessage(messages.showNextItems)} className="nsw-carousel__control nsw-carousel__control--next js-carousel__control">
+                  <Icon name={ChevronRightSVG} className="nsw-icon" size="28px" ariaHidden={true} />
                 </button>
               </li>
             </ul>
