@@ -3,7 +3,7 @@ import {
   GridViewBlock,
 } from '@kitconcept/volto-blocks-grid/components';
 import sliderSVG from '@plone/volto/icons/slider.svg';
-import { CardCarouselGridLayout } from 'nsw-design-system-plone6/components/Blocks/Card/CarouselView';
+import { CardCarouselGridLayout } from 'nsw-design-system-plone6/components/Blocks/Card/Carousel';
 import * as Components from 'nsw-design-system-plone6/components';
 
 // Todo: i18n for component titles and groups
