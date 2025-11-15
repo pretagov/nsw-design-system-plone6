@@ -164,10 +164,12 @@ class EditGrid extends Component {
 
   addNewColumn = (e, index) => {
     e.stopPropagation();
+    const maxNumberOfColumnsConfig =
+      config.blocks.blocksConfig[this.props.data?.['@type']]
+        ?.maxNumberOfColumns ||
+      config.blocks.blocksConfig.__grid.maxNumberOfColumns;
     var maxNumberOfColumns =
-      config.blocks.blocksConfig.__grid.maxNumberOfColumns > 16
-        ? 16
-        : config.blocks.blocksConfig.__grid.maxNumberOfColumns;
+      maxNumberOfColumnsConfig > 16 ? 16 : maxNumberOfColumnsConfig;
     const type =
       getAllowedBlocks(this.props.data['@type'])?.length === 1
         ? getAllowedBlocks(this.props.data['@type'])[0]
@@ -360,6 +362,7 @@ class EditGrid extends Component {
                   : templates()
               }
               onSelectTemplate={this.onSelectTemplate}
+              data={this.props.data}
             />
           )}
           <DragDropContext onDragEnd={this.onDragEnd}>

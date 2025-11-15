@@ -205,5 +205,6 @@ export const gridBlocks = [
       view: [],
     },
     gridAllowedBlocks: ['card'],
+    maxNumberOfColumns: 9,
   },
 ];
