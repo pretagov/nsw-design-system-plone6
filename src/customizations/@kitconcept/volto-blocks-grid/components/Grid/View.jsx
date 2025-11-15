@@ -1,10 +1,11 @@
 import { BlockRenderer } from '@kitconcept/volto-blocks-grid/components';
 import { withBlockExtensions } from '@plone/volto/helpers';
+import config from '@plone/volto/registry';
 import cx from 'classnames';
 
-const ViewGrid = ({ data, path }) => {
+function DefaultLayout({ data, path }) {
   return (
-    <div className="block __grid">
+    <>
       {data.headline && <h2 className="headline">{data.headline}</h2>}
       <div className="nsw-grid">
         {data.columns?.map((column) => (
@@ -26,6 +27,17 @@ const ViewGrid = ({ data, path }) => {
           </div>
         ))}
       </div>
+    </>
+  );
+}
+
+const ViewGrid = ({ data, path }) => {
+  const blockConfig = config.blocks.blocksConfig[data['@type']];
+  const Layout = blockConfig?.layoutComponent || DefaultLayout;
+
+  return (
+    <div className="block __grid">
+      <Layout data={data} path={path} />
     </div>
   );
 };

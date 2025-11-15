@@ -72,6 +72,14 @@ const schemaEnhancers = {
       stylingSchema: contentBlockStylingSchema,
     });
   },
+  cardCarousel: ({ schema: schemaToUpdate, intl, formData }) => {
+    return asGridSchemaExtender({
+      schema: schemaToUpdate,
+      intl,
+      formData,
+      stylingSchema: cardStylingSchema,
+    });
+  },
   image: ({ schema, intl, formData }) => {
     return asMediaSchemaExtender(schema, intl, formData);
   },

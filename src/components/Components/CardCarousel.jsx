@@ -23,7 +23,7 @@ const messages = defineMessages({
  * @param {Object} props
  * @param {Object.<string, Card> | Array.<Card>} props.cards
  */
-export function CardCarousel({ title, cards }) {
+export function CardCarousel({ title, description, cards, CardDisplay = Card }) {
   const cardValues = Array.isArray(cards) ? cards : Object.values(cards);
   const intl = useIntl();
 
@@ -44,7 +44,7 @@ export function CardCarousel({ title, cards }) {
       <div
         // className="nsw-carousel js-carousel nsw-carousel--loaded"
         className="nsw-carousel js-carousel"
-        data-description="Highlighted latest news"
+        data-description={description}
         data-drag="on"
         data-loop="on"
         data-navigation="on"
@@ -59,7 +59,7 @@ export function CardCarousel({ title, cards }) {
             {cardValues.map((card, index) => {
               return (
                 <li key={index} className="nsw-carousel__item">
-                  <Card {...card} />
+                  <CardDisplay {...card} />
                 </li>
               );
             })}
