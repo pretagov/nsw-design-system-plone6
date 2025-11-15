@@ -73,12 +73,25 @@ const schemaEnhancers = {
     });
   },
   cardCarousel: ({ schema: schemaToUpdate, intl, formData }) => {
-    return asGridSchemaExtender({
+    let schema = schemaToUpdate;
+    schema = asGridSchemaExtender({
       schema: schemaToUpdate,
       intl,
       formData,
       stylingSchema: cardStylingSchema,
     });
+    schema.properties.columns = {
+      title: 'Columns',
+      widget: 'grid_columns_widget',
+    };
+    const defaultFieldsetIndex = schema.fieldsets.findIndex(
+      (fieldset) => fieldset.id === 'default',
+    );
+    schema.fieldsets[defaultFieldsetIndex].fields = [
+      ...schema.fieldsets[defaultFieldsetIndex].fields,
+      'columns',
+    ];
+    return schema;
   },
   image: ({ schema, intl, formData }) => {
     return asMediaSchemaExtender(schema, intl, formData);

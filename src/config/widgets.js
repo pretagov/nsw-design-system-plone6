@@ -1,8 +1,10 @@
 import { IconPickerWidget } from '../components/Widgets';
+import { GridColumnsWidget } from 'nsw-design-system-plone6/components/Widgets/GridColumnsWidget';
 
 export const widgetMapping = {
   widget: {
     icon: IconPickerWidget,
+    grid_columns_widget: GridColumnsWidget,
   },
 };
 
