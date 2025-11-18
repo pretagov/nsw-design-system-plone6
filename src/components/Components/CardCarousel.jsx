@@ -1,4 +1,5 @@
 import { Card } from 'nsw-design-system-plone6/components/Components/Card';
+import { CardView } from 'nsw-design-system-plone6/components/Blocks/Card/View';
 
 import loadable from '@loadable/component';
 import { Icon } from '@plone/volto/components';
@@ -23,7 +24,7 @@ const messages = defineMessages({
  * @param {Object} props
  * @param {Object.<string, Card> | Array.<Card>} props.cards
  */
-export function CardCarousel({ title, description, cards, CardDisplay = Card }) {
+export function CardCarousel({ title, description, cards, CardDisplay = CardView }) {
   const cardValues = Array.isArray(cards) ? cards : Object.values(cards);
   const intl = useIntl();
 
