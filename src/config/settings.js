@@ -45,6 +45,9 @@ When enabled, the built-in AOC will be disabled.
     },
   };
 
+  // Ensure the @eeacms/volto-block-styles introduced by @eeacms/volto-tabs-block doesn't get enabled
+  config.settings.pluggableStylesBlocksWhitelist = [];
+
   config.registerComponent({
     name: 'VoltoGoogleTranslateSelect',
     component: GoogleTranslateWidget,
