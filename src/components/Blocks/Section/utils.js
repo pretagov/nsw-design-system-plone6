@@ -32,6 +32,9 @@ export function blockNeedsSection(blockData) {
   if (blockData.sectionType === '') {
     return false;
   }
+  if (blockData['@type' === 'image'] && blockData.size === 'page') {
+    return false;
+  }
   if (Object.keys(blockData).some((r) => sectionFields.includes(r))) {
     return true;
   }

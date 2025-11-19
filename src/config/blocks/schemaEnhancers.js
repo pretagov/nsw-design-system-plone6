@@ -326,6 +326,7 @@ const schemaEnhancers = {
 const alignmentPositionSizeMapping = {
   center: [
     ['fullWidth', 'Full width'],
+    ['page', 'Page width'],
     ['90', '90%'],
     ['80', '80%'],
     ['70', '70%'],

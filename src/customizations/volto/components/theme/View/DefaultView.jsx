@@ -91,9 +91,12 @@ const getCoreContentGroupedLayout = (blocksInLayout, blocksData) => {
       return result;
     }
 
+    if (currentBlockType === 'image' && currentBlock.size === 'page') {
+      result.push(currentBlockId);
+    }
     // If the previous block is a group and the current block is a core content block,
     // add the current block to the group.
-    if (previousBlock && blockNeedsSection(previousBlock)) {
+    else if (previousBlock && blockNeedsSection(previousBlock)) {
       result.push([currentBlockId]);
     } else if (
       previousBlockOrGroup instanceof Array &&
@@ -202,7 +205,10 @@ const BlocksLayout = ({ content, location }) => {
               </div>
             );
           }
-          return config.settings.fullWidthBlockTypes.includes(blockType) ? (
+
+          // TODO: Have block config have a key for a function to check "isFullWidth"
+          return config.settings.fullWidthBlockTypes.includes(blockType) ||
+            (blockType === 'image' && blocksData[blockId]?.size === 'page') ? (
             <Block
               key={blockId}
               id={blockId}
