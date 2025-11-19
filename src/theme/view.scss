@@ -121,3 +121,10 @@ mark {
     width: 20ch;
   }
 }
+
+.nsw-container {
+  // Fix positioning of SVG icon
+  .nsw-carousel__control:has(.icon) {
+    padding-inline: 0;
+  }
+}

@@ -3,6 +3,7 @@ import {
   GridViewBlock,
 } from '@kitconcept/volto-blocks-grid/components';
 import sliderSVG from '@plone/volto/icons/slider.svg';
+import { CardCarouselGridLayout } from 'nsw-design-system-plone6/components/Blocks/Card/Carousel';
 import * as Components from 'nsw-design-system-plone6/components';
 
 // Todo: i18n for component titles and groups
@@ -186,5 +187,24 @@ export const gridBlocks = [
       view: [],
     },
     gridAllowedBlocks: ['contentBlock'],
+  },
+  {
+    // TODO: schema enhancer to add "Description"
+    id: 'cardCarousel',
+    title: 'Card carousel',
+    icon: sliderSVG,
+    group: 'grids',
+    view: GridViewBlock,
+    edit: GridEditBlock,
+    layoutComponent: CardCarouselGridLayout,
+    restricted: false,
+    mostUsed: true,
+    sidebarTab: 1,
+    security: {
+      addPermission: [],
+      view: [],
+    },
+    gridAllowedBlocks: ['card'],
+    maxNumberOfColumns: 9,
   },
 ];

@@ -78,6 +78,12 @@
       @extend .nsw-hero-banner__button;
     }
   }
+
+  .block.cardCarousel, .block.contentBlockGrid, .block.__grid {
+    & .renderer-wrapper > div {
+      height: 100%;
+    }
+  }
 }
 
 // Columns block editing fixes
