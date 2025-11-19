@@ -74,6 +74,13 @@
   }
 }
 
+.view-editview #sidebar {
+  // Hide the volto-blocks-style button that we don't want
+  .tabs-wrapper .open-styles-button {
+    display: none;
+  }
+}
+
 // Columns block editing fixes
 .columns-block {
   .nsw-col .blocks-form > fieldset {
