@@ -378,7 +378,7 @@ class EditGrid extends Component {
                     {...provided.droppableProps}
                     columns={
                       this.props.data.columns
-                        ? this.props.data.columns.length
+                        ? Math.min(this.props.data.columns.length, 4)
                         : 0
                     }
                   >
