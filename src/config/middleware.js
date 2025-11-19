@@ -52,6 +52,12 @@ export function customMiddleware() {
     const nswMiddleware = express.Router();
     nswMiddleware.id = 'nsw-middleware';
     nswMiddleware.all('**/@@site-logo/*', siteLogoMiddlewareFunction);
+
+    // Simple healthcheck middleware
+    nswMiddleware.all('/ok', (req, res, next) => {
+      res.send('ok');
+    });
+    
     // Object.entries(staticResourceMapping).forEach(([path, data]) => {
     //   nswMiddleware.get(path, (req, res) => {
     //     return getResource(data.url)
