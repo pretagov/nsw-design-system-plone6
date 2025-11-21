@@ -122,6 +122,10 @@ mark {
   }
 }
 
+// Hack to prevent horizontal overflow of card carousel
+.nsw-carousel-container {
+  max-width: calc(100vw - 1rem);
+}
 .nsw-container {
   // Fix positioning of SVG icon
   .nsw-carousel__control:has(.icon) {
