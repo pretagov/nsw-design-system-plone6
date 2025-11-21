@@ -10,6 +10,7 @@ export function CardCarouselGridLayout({ data }) {
           data: column,
         };
       })}
+      mode={data.mode}
     />
   );
 }

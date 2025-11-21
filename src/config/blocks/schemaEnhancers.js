@@ -79,18 +79,40 @@ const schemaEnhancers = {
       intl,
       formData,
       stylingSchema: cardStylingSchema,
+      removeHeadline: false,
     });
+    const defaultFieldsetIndex = schema.fieldsets.findIndex(
+      (fieldset) => fieldset.id === 'default',
+    );
+
+    // Add columns property
     schema.properties.columns = {
       title: 'Columns',
       widget: 'grid_columns_widget',
     };
-    const defaultFieldsetIndex = schema.fieldsets.findIndex(
-      (fieldset) => fieldset.id === 'default',
-    );
     schema.fieldsets[defaultFieldsetIndex].fields = [
       ...schema.fieldsets[defaultFieldsetIndex].fields,
       'columns',
     ];
+
+    // Add mode property
+    schema.properties.mode = {
+      title: 'Mode',
+      type: 'string',
+      factory: 'Choice',
+      choices: [
+        ['fixed', 'Fixed'],
+        ['loop', 'Looping'],
+        ['paginated', 'Paginated'],
+      ],
+      placeholder: 'Fixed',
+      noValueOption: false,
+    };
+    schema.fieldsets[defaultFieldsetIndex].fields = [
+      ...schema.fieldsets[defaultFieldsetIndex].fields,
+      'mode',
+    ];
+
     return schema;
   },
   image: ({ schema, intl, formData }) => {
@@ -420,15 +442,24 @@ function withListingDisplayControls({ schema, formData, intl }) {
   return schema;
 }
 
-function asGridSchemaExtender({ schema, intl, formData, stylingSchema }) {
+function asGridSchemaExtender({
+  schema,
+  intl,
+  stylingSchema,
+  removeHeadline = true,
+}) {
   const defaultFieldsetIndex = schema.fieldsets.findIndex(
     (fieldset) => fieldset.id === 'default',
   );
-  // Remove 'Headline' from the grid block
-  schema.fieldsets[defaultFieldsetIndex].fields = schema.fieldsets[
-    defaultFieldsetIndex
-  ].fields.filter((fieldId) => fieldId !== 'headline');
-  delete schema.properties.headline;
+  if (removeHeadline) {
+    // Remove 'Headline' from the grid block
+    schema.fieldsets[defaultFieldsetIndex].fields = schema.fieldsets[
+      defaultFieldsetIndex
+    ].fields.filter((fieldId) => fieldId !== 'headline');
+    delete schema.properties.headline;
+  } else {
+    schema.properties.headline.title = 'Heading';
+  }
 
   if (!schema.properties['@type']) {
     const allowedBlock =
@@ -444,7 +475,7 @@ function asGridSchemaExtender({ schema, intl, formData, stylingSchema }) {
       ],
       default: allowedBlock,
     };
-    schema.fieldsets[0].fields.push('@type');
+    schema.fieldsets[0].fields.unshift('@type');
   }
 
   // Add display options

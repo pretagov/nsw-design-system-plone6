@@ -1,4 +1,3 @@
-import { Card } from 'nsw-design-system-plone6/components/Components/Card';
 import { CardView } from 'nsw-design-system-plone6/components/Blocks/Card/View';
 
 import loadable from '@loadable/component';
@@ -20,18 +19,43 @@ const messages = defineMessages({
   },
 });
 
+const modeDataAttrbiutesMapping = {
+  fixed: {
+    'data-loop': 'off',
+    'data-navigation': 'on',
+  },
+  loop: {
+    'data-loop': 'on',
+    'data-navigation': 'off',
+  },
+  paginated: {
+    'data-loop': 'off',
+    'data-navigation-pagination': 'on',
+  },
+};
+
 /**
  * @param {Object} props
  * @param {Object.<string, Card> | Array.<Card>} props.cards
+ * @param {'fixed' | 'loop' | 'paginated'} props.mode
  */
-export function CardCarousel({ title, description, cards, CardDisplay = CardView }) {
+export function CardCarousel({
+  title,
+  description,
+  cards,
+  CardDisplay = CardView,
+  draggable = true,
+  mode = 'fixed',
+}) {
   const cardValues = Array.isArray(cards) ? cards : Object.values(cards);
   const intl = useIntl();
 
   const carouselElement = useRef(null);
   useEffect(() => {
     if (carouselElement.current) {
-      loadable(() => import('nsw-design-system/src/components/card-carousel/carousel'))
+      loadable(() =>
+        import('nsw-design-system/src/components/card-carousel/carousel'),
+      )
         .load()
         .then((carouselJs) => {
           new carouselJs.default(carouselElement.current).init();
@@ -39,24 +63,23 @@ export function CardCarousel({ title, description, cards, CardDisplay = CardView
     }
   }, []);
 
+  const modeDataAttrbiutes =
+    modeDataAttrbiutesMapping[mode] || modeDataAttrbiutesMapping['fixed'];
+
   return (
     <>
-      {/* TODO: 'nsw-carousel--loaded' is added by the JS, we should remove it */}
       <div
-        // className="nsw-carousel js-carousel nsw-carousel--loaded"
         className="nsw-carousel js-carousel"
         data-description={description}
-        data-drag="on"
-        data-loop="on"
-        data-navigation="on"
-        data-navigation-pagination="off"
-        ata-justify-content="off"
+        data-drag={draggable === false ? 'off' : 'on'}
+        data-justify-content="off"
+        data-overflow-items="off"
+        {...modeDataAttrbiutes}
         ref={carouselElement}
       >
         <p className="sr-only">Carousel items</p>
         <div className="nsw-carousel__wrapper js-carousel__wrapper">
           <ol className="nsw-carousel__list">
-            {/* TODO: Don't use index */}
             {cardValues.map((card, index) => {
               return (
                 <li key={index} className="nsw-carousel__item">
@@ -68,19 +91,37 @@ export function CardCarousel({ title, description, cards, CardDisplay = CardView
         </div>
 
         <div className="nsw-carousel__header">
-          <div className="nsw-carousel__title">
-            <h2>{title}</h2>
-          </div>
+          {title ? (
+            <div className="nsw-carousel__title">
+              <h2>{title}</h2>
+            </div>
+          ) : null}
           <nav aria-label="Carousel controls">
             <ul>
               <li>
-                <button aria-label={intl.formatMessage(messages.showPreviousItems)} className="nsw-carousel__control nsw-carousel__control--prev js-carousel__control">
-                  <Icon name={ChevronLeftSVG} className="nsw-icon" size="28px" ariaHidden={true} />
+                <button
+                  aria-label={intl.formatMessage(messages.showPreviousItems)}
+                  className="nsw-carousel__control nsw-carousel__control--prev js-carousel__control"
+                >
+                  <Icon
+                    name={ChevronLeftSVG}
+                    className="nsw-icon"
+                    size="28px"
+                    ariaHidden={true}
+                  />
                 </button>
               </li>
               <li>
-                <button aria-label={intl.formatMessage(messages.showNextItems)} className="nsw-carousel__control nsw-carousel__control--next js-carousel__control">
-                  <Icon name={ChevronRightSVG} className="nsw-icon" size="28px" ariaHidden={true} />
+                <button
+                  aria-label={intl.formatMessage(messages.showNextItems)}
+                  className="nsw-carousel__control nsw-carousel__control--next js-carousel__control"
+                >
+                  <Icon
+                    name={ChevronRightSVG}
+                    className="nsw-icon"
+                    size="28px"
+                    ariaHidden={true}
+                  />
                 </button>
               </li>
             </ul>
