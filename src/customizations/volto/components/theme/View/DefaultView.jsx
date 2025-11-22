@@ -139,10 +139,12 @@ const BlocksLayout = ({ content, location }) => {
   );
   const breadcrumbsHidden =
     location.pathname === '/' || siteDepth < breadcrumbStartDepth;
+  const firstBlock = blocksData[blocksInLayout[0]];
   const needExtraTopPadding =
-    !config.settings.fullWidthBlockTypes.includes(
-      blocksData[blocksInLayout[0]]?.['@type'],
-    ) && breadcrumbsHidden;
+    breadcrumbsHidden &&
+    !config.settings.fullWidthBlockTypes.includes(firstBlock?.['@type']) &&
+    firstBlock?.['@type'] !== 'image' &&
+    firstBlock.size !== 'page'; // Hack for full-page width image.
 
   return (
     <div id="page-document">
