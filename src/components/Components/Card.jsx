@@ -54,7 +54,7 @@ export function Card({
   const cleanDate = date === 'None' ? null : date;
 
   const columnsImageSizeMapping =
-    config.blocks.blocksConfig[data['@type']]?.columnsImageSizeMapping;
+    config.blocks.blocksConfig[data?.['@type']]?.columnsImageSizeMapping;
 
   let imageString = undefined;
   if (image) {
