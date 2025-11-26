@@ -33,7 +33,8 @@ export function ImagePickerWidget({
     }
   }
 
-  const imageString = columns
+  const columnsMapping = columnsImageSizeMapping[columns];
+  const imageString = columnsMapping
     ? `${image}/${columnsImageSizeMapping[columns]}`
     : image;
 
