@@ -58,7 +58,30 @@ const messages = defineMessages({
     id: 'Full width search bar',
     defaultMessage: 'Full width search bar',
   },
+  // @eeacms/volto-tabs-block block
+  tabsTitleFieldDescription: {
+    id: 'tabsTitleFieldDescription',
+    defaultMessage:
+      'Recommended. Gives the tabs a visilbe and accessible name to provide context.',
+  },
 });
+
+function removeFields(schema, fieldsToRemove, fieldsetId = 'default') {
+  const fieldsetIndex = schema.fieldsets.findIndex(
+    (fieldset) => fieldset.id === fieldsetId,
+  );
+
+  fieldsToRemove.forEach((field) => {
+    const indexToRemove = schema.fieldsets[fieldsetIndex].fields.indexOf(field);
+    if (indexToRemove < 0) {
+      return;
+    }
+    schema.fieldsets[fieldsetIndex].fields.splice(indexToRemove, 1);
+    delete schema.properties[field];
+  });
+
+  return schema;
+}
 
 const schemaEnhancers = {
   __grid: ({ schema: schemaToUpdate, intl, formData }) => {
@@ -273,14 +296,49 @@ const schemaEnhancers = {
 
     return schema;
   },
+  tabs_block: ({ schema, intl }) => {
+    let newSchema = schema;
+
+    newSchema = removeFields(schema, [
+      // Remove all of the menu settings as they don't apply
+      'menuAlign',
+      'menuPosition',
+      'menuSize',
+      'menuColor',
+      'menuBorderless',
+      'menuCompact',
+      'menuFluid',
+      'menuInverted',
+      'menuPointing',
+      'menuSecondary',
+      'menuStackable',
+      'menuTabular',
+      'menuText',
+      // Remove other top-level settings that aren't needed
+      'description',
+      'verticalAlign',
+      'hideEmptyTabs',
+    ]);
+    const menuFieldsetIndex = newSchema.fieldsets.findIndex(
+      (fieldset) => fieldset.id === 'menu',
+    );
+    newSchema.fieldsets.splice(menuFieldsetIndex, 1);
+
+    // Add descriptive text to the title field
+    newSchema.properties['title'].description = intl.formatMessage(
+      messages.tabsTitleFieldDescription,
+    );
+
+    // Remove unused fields from tab settings
+    let tabSchema = newSchema.properties.data.schema;
+    tabSchema = removeFields(tabSchema, ['assetType', 'assetPosition']);
+    newSchema.properties.data.schema = tabSchema;
+
+    return newSchema;
+  },
   toc: ({ schema }) => {
     const fieldsToRemove = ['title', 'hide_title', 'ordered'];
-    fieldsToRemove.forEach((field) => {
-      const indexToRemove = schema.fieldsets[0].fields.indexOf(field);
-      schema.fieldsets[0].fields.splice(indexToRemove, 1);
-      delete schema.properties[field];
-    });
-    return schema;
+    return removeFields(schema, fieldsToRemove);
   },
   video: ({ schema, intl, formData }) => {
     return asMediaSchemaExtender(schema, intl, formData);
