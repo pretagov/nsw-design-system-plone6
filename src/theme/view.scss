@@ -162,3 +162,15 @@ mark {
     padding-inline: 0;
   }
 }
+
+// Custom full-page width class
+.nsw-media.nsw-media--page {
+  // Remove gap if previous block(s) are within a section
+  .nsw-section + & {
+    margin-block-start: 0;
+  }
+  // Remove gap if next block(s) are within a section
+  &:has(+ .nsw-section) {
+    margin-block-end: 0;
+  }
+}
