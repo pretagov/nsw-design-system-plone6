@@ -25,9 +25,17 @@ function PDFDisplay({ content }) {
   fakeContent[blocksFieldname] = {
     '00000000-0000-0000-0000-000000000000': {
       '@type': 'nsw_pdf',
-    },
-    '00000000-0000-0000-0000-000000000001': {
-      '@type': 'nsw_pdf',
+      showDownloadLink: false, // Already handled by the view code below
+      linkedObject: [
+        {
+          '@id': content['@id'],
+          getObjSize: content.file?.size
+            ? filesize(content.file.size)
+            : undefined,
+          title: content.title,
+          ...content.file,
+        },
+      ],
     },
   };
   fakeContent[blocksLayoutFieldname] = {

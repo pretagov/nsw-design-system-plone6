@@ -23,6 +23,11 @@ const messages = defineMessages({
     id: 'Caption background colour',
     defaultMessage: 'Caption background colour',
   },
+  // Colour schema
+  colour: {
+    id: 'Colour',
+    defaultMessage: 'Colour',
+  },
   // Hero block
   heroWidth: {
     id: 'Width',
@@ -95,6 +100,49 @@ const schemaEnhancers = {
       stylingSchema: contentBlockStylingSchema,
     });
   },
+  cardCarousel: ({ schema: schemaToUpdate, intl, formData }) => {
+    let schema = schemaToUpdate;
+    schema = asGridSchemaExtender({
+      schema: schemaToUpdate,
+      intl,
+      formData,
+      stylingSchema: cardStylingSchema,
+      removeHeadline: false,
+    });
+    const defaultFieldsetIndex = schema.fieldsets.findIndex(
+      (fieldset) => fieldset.id === 'default',
+    );
+
+    // Add columns property
+    schema.properties.columns = {
+      title: 'Columns',
+      widget: 'grid_columns_widget',
+    };
+    schema.fieldsets[defaultFieldsetIndex].fields = [
+      ...schema.fieldsets[defaultFieldsetIndex].fields,
+      'columns',
+    ];
+
+    // Add mode property
+    schema.properties.mode = {
+      title: 'Mode',
+      type: 'string',
+      factory: 'Choice',
+      choices: [
+        ['fixed', 'Fixed'],
+        ['loop', 'Looping'],
+        ['paginated', 'Paginated'],
+      ],
+      placeholder: 'Fixed',
+      noValueOption: false,
+    };
+    schema.fieldsets[defaultFieldsetIndex].fields = [
+      ...schema.fieldsets[defaultFieldsetIndex].fields,
+      'mode',
+    ];
+
+    return schema;
+  },
   image: ({ schema, intl, formData }) => {
     return asMediaSchemaExtender(schema, intl, formData);
   },
@@ -148,7 +196,7 @@ const schemaEnhancers = {
       ...(schema.fieldsets[defaultFieldsetIndex]?.fields ?? []),
       'heroWidth',
     ];
-    return schema;
+    return withColourSupport({ schema, intl });
   },
   search: ({ schema: originalSchema, intl, formData }) => {
     const schema = withListingDisplayControls({
@@ -300,6 +348,7 @@ const schemaEnhancers = {
 const alignmentPositionSizeMapping = {
   center: [
     ['fullWidth', 'Full width'],
+    ['page', 'Page width'],
     ['90', '90%'],
     ['80', '80%'],
     ['70', '70%'],
@@ -457,15 +506,51 @@ function withListingDisplayControls({ schema, formData, intl }) {
   return schema;
 }
 
-function asGridSchemaExtender({ schema, intl, formData, stylingSchema }) {
+function withColourSupport({ schema, intl }) {
+  // TODO: Should this be in the styling schema?
   const defaultFieldsetIndex = schema.fieldsets.findIndex(
     (fieldset) => fieldset.id === 'default',
   );
-  // Remove 'Headline' from the grid block
-  schema.fieldsets[defaultFieldsetIndex].fields = schema.fieldsets[
-    defaultFieldsetIndex
-  ].fields.filter((fieldId) => fieldId !== 'headline');
-  delete schema.properties.headline;
+  schema.fieldsets[defaultFieldsetIndex].fields = [
+    ...schema.fieldsets[defaultFieldsetIndex].fields,
+    'colour',
+  ];
+
+  schema.properties.colour = {
+    title: intl.formatMessage(messages.colour),
+    type: 'string',
+    factory: 'Choice',
+    choices: [
+      ['dark', 'Brand Dark'],
+      ['light', 'Brand light'],
+      ['white', 'White'],
+      ['offWhite', 'Off-White'],
+    ],
+    placeholder: 'Brand dark',
+    noValueOption: false,
+  };
+
+  return schema;
+}
+
+function asGridSchemaExtender({
+  schema,
+  intl,
+  stylingSchema,
+  removeHeadline = true,
+}) {
+  const defaultFieldsetIndex = schema.fieldsets.findIndex(
+    (fieldset) => fieldset.id === 'default',
+  );
+  if (removeHeadline) {
+    // Remove 'Headline' from the grid block
+    schema.fieldsets[defaultFieldsetIndex].fields = schema.fieldsets[
+      defaultFieldsetIndex
+    ].fields.filter((fieldId) => fieldId !== 'headline');
+    delete schema.properties.headline;
+  } else {
+    schema.properties.headline.title = 'Heading';
+  }
 
   if (!schema.properties['@type']) {
     const allowedBlock =
@@ -481,7 +566,7 @@ function asGridSchemaExtender({ schema, intl, formData, stylingSchema }) {
       ],
       default: allowedBlock,
     };
-    schema.fieldsets[0].fields.push('@type');
+    schema.fieldsets[0].fields.unshift('@type');
   }
 
   // Add display options
