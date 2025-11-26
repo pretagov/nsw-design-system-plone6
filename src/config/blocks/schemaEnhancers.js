@@ -23,6 +23,11 @@ const messages = defineMessages({
     id: 'Caption background colour',
     defaultMessage: 'Caption background colour',
   },
+  // Colour schema
+  colour: {
+    id: 'Colour',
+    defaultMessage: 'Colour',
+  },
   // Hero block
   heroWidth: {
     id: 'Width',
@@ -125,7 +130,7 @@ const schemaEnhancers = {
       ...(schema.fieldsets[defaultFieldsetIndex]?.fields ?? []),
       'heroWidth',
     ];
-    return schema;
+    return withColourSupport({ schema, intl });
   },
   search: ({ schema: originalSchema, intl, formData }) => {
     const schema = withListingDisplayControls({
@@ -396,6 +401,33 @@ function withListingDisplayControls({ schema, formData, intl }) {
     required: [],
   };
   schema.fieldsets.push(itemDisplayFieldset);
+  return schema;
+}
+
+function withColourSupport({ schema, intl }) {
+  // TODO: Should this be in the styling schema?
+  const defaultFieldsetIndex = schema.fieldsets.findIndex(
+    (fieldset) => fieldset.id === 'default',
+  );
+  schema.fieldsets[defaultFieldsetIndex].fields = [
+    ...schema.fieldsets[defaultFieldsetIndex].fields,
+    'colour',
+  ];
+
+  schema.properties.colour = {
+    title: intl.formatMessage(messages.colour),
+    type: 'string',
+    factory: 'Choice',
+    choices: [
+      ['dark', 'Brand Dark'],
+      ['light', 'Brand light'],
+      ['white', 'White'],
+      ['offWhite', 'Off-White'],
+    ],
+    placeholder: 'Brand dark',
+    noValueOption: false,
+  };
+
   return schema;
 }
 
