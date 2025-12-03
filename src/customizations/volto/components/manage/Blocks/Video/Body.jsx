@@ -1,6 +1,4 @@
 import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
-import cx from 'classnames';
-import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Message } from 'semantic-ui-react';
 
@@ -16,6 +14,7 @@ const Body = ({ data, isEditMode, isSelectedInEditMode }) => {
   let videoID = null;
   let listID = null;
 
+  // Work out the placeholder URL
   if (data.url) {
     if (data.url.match('youtu')) {
       if (data.url.match('list')) {
@@ -42,28 +41,7 @@ const Body = ({ data, isEditMode, isSelectedInEditMode }) => {
     }
   }
 
-  const ref = React.createRef();
-  const onKeyDown = (e) => {
-    if (e.nativeEvent.keyCode === 13) {
-      ref.current.handleClick();
-    }
-  };
-
-  const embedSettings = {
-    placeholder: placeholder,
-    icon: 'play',
-    defaultActive: false,
-    autoplay: false,
-    aspectRatio: '16:9',
-    tabIndex: 0,
-    onKeyPress: onKeyDown,
-    ref: ref,
-  };
-
-  if (isEditMode && !isSelectedInEditMode) {
-    return <img className="placeholder" src={placeholder} alt="" />;
-  }
-
+  // Work out the source URL
   let url = '';
   if (data.url.match('youtu')) {
     if (data.url.match('list')) {
@@ -81,103 +59,35 @@ const Body = ({ data, isEditMode, isSelectedInEditMode }) => {
       : data.url;
   }
 
+  if (!url) {
+    return isEditMode ? (
+      <div>
+        <Message>
+          <center>
+            <FormattedMessage
+              id="Please enter a valid URL by deleting the block and adding a new video block."
+              defaultMessage="Please enter a valid URL by deleting the block and adding a new video block."
+            />
+          </center>
+        </Message>
+      </div>
+    ) : (
+      <div className="invalidVideoFormat" />
+    );
+  }
+
+  if (isEditMode && !isSelectedInEditMode) {
+    return placeholder ? (
+      <img className="placeholder" src={placeholder} alt={data.alt} />
+    ) : (
+      <div inert>
+        <Media {...data} src={url} placeholder={placeholder} title={data.alt} />
+      </div>
+    );
+  }
+
   return (
-    <>
-      <figure
-        className={cx('nsw-media', {
-          [`nsw-media--${data.captionBackgroundColour}`]: !!data.captionBackgroundColour,
-          [`nsw-media--${data.size}`]:
-            !!data.size &&
-            !['left', 'right'].includes(data.align) &&
-            data.size !== 'fullWidth',
-          [`nsw-media--${data.align}-${data.size}`]:
-            !!data.size && !!data.align && data.size !== 'fullWidth',
-        })}
-      >
-        <div className="nsw-media__video">
-          {data.url ? (
-            <>
-              {data.url.match('youtu') ? (
-                <>
-                  {data.url.match('list') ? (
-                    <iframe
-                      src={`https://www.youtube.com/embed/videoseries?list=${listID}`}
-                      title="Digital.nsw launch with Victor Dominello MP at NSW Parliament House"
-                      style={{ border: 0 }}
-                      allowFullScreen
-                    ></iframe>
-                  ) : (
-                    <>
-                      <iframe
-                        src={`https://www.youtube.com/embed/${videoID}`}
-                        title="Digital.nsw launch with Victor Dominello MP at NSW Parliament House"
-                        style={{ border: 0 }}
-                        allowFullScreen
-                      ></iframe>
-                    </>
-                  )}
-                </>
-              ) : (
-                <>
-                  {data.url.match('vimeo') ? (
-                    <iframe
-                      src={`https://player.vimeo.com/video/${videoID}?api=false&amp;autoplay=false&amp;byline=false&amp;portrait=false&amp;title=false`}
-                      title="Digital.nsw launch with Victor Dominello MP at NSW Parliament House"
-                      style={{ border: 0 }}
-                      allowFullScreen
-                    ></iframe>
-                  ) : (
-                    //
-                    // <Embed id={videoID} source="vimeo" {...embedSettings} />
-                    <>
-                      {data.url.match('.mp4') ? (
-                        // eslint-disable-next-line jsx-a11y/media-has-caption
-                        <video
-                          // Style tag is needed for sizing. See https://github.com/digitalnsw/nsw-design-system/pull/252
-                          style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: '100$',
-                            height: '100%',
-                          }}
-                          src={
-                            isInternalURL(data.url)
-                              ? data.url.includes('@@download')
-                                ? data.url
-                                : `${flattenToAppURL(data.url)}/@@download/file`
-                              : data.url
-                          }
-                          controls
-                          poster={placeholder}
-                          type="video/mp4"
-                        />
-                      ) : isEditMode ? (
-                        <div>
-                          <Message>
-                            <center>
-                              <FormattedMessage
-                                id="Please enter a valid URL by deleting the block and adding a new video block."
-                                defaultMessage="Please enter a valid URL by deleting the block and adding a new video block."
-                              />
-                            </center>
-                          </Message>
-                        </div>
-                      ) : (
-                        <div className="invalidVideoFormat" />
-                      )}
-                    </>
-                  )}
-                </>
-              )}
-            </>
-          ) : null}
-        </div>
-        {data.caption ? <figcaption>{data.caption}</figcaption> : null}
-      </figure>
-      {/* <Media src="https://player.vimeo.com/video/1011852145?h=05c2a783cc&app_id=122963" /> */}
-      <Media src={url} placeholder={placeholder} />;
-    </>
+    <Media {...data} src={url} placeholder={placeholder} title={data.alt} />
   );
 };
 
