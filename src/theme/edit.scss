@@ -72,6 +72,23 @@
       left: auto;
     }
   }
+  .block.cardCarousel, .block.contentBlockGrid, .block.__grid {
+    & .renderer-wrapper > div {
+      height: 100%;
+    }
+  }
+  .nsw-hero-banner {
+    .nsw-hero-banner__button {
+      @extend .nsw-hero-banner__button;
+    }
+  }
+}
+
+.view-editview #sidebar {
+  // Hide the volto-blocks-style button that we don't want
+  .tabs-wrapper .open-styles-button {
+    display: none;
+  }
 }
 
 // Columns block editing fixes

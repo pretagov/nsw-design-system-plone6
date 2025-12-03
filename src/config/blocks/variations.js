@@ -238,6 +238,12 @@ const variationSchemaEnhancers = {
 
 const blockVariationsToRemove = {
   // search: ['facetsTopSide'],
+  tabs_block: [
+    'accordion',
+    'horizontal-responsive',
+    'carousel-horizontal',
+    'carousel-vertical',
+  ],
 };
 export function applyVariations(config) {
   // Add new block variations
