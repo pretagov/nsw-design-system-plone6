@@ -623,9 +623,15 @@ function asMediaSchemaExtender(schema, intl, formData) {
     ],
     default: 'grey',
   };
+  schema.properties.alt = {
+    // TODO: i18n
+    title: 'Alt text',
+    description: 'Describe the purpose of the image.',
+  };
   // TODO: 0 is the 'default' fieldset, but should look it up for safety.
   schema.fieldsets[0].fields = [
     ...schema.fieldsets[0].fields,
+    ...(schema.fieldsets[0].fields.includes('alt') ? [] : ['alt']), // Only add 'alt' field if it's not already there
     'caption',
     'captionBackgroundColour',
   ];
