@@ -63,7 +63,7 @@ export function Media({
             )}
           </div>
         ) : (
-          <img src={src} alt="black dog" />
+          <img src={src} alt={title} />
         )}
 
         {caption ? <figcaption>{caption}</figcaption> : null}
