@@ -43,20 +43,22 @@ const Body = ({ data, isEditMode, isSelectedInEditMode }) => {
 
   // Work out the source URL
   let url = '';
-  if (data.url.match('youtu')) {
-    if (data.url.match('list')) {
-      url = `https://www.youtube.com/embed/videoseries?list=${listID}`;
-    } else {
-      url = `https://www.youtube.com/embed/${videoID}`;
+  if (data.url) {
+    if (data.url.match('youtu')) {
+      if (data.url.match('list')) {
+        url = `https://www.youtube.com/embed/videoseries?list=${listID}`;
+      } else {
+        url = `https://www.youtube.com/embed/${videoID}`;
+      }
+    } else if (data.url.match('vimeo')) {
+      url = `https://player.vimeo.com/video/${videoID}?api=false&amp;autoplay=false&amp;byline=false&amp;portrait=false&amp;title=false`;
+    } else if (data.url.match('.mp4')) {
+      url = isInternalURL(data.url)
+        ? data.url.includes('@@download')
+          ? data.url
+          : `${flattenToAppURL(data.url)}/@@download/file`
+        : data.url;
     }
-  } else if (data.url.match('vimeo')) {
-    url = `https://player.vimeo.com/video/${videoID}?api=false&amp;autoplay=false&amp;byline=false&amp;portrait=false&amp;title=false`;
-  } else if (data.url.match('.mp4')) {
-    url = isInternalURL(data.url)
-      ? data.url.includes('@@download')
-        ? data.url
-        : `${flattenToAppURL(data.url)}/@@download/file`
-      : data.url;
   }
 
   if (!url) {
