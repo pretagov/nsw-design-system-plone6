@@ -2,7 +2,7 @@ import { CardView } from 'nsw-design-system-plone6/components/Blocks/Card/View';
 
 import loadable from '@loadable/component';
 import { Icon } from '@plone/volto/components';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 
 import ChevronLeftSVG from '@material-design-icons/svg/filled/chevron_left.svg';
@@ -50,18 +50,34 @@ export function CardCarousel({
   const cardValues = Array.isArray(cards) ? cards : Object.values(cards);
   const intl = useIntl();
 
+  // Can't wrap this in a useEffect as the poor rendering in Volto causes the component to be unmounted while running the effect
+  const carouselController = useRef(null);
   const carouselElement = useRef(null);
-  useEffect(() => {
-    if (carouselElement.current) {
-      loadable(() =>
-        import('nsw-design-system/src/components/card-carousel/carousel'),
-      )
-        .load()
-        .then((carouselJs) => {
-          new carouselJs.default(carouselElement.current).init();
-        });
-    }
-  }, []);
+  if (
+    __CLIENT__ &&
+    carouselController.current === null &&
+    carouselElement.current
+  ) {
+    // Set it from null to false to ensure we only attempt to try the loadable once
+    carouselController.current = false;
+    loadable(
+      () => import('nsw-design-system/src/components/card-carousel/carousel'),
+      { ssr: false },
+    )
+      .load()
+      .then((carouselJs) => {
+        if (!carouselController.current && carouselElement.current) {
+          carouselController.current = new carouselJs.default(
+            carouselElement.current,
+          );
+          carouselController.current.init();
+        }
+      })
+      .catch(() => {
+        // Reset it back to null so we can re-attempt a loadable later
+        carouselController.current = null;
+      });
+  }
 
   const modeDataAttrbiutes =
     modeDataAttrbiutesMapping[mode] || modeDataAttrbiutesMapping['fixed'];
