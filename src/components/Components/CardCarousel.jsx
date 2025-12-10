@@ -2,7 +2,7 @@ import { CardView } from 'nsw-design-system-plone6/components/Blocks/Card/View';
 
 import loadable from '@loadable/component';
 import { Icon } from '@plone/volto/components';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 
 import ChevronLeftSVG from '@material-design-icons/svg/filled/chevron_left.svg';
@@ -50,63 +50,35 @@ export function CardCarousel({
   const cardValues = Array.isArray(cards) ? cards : Object.values(cards);
   const intl = useIntl();
 
-  // Can't wrap this in a useEffect as the poor app-level rendering in Volto causes the component to be unmounted while running the effect
-  // TODO: Below code is at risk of a memory leak if the app re-renders or we have lots of carousels on one page and needs updating!
-  const carouselController = useRef(null);
   const carouselElement = useRef(null);
-  if (
-    __CLIENT__ &&
-    carouselController.current === null &&
-    carouselElement.current
-  ) {
-    // Set it from null to false to ensure we only attempt to try the loadable once
-    carouselController.current = false;
-    loadable(
-      () => import('nsw-design-system/src/components/card-carousel/carousel'),
-      { ssr: false },
-    )
-      .load()
-      .then((carouselJs) => {
-        if (!carouselController.current && carouselElement.current) {
-          if (!document.body.contains(carouselElement.current)) {
+  const carouselController = useRef(null);
+  useEffect(() => {
+    const abortController = new AbortController();
+    if (carouselElement.current) {
+      loadable(
+        () => import('nsw-design-system/src/components/card-carousel/carousel'),
+        { ssr: false },
+      )
+        .load()
+        .then((carouselJs) => {
+          if (abortController.signal.aborted) {
             return;
           }
-
-          const carouselInstance = new carouselJs.default(
+          carouselController.current = new carouselJs.default(
             carouselElement.current,
           );
-          const originalInit = carouselInstance.init.bind(carouselInstance);
-          const originalResetCarouselResize = carouselInstance.resetCarouselResize.bind(
-            carouselInstance,
-          );
-
-          // Add checks to the carousel controller code to ensure we're running against an actually mounted DOM.
-          carouselInstance.init = function () {
-            if (
-              carouselElement.current &&
-              document.body.contains(carouselElement.current)
-            ) {
-              originalInit();
-            }
-          };
-          carouselInstance.resetCarouselResize = function () {
-            if (
-              carouselElement.current &&
-              document.body.contains(carouselElement.current)
-            ) {
-              originalResetCarouselResize();
-            }
-          };
-
-          carouselController.current = carouselInstance;
           carouselController.current.init();
-        }
-      })
-      .catch(() => {
-        // Reset it back to null so we can re-attempt a loadable later
+        });
+    }
+    // Cleanup function to prevent the duplicate controllers from later re-mounts causing any issues.
+    return () => {
+      abortController.abort();
+      if (carouselController.current) {
+        // There are still some event listeners attached to window but they're anonymous so can't be removed.
         carouselController.current = null;
-      });
-  }
+      }
+    };
+  }, []);
 
   const modeDataAttrbiutes =
     modeDataAttrbiutesMapping[mode] || modeDataAttrbiutesMapping['fixed'];
