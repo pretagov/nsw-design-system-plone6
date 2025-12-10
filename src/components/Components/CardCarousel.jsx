@@ -50,7 +50,8 @@ export function CardCarousel({
   const cardValues = Array.isArray(cards) ? cards : Object.values(cards);
   const intl = useIntl();
 
-  // Can't wrap this in a useEffect as the poor rendering in Volto causes the component to be unmounted while running the effect
+  // Can't wrap this in a useEffect as the poor app-level rendering in Volto causes the component to be unmounted while running the effect
+  // TODO: Below code is at risk of a memory leak if the app re-renders or we have lots of carousels on one page and needs updating!
   const carouselController = useRef(null);
   const carouselElement = useRef(null);
   if (
@@ -67,9 +68,37 @@ export function CardCarousel({
       .load()
       .then((carouselJs) => {
         if (!carouselController.current && carouselElement.current) {
-          carouselController.current = new carouselJs.default(
+          if (!document.body.contains(carouselElement.current)) {
+            return;
+          }
+
+          const carouselInstance = new carouselJs.default(
             carouselElement.current,
           );
+          const originalInit = carouselInstance.init.bind(carouselInstance);
+          const originalResetCarouselResize = carouselInstance.resetCarouselResize.bind(
+            carouselInstance,
+          );
+
+          // Add checks to the carousel controller code to ensure we're running against an actually mounted DOM.
+          carouselInstance.init = function () {
+            if (
+              carouselElement.current &&
+              document.body.contains(carouselElement.current)
+            ) {
+              originalInit();
+            }
+          };
+          carouselInstance.resetCarouselResize = function () {
+            if (
+              carouselElement.current &&
+              document.body.contains(carouselElement.current)
+            ) {
+              originalResetCarouselResize();
+            }
+          };
+
+          carouselController.current = carouselInstance;
           carouselController.current.init();
         }
       })
