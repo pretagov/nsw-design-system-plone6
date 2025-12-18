@@ -51,16 +51,33 @@ export function CardCarousel({
   const intl = useIntl();
 
   const carouselElement = useRef(null);
+  const carouselController = useRef(null);
   useEffect(() => {
+    const abortController = new AbortController();
     if (carouselElement.current) {
-      loadable(() =>
-        import('nsw-design-system/src/components/card-carousel/carousel'),
+      loadable(
+        () => import('nsw-design-system/src/components/card-carousel/carousel'),
+        { ssr: false },
       )
         .load()
         .then((carouselJs) => {
-          new carouselJs.default(carouselElement.current).init();
+          if (abortController.signal.aborted) {
+            return;
+          }
+          carouselController.current = new carouselJs.default(
+            carouselElement.current,
+          );
+          carouselController.current.init();
         });
     }
+    // Cleanup function to prevent the duplicate controllers from later re-mounts causing any issues.
+    return () => {
+      abortController.abort();
+      if (carouselController.current) {
+        // There are still some event listeners attached to window but they're anonymous so can't be removed.
+        carouselController.current = null;
+      }
+    };
   }, []);
 
   const modeDataAttrbiutes =

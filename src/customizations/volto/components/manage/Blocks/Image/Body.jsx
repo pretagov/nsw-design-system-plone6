@@ -14,7 +14,7 @@ import { Media } from 'nsw-design-system-plone6/components/Components/Media';
  * @class View
  * @extends Component
  */
-export const Body = ({ data }) => {
+export const Body = ({ data, href }) => {
   const columnsImageSizeMapping =
     config.blocks.blocksConfig[data['@type']].columnsImageSizeMapping;
 
@@ -39,9 +39,15 @@ export const Body = ({ data }) => {
       })()
     : flattenToAppURL(data.url);
 
+  if (!baseImageString) {
+    return null;
+  }
+
   const imageString = withImageScale(baseImageString, data.size);
 
-  return <Media {...data} src={imageString} title={data.alt} />;
+  return (
+    <Media {...data} src={imageString} title={data.alt} href={href} />
+  );
 };
 
 /**
