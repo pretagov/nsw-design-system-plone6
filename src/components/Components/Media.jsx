@@ -11,6 +11,9 @@ export function Media({
   placeholder,
   title,
 }) {
+  if (!src) {
+    return null;
+  }
   const actuallyVideo =
     isVideo !== undefined
       ? isVideo

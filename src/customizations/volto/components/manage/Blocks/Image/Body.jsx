@@ -39,6 +39,10 @@ export const Body = ({ data }) => {
       })()
     : flattenToAppURL(data.url);
 
+  if (!baseImageString) {
+    return null;
+  }
+
   const imageString = withImageScale(baseImageString, data.size);
 
   return <Media {...data} src={imageString} title={data.alt} />;
