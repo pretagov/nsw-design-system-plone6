@@ -1,3 +1,4 @@
+import UniversalLink from '@plone/volto/components/manage/UniversalLink/UniversalLink';
 import cx from 'classnames';
 
 // TODO: Support local videos other than mp4 files
@@ -10,6 +11,7 @@ export function Media({
   isVideo,
   placeholder,
   title,
+  href,
 }) {
   if (!src) {
     return null;
@@ -65,6 +67,10 @@ export function Media({
               ></iframe>
             )}
           </div>
+        ) : href ? (
+          <UniversalLink href={href}>
+            <img src={src} alt={title} />
+          </UniversalLink>
         ) : (
           <img src={src} alt={title} />
         )}
