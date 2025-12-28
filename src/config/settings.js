@@ -10,6 +10,7 @@ export const updateSettingsConfig = (config) => {
   ];
   config.settings.fullWidthBlockTypes = [
     'hero',
+    'heroSearch',
     'nsw_section',
     'nsw_announcementBar',
     'form',
