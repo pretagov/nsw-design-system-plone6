@@ -144,7 +144,7 @@ const BlocksLayout = ({ content, location }) => {
     breadcrumbsHidden &&
     !config.settings.fullWidthBlockTypes.includes(firstBlock?.['@type']) &&
     firstBlock?.['@type'] !== 'image' &&
-    firstBlock.size !== 'page'; // Hack for full-page width image.
+    firstBlock?.size !== 'page'; // Hack for full-page width image.
 
   return (
     <div id="page-document">
