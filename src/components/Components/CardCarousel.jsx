@@ -74,7 +74,14 @@ export function CardCarousel({
     return () => {
       abortController.abort();
       if (carouselController.current) {
-        // There are still some event listeners attached to window but they're anonymous so can't be removed.
+        // There are still some event listeners attached to window but they're anonymous so can't be properly removed.
+        carouselController.current.resetCarouselResize = () => {};
+        carouselController.current.resetDotsNavigation = () => {};
+        carouselController.current.resetCarouselControls = () => {};
+        carouselController.current.setCounterItem = () => {};
+        carouselController.current.centerItems = () => {};
+        carouselController.current.alignControlsFunc = () => {};
+        carouselController.current.emitCarouselActiveItemsEvent = () => {};
         carouselController.current = null;
       }
     };
