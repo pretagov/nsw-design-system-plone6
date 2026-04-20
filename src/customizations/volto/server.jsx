@@ -66,8 +66,8 @@ const server = express()
 
 const middleware = (config.settings.expressMiddleware || []).filter((m) => m);
 
-server.all('*', setupServer);
 if (middleware.length) server.use('/', middleware);
+server.all('*', setupServer);
 
 server.use(function (err, req, res, next) {
   if (err) {
@@ -203,6 +203,12 @@ server.get('/*', (req, res) => {
   const store = configureStore(initialState, history, api);
 
   persistAuthToken(store, req);
+
+  // Set CSP nonce and header (from volto-csp addon)
+  const { setCspHeader } = require('@plone-collective/volto-csp/middleware');
+  const readCriticalCss =
+    config.settings.serverConfig.readCriticalCss || defaultReadCriticalCss;
+  setCspHeader(req, res, store, readCriticalCss(req));
 
   // @loadable/server extractor
   const buildDir = process.env.BUILD_DIR || 'build';
