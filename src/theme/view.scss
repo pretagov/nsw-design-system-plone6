@@ -174,3 +174,8 @@ mark {
     margin-block-end: 0;
   }
 }
+
+// Ensure any floating images don't overlap with the footer
+footer {
+  clear: both;
+}
