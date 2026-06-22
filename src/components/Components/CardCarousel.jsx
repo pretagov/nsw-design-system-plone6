@@ -75,6 +75,8 @@ export function CardCarousel({
       abortController.abort();
       if (carouselController.current) {
         // There are still some event listeners attached to window but they're anonymous so can't be properly removed.
+        // Cancel any pending debounced resize so it can't fire against the now-detached element after unmount.
+        clearTimeout(carouselController.current.resizeId);
         carouselController.current.resetCarouselResize = () => {};
         carouselController.current.resetDotsNavigation = () => {};
         carouselController.current.resetCarouselControls = () => {};
