@@ -71,7 +71,24 @@ server.all('*', setupServer);
 
 server.use(function (err, req, res, next) {
   if (err) {
-    const { store } = res.locals;
+    // `res.locals.store` is only populated by `setupServer`. When a middleware
+    // (e.g. the @@download/@@display-file file handler) errors via `next(err)`
+    // *before* `setupServer` runs, there is no store, and rendering the React
+    // error page would crash with `store.getState()` on an undefined Provider
+    // store. Fall back to a minimal store so the error page still renders.
+    const store =
+      res.locals.store ||
+      configureStore(
+        { intl: { defaultLocale: 'en-au', locale: 'en-au', messages: {} } },
+        createMemoryHistory({ initialEntries: [req.url] }),
+        new Api(req),
+      );
+    // Emit the CSP header on error responses too. The CSP middleware runs first
+    // in the chain so the nonce is in res.locals even when an earlier middleware
+    // short-circuited this request before the normal renderer could call this.
+    const { setCspHeader } = require('@plone-collective/volto-csp/middleware');
+    setCspHeader(req, res, store);
+
     const errorPage = (
       <Provider store={store} onError={reactIntlErrorHandler}>
         <StaticRouter context={{}} location={req.url}>
