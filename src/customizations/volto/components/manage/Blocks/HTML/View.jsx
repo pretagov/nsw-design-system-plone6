@@ -7,12 +7,35 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 /**
+ * Neutralise <img> tags whose src points at an empty image scale, e.g.
+ * `.../aocemail.png/@@images/` (nothing after `@@images/`). These come from
+ * raw HTML that was pasted with a truncated image src. The browser would
+ * request the empty-scale URL, the backend returns 400, and it surfaces as an
+ * unhandled "Bad Request" in Sentry. Stripping the src here stops the request
+ * without otherwise touching the markup.
+ */
+function stripEmptyImageScales(html) {
+  if (!html) {
+    return html;
+  }
+  return html.replace(
+    /(<img\b[^>]*?\bsrc=)(["'])([^"']*\/@@images\/+)\2/gi,
+    (match, prefix, quote, src) =>
+      // Only rewrite when there is no scale after `@@images/`.
+      src.replace(/\/+$/, '').endsWith('/@@images') ? `${prefix}${quote}${quote}` : match,
+  );
+}
+
+/**
  * View html block class.
  * @class View
  * @extends Component
  */
 const View = ({ data }) => {
   const blockWrapperRef = React.useRef();
+  const html = React.useMemo(() => stripEmptyImageScales(data.html), [
+    data.html,
+  ]);
 
   React.useEffect(() => {
     /** @type {HTMLElement} */
@@ -87,7 +110,7 @@ const View = ({ data }) => {
     <div
       ref={blockWrapperRef}
       className="block html"
-      dangerouslySetInnerHTML={{ __html: data.html }}
+      dangerouslySetInnerHTML={{ __html: html }}
     />
   );
 };
