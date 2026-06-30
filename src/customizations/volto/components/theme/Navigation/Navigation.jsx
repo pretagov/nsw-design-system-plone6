@@ -163,9 +163,38 @@ const Navigation = () => {
       .load()
       .then((navigation) => {
         if (!navigationController.current && mainNavRef.current) {
-          navigationController.current = new navigation.default(
-            mainNavRef.current,
-          );
+          const controller = new navigation.default(mainNavRef.current);
+          // Guard against the upstream nsw-design-system bug where several
+          // methods call whichSubNavLatest() and then destructure from its
+          // result without checking it. When openSubNavElements is empty,
+          // whichSubNavLatest() reads index -1 and returns undefined, throwing
+          // "Cannot destructure property 'link' of ... as it is undefined".
+          //
+          // We only wrap the methods reachable with an empty stack:
+          //  - escapeClose: a document-wide keydown listener, so it fires on
+          //    any Escape press even when no sub-nav was ever opened (the
+          //    crash seen in production).
+          //  - toggleSubNavDesktop / closeSubNav / checkIfContainsFocus: can be
+          //    invoked from outside-click, focus and our own location effect,
+          //    none of which guarantee a pushed element.
+          // The remaining call sites (mobileHideMainNav, showSubNav, openSubNav,
+          // trapkeyEventStuff) only run via listeners added while a sub-nav is
+          // open, so whichSubNavLatest() is always defined there.
+          [
+            'escapeClose',
+            'toggleSubNavDesktop',
+            'closeSubNav',
+            'checkIfContainsFocus',
+          ].forEach((method) => {
+            const original = controller[method].bind(controller);
+            controller[method] = (...args) => {
+              if (!controller.whichSubNavLatest()) {
+                return undefined;
+              }
+              return original(...args);
+            };
+          });
+          navigationController.current = controller;
           navigationController.current.init();
         }
       })
