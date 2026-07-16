@@ -258,7 +258,10 @@ const FormView = ({
   };
 
   return (
-    <>
+    // `notranslate` keeps the Google Translate widget from replacing DOM nodes
+    // inside the form: it rewrites text nodes in place, which invalidates React's
+    // VDOM mapping and crashes reconciliation on submit (insertBefore DOMException).
+    <div className="notranslate">
       {data.title && <h2>{data.title}</h2>}
       {data.description && <p className="description">{data.description}</p>}
       {formState.error ? (
@@ -349,7 +352,7 @@ const FormView = ({
           </div>
         </form>
       )}
-    </>
+    </div>
   );
 };
 
