@@ -33,9 +33,6 @@ export const Hero = ({
   const mappedColour =
     colourClassnameMapping[colour] ?? 'nsw-hero-banner--dark';
   const isLightColour = ['light', 'white', 'offWhite'].includes(colour);
-  
-  console.log("MAPPED", colour, mappedColour)
-  console.log("LINK URL", linkUrl)
 
   // TODO: There's a hidden `nsw-hero-banner--wide` class that makes the text longer, but it causes overflow
   return (
