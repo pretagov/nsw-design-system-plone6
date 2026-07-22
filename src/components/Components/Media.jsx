@@ -39,7 +39,7 @@ export function Media({
         })}
       >
         {actuallyVideo ? (
-          <div class="nsw-media__video">
+          <div className="nsw-media__video">
             {videoIsLocal ? (
               // eslint-disable-next-line jsx-a11y/media-has-caption
               <video

@@ -119,11 +119,11 @@ export function DateInput({
         </div>
         {isInvalid ? (
           <span
-            class="nsw-form__helper nsw-form__helper--error"
+            className="nsw-form__helper nsw-form__helper--error"
             id={`${inputId}-error-text`}
           >
             <span
-              class="material-icons nsw-material-icons"
+              className="material-icons nsw-material-icons"
               focusable="false"
               aria-hidden="true"
             >
