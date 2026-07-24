@@ -258,10 +258,12 @@ const FormView = ({
   };
 
   return (
-    // `notranslate` keeps the Google Translate widget from replacing DOM nodes
-    // inside the form: it rewrites text nodes in place, which invalidates React's
-    // VDOM mapping and crashes reconciliation on submit (insertBefore DOMException).
-    <div className="notranslate">
+    // The `notranslate` wrapper that previously lived here disabled translation
+    // for the whole form to dodge the Google Translate <-> React crash
+    // (plonetheme.lecc#73). It is intentionally removed: the crash is now handled
+    // globally by patchReactDOMForTranslate() in volto-google-translate, so the
+    // form can be translated like the rest of the page without breaking React.
+    <div>
       {data.title && <h2>{data.title}</h2>}
       {data.description && <p className="description">{data.description}</p>}
       {formState.error ? (
