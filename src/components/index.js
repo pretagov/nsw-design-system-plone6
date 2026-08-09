@@ -20,6 +20,11 @@ export {
   DropdownQuickNavigationEdit,
   DropdownQuickNavigationView,
 } from './Blocks/DropdownQuickNavigation';
+export {
+  HeroSearchEdit,
+  heroSearchSchema,
+  HeroSearchView,
+} from './Blocks/HeroSearch';
 export { InPageAlertEdit, InPageAlertView } from './Blocks/InPageAlert';
 export { LinkListEdit, LinkListView } from './Blocks/LinkList';
 export { SectionEdit, SectionSchema, SectionView } from './Blocks/Section';
