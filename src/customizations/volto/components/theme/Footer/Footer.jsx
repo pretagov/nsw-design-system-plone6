@@ -3,11 +3,9 @@ import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
 import cx from 'classnames';
 import { getTextColourUtilityForPaletteName } from 'nsw-design-system-plone6/helpers';
-import { useEffect } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useVoltoSlotsEditor } from 'volto-slots-editor';
-import { getSubFooter } from 'volto-subfooter';
 
 import { DesignSystemVersionInformation } from 'nsw-design-system-plone6/components/DesignSystemVersionInformation';
 
@@ -76,17 +74,12 @@ const socialFieldIconMapping = {
 
 function Footer() {
   const intl = useIntl();
-  const dispatch = useDispatch();
   const subFooter = useSelector((state) => state.subFooter?.result);
   const siteSettings = useSelector((state) => state.nswSiteSettings.data);
   const aocSlotData = useVoltoSlotsEditor('aoc');
   const AocSlotDisplay = config.getComponent({
     name: 'VoltoBlocksSlotDisplay',
   }).component;
-
-  useEffect(() => {
-    dispatch(getSubFooter());
-  }, [dispatch]);
 
   const lowerFooterLinksIndex = subFooter?.findIndex(
     (links) => links.rootPath === 'Lower footer',
