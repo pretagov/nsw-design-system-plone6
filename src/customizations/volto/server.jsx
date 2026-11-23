@@ -27,6 +27,7 @@ import {
   persistAuthToken,
   normalizeLanguageName,
   toLangUnderscoreRegion,
+  toReactIntlLang,
 } from '@plone/volto/helpers';
 import { changeLanguage } from '@plone/volto/actions';
 
@@ -256,11 +257,24 @@ server.get('/*', (req, res) => {
         : store.getState().content.data?.language?.token ||
           config.settings.defaultLanguage;
 
-      if (cookie_lang !== contentLang) {
-        const newLocale = toLangUnderscoreRegion(
-          new locale.Locales(contentLang).best(supported).toString(),
-        );
-        store.dispatch(changeLanguage(newLocale, locales[newLocale], req));
+      // Render with the content's own language (en-au as en-AU), the locale
+      // App switches to in the browser. Rendering with the closest supported
+      // language (en) made the browser change locale straight after
+      // hydration, and react-intl-redux keys IntlProvider by locale, so the
+      // whole page mounted a second time. Messages still come from the
+      // closest supported language.
+      const messagesLang = toLangUnderscoreRegion(
+        new locale.Locales(contentLang).best(supported).toString(),
+      );
+      const contentToken = store.getState().content.get?.error
+        ? undefined
+        : store.getState().content.data?.language?.token;
+      const newLocale = contentToken
+        ? toReactIntlLang(contentToken)
+        : messagesLang;
+
+      if (newLocale !== store.getState().intl.locale) {
+        store.dispatch(changeLanguage(newLocale, locales[messagesLang], req));
       }
 
       const context = {};
