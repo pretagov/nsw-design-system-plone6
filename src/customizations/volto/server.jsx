@@ -257,12 +257,11 @@ server.get('/*', (req, res) => {
         : store.getState().content.data?.language?.token ||
           config.settings.defaultLanguage;
 
-      // Render with the content's own language (en-au as en-AU), the locale
-      // App switches to in the browser. Rendering with the closest supported
-      // language (en) made the browser change locale straight after
-      // hydration, and react-intl-redux keys IntlProvider by locale, so the
-      // whole page mounted a second time. Messages still come from the
-      // closest supported language.
+      // Render with the content's own language, in react-intl's form (en-au
+      // becomes en-AU), so the browser has no reason to change locale after
+      // hydration. react-intl-redux keys IntlProvider by locale, so a change
+      // there mounts the whole page a second time. Messages still come from
+      // the closest supported language.
       const messagesLang = toLangUnderscoreRegion(
         new locale.Locales(contentLang).best(supported).toString(),
       );
